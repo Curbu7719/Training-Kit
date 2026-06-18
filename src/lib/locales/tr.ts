@@ -257,7 +257,7 @@ const tr = {
   'section.sdlc.title': 'SDLC\'de AI',
   'section.strategy.title': 'AI Strateji Okuryazarlığı',
   'section.vibe.title': 'Vibe Coding',
-  'section.exam.title': 'SDLC Sınavı',
+  'section.exam.title': 'Öğrendiklerini Ölç',
 
   // Strateji şeridi modülleri
   'module.ai_fit_buildbuy.title': 'AI Uygunluğu ve Yap/Satın Al',
@@ -274,12 +274,12 @@ const tr = {
   // ---------------------------------------------------------------------------
   // Sınav
   // ---------------------------------------------------------------------------
-  'exam.pageTitle': 'SDLC Bilgi Sınavı',
-  'exam.instructions': 'Tüm soruları cevaplayın ve puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
+  'exam.pageTitle': 'Vaka Bazlı Değerlendirme',
+  'exam.instructions': 'Vaka bazlı soruları çözüp puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
   'exam.questionLabel': 'Soru {n} / {total}',
   'exam.answeredOf': '{total} sorudan {answered} tanesi cevaplandı',
   'exam.allAnswered': 'Tümü cevaplandı — göndermeye hazır',
-  'exam.submit': 'Sınavı gönder',
+  'exam.submit': 'Cevapları gönder',
   'exam.submitting': 'Gönderiliyor…',
   'exam.submitError': 'Gönderim başarısız oldu. Lütfen tekrar deneyin.',
   'exam.loadingQuestions': 'Sorular yükleniyor…',
@@ -288,7 +288,7 @@ const tr = {
   'exam.correct': 'Doğru',
   'exam.incorrect': 'Yanlış',
   'exam.scoreSummary': '{total} sorudan {correct} tanesi doğru',
-  'exam.retake': 'Tekrar çöz',
+  'exam.retake': 'Tekrar dene',
   'exam.badgeEarned': 'Rozet kazanıldı: {badge}',
 
   // Motivasyon başlıkları
@@ -299,8 +299,8 @@ const tr = {
   'exam.headline.keepGoing': 'Devam edin — her deneme bilginizi artırır!',
 
   // Sınav CTA (ana sayfa)
-  'exam.cta.blurb': 'Bilginizi test etmeye hazır mısınız? SDLC sınavına girin ve sertifikanızı kazanın.',
-  'exam.cta.button': 'Sınava başla',
+  'exam.cta.blurb': 'Öğrendiklerini vaka bazlı senaryo sorularıyla ölç ve sertifikanı kazan.',
+  'exam.cta.button': 'Başla',
 } as const;
 
 export default tr;

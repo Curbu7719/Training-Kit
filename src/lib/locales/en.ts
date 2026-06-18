@@ -257,7 +257,7 @@ const en = {
   'section.sdlc.title': 'AI in the SDLC',
   'section.strategy.title': 'AI Strategy Literacy',
   'section.vibe.title': 'Vibe Coding',
-  'section.exam.title': 'SDLC Exam',
+  'section.exam.title': 'Check What You Learned',
 
   // Strategy strand modules
   'module.ai_fit_buildbuy.title': 'AI Fit & Build vs Buy',
@@ -274,12 +274,12 @@ const en = {
   // ---------------------------------------------------------------------------
   // Exam
   // ---------------------------------------------------------------------------
-  'exam.pageTitle': 'SDLC Knowledge Exam',
-  'exam.instructions': 'Answer all the questions and submit to see your score. You need 75 or above to pass.',
+  'exam.pageTitle': 'Case-Based Assessment',
+  'exam.instructions': 'Work through the case-based questions and submit to see your score. You need 75 or above to pass.',
   'exam.questionLabel': 'Question {n} of {total}',
   'exam.answeredOf': '{answered} of {total} answered',
   'exam.allAnswered': 'All answered — ready to submit',
-  'exam.submit': 'Submit exam',
+  'exam.submit': 'Submit answers',
   'exam.submitting': 'Submitting…',
   'exam.submitError': 'Submission failed. Please try again.',
   'exam.loadingQuestions': 'Loading questions…',
@@ -288,7 +288,7 @@ const en = {
   'exam.correct': 'Correct',
   'exam.incorrect': 'Incorrect',
   'exam.scoreSummary': '{correct} of {total} correct',
-  'exam.retake': 'Retake exam',
+  'exam.retake': 'Try again',
   'exam.badgeEarned': 'Badge earned: {badge}',
 
   // Motivating headlines
@@ -299,8 +299,8 @@ const en = {
   'exam.headline.keepGoing': 'Keep going — every attempt builds knowledge!',
 
   // Exam CTA on dashboard
-  'exam.cta.blurb': 'Ready to test your knowledge? Take the SDLC exam and earn your certificate.',
-  'exam.cta.button': 'Start exam',
+  'exam.cta.blurb': 'Measure what you’ve learned with case-based scenario questions, and earn your certificate.',
+  'exam.cta.button': 'Start',
 } as const;
 
 export type TranslationKey = keyof typeof en;

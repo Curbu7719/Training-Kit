@@ -61,7 +61,7 @@ create policy "exam_results_own" on public.exam_results
 
 -- Exam pass badge (awarded by exam-submit at score >= 75).
 insert into public.badges (code, title, criteria) values
-  ('cert_sdlc_exam', 'SDLC Exam Passed', '{"type":"exam_passed"}');
+  ('cert_sdlc_exam', 'Case-Based Assessment Passed', '{"type":"exam_passed"}');
 
 -- ----------------------------------------------------------------
 -- VIBE CODING module — its own 'practice' section
