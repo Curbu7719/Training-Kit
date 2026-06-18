@@ -346,6 +346,82 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
 }
 
 // ---------------------------------------------------------------------------
+// progress_report — per-user development across all sections + the exam.
+//
+// A "unit" is one (module, level) that has lessons. For each section
+// (modules.category) we report units passed / total and the average score
+// (how correct, 0-100, with not-started counting as 0). Plus the user's best
+// exam score and an overall development score = 80% content mastery (average
+// score over all units) + 20% best exam score.
+// ---------------------------------------------------------------------------
+const CATEGORY_ORDER = ['sdlc', 'strategy', 'practice'];
+
+async function progressReport(db: ReturnType<typeof createServiceClient>): Promise<HandlerResult> {
+  const { data: profiles, error: pErr } = await db
+    .from('profiles').select('id, display_name, role').order('display_name', { ascending: true });
+  if (pErr) return { status: 500, payload: { ok: false, error: pErr.message } };
+  if (!profiles || profiles.length === 0) return { status: 200, payload: { ok: true, data: { categories: [], users: [] } } };
+  const userIds = profiles.map((p) => p.id);
+
+  const { data: modules } = await db.from('modules').select('id, category');
+  const catOf = new Map<string, string>((modules ?? []).map((m) => [m.id, m.category]));
+
+  // Distinct (module, level) units that have lessons (count once, language-agnostic → use 'en').
+  const { data: lessons } = await db.from('lessons').select('module_id, level').eq('lang', 'en');
+  const allUnits = new Set<string>();
+  const unitsByCat = new Map<string, Set<string>>();
+  for (const l of lessons ?? []) {
+    const key = `${l.module_id}:${l.level}`;
+    if (allUnits.has(key)) continue;
+    allUnits.add(key);
+    const cat = catOf.get(l.module_id) ?? 'sdlc';
+    if (!unitsByCat.has(cat)) unitsByCat.set(cat, new Set());
+    unitsByCat.get(cat)!.add(key);
+  }
+  const categories = [...unitsByCat.keys()].sort(
+    (a, b) => (CATEGORY_ORDER.indexOf(a) + 1 || 99) - (CATEGORY_ORDER.indexOf(b) + 1 || 99),
+  );
+
+  const { data: progress } = await db
+    .from('user_progress').select('user_id, module_id, level, status, score').in('user_id', userIds);
+  const upByUser = new Map<string, Map<string, { status: string; score: number }>>();
+  for (const uid of userIds) upByUser.set(uid, new Map());
+  for (const r of progress ?? []) {
+    upByUser.get(r.user_id)?.set(`${r.module_id}:${r.level}`, { status: r.status, score: r.score ?? 0 });
+  }
+
+  const { data: exams } = await db.from('exam_results').select('user_id, score').in('user_id', userIds);
+  const examBest = new Map<string, number>();
+  for (const e of exams ?? []) {
+    if ((examBest.get(e.user_id) ?? -1) < e.score) examBest.set(e.user_id, e.score);
+  }
+
+  const totalUnits = allUnits.size;
+  const users = profiles.map((p) => {
+    const up = upByUser.get(p.id) ?? new Map();
+    const sections = categories.map((cat) => {
+      const units = [...(unitsByCat.get(cat) ?? [])];
+      let passed = 0, sum = 0;
+      for (const key of units) {
+        const e = up.get(key);
+        if (e?.status === 'passed') passed += 1;
+        sum += e?.score ?? 0;
+      }
+      return { category: cat, unitsTotal: units.length, unitsPassed: passed, avgScore: units.length ? Math.round(sum / units.length) : 0 };
+    });
+    let sumAll = 0;
+    for (const key of allUnits) sumAll += up.get(key)?.score ?? 0;
+    const contentAvg = totalUnits ? sumAll / totalUnits : 0;
+    const exam = examBest.has(p.id) ? examBest.get(p.id)! : null;
+    const developmentScore = Math.round(0.8 * contentAvg + 0.2 * (exam ?? 0));
+    return { id: p.id, display_name: p.display_name, role: p.role, sections, exam_best: exam, development_score: developmentScore };
+  });
+  users.sort((a, b) => b.development_score - a.development_score);
+
+  return { status: 200, payload: { ok: true, data: { categories, users } } };
+}
+
+// ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
 
@@ -424,6 +500,9 @@ Deno.serve(async (req: Request) => {
       break;
     case 'list_users':
       result = await listUsers(db);
+      break;
+    case 'progress_report':
+      result = await progressReport(db);
       break;
     default:
       result = { status: 400, payload: { ok: false, error: `Unknown action: ${action}` } };

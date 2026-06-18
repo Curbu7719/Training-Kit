@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
-import { useLanguage } from '@/lib/i18n';
+import { useLanguage, type LanguageContextValue } from '@/lib/i18n';
 import {
   listModules,
   getModuleFull,
@@ -14,12 +14,14 @@ import {
   updateQuizQuestion,
   updateExercise,
   listUsers,
+  getProgressReport,
   type ModuleSummary,
   type ModuleFull,
   type LessonRow,
   type QuizQuestionRow,
   type ExerciseRow,
   type UserSummary,
+  type ProgressUser,
 } from '@/lib/adminApi';
 
 // ---------------------------------------------------------------------------
@@ -480,6 +482,148 @@ function UsersTab() {
 }
 
 // ---------------------------------------------------------------------------
+// ProgressTab helpers
+// ---------------------------------------------------------------------------
+
+function devScoreColor(score: number): string {
+  if (score >= 75) return 'bg-green-500';
+  if (score >= 40) return 'bg-amber-400';
+  return 'bg-muted-foreground';
+}
+
+function devScoreTextColor(score: number): string {
+  if (score >= 75) return 'text-green-600 dark:text-green-400';
+  if (score >= 40) return 'text-amber-600 dark:text-amber-400';
+  return 'text-muted-foreground';
+}
+
+function SectionCell({ unitsPassed, unitsTotal, avgScore }: { unitsPassed: number; unitsTotal: number; avgScore: number }) {
+  return (
+    <span className="tabular-nums text-xs text-muted-foreground">
+      {unitsPassed}/{unitsTotal}
+      <span className="mx-1 opacity-40">·</span>
+      {Math.round(avgScore)}%
+    </span>
+  );
+}
+
+function DevScoreCell({ score }: { score: number }) {
+  return (
+    <div className="flex items-center gap-2 justify-end">
+      <span className={`text-sm font-semibold tabular-nums ${devScoreTextColor(score)}`}>
+        {Math.round(score)}
+      </span>
+      <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
+        <div
+          className={`h-full rounded-full ${devScoreColor(score)}`}
+          style={{ width: `${Math.min(score, 100)}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function categoryLabel(category: string, t: LanguageContextValue['t']): string {
+  if (category === 'sdlc') return t('section.sdlc.title');
+  if (category === 'strategy') return t('section.strategy.title');
+  if (category === 'practice') return t('section.vibe.title');
+  return category;
+}
+
+// ---------------------------------------------------------------------------
+// ProgressTab
+// ---------------------------------------------------------------------------
+
+function ProgressTab() {
+  const { t } = useLanguage();
+  const [categories, setCategories] = useState<string[]>([]);
+  const [users, setUsers] = useState<ProgressUser[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchErr, setFetchErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    getProgressReport()
+      .then(({ categories: cats, users: us }) => {
+        setCategories(cats);
+        setUsers(us);
+      })
+      .catch((e: Error) => setFetchErr(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (fetchErr) {
+    return <p className="text-sm text-destructive py-4">{fetchErr}</p>;
+  }
+
+  return (
+    <div className="space-y-4">
+      {/* Legend */}
+      <p className="text-xs text-muted-foreground">{t('admin.progress.legend')}</p>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
+              <th className="pb-2 pr-4">{t('admin.progress.col.user')}</th>
+              <th className="pb-2 pr-4">{t('admin.progress.col.role')}</th>
+              {categories.map((cat) => (
+                <th key={cat} className="pb-2 pr-4 text-right capitalize">
+                  {categoryLabel(cat, t)}
+                </th>
+              ))}
+              <th className="pb-2 pr-4 text-right">{t('admin.progress.col.exam')}</th>
+              <th className="pb-2 text-right">{t('admin.progress.col.devScore')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((u) => (
+              <tr key={u.id} className="border-b border-border/50 last:border-0">
+                <td className="py-2 pr-4 font-medium">{u.display_name}</td>
+                <td className="py-2 pr-4">
+                  <Badge variant={u.role === 'admin' ? 'accent' : 'outline'} className="text-xs">
+                    {u.role}
+                  </Badge>
+                </td>
+                {u.sections.map((sec, i) => (
+                  <td key={i} className="py-2 pr-4 text-right">
+                    <SectionCell
+                      unitsPassed={sec.unitsPassed}
+                      unitsTotal={sec.unitsTotal}
+                      avgScore={sec.avgScore}
+                    />
+                  </td>
+                ))}
+                <td className="py-2 pr-4 text-right tabular-nums text-xs">
+                  {u.exam_best !== null ? `${u.exam_best}%` : t('admin.progress.examNever')}
+                </td>
+                <td className="py-2">
+                  <DevScoreCell score={u.development_score} />
+                </td>
+              </tr>
+            ))}
+            {users.length === 0 && (
+              <tr>
+                <td colSpan={3 + categories.length + 2} className="py-6 text-center text-muted-foreground">
+                  {t('admin.progress.empty')}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // AdminPage
 // ---------------------------------------------------------------------------
 
@@ -516,6 +660,7 @@ export function AdminPage() {
           <TabsList className="mb-6">
             <TabsTrigger value="content">{t('admin.tab.content')}</TabsTrigger>
             <TabsTrigger value="users">{t('admin.tab.users')}</TabsTrigger>
+            <TabsTrigger value="progress">{t('admin.tab.progress')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="content">
@@ -524,6 +669,10 @@ export function AdminPage() {
 
           <TabsContent value="users">
             <UsersTab />
+          </TabsContent>
+
+          <TabsContent value="progress">
+            <ProgressTab />
           </TabsContent>
         </Tabs>
       </main>

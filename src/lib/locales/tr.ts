@@ -208,6 +208,14 @@ const tr = {
   'admin.users.col.score': 'Toplam puan',
   'admin.users.col.badges': 'Rozet',
   'admin.users.empty': 'Kullanıcı bulunamadı.',
+  'admin.tab.progress': 'İlerleme',
+  'admin.progress.col.user': 'Kullanıcı',
+  'admin.progress.col.role': 'Rol',
+  'admin.progress.col.exam': 'Sınav',
+  'admin.progress.col.devScore': 'Gelişim puanı',
+  'admin.progress.legend': 'Gelişim puanı = %80 içerik ustalığı + %20 en iyi sınav puanı',
+  'admin.progress.empty': 'Henüz ilerleme verisi yok.',
+  'admin.progress.examNever': '—',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions

@@ -144,6 +144,35 @@ export async function listUsers(): Promise<UserSummary[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Progress report
+// ---------------------------------------------------------------------------
+
+export interface SectionProgress {
+  category: string;
+  unitsTotal: number;
+  unitsPassed: number;
+  avgScore: number; // 0-100
+}
+
+export interface ProgressUser {
+  id: string;
+  display_name: string;
+  role: 'user' | 'admin';
+  sections: SectionProgress[]; // one per category, in the order given by `categories`
+  exam_best: number | null;    // best SDLC exam score 0-100, null if never taken
+  development_score: number;   // overall 0-100 (80% content mastery + 20% exam), sorted desc
+}
+
+interface ProgressReport {
+  categories: string[];
+  users: ProgressUser[];
+}
+
+export async function getProgressReport(): Promise<ProgressReport> {
+  return invokeAdmin<ProgressReport>('progress_report');
+}
+
+// ---------------------------------------------------------------------------
 // Leaderboard (any authed user — separate edge function)
 // ---------------------------------------------------------------------------
 

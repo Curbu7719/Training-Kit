@@ -207,6 +207,14 @@ const en = {
   'admin.users.col.score': 'Total score',
   'admin.users.col.badges': 'Badges',
   'admin.users.empty': 'No users found.',
+  'admin.tab.progress': 'Progress',
+  'admin.progress.col.user': 'User',
+  'admin.progress.col.role': 'Role',
+  'admin.progress.col.exam': 'Exam',
+  'admin.progress.col.devScore': 'Development score',
+  'admin.progress.legend': 'Development score = 80% content mastery + 20% best exam score',
+  'admin.progress.empty': 'No progress data yet.',
+  'admin.progress.examNever': '—',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions
