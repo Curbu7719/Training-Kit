@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { ExerciseSubmitResponse, ScenarioAnswer } from '@/lib/api';
 
@@ -22,6 +23,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function ScenarioExercise({ spec, onSubmit }: Props) {
+  const { t } = useLanguage();
   const [decision, setDecision] = useState<number | null>(null);
   const [reason, setReason] = useState<number | null>(null);
   const [result, setResult] = useState<ExerciseSubmitResponse | null>(null);
@@ -38,7 +40,7 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
       const res = await onSubmit({ decision, reason });
       setResult(res);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Submission failed.');
+      setError(e instanceof Error ? e.message : t('exercise.submissionFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -49,9 +51,9 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
       {/* Decision MCQ */}
       <fieldset>
         <legend className="mb-2 text-sm font-semibold">
-          What is the best decision?
+          {t('exercise.scenario.decision')}
         </legend>
-        <div className="space-y-2" role="radiogroup" aria-label="Decision">
+        <div className="space-y-2" role="radiogroup" aria-label={t('exercise.scenario.decision')}>
           {spec.decision_choices.map((choice, idx) => {
             const isSelected = decision === idx;
             const isDisabled = result !== null;
@@ -91,9 +93,9 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
       {(decision !== null || result) && (
         <fieldset>
           <legend className="mb-2 text-sm font-semibold">
-            What is the best reason for that decision?
+            {t('exercise.scenario.reason')}
           </legend>
-          <div className="space-y-2" role="radiogroup" aria-label="Reason">
+          <div className="space-y-2" role="radiogroup" aria-label={t('exercise.scenario.reason')}>
             {spec.reason_choices.map((choice, idx) => {
               const isSelected = reason === idx;
               const isDisabled = result !== null;
@@ -151,10 +153,10 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
             <XCircle className="h-4 w-4 shrink-0" />
           )}
           {result.passed
-            ? `Both correct — ${result.score}/${result.max_score} points`
+            ? t('exercise.scenario.bothCorrect', { score: result.score, max: result.max_score })
             : result.score > 0
-              ? `Decision correct, reason incorrect — ${result.score}/${result.max_score} points`
-              : `Incorrect — ${result.score}/${result.max_score} points`}
+              ? t('exercise.scenario.partialCorrect', { score: result.score, max: result.max_score })
+              : t('exercise.result.incorrect', { score: result.score, max: result.max_score })}
         </div>
       )}
 
@@ -165,7 +167,7 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
           className="mt-1"
           data-testid="exercise-submit-btn"
         >
-          {submitting ? 'Submitting…' : 'Submit'}
+          {submitting ? t('exercise.submitting') : t('exercise.submit')}
         </Button>
       )}
     </div>

@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "Kodlama aşamasında, bir modelden bir fonksiyon için birim testleri üretmesini isteyen iyi yapılandırılmış bir prompt oluşturuyorsunuz. Aşağıdaki parçaları önerilen sıraya dizin: önce rol/politika (system), sonra sınırlayıcılar içine sarılmış test edilecek kod, sonra görev, sonra bir few-shot stil örneği ve en sonda açık çıktı biçimi talimatı.",
+  "spec": {
+    "items": [
+      "Test tarzımızdan bir örnek: <test>def test_parse_price_valid(): assert parse_price(\"9.99\") == 9.99</test>",
+      "System: Sen kıdemli bir Python mühendisisin. Yalnızca pytest kullan ve gösterilmeyen fonksiyonları asla uydurma.",
+      "Tek bir test dosyası döndür ve düz metin (prose) ekleme.",
+      "Görevin: geçerli bir fiyatı, boş bir string'i, negatif bir değeri ve sayısal olmayan bir girdiyi kapsayan birim testleri yaz.",
+      "Test edilecek kod: <code>def parse_price(s): ...</code>"
+    ]
+  },
+  "answer_key": { "order": [1, 4, 3, 0, 2] },
+  "max_score": 10
+}

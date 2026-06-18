@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Bir ekip, minimum riskle bir model sağlayıcıdan diğerine yükseltmek istiyor. Hangi uygulamalar bir kalite regresyonunun kullanıcılara ulaşma olasılığını azaltır? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Herhangi bir yayılımdan önce yeni modeli sabit bir çevrimdışı eval setine karşı çalıştırmak",
+      "Yeni modeli canlı trafiğe karşı shadow etmek, yanıtlarını kullanıcılara göstermeden loglamak",
+      "Hızlı bir rollback ile bir feature flag'in arkasında kademeli olarak yayın yapmak (örn. %5, sonra %25, sonra %100)",
+      "Yeni modeli hemen kullanıcıların %100'üne dağıtmak ve şikayetleri izlemek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir sağlayıcının API'si aralıklı olarak zaman aşımına uğruyor ve zaman zaman hatalı biçimlendirilmiş output döndürüyor. Hangi güvenilirlik desenleri bu başarısızlık modlarını doğrudan ele alır? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Yavaş bir sağlayıcının kullanıcıyı askıda bırakmaması için çağrı başına timeout'lar",
+      "Geçici hatalar için backoff'lu sınırlı retry'lar",
+      "Bir circuit breaker artı bir degraded mod (yedek model veya zarif mesaj)",
+      "Hatalı biçimlendirilmiş output'un doğrudan geçmesi için output guardrail'ini kaldırmak"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir mimar, sağlayıcı soyutlamasının yalnızca daha temiz kod değil, birkaç başka yeteneğin de ön koşulu olduğunu söylüyor. İyi tasarlanmış bir model soyutlaması hangi yetenekleri doğrudan mümkün kılar? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Özellik kodunu değiştirmeden birincil bir sağlayıcıdan ikincil birine failover yapmak",
+      "Kolay istekleri daha ucuz bir modele, zor olanları daha büyük bir modele yönlendirmek",
+      "Fallback'lerin ve güvenilirlik mantığının model çağrısını sardığı yeri merkezileştirmek",
+      "Modelin asla halüsinasyon görmemesini garanti etmek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

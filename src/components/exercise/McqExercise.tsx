@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { ExerciseSubmitResponse, McqAnswer } from '@/lib/api';
 
@@ -22,6 +23,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function McqExercise({ spec, onSubmit }: Props) {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<number[]>([]);
   const [result, setResult] = useState<ExerciseSubmitResponse | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -48,7 +50,7 @@ export function McqExercise({ spec, onSubmit }: Props) {
       const res = await onSubmit({ selected });
       setResult(res);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Submission failed.');
+      setError(e instanceof Error ? e.message : t('exercise.submissionFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -57,10 +59,10 @@ export function McqExercise({ spec, onSubmit }: Props) {
   return (
     <div className="space-y-3">
       <p className="text-xs text-muted-foreground">
-        {multi ? 'Select all that apply.' : 'Select one option.'}
+        {multi ? t('exercise.mcq.selectAll') : t('exercise.mcq.selectOne')}
       </p>
 
-      <div className="space-y-2" role="group" aria-label="Answer choices">
+      <div className="space-y-2" role="group" aria-label={t('quiz.answerChoices')}>
         {spec.choices.map((choice, idx) => {
           const isSelected = selected.includes(idx);
           const isDisabled = result !== null;
@@ -116,8 +118,8 @@ export function McqExercise({ spec, onSubmit }: Props) {
             <XCircle className="h-4 w-4 shrink-0" />
           )}
           {result.passed
-            ? `Correct — ${result.score}/${result.max_score} points`
-            : `Incorrect — ${result.score}/${result.max_score} points`}
+            ? t('exercise.result.correct', { score: result.score, max: result.max_score })
+            : t('exercise.result.incorrect', { score: result.score, max: result.max_score })}
         </div>
       )}
 
@@ -128,7 +130,7 @@ export function McqExercise({ spec, onSubmit }: Props) {
           className="mt-2"
           data-testid="exercise-submit-btn"
         >
-          {submitting ? 'Submitting…' : 'Submit'}
+          {submitting ? t('exercise.submitting') : t('exercise.submit')}
         </Button>
       )}
     </div>

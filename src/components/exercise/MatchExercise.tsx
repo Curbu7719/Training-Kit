@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { ExerciseSubmitResponse, MatchAnswer } from '@/lib/api';
 
@@ -25,6 +26,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function MatchExercise({ spec, onSubmit }: Props) {
+  const { t } = useLanguage();
   // pairs[leftIdx] = rightIdx selected by the user (or -1 = unset)
   const [pairs, setPairs] = useState<number[]>(spec.left.map(() => -1));
   const [result, setResult] = useState<ExerciseSubmitResponse | null>(null);
@@ -52,7 +54,7 @@ export function MatchExercise({ spec, onSubmit }: Props) {
       const res = await onSubmit({ pairs: submittedPairs });
       setResult(res);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Submission failed.');
+      setError(e instanceof Error ? e.message : t('exercise.submissionFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -60,9 +62,7 @@ export function MatchExercise({ spec, onSubmit }: Props) {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-muted-foreground">
-        For each item on the left, select the matching item on the right.
-      </p>
+      <p className="text-xs text-muted-foreground">{t('exercise.match.instruction')}</p>
 
       <div className="space-y-2">
         {spec.left.map((leftItem, leftIdx) => (
@@ -75,7 +75,7 @@ export function MatchExercise({ spec, onSubmit }: Props) {
               value={pairs[leftIdx] >= 0 ? pairs[leftIdx] : ''}
               onChange={(e) => selectRight(leftIdx, Number(e.target.value))}
               disabled={result !== null}
-              aria-label={`Match for: ${leftItem}`}
+              aria-label={t('exercise.match.matchFor', { item: leftItem })}
               className={cn(
                 'rounded-md border border-input bg-background px-3 py-1.5 text-sm',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
@@ -83,7 +83,7 @@ export function MatchExercise({ spec, onSubmit }: Props) {
               )}
             >
               <option value="" disabled>
-                — select —
+                {t('exercise.match.selectPlaceholder')}
               </option>
               {spec.right.map((rightItem, rightIdx) => (
                 <option key={rightIdx} value={rightIdx}>
@@ -113,8 +113,8 @@ export function MatchExercise({ spec, onSubmit }: Props) {
             <XCircle className="h-4 w-4 shrink-0" />
           )}
           {result.passed
-            ? `All matched correctly — ${result.score}/${result.max_score} points`
-            : `Some pairs incorrect — ${result.score}/${result.max_score} points`}
+            ? t('exercise.match.correct', { score: result.score, max: result.max_score })
+            : t('exercise.match.incorrect', { score: result.score, max: result.max_score })}
         </div>
       )}
 
@@ -124,7 +124,7 @@ export function MatchExercise({ spec, onSubmit }: Props) {
           disabled={!allSelected || submitting}
           className="mt-2"
         >
-          {submitting ? 'Submitting…' : 'Submit'}
+          {submitting ? t('exercise.submitting') : t('exercise.submit')}
         </Button>
       )}
     </div>

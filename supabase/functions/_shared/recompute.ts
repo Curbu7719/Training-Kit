@@ -17,6 +17,7 @@
 import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 export type ModuleLevel = 'L1' | 'L2';
+export type LangCode = 'en' | 'tr';
 
 export interface ProgressRow {
   module_id: string;
@@ -36,6 +37,7 @@ export async function recomputeModuleProgress(
   userId: string,
   moduleId: string,
   level: ModuleLevel,
+  lang: LangCode = 'en',
 ): Promise<string[]> {
   // -----------------------------------------------------------------------
   // 1. Resolve lessons for this module at eligible levels.
@@ -48,6 +50,7 @@ export async function recomputeModuleProgress(
     .from('lessons')
     .select('id, level')
     .eq('module_id', moduleId)
+    .eq('lang', lang)
     .in('level', eligibleLevels);
 
   if (lessonsErr) throw new Error(`Failed to load lessons: ${lessonsErr.message}`);

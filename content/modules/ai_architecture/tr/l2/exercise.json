@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Canlı, müşteriye dönük bir asistan şu anda tek bir model sağlayıcı üzerinde çalışıyor. Ekip, tek bir sağlayıcı kesintisinin özelliği çökertmemesi için **otomatik bir fallback olarak ikinci bir sağlayıcı** eklemek istiyor. Bugün, ilk sağlayıcının SDK'si orkestrasyon kodu boyunca onlarca yerde doğrudan çağrılıyor. En iyi ilk mimari adım nedir ve neden? **En iyi kararı ve doğru gerekçeyi seçin.**",
+  "spec": {
+    "decision_choices": [
+      "Onlarca doğrudan SDK çağrı noktasının her birinin etrafına try/catch blokları ekle ve her catch'te ikinci sağlayıcıyı çağır",
+      "Tüm kodun çağırdığı tek bir dahili model arayüzü (sağlayıcı soyutlaması) tanıt, ardından failover'ı onun içinde uygula",
+      "Model çağrılarını tarayıcı client'ına taşı, böylece client bir sağlayıcı seçebilsin",
+      "Başarısız isteklerin ikinci sağlayıcıya daha hızlı düşmesi için guardrail'leri devre dışı bırak"
+    ],
+    "reason_choices": [
+      "Çünkü tek bir soyutlama, kırılgan fallback mantığını onlarca çağrı noktası boyunca çoğaltmak yerine failover, retry ve routing'i uygulamak için tek bir yer verir",
+      "Çünkü her çağrı noktasında try/catch, failover eklemenin en sürdürülebilir yoludur",
+      "Çünkü client, model sağlayıcılar arasında seçim yapmak için doğru yerdir",
+      "Çünkü guardrail'ler sağlayıcı kesintilerinin başlıca nedenidir"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

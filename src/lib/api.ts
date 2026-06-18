@@ -80,11 +80,13 @@ export async function submitExercise(
 /** Refresh progress state after completing a lesson; returns newly-earned badges. */
 export async function refreshProgress(
   module_id?: string,
-  level?: 'L1' | 'L2'
+  level?: 'L1' | 'L2',
+  lang?: 'en' | 'tr'
 ): Promise<ProgressResponse> {
   const body: Record<string, string> = {};
   if (module_id !== undefined) body['module_id'] = module_id;
   if (level !== undefined) body['level'] = level;
+  if (lang !== undefined) body['lang'] = lang;
 
   const { data, error } = await supabase.functions.invoke<ProgressResponse>(
     'progress',

@@ -22,7 +22,7 @@
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
 import { createServiceClient, verifyJwt } from '../_shared/supabase-client.ts';
 import { gradeQuiz } from '../_shared/grading.ts';
-import { recomputeModuleProgress, type ModuleLevel } from '../_shared/recompute.ts';
+import { recomputeModuleProgress, type ModuleLevel, type LangCode } from '../_shared/recompute.ts';
 
 Deno.serve(async (req: Request) => {
   // 1. CORS preflight
@@ -93,10 +93,10 @@ Deno.serve(async (req: Request) => {
   }
 
   // 6. Recompute module progress
-  // Walk up: lesson → module; also get the lesson's level for the recompute call.
+  // Walk up: lesson → module; also get the lesson's level + lang for recompute.
   const { data: lesson } = await client
     .from('lessons')
-    .select('module_id, level')
+    .select('module_id, level, lang')
     .eq('id', question.lesson_id)
     .single();
 
@@ -107,6 +107,7 @@ Deno.serve(async (req: Request) => {
         userId,
         lesson.module_id,
         lesson.level as ModuleLevel,
+        lesson.lang as LangCode,
       );
     } catch (_err) {
       // Progress recompute failure should not block the grading response.

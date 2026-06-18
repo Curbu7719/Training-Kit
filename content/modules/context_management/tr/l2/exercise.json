@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir AI asistanı, çok günlü bir eski sistem migration'ını yürütüyor. Büyük, sık düzenlenen bir kaynak ağacına başvurmalı ve aynı zamanda en başta belirtilen birkaç pazarlık konusu olmayan kurala (örneğin 'herkese açık /v1/orders yanıt şeklini koru') uymalı. Daha önceki uzun oturumlar, eski turlar özetlerin özetlerine sıkıştırıldıktan sonra bu kuralları ihlal etti. **Kuralları bağlamda güvenilir biçimde tutmanın en iyi yolu nedir ve neden?**",
+  "spec": {
+    "decision_choices": [
+      "Pazarlık konusu olmayan kuralları her çağrıda kelimesi kelimesine taşınan korumalı gerçekler olarak sabitleyin ve kaynak ağacı için retrieval kullanın",
+      "Mevcut en büyük context window'a geçip her çağrıda tüm transkripti ve tüm dosyaları yeniden gönderin",
+      "Yalnızca son 15 turdan oluşan saf bir kayan pencere kullanın, başka hiçbir şey değil",
+      "Kurallar dahil her şeyi tek bir çalışan özete özetleyin"
+    ],
+    "reason_choices": [
+      "Çünkü sabitlenmiş gerçekler kayıplı özetlemeyi atlar, retrieval ise büyük, değişen kaynak ağacını bir dosya gerekene kadar pencere dışında tutar",
+      "Çünkü daha büyük bir pencere, modelin konumdan bağımsız olarak her dosyaya eşit dikkat etmesini garanti eder",
+      "Çünkü bir migration'ın doğruluğu için yalnızca en son turlar önemlidir",
+      "Çünkü kuralları özete sıkıştırmak onları zamanla daha dayanıklı yapar"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

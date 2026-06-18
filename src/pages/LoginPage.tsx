@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/lib/i18n';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { Spinner } from '@/components/ui/spinner';
 
 export function LoginPage() {
   const { user, loading } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   // Already authenticated — go straight to the dashboard.
@@ -32,15 +35,20 @@ export function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted/30 p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-primary">TrainingKit</CardTitle>
-          <CardDescription>AI application architecture — for everyone on the team</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <LoginForm onSuccess={handleSuccess} />
-        </CardContent>
-      </Card>
+      <div className="w-full max-w-sm space-y-3">
+        <div className="flex justify-end">
+          <LanguageSwitcher />
+        </div>
+        <Card>
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-primary">{t('nav.brand')}</CardTitle>
+            <CardDescription>{t('login.tagline')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LoginForm onSuccess={handleSuccess} />
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }

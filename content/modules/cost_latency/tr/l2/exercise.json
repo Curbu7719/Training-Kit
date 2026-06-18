@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Yüksek hacimli bir arka plan işi ayda milyonlarca kaydı sınıflandırıyor. Analiz, kayıtların yaklaşık **%85'inin** kolay olduğunu ve küçük, ucuz bir modelin bunları yüksek güvenle doğru etiketlediğini, geri kalanının ise gerçekten belirsiz olduğunu ve büyük modele ihtiyaç duyduğunu gösteriyor. Ekip şu anda **her** kaydı büyük modele gönderiyor ve **zor durumlardaki kaliteyi kaybetmeden** maliyeti kısmak istiyor. Latency kullanıcıya yansıyan bir şey değil. **En iyi tasarım kararını ve doğru gerekçeyi seçin.**",
+  "spec": {
+    "decision_choices": [
+      "Her kaydı büyük modele gönder ama output'u tek bir token'la sınırla",
+      "Bir cascade kullan: küçük model önce etiketler, yalnızca güven kontrolü başarısız olduğunda büyük modele yükseltir",
+      "Her kaydı yalnızca küçük modele gönder ve döndürdüğü her şeyi kabul et",
+      "Tüm kayıtları batch'le ve hepsini tek bir büyük istekte büyük modele gönder"
+    ],
+    "reason_choices": [
+      "Çünkü çoğu kayıt kolay olduğundan, büyük-model fiyatını yalnızca yükseltilen azınlıkta ödemek ortalama maliyeti düşürür, zor durumlar ise yine de büyük modele ulaşır",
+      "Çünkü output'u tek bir token'la sınırlamak büyük modele olan ihtiyacı tamamen ortadan kaldırır",
+      "Çünkü küçük model her zaman büyük model kadar doğrudur, dolayısıyla kalite düşemez",
+      "Çünkü batching, sağlayıcının uyguladığı token başına fiyatı değiştirir"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

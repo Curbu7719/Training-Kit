@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir kodlama asistanı, bir düzeltmeyi kontrol etmek için bir run_tests tool'u 'kullanıyor'. Aslında ne olur?",
+    "choices": [
+      "Model yapılandırılmış bir istek yayınlar ve uygulama gerçek test komutunu çalıştırıp sonucu döndürür",
+      "Model test paketini kendi ağırlıklarının (weights) içinde kendisi çalıştırır",
+      "Tool, o tur için modelin tamamen yerine geçer",
+      "Uygulama modelden, geliştiricinin elle çalıştıracağı bir shell script yazmasını ister"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir agent başarısız bir testi düzeltirken, agent döngüsünün bir iterasyonunu hangi adımlar oluşturur? Uygun olanların tümünü seçin.",
+    "choices": [
+      "Bir sonraki adımı planla (ör. hatayı görmesi gerektiğine karar ver)",
+      "Bir tool isteyerek eyleme geç (ör. run_tests veya apply_patch)",
+      "Dönen sonucu gözlemle (traceback veya geçti/kaldı)",
+      "Modeli test çıktısı üzerinde kalıcı olarak yeniden eğit"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir PM, yeni bir geliştirme-araçları özelliği için tek bir model çağrısı ile tam bir agent arasında karar veriyor. Hangi durum bir agent'ı en çok haklı çıkarır?",
+    "choices": [
+      "Bir hatayı düzeltmek, ki bu çok adımlıdır ve her düzenlemeden sonra testleri yeniden çalıştırmaya bağlıdır",
+      "Tek bir pull-request açıklamasını tek bir paragrafa özetlemek",
+      "İstek başına maliyeti olabildiğince azaltmak",
+      "Bir log satırı için her seferinde tek bir deterministik etiket üretmek"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bunlardan hangileri bir kodlama agent'ına otonomi vermenin gerçek başarısızlık biçimleri ve bunları ele alan korkuluklardır? Doğru ifadelerin tümünü seçin.",
+    "choices": [
+      "Kontrolsüz düzenle-ve-tekrar-dene döngüleri bir maksimum-iterasyon sınırıyla sınırlandırılabilir",
+      "Force-push veya delete-branch gibi yıkıcı bir tool bir insan-onay kapısının arkasında durmalıdır",
+      "Bir test hatasının erken yanlış okunması sonraki düzenlemeler boyunca birikerek büyüyebilir",
+      "Daha fazla tool eklemek kontrolsüz döngü riskini her zaman ortadan kaldırır"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

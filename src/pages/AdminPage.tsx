@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/lib/i18n';
 import {
   listModules,
   getModuleFull,
@@ -63,6 +64,7 @@ function parseJson(raw: string): { value: unknown; error: string | null } {
 // ---------------------------------------------------------------------------
 
 function LessonEditor({ lesson }: { lesson: LessonRow }) {
+  const { t } = useLanguage();
   const [title, setTitle] = useState(lesson.title);
   const [bodyMd, setBodyMd] = useState(lesson.body_md ?? '');
   const [saving, setSaving] = useState(false);
@@ -73,7 +75,7 @@ function LessonEditor({ lesson }: { lesson: LessonRow }) {
     setSavedMsg('');
     try {
       await updateLesson({ id: lesson.id, title, body_md: bodyMd });
-      setSavedMsg('Saved.');
+      setSavedMsg(t('admin.saved'));
     } catch (e) {
       setSavedMsg(`Error: ${(e as Error).message}`);
     } finally {
@@ -85,16 +87,16 @@ function LessonEditor({ lesson }: { lesson: LessonRow }) {
     <Card className="mb-3">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm">
-          Lesson — <span className="font-normal text-muted-foreground capitalize">{lesson.kind}</span>
+          {t('admin.lesson.title')} — <span className="font-normal text-muted-foreground capitalize">{lesson.kind}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Title</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('admin.lesson.kind.label')}</label>
           <Input value={title} onChange={(e) => setTitle(e.target.value)} className="text-sm" />
         </div>
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Body (markdown)</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('admin.lesson.body')}</label>
           <textarea
             className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[120px] resize-y"
             value={bodyMd}
@@ -103,7 +105,7 @@ function LessonEditor({ lesson }: { lesson: LessonRow }) {
         </div>
         <div className="flex items-center gap-3">
           <Button size="sm" onClick={() => void handleSave()} disabled={saving}>
-            {saving ? <Spinner size="sm" /> : 'Save'}
+            {saving ? <Spinner size="sm" /> : t('admin.save')}
           </Button>
           {savedMsg && (
             <span className={`text-xs ${savedMsg.startsWith('Error') ? 'text-destructive' : 'text-success'}`}>
@@ -121,6 +123,7 @@ function LessonEditor({ lesson }: { lesson: LessonRow }) {
 // ---------------------------------------------------------------------------
 
 function QuizQuestionEditor({ question }: { question: QuizQuestionRow }) {
+  const { t } = useLanguage();
   const [prompt, setPrompt] = useState(question.prompt);
   const [choicesRaw, setChoicesRaw] = useState(JSON.stringify(question.choices, null, 2));
   const [correctRaw, setCorrectRaw] = useState(JSON.stringify(question.correct, null, 2));
@@ -147,7 +150,7 @@ function QuizQuestionEditor({ question }: { question: QuizQuestionRow }) {
         correct: correctParsed,
         points: Number(points),
       });
-      setSavedMsg('Saved.');
+      setSavedMsg(t('admin.saved'));
     } catch (e) {
       setSavedMsg(`Error: ${(e as Error).message}`);
     } finally {
@@ -158,17 +161,17 @@ function QuizQuestionEditor({ question }: { question: QuizQuestionRow }) {
   return (
     <Card className="mb-3">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">Quiz question</CardTitle>
+        <CardTitle className="text-sm">{t('admin.quiz.title')}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Prompt</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('admin.quiz.prompt')}</label>
           <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} className="text-sm" />
         </div>
-        <JsonTextarea label="Choices (JSON)" value={choicesRaw} onChange={setChoicesRaw} error={choicesErr} />
-        <JsonTextarea label="Correct (JSON)" value={correctRaw} onChange={setCorrectRaw} error={correctErr} />
+        <JsonTextarea label={t('admin.quiz.choices')} value={choicesRaw} onChange={setChoicesRaw} error={choicesErr} />
+        <JsonTextarea label={t('admin.quiz.correct')} value={correctRaw} onChange={setCorrectRaw} error={correctErr} />
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Points</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('admin.quiz.points')}</label>
           <Input
             type="number"
             value={points}
@@ -178,7 +181,7 @@ function QuizQuestionEditor({ question }: { question: QuizQuestionRow }) {
         </div>
         <div className="flex items-center gap-3">
           <Button size="sm" onClick={() => void handleSave()} disabled={saving}>
-            {saving ? <Spinner size="sm" /> : 'Save'}
+            {saving ? <Spinner size="sm" /> : t('admin.save')}
           </Button>
           {savedMsg && (
             <span className={`text-xs ${savedMsg.startsWith('Error') ? 'text-destructive' : 'text-success'}`}>
@@ -196,6 +199,7 @@ function QuizQuestionEditor({ question }: { question: QuizQuestionRow }) {
 // ---------------------------------------------------------------------------
 
 function ExerciseEditor({ exercise }: { exercise: ExerciseRow }) {
+  const { t } = useLanguage();
   const [promptMd, setPromptMd] = useState(exercise.prompt_md);
   const [specRaw, setSpecRaw] = useState(JSON.stringify(exercise.spec, null, 2));
   const [answerKeyRaw, setAnswerKeyRaw] = useState(JSON.stringify(exercise.answer_key, null, 2));
@@ -222,7 +226,7 @@ function ExerciseEditor({ exercise }: { exercise: ExerciseRow }) {
         answer_key: answerKeyParsed,
         max_score: Number(maxScore),
       });
-      setSavedMsg('Saved.');
+      setSavedMsg(t('admin.saved'));
     } catch (e) {
       setSavedMsg(`Error: ${(e as Error).message}`);
     } finally {
@@ -234,22 +238,22 @@ function ExerciseEditor({ exercise }: { exercise: ExerciseRow }) {
     <Card className="mb-3">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm">
-          Exercise — <span className="font-normal text-muted-foreground capitalize">{exercise.type}</span>
+          {t('admin.exercise.title')} — <span className="font-normal text-muted-foreground capitalize">{exercise.type}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Prompt (markdown)</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('admin.exercise.prompt')}</label>
           <textarea
             className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 min-h-[80px] resize-y"
             value={promptMd}
             onChange={(e) => setPromptMd(e.target.value)}
           />
         </div>
-        <JsonTextarea label="Spec (JSON)" value={specRaw} onChange={setSpecRaw} error={specErr} />
-        <JsonTextarea label="Answer key (JSON)" value={answerKeyRaw} onChange={setAnswerKeyRaw} error={answerKeyErr} />
+        <JsonTextarea label={t('admin.exercise.spec')} value={specRaw} onChange={setSpecRaw} error={specErr} />
+        <JsonTextarea label={t('admin.exercise.answerKey')} value={answerKeyRaw} onChange={setAnswerKeyRaw} error={answerKeyErr} />
         <div className="space-y-1">
-          <label className="text-xs font-medium text-muted-foreground">Max score</label>
+          <label className="text-xs font-medium text-muted-foreground">{t('admin.exercise.maxScore')}</label>
           <Input
             type="number"
             value={maxScore}
@@ -259,7 +263,7 @@ function ExerciseEditor({ exercise }: { exercise: ExerciseRow }) {
         </div>
         <div className="flex items-center gap-3">
           <Button size="sm" onClick={() => void handleSave()} disabled={saving}>
-            {saving ? <Spinner size="sm" /> : 'Save'}
+            {saving ? <Spinner size="sm" /> : t('admin.save')}
           </Button>
           {savedMsg && (
             <span className={`text-xs ${savedMsg.startsWith('Error') ? 'text-destructive' : 'text-success'}`}>
@@ -277,6 +281,7 @@ function ExerciseEditor({ exercise }: { exercise: ExerciseRow }) {
 // ---------------------------------------------------------------------------
 
 function ContentTab() {
+  const { t } = useLanguage();
   const [modules, setModules] = useState<ModuleSummary[]>([]);
   const [loadingModules, setLoadingModules] = useState(true);
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
@@ -340,7 +345,7 @@ function ContentTab() {
       {/* Module detail */}
       <div className="flex-1 min-w-0">
         {!selectedCode && (
-          <p className="text-sm text-muted-foreground">Select a module to edit its content.</p>
+          <p className="text-sm text-muted-foreground">{t('admin.content.selectModule')}</p>
         )}
 
         {selectedCode && loadingFull && (
@@ -360,7 +365,7 @@ function ContentTab() {
             {moduleFull.lessons.length > 0 && (
               <section>
                 <h3 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                  Lessons
+                  {t('admin.sections.lessons')}
                 </h3>
                 {moduleFull.lessons.map((l) => (
                   <LessonEditor key={l.id} lesson={l} />
@@ -371,7 +376,7 @@ function ContentTab() {
             {moduleFull.quiz_questions.length > 0 && (
               <section>
                 <h3 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                  Quiz questions
+                  {t('admin.sections.quizQuestions')}
                 </h3>
                 {moduleFull.quiz_questions.map((q) => (
                   <QuizQuestionEditor key={q.id} question={q} />
@@ -382,7 +387,7 @@ function ContentTab() {
             {moduleFull.exercises.length > 0 && (
               <section>
                 <h3 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                  Exercises
+                  {t('admin.sections.exercises')}
                 </h3>
                 {moduleFull.exercises.map((ex) => (
                   <ExerciseEditor key={ex.id} exercise={ex} />
@@ -394,7 +399,7 @@ function ContentTab() {
               moduleFull.quiz_questions.length === 0 &&
               moduleFull.exercises.length === 0 && (
                 <p className="text-sm text-muted-foreground">
-                  No content seeded for this module yet.
+                  {t('admin.content.noContent')}
                 </p>
               )}
           </div>
@@ -411,6 +416,7 @@ function ContentTab() {
 // No track labels — single shared curriculum, no per-user track.
 
 function UsersTab() {
+  const { t } = useLanguage();
   const [users, setUsers] = useState<UserSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState<string | null>(null);
@@ -439,11 +445,11 @@ function UsersTab() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
-            <th className="pb-2 pr-4">Name</th>
-            <th className="pb-2 pr-4">Role</th>
-            <th className="pb-2 pr-4 text-right">Modules passed</th>
-            <th className="pb-2 pr-4 text-right">Total score</th>
-            <th className="pb-2 text-right">Badges</th>
+            <th className="pb-2 pr-4">{t('admin.users.col.name')}</th>
+            <th className="pb-2 pr-4">{t('admin.users.col.role')}</th>
+            <th className="pb-2 pr-4 text-right">{t('admin.users.col.modules')}</th>
+            <th className="pb-2 pr-4 text-right">{t('admin.users.col.score')}</th>
+            <th className="pb-2 text-right">{t('admin.users.col.badges')}</th>
           </tr>
         </thead>
         <tbody>
@@ -463,7 +469,7 @@ function UsersTab() {
           {users.length === 0 && (
             <tr>
               <td colSpan={5} className="py-6 text-center text-muted-foreground">
-                No users found.
+                {t('admin.users.empty')}
               </td>
             </tr>
           )}
@@ -479,6 +485,7 @@ function UsersTab() {
 
 export function AdminPage() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -490,25 +497,25 @@ export function AdminPage() {
               onClick={() => navigate('/dashboard')}
               className="text-xl font-bold text-primary hover:opacity-80 transition-opacity"
             >
-              TrainingKit
+              {t('nav.brand')}
             </button>
             <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-              Admin
+              {t('admin.badge')}
             </span>
           </div>
           <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>
-            Dashboard
+            {t('nav.dashboard')}
           </Button>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-6 py-8">
-        <h1 className="mb-6 text-2xl font-bold">Admin panel</h1>
+        <h1 className="mb-6 text-2xl font-bold">{t('admin.title')}</h1>
 
         <Tabs defaultValue="content">
           <TabsList className="mb-6">
-            <TabsTrigger value="content">Content</TabsTrigger>
-            <TabsTrigger value="users">Users</TabsTrigger>
+            <TabsTrigger value="content">{t('admin.tab.content')}</TabsTrigger>
+            <TabsTrigger value="users">{t('admin.tab.users')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="content">

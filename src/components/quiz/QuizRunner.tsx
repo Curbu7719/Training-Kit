@@ -3,6 +3,7 @@ import { Trophy } from 'lucide-react';
 import { QuizQuestion, type QuizQuestionRow } from './QuizQuestion';
 import { submitQuiz } from '@/lib/api';
 import type { QuizSubmitResponse } from '@/lib/api';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function QuizRunner({ questions, onComplete }: Props) {
+  const { t } = useLanguage();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
@@ -61,10 +63,15 @@ export function QuizRunner({ questions, onComplete }: Props) {
       <div className="space-y-4 text-center" data-testid="quiz-complete-panel">
         <Trophy className="mx-auto h-10 w-10 text-warning" />
         <div>
-          <p className="text-lg font-semibold">Quiz complete!</p>
+          <p className="text-lg font-semibold">{t('quiz.complete.title')}</p>
           <p className="text-sm text-muted-foreground">
-            {correctCount}/{questions.length} correct &mdash;{' '}
-            {totalScore}/{maxScore} points ({pct}%)
+            {t('quiz.complete.score', {
+              correct: correctCount,
+              total: questions.length,
+              score: totalScore,
+              max: maxScore,
+              pct,
+            })}
           </p>
         </div>
         <div className="h-2 w-full rounded-full bg-muted">

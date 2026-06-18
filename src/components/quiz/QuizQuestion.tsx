@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { QuizSubmitResponse } from '@/lib/api';
 
@@ -32,6 +33,7 @@ export function QuizQuestion({
   onSubmit,
   onNext,
 }: Props) {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<number[]>([]);
   const [result, setResult] = useState<QuizSubmitResponse | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -53,22 +55,32 @@ export function QuizQuestion({
       const res = await onSubmit(question.id, selected);
       setResult(res);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Submission failed.');
+      setError(e instanceof Error ? e.message : t('quiz.submissionFailed'));
     } finally {
       setSubmitting(false);
     }
   }
 
+  const correctFeedback =
+    result?.points === 1
+      ? t('quiz.correct', { points: result.points })
+      : t('quiz.correctPlural', { points: result?.points ?? 0 });
+
+  const incorrectFeedback =
+    result && result.correct.length > 1
+      ? t('quiz.incorrectPlural')
+      : t('quiz.incorrectSingle');
+
   return (
     <div className="space-y-4">
       {/* Progress indicator */}
       <p className="text-xs text-muted-foreground">
-        Question {questionNumber} of {totalQuestions}
+        {t('quiz.questionOf', { n: questionNumber, total: totalQuestions })}
       </p>
 
       <p className="text-sm font-medium leading-relaxed">{question.prompt}</p>
 
-      <div className="space-y-2" role="group" aria-label="Answer choices">
+      <div className="space-y-2" role="group" aria-label={t('quiz.answerChoices')}>
         {question.choices.map((choice, idx) => {
           const isSelected = selected.includes(idx);
           const isCorrect = result?.correct.includes(idx) ?? false;
@@ -131,20 +143,18 @@ export function QuizQuestion({
           ) : (
             <XCircle className="h-4 w-4 shrink-0" />
           )}
-          {result.is_correct
-            ? `Correct! +${result.points} point${result.points !== 1 ? 's' : ''}`
-            : `Incorrect — correct answer${result.correct.length > 1 ? 's are' : ' is'} highlighted above`}
+          {result.is_correct ? correctFeedback : incorrectFeedback}
         </div>
       )}
 
       <div className="flex justify-end">
         {!result ? (
           <Button onClick={handleSubmit} disabled={selected.length === 0 || submitting} data-testid="quiz-submit-btn">
-            {submitting ? 'Checking…' : 'Submit answer'}
+            {submitting ? t('quiz.checking') : t('quiz.submit')}
           </Button>
         ) : (
           <Button onClick={onNext} data-testid="quiz-next-btn">
-            {questionNumber < totalQuestions ? 'Next question' : 'Finish quiz'}
+            {questionNumber < totalQuestions ? t('quiz.next') : t('quiz.finish')}
           </Button>
         )}
       </div>

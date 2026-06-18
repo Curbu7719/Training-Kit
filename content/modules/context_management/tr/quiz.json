@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Context window neyi ölçer ve neleri içerir?",
+    "choices": [
+      "Modelin aynı anda dikkate alabileceği maksimum token sayısını; hem girdiyi hem çıktıyı kapsar",
+      "Yalnızca göndermenize izin verilen girdi token'larının sayısını",
+      "Modelin geçmiş tüm refactor'lara dair kalıcı uzun süreli belleğini",
+      "Dakika başına izin verilen ayrı API çağrısı sayısının üst sınırını"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Uzun, çok dosyalı bir refactor sırasında AI aracı neden her çağrıda önceki bağlamı yeniden sağlamak zorundadır?",
+    "choices": [
+      "Çünkü her API çağrısı durumsuzdur — model çağrılar arasında hiç bellek tutmaz",
+      "Çünkü yeniden göndermek modeli daha hızlı yanıt vermeye iter",
+      "Çünkü sağlayıcı eski mesajları bir dakika sonra siler",
+      "Sağlamaz — model daha önceki tüm dosyaları ve düzenlemeleri otomatik olarak hatırlar"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Büyük bir kod tabanında ya da uzun bir gereksinim dizisinde çalışırken context window içinde kalmak için aşağıdakilerden hangileri geçerli stratejilerdir? (Uygun olanların hepsini seçin.)",
+    "choices": [
+      "Daha önceki bir görüşmeyi ya da transkripti kısa bir özete sıkıştırmak",
+      "Yalnızca mevcut düzenlemeyle ilgili birkaç dosyayı getirmek",
+      "Yalnızca son N turu tutmak (kayan pencere)",
+      "Temperature ayarını artırmak"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "30 dosyalık bir refactor yapan bir AI asistanı, başlangıçta kendisine verilen 'eski kolon adını koru' kuralını yok saymaya başlar. Hangi gerçek, ekibe kök nedeni en iyi açıklar?",
+    "choices": [
+      "Modelin temperature ayarı çok düşük",
+      "Transkript pencere sınırını aştıkça, erken kural atıldı ve artık model tarafından görülmüyor",
+      "Modelin eğitimi bittiği için öğrenmeyi durdurdu",
+      "Retrieval her zaman düzenleme geçmişini bozar"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "QA'nın golden dataset'i üzerindeki offline eval'i, bir LLM-as-judge kullanan bir AI özelliği için **%94 accuracy** bildiriyor, bu yüzden ekip ship ediyor. Lansmandan sonra kullanıcılar özellikle bir soru kategorisindeki yanıtlardan şikayet ediyor. Araştırma, o kategorinin golden dataset'in yalnızca küçük bir kesrini oluşturduğunu ve insanlar o yanıtları yeniden derecelendirdiğinde, uzun, kendinden emin-ama-yanlış yanıtları kabul edilebilir olarak derecelendiren judge ile keskin bir şekilde anlaşmazlığa düştüğünü gösteriyor.\n\n**Karar:** Ekip ne yapmalı? **Gerekçe:** Bu, kök nedeni neden çözer?",
+  "spec": {
+    "decision_choices": [
+      "Veri kümesini başarısız kategoriyi temsil edecek şekilde katmanla, eval puanlarını segmente göre dilimle ve judge'ı insan derecelendirmelerine karşı doğrula",
+      "%94 toplamaya güven ve şikayetleri anekdotsal olarak reddet",
+      "Yanıtların daha çeşitli hale gelmesi için model temperature'ını yükselt",
+      "Puanın yüksek kalması için başarısız kategoriyi veri kümesinden çıkar"
+    ],
+    "reason_choices": [
+      "Çünkü yüksek bir toplama başarısız bir alt grubu gizledi ve önyargılı bir judge onu aşırı derecelendirdi, bu yüzden temsili veri, segment-başına puanlama ve judge doğrulaması güvenilir bir ölçümü geri getirir",
+      "Çünkü toplu puanlar her zaman bireysel kullanıcı raporlarından daha güvenilirdir",
+      "Çünkü çıktılardaki daha fazla rastgelelik başarısız kategorinin ortalamasını dengeler",
+      "Çünkü daha küçük bir veri kümesi CI'da çalıştırmak için daha hızlıdır ve önemli olan budur"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

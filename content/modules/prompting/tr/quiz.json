@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir geliştirici, modelden 'fonksiyonum için biraz test yaz' diye istiyor ama hiç kod yapıştırmıyor. Bu neden bu kadar sık işe yaramaz çıktı üretir?",
+    "choices": [
+      "Model yalnızca gönderdiğiniz metni gördüğü için, kod ve framework olmadan bir imza uydurur ve testleri tahmin eder",
+      "Daha uzun prompt'lar, içeriğinden bağımsız olarak her zaman daha doğru testler üretir",
+      "Model deponuzu ve CI yapılandırmanızı otomatik olarak okur",
+      "İfade yalnızca tonu etkiler, modelin seçtiği framework'ü veya durumları asla etkilemez"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "System (developer) mesajı ile user mesajı hakkındaki hangi ifadeler doğrudur? Uygun olanların tümünü seçin.",
+    "choices": [
+      "Test framework'ü ve kodlama standartları gibi kalıcı kurallar system mesajına aittir ve turlar arasında kalıcıdır",
+      "Bu fonksiyon veya bu kullanıcı hikayesi için belirli istek user mesajına aittir",
+      "User mesajı system mesajına göre öncelik kazanır",
+      "Güvenlik politikası ve kişilik en iyi system mesajına yerleştirilir"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir modele bir fonksiyonu refactor etmesi için prompt yazarken, var olan kodu neden üçlü ters tırnak veya XML tarzı etiketler gibi sınırlayıcılarla sararsınız?",
+    "choices": [
+      "Talimatlarınızı modelin işlemesi gereken koddan ayırmak için, böylece koddaki bir yorum talimat olarak okunmaz",
+      "Prompt'u daha kısa yapmak için",
+      "Modeli daha yüksek bir sıcaklık (temperature) kullanmaya zorlamak için",
+      "Kodu otomatik olarak başka bir dile çevirmek için"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir İş Analisti, modelden bir paydaş isteğini kullanıcı hikayesine dönüştürmesini istiyor, ama çıktı sürekli kabul kriteri olmayan gevşek bir paragraf olarak geliyor ve ekibin backlog şablonunu bozuyor. Hangi prompt değişikliği bunu en doğrudan düzeltir?",
+    "choices": [
+      "Tam çıktı şablonunu belirtin ('... olarak... istiyorum, böylece...' artı numaralandırılmış bir kabul kriteri listesi) ve o biçimde bir örnek hikaye gösterin",
+      "Sıcaklığı (temperature) artırın ki ifade her çalıştırmada daha çok değişsin",
+      "Modelden bir şablon vermeden 'biraz daha yapılandırılmış' olmasını isteyin",
+      "İyi biçimlendirilmiş bir hikaye çıkana kadar isteği tekrar tekrar gönderin"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

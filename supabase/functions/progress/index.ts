@@ -26,7 +26,7 @@
 
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
 import { createServiceClient, verifyJwt } from '../_shared/supabase-client.ts';
-import { recomputeModuleProgress, type ModuleLevel } from '../_shared/recompute.ts';
+import { recomputeModuleProgress, type ModuleLevel, type LangCode } from '../_shared/recompute.ts';
 
 Deno.serve(async (req: Request) => {
   // 1. CORS preflight
@@ -42,7 +42,7 @@ Deno.serve(async (req: Request) => {
   }
 
   // Parse optional body
-  let body: { module_id?: string; level?: string } = {};
+  let body: { module_id?: string; level?: string; lang?: string } = {};
   try {
     const text = await req.text();
     if (text) body = JSON.parse(text);
@@ -52,6 +52,9 @@ Deno.serve(async (req: Request) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
+
+  // Language to score against (content is per-language). Defaults to English.
+  const lang: LangCode = body.lang === 'tr' ? 'tr' : 'en';
 
   const client = createServiceClient();
 
@@ -114,7 +117,7 @@ Deno.serve(async (req: Request) => {
 
   for (const { module_id, level } of scope) {
     try {
-      const newBadges = await recomputeModuleProgress(client, userId, module_id, level);
+      const newBadges = await recomputeModuleProgress(client, userId, module_id, level, lang);
       allNewBadges.push(...newBadges);
     } catch (err) {
       console.error(`Recompute failed for module=${module_id} level=${level}:`, err);

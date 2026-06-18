@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, BookOpen, FlaskConical, HelpCircle, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/lib/i18n';
 import { submitExercise, refreshProgress } from '@/lib/api';
 import type { ExerciseAnswer } from '@/lib/api';
 import { Markdown } from '@/lib/markdown';
@@ -58,14 +59,14 @@ interface ModuleRow {
 }
 
 // ---------------------------------------------------------------------------
-// Lesson kind metadata
+// Lesson kind metadata (icons only — labels come from t())
 // ---------------------------------------------------------------------------
 
-const KIND_META = {
-  concept: { label: 'Concept', Icon: BookOpen },
-  example: { label: 'Worked example', Icon: FileText },
-  quiz: { label: 'Quiz', Icon: HelpCircle },
-  exercise: { label: 'Exercise', Icon: FlaskConical },
+const KIND_ICONS = {
+  concept:  BookOpen,
+  example:  FileText,
+  quiz:     HelpCircle,
+  exercise: FlaskConical,
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -79,6 +80,7 @@ function ExerciseWidget({
   exercise: ExerciseDbRow;
   onDone: () => void;
 }) {
+  const { t } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
 
   async function handleSubmit(answer: ExerciseAnswer) {
@@ -129,7 +131,7 @@ function ExerciseWidget({
 
       {submitted && (
         <Button onClick={onDone} className="mt-2" data-testid="exercise-continue-btn">
-          Continue
+          {t('exercise.continue')}
         </Button>
       )}
     </div>
@@ -155,7 +157,9 @@ function LessonCard({
   onQuizComplete,
   onExerciseDone,
 }: LessonCardProps) {
-  const { Icon, label } = KIND_META[lesson.kind];
+  const { t } = useLanguage();
+  const Icon = KIND_ICONS[lesson.kind];
+  const kindKey = `lesson.kind.${lesson.kind}` as const;
 
   // For concept/example lessons, strip the hint section from body_md before rendering.
   const displayMd =
@@ -168,7 +172,7 @@ function LessonCard({
       <div className="flex items-center gap-2">
         <Icon className="h-4 w-4 text-muted-foreground" />
         <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          {label}
+          {t(kindKey)}
         </span>
       </div>
 
@@ -199,6 +203,7 @@ function LessonCard({
 export function LessonPlayerPage() {
   const { moduleCode } = useParams<{ moduleCode: string }>();
   const { profile } = useAuth();
+  const { lang, t } = useLanguage();
   const navigate = useNavigate();
 
   const [moduleRow, setModuleRow] = useState<ModuleRow | null>(null);
@@ -244,7 +249,8 @@ export function LessonPlayerPage() {
       const resolvedLevel: 'L1' | 'L2' = l1Passed ? 'L2' : 'L1';
       setUserLevel(resolvedLevel);
 
-      // 3. Load level-filtered lessons. L2 session loads L1+L2 (cumulative view).
+      // 3. Load level-filtered lessons, also filtered by the current UI language.
+      //    L2 session loads L1+L2 (cumulative view).
       const levelFilter: string[] =
         resolvedLevel === 'L2' ? ['L1', 'L2'] : ['L1'];
 
@@ -252,6 +258,7 @@ export function LessonPlayerPage() {
         .from('lessons')
         .select('id, module_id, kind, title, body_md, sort_order, level')
         .eq('module_id', modData.id)
+        .eq('lang', lang)
         .in('level', levelFilter)
         .order('sort_order');
       if (lessonErr) throw lessonErr;
@@ -298,7 +305,7 @@ export function LessonPlayerPage() {
     } finally {
       setLoading(false);
     }
-  }, [moduleCode, profile]);
+  }, [moduleCode, profile, lang]);
 
   useEffect(() => {
     void load();
@@ -319,17 +326,17 @@ export function LessonPlayerPage() {
     if (!moduleRow) return;
     setFinishing(true);
     try {
-      const res = await refreshProgress(moduleRow.id, userLevel);
+      const res = await refreshProgress(moduleRow.id, userLevel, lang);
       if (res.newBadges.length > 0) {
         toast({
-          title: 'New badge earned!',
+          title: t('toast.newBadge.title'),
           description: res.newBadges.join(', '),
           variant: 'success',
         });
       }
       navigate('/dashboard');
     } catch {
-      toast({ title: 'Could not save progress', variant: 'destructive' });
+      toast({ title: t('lesson.saveError'), variant: 'destructive' });
       navigate('/dashboard');
     } finally {
       setFinishing(false);
@@ -353,7 +360,7 @@ export function LessonPlayerPage() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="text-destructive">{loadError}</p>
         <Button variant="outline" onClick={() => navigate('/dashboard')}>
-          Back to dashboard
+          {t('nav.backToDashboard')}
         </Button>
       </div>
     );
@@ -362,9 +369,9 @@ export function LessonPlayerPage() {
   if (lessons.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
-        <p className="text-muted-foreground">No lessons found for this module.</p>
+        <p className="text-muted-foreground">{t('lesson.noLessons')}</p>
         <Button variant="outline" onClick={() => navigate('/dashboard')}>
-          Back to dashboard
+          {t('nav.backToDashboard')}
         </Button>
       </div>
     );
@@ -385,12 +392,13 @@ export function LessonPlayerPage() {
             className="gap-1.5"
           >
             <ArrowLeft className="h-4 w-4" />
-            Dashboard
+            {t('nav.dashboard')}
           </Button>
           <div className="flex-1 overflow-hidden">
             <p className="truncate text-sm font-semibold">{moduleRow?.title}</p>
             <p className="text-xs text-muted-foreground">
-              Level {userLevel} &middot; {completedIdxs.size}/{lessons.length} complete
+              {t('lesson.level', { level: userLevel })} &middot;{' '}
+              {t('lesson.progress', { done: completedIdxs.size, total: lessons.length })}
             </p>
           </div>
           <Badge variant={userLevel === 'L2' ? 'accent' : 'default'}>{userLevel}</Badge>
@@ -404,7 +412,7 @@ export function LessonPlayerPage() {
                 key={l.id}
                 type="button"
                 onClick={() => setCurrentIdx(i)}
-                aria-label={`Go to lesson: ${l.title}`}
+                aria-label={t('lesson.goToLesson', { title: l.title })}
                 className={cn(
                   'h-1.5 flex-1 rounded-full transition-colors',
                   completedIdxs.has(i) && 'bg-success',
@@ -422,7 +430,7 @@ export function LessonPlayerPage() {
         {/* Lesson navigation sidebar pills (small screens: row; large: compact sidebar pill row) */}
         <div className="mb-6 flex flex-wrap gap-2">
           {lessons.map((l, i) => {
-            const { Icon } = KIND_META[l.kind];
+            const Icon = KIND_ICONS[l.kind];
             return (
               <button
                 key={l.id}
@@ -461,7 +469,7 @@ export function LessonPlayerPage() {
           {(currentLesson.kind === 'concept' || currentLesson.kind === 'example') && (
             <div className="mt-6 flex justify-end border-t border-border pt-4">
               <Button onClick={() => advanceOrComplete(currentIdx)} data-testid="lesson-next-btn">
-                {currentIdx + 1 < lessons.length ? 'Next' : 'Mark complete'}
+                {currentIdx + 1 < lessons.length ? t('lesson.next') : t('lesson.markComplete')}
               </Button>
             </div>
           )}
@@ -471,12 +479,10 @@ export function LessonPlayerPage() {
         {allDone && (
           <div className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
             <CheckCircle2 className="h-8 w-8 text-success" />
-            <p className="font-semibold">All lessons complete!</p>
-            <p className="text-sm text-muted-foreground">
-              Your progress will be saved and any new badges awarded.
-            </p>
+            <p className="font-semibold">{t('lesson.allDone')}</p>
+            <p className="text-sm text-muted-foreground">{t('lesson.allDoneDesc')}</p>
             <Button onClick={() => void handleComplete()} disabled={finishing} data-testid="complete-module-btn">
-              {finishing ? 'Saving…' : 'Complete module'}
+              {finishing ? t('lesson.saving') : t('lesson.completeModule')}
             </Button>
           </div>
         )}

@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir ekip, müşteriye dönük bir chatbot kuruyor. Zaman kazanmak için bir geliştirici, **tarayıcı client'ının doğrudan model sağlayıcının API'sini çağırmasını**, sağlayıcı API anahtarını front-end JavaScript'e gömerek bakımı gereken bir sunucu olmamasını öneriyor. Sağlam, katmanlı bir AI mimarisi göz önüne alındığında, ekip ne yapmalı ve neden? **En iyi kararı ve doğru gerekçeyi seçin.**",
+  "spec": {
+    "decision_choices": [
+      "API anahtarını front-end'e göm ve sağlayıcıyı doğrudan tarayıcıdan çağır",
+      "Tüm model çağrılarını, anahtarı tutan ve prompt'u kuran sunucu tarafındaki bir orkestrasyon katmanı üzerinden yönlendir",
+      "API anahtarını tarayıcının localStorage'ında sakla ve sağlayıcıyı oradan çağır",
+      "API anahtarını CDN tarafından sunulan herkese açık bir config dosyasına koy"
+    ],
+    "reason_choices": [
+      "Çünkü client güvenilmezdir: front-end kodundaki bir anahtar herkes tarafından çıkarılabilir ve orkestrasyon katmanı sırların, prompt'ların, guardrail'lerin ve loglamanın ait olduğu yerdir",
+      "Çünkü front-end JavaScript derlenmiştir ve bu nedenle anahtarı kullanıcılardan gizler",
+      "Çünkü localStorage şifrelenmiştir ve API sırlarını saklamak için güvenlidir",
+      "Çünkü CDN'ler kullanıcıların sundukları dosyaları okumasını engeller"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

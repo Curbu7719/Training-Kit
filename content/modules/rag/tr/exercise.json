@@ -1,0 +1,16 @@
+{
+  "type": "order",
+  "prompt_md": "Ekibiniz, kendi kod tabanınız ve wiki'niz hakkındaki soruları yanıtlayan bir RAG asistanı kuruyor. Altı pipeline adımını doğru uçtan uca sıraya dizin. Unutmayın: indexleme adımları (depo + wiki üzerinde) herhangi bir geliştirici sorusu yanıtlanabilmeden önce yapılmalıdır ve sorgu anında, model yanıtını üretmeden önce ilgili bağlamı retrieve etmelisiniz.",
+  "spec": {
+    "items": [
+      "Retrieve edilen depo/wiki chunk'larını bağlam olarak ekleyerek prompt'u augment et",
+      "Depoyu ve wiki'yi daha küçük pasajlara chunk'la",
+      "Augment edilmiş prompt'tan nihai yanıtı generate et",
+      "Her chunk'ı bir vektöre embed et",
+      "Geliştiricinin sorusunu embed et ve en benzer top-k chunk'ı retrieve et",
+      "Chunk vektörlerini bir vector index'te sakla"
+    ]
+  },
+  "answer_key": { "order": [1, 3, 5, 4, 0, 2] },
+  "max_score": 10
+}

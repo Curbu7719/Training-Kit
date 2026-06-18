@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Bir sohbet özelliği yanıtları stream ediyor. Kullanıcılar uzun yanıtlar için 'hızlı başlıyor ama uzayıp gidiyor' diyor. Hangi ifadeler bunu doğru biçimde açıklar veya ele alır? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Time-to-first-token düşüktür, ama toplam süre verilen token hızında output uzunluğuyla birlikte büyür",
+      "Output'u sınırlamak veya kısaltmak latency'nin 'uzayan' kısmını azaltır",
+      "Streaming toplam üretim süresini zaten en aza indirmiştir, dolayısıyla output uzunluğu artık önemli değildir",
+      "Daha küçük, daha hızlı bir modele geçmek saniyedeki token oranını artırabilir"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir cascade her isteği önce küçük bir modele gönderir; bir güven kontrolü başarısız olursa büyük bir modele yükseltir. Küçük model isteklerin %70'ini halleder; %30'u yükselir. İstek başına küçük çağrı 0,0001$, büyük çağrı 0,0020$ maliyetlidir. İstek başına yaklaşık harmanlanmış maliyet nedir?",
+    "choices": [
+      "Yaklaşık 0,00073$",
+      "Yaklaşık 0,00060$",
+      "Yaklaşık 0,00210$",
+      "Yaklaşık 0,00010$"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir mimar, her bireysel model çağrısı ucuz ve hızlı görünmesine rağmen, tek bir kullanıcı eyleminin neden ekibin beklediğinden çok daha pahalı ve yavaş olduğunu inceliyor. Hangileri araştırmaya değer olası kök nedenlerdir? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Eylem, kullanıcı eylemi başına birkaç model çağrısına yayılıyor (retrieval rerank, araç kullanımı, son sentez)",
+      "Başarısız çağrılar sessizce yeniden deneniyor (retry), token harcamasını ve latency'yi katlıyor",
+      "Token başına fiyat tek faktördür ve pipeline yapısı maliyeti etkileyemez",
+      "Output'lar sınırsızdır, bu yüzden bazı yanıtlar varsayılandan çok daha fazla token üretir"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

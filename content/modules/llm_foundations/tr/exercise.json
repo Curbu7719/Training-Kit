@@ -1,0 +1,24 @@
+{
+  "type": "match",
+  "prompt_md": "Soldaki her **SDLC görevini**, sağda en uygun **model seçimi ya da özelliğiyle** eşleştirin.",
+  "spec": {
+    "left": [
+      "Her push'ta tek satırlık bir commit mesajı üretmek (yüksek hacim, basit)",
+      "Bir mimari öneriyi gizli bağımlılık ve hata modları açısından incelemek",
+      "Aynı girdinin aynı sonucu vermesi gereken yapılandırılmış çıktı üretmek",
+      "Artık var olmayan bir framework metodunu öneren bir model",
+      "Bir ayrıştırma fonksiyonu için çeşitli uç durum girdileri üretmek"
+    ],
+    "right": [
+      "Ölçekte çağrı başına maliyeti ve gecikmeyi düşük tutmak için küçük, hızlı, ucuz bir model seçin",
+      "Bu zorlu, açık uçlu akıl yürütme görevi için en büyük, en yetenekli modeli saklayın",
+      "Odaklı, tekrarlanabilir çıktı için düşük bir temperature ayarlayın",
+      "Bir insan doğrulama adımı ekleyin, çünkü model kendinden emin biçimde halüsinasyon görebilir",
+      "Önerilerin tekrarlayıcı değil çeşitli olması için biraz daha yüksek bir temperature ayarlayın"
+    ]
+  },
+  "answer_key": {
+    "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]]
+  },
+  "max_score": 10
+}

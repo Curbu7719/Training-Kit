@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { ExerciseSubmitResponse, FillAnswer } from '@/lib/api';
 
@@ -23,6 +24,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function FillExercise({ spec, onSubmit }: Props) {
+  const { t } = useLanguage();
   const [values, setValues] = useState<string[]>(Array(spec.blanks).fill(''));
   const [result, setResult] = useState<ExerciseSubmitResponse | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -46,17 +48,20 @@ export function FillExercise({ spec, onSubmit }: Props) {
       const res = await onSubmit({ values: values.map((v) => v.trim()) });
       setResult(res);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Submission failed.');
+      setError(e instanceof Error ? e.message : t('exercise.submissionFailed'));
     } finally {
       setSubmitting(false);
     }
   }
 
+  const fillInstruction =
+    spec.blanks === 1
+      ? t('exercise.fill.instructionSingle')
+      : t('exercise.fill.instructionPlural', { n: spec.blanks });
+
   return (
     <div className="space-y-3">
-      <p className="text-xs text-muted-foreground">
-        Fill in {spec.blanks === 1 ? 'the blank' : `all ${spec.blanks} blanks`}.
-      </p>
+      <p className="text-xs text-muted-foreground">{fillInstruction}</p>
 
       <div className="space-y-3">
         {values.map((val, idx) => (
@@ -66,7 +71,7 @@ export function FillExercise({ spec, onSubmit }: Props) {
                 htmlFor={`fill-blank-${idx}`}
                 className="text-xs font-medium text-muted-foreground"
               >
-                Blank {idx + 1}
+                {t('exercise.fill.blankLabel', { n: idx + 1 })}
               </label>
             )}
             <Input
@@ -74,7 +79,7 @@ export function FillExercise({ spec, onSubmit }: Props) {
               value={val}
               onChange={(e) => setValue(idx, e.target.value)}
               disabled={result !== null}
-              placeholder="Your answer…"
+              placeholder={t('exercise.fill.placeholder')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && allFilled && !result) {
                   void handleSubmit();
@@ -94,10 +99,12 @@ export function FillExercise({ spec, onSubmit }: Props) {
       {/* Hint: show accepted keywords after failed attempt */}
       {result && !result.passed && (
         <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm">
-          <p className="mb-1 font-medium text-muted-foreground">Accepted answers:</p>
+          <p className="mb-1 font-medium text-muted-foreground">{t('exercise.fill.acceptedAnswers')}</p>
           {spec.keywords.map((kwSet, idx) => (
             <p key={idx} className="text-muted-foreground">
-              {spec.blanks > 1 && <span className="font-medium">Blank {idx + 1}: </span>}
+              {spec.blanks > 1 && (
+                <span className="font-medium">{t('exercise.fill.blankLabel', { n: idx + 1 })}: </span>
+              )}
               {kwSet.join(', ')}
             </p>
           ))}
@@ -122,8 +129,8 @@ export function FillExercise({ spec, onSubmit }: Props) {
             <XCircle className="h-4 w-4 shrink-0" />
           )}
           {result.passed
-            ? `Correct — ${result.score}/${result.max_score} points`
-            : `Incorrect — ${result.score}/${result.max_score} points`}
+            ? t('exercise.result.correct', { score: result.score, max: result.max_score })
+            : t('exercise.result.incorrect', { score: result.score, max: result.max_score })}
         </div>
       )}
 
@@ -133,7 +140,7 @@ export function FillExercise({ spec, onSubmit }: Props) {
           disabled={!allFilled || submitting}
           className="mt-2"
         >
-          {submitting ? 'Submitting…' : 'Submit'}
+          {submitting ? t('exercise.submitting') : t('exercise.submit')}
         </Button>
       )}
     </div>

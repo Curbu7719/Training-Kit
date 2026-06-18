@@ -18,6 +18,7 @@ export interface Profile {
   id: string;
   display_name: string | null;
   role: 'user' | 'admin';
+  lang: 'en' | 'tr';
 }
 
 export interface AuthContextValue {
@@ -49,7 +50,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, display_name, role')
+    .select('id, display_name, role, lang')
     .eq('id', userId)
     .single();
 

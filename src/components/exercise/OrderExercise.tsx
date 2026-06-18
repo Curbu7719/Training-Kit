@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowUp, ArrowDown, CheckCircle2, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import type { ExerciseSubmitResponse, OrderAnswer } from '@/lib/api';
 
@@ -21,6 +22,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function OrderExercise({ spec, onSubmit }: Props) {
+  const { t } = useLanguage();
   // order[i] = index into spec.items that is currently at position i
   const [order, setOrder] = useState<number[]>(spec.items.map((_, i) => i));
   const [result, setResult] = useState<ExerciseSubmitResponse | null>(null);
@@ -43,7 +45,7 @@ export function OrderExercise({ spec, onSubmit }: Props) {
       const res = await onSubmit({ order });
       setResult(res);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Submission failed.');
+      setError(e instanceof Error ? e.message : t('exercise.submissionFailed'));
     } finally {
       setSubmitting(false);
     }
@@ -51,9 +53,7 @@ export function OrderExercise({ spec, onSubmit }: Props) {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-muted-foreground">
-        Drag or use the arrows to arrange the items in the correct order.
-      </p>
+      <p className="text-xs text-muted-foreground">{t('exercise.order.instruction')}</p>
 
       <ol className="space-y-2">
         {order.map((itemIdx, pos) => (
@@ -74,7 +74,7 @@ export function OrderExercise({ spec, onSubmit }: Props) {
                   type="button"
                   onClick={() => move(pos, -1)}
                   disabled={pos === 0}
-                  aria-label={`Move "${spec.items[itemIdx]}" up`}
+                  aria-label={t('exercise.order.moveUp', { item: spec.items[itemIdx] })}
                   className={cn(
                     'rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
@@ -87,7 +87,7 @@ export function OrderExercise({ spec, onSubmit }: Props) {
                   type="button"
                   onClick={() => move(pos, 1)}
                   disabled={pos === order.length - 1}
-                  aria-label={`Move "${spec.items[itemIdx]}" down`}
+                  aria-label={t('exercise.order.moveDown', { item: spec.items[itemIdx] })}
                   className={cn(
                     'rounded p-0.5 text-muted-foreground transition-colors hover:text-foreground',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
@@ -121,14 +121,14 @@ export function OrderExercise({ spec, onSubmit }: Props) {
             <XCircle className="h-4 w-4 shrink-0" />
           )}
           {result.passed
-            ? `Correct order — ${result.score}/${result.max_score} points`
-            : `Incorrect order — ${result.score}/${result.max_score} points`}
+            ? t('exercise.order.correct', { score: result.score, max: result.max_score })
+            : t('exercise.order.incorrect', { score: result.score, max: result.max_score })}
         </div>
       )}
 
       {!result && (
         <Button onClick={handleSubmit} disabled={submitting} className="mt-2" data-testid="exercise-submit-btn">
-          {submitting ? 'Submitting…' : 'Submit'}
+          {submitting ? t('exercise.submitting') : t('exercise.submit')}
         </Button>
       )}
     </div>

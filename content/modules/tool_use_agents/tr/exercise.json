@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "Bir kodlama agent'ı, test paketini çalıştırmak, kodu aramak ve bir yama uygulamak için tool'lara sahip. Bir tam agent-döngüsü iterasyonunun olaylarını, modelin bilgiye ihtiyaç duyduğuna karar vermesinden sonuçla devam etmesine kadar doğru sıraya dizin. Modelin önce başarısız testin çıktısını görmesi gerektiğine karar verdiğini varsayın.",
+  "spec": {
+    "items": [
+      "Uygulama gerçek pytest komutunu çalıştırır ve traceback'i elde eder.",
+      "Model planlar ve gerçek hatayı görmek için test paketini çalıştırması gerektiğine karar verir.",
+      "Model dönen traceback'i gözlemler ve bir sonraki adıma doğru akıl yürütmeye devam eder (ör. hatalı fonksiyonu aramaya).",
+      "Uygulama test sonucunu konuşmaya geri döndürür.",
+      "Model yapılandırılmış bir run_tests isteği yayınlar (pytest'i kendisi çalıştırmaz)."
+    ]
+  },
+  "answer_key": { "order": [1, 4, 0, 3, 2] },
+  "max_score": 10
+}

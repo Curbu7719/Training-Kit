@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Ekibiniz, müşteri kayıtlarını okuyabilen ve ayrıca bir `do_refund` tool'u aracılığıyla iade yapabilen otonom bir agent yayınlıyor. İnceleme sırasında bir güvenlik mimarı, bozuk bir isteğin bir kez modeli yanlış hesaba büyük bir iade yapmaya ikna ettiğini işaret ediyor — tek koruma \"yalnızca geçerli siparişleri iade et\" diyen bir prompt satırıydı. Agent otonomisini sınırlamak hakkında bildiklerinize göre, yüksek etkili, geri alınamaz iadelerin ters gitmesini önlemenin en iyi yolu nedir ve neden?",
+  "spec": {
+    "decision_choices": [
+      "Bir eşiğin üzerindeki iadeler için, tool yürütülmeden önce uygulamada uygulanan insan onayı gerektir",
+      "İade kuralını daha vurgulu belirtmek için prompt'u yeniden yaz ve daha çok örnek ekle",
+      "Yeniden değerlendirme şansı daha fazla olsun diye agent'ın maksimum-iterasyon sınırını artır",
+      "Kararları daha tutucu olsun diye modelin sıcaklığını (temperature) düşür"
+    ],
+    "reason_choices": [
+      "Çünkü mimari bir izin sınırı model tarafından geçersiz kılınamaz, oysa bir prompt talimatı yanlış okunabilir veya atlanabilir",
+      "Çünkü daha vurgulu bir prompt'a her istekte uyulması garantilidir",
+      "Çünkü daha fazla iterasyon, modelin sonunda kendi hatalarını yakalamasını sağlar",
+      "Çünkü daha düşük sıcaklık, yanlış tool çağrılarının olasılığını ortadan kaldırır"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

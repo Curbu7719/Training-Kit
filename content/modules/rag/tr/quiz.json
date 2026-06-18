@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir ekip, endpoint uydurmadan kendi kod tabanı ve dahili wiki'si hakkındaki soruları yanıtlayan bir asistan istiyor. RAG onlar için hangi temel sorunu çözer?",
+    "choices": [
+      "Bir model yalnızca eğitim verisinden yanıt verebilir ve ekibin deposunu veya wiki'sini hiç görmemiştir, bu yüzden bu bağlam soru anında ona sağlanmalıdır",
+      "Modeller, retrieval olmadan kod üretemeyecek kadar yavaştır",
+      "Embedding'ler, model depo üzerinde yeniden eğitilmeden saklanamaz",
+      "Dil modelleri dilbilgisi açısından doğru cümleler üretemez"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir kod tabanı Soru-Cevap asistanı için bir depo ve wiki indexlenirken, hangi adımlar herhangi bir geliştirici soru sormadan ÖNCE gerçekleşir? (Geçerli olanların tümünü seçin.)",
+    "choices": [
+      "Depoyu ve wiki'yi pasajlara chunk'lamak",
+      "Her chunk'ı bir vektöre embed etmek",
+      "Geliştiricinin sorusunu embed etmek ve top-k chunk'ı retrieve etmek",
+      "Chunk vektörlerini bir vector index'te saklamak"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Asistan, 'Başarısız bir işi nasıl yeniden denerim?' sorusu için, hiçbir anahtar kelime paylaşmasalar bile 'Backoff ve yeniden kuyruğa alma politikası' başlıklı bir wiki sayfasını neden retrieve edebilir?",
+    "choices": [
+      "Çünkü embedding'ler, benzer anlama sahip metni vektör uzayında yakın noktalara yerleştirir, böylece retrieval anlamsal benzerliğe göre sıralar",
+      "Çünkü model o belirli wiki sayfası üzerinde fine-tune edilmiştir",
+      "Çünkü anahtar kelime araması her zaman 'nasıl' ve 'denerim' gibi yaygın kelimeleri çıkarır",
+      "Çünkü chunk, 'yeniden dene' kelimesiyle elle etiketlenmiştir"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir QA mühendisi, ekip benimsemeden önce RAG tabanlı bir kod tabanı asistanını test ediyor. Hangi kontroller, yanıtların gerçek koda ve dokümanlara düzgünce grounded olduğunu en doğrudan doğrular?",
+    "choices": [
+      "Her yanıtın, iddiayı gerçekten içeren gerçek bir dosyaya veya wiki sayfasına atıf yaptığını teyit et",
+      "İlgili hiçbir chunk retrieve edilmediğinde asistanın bir yanıt bulamadığını söylediğini teyit et",
+      "Yanıt metninin, her yeniden çalıştırmada modelin çıktısıyla karakteri karakterine eşleştiğini teyit et",
+      "Yanıtın, retrieve edilen chunk'larda bulunmayan API'leri veya alanları öne sürmediğini teyit et"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

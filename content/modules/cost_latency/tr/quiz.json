@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir AI PR inceleyici 6.000 token'lık bir prompt (diff + stil kılavuzu) gönderir ve 200 token'lık bir inceleme alır. Input milyon token başına 5$, output milyon token başına 15$ fiyatlandırılır. Bir inceleme kabaca ne kadara mal olur?",
+    "choices": [
+      "Yaklaşık 0,033$",
+      "Yaklaşık 0,093$",
+      "Yaklaşık 0,123$",
+      "Yaklaşık 0,005$"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden hangileri, her pull request'te CI'da çalışan bir AI kontrolünün latency'sini tipik olarak ARTIRIR? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "İnceleme için daha büyük bir model kullanmak",
+      "Daha uzun, daha ayrıntılı bir inceleme istemek",
+      "Model yanıt vermeden önce ek kaynak dosyalar getirmek",
+      "Yorumları üretildikçe geliştiriciye stream etmek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir ekip, pipeline'larında çalışan bir AI asistanını optimize ediyor. Onun maliyeti ve latency'si hakkında hangi ifadeler doğrudur? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Stil kılavuzunu prefix-cache etmek, her PR'de onu işlemek için yeniden ödeme yapmaktan kaçındırır",
+      "Streaming, inceleme başına üretilen toplam token sayısını azaltır",
+      "Küçük diff'leri daha küçük bir modele yönlendirmek hem maliyeti hem latency'yi kısabilir",
+      "Output token'ları (inceleme yorumları) genellikle input token'larından daha yüksek fiyatlandırılır"
+    ],
+    "correct": [0, 2, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir PM'e, AI merge-kapısı kontrolünün toplam süresi CI için kabul edilebilir olmasına rağmen geliştiricilere yavaş hissettirdiği ve araç gereci bütçesinin kısıtlı olduğu söyleniyor. Hangi değişiklik, maliyeti ARTIRMADAN ALGILANAN hızı en iyi şekilde iyileştirir?",
+    "choices": [
+      "Her PR'yi daha büyük, daha yetenekli bir modele geçirmek",
+      "İncelemeyi stream etmek, böylece yorumlar üretildikçe görünsün",
+      "Pipeline'ı basitleştirmek için prefix caching'i kaldırmak",
+      "Maksimum inceleme uzunluğunu artırmak"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

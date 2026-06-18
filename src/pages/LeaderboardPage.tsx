@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getLeaderboard, type LeaderboardEntry } from '@/lib/adminApi';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
@@ -13,6 +14,7 @@ import { cn } from '@/lib/utils';
 export function LeaderboardPage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
+  const { t } = useLanguage();
 
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,17 +40,17 @@ export function LeaderboardPage() {
               onClick={() => navigate('/dashboard')}
               className="text-xl font-bold text-primary hover:opacity-80 transition-opacity"
             >
-              TrainingKit
+              {t('nav.brand')}
             </button>
           </div>
           <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>
-            Dashboard
+            {t('nav.dashboard')}
           </Button>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-8">
-        <h1 className="mb-6 text-2xl font-bold">Leaderboard</h1>
+        <h1 className="mb-6 text-2xl font-bold">{t('leaderboard.title')}</h1>
 
         {loading && (
           <div className="flex justify-center py-12">
@@ -65,11 +67,11 @@ export function LeaderboardPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
-                  <th className="pb-2 pr-4 w-12">Rank</th>
-                  <th className="pb-2 pr-4">Name</th>
-                  <th className="pb-2 pr-4 text-right">Score</th>
-                  <th className="pb-2 pr-4 text-right">Badges</th>
-                  <th className="pb-2 text-right">Modules passed</th>
+                  <th className="pb-2 pr-4 w-12">{t('leaderboard.col.rank')}</th>
+                  <th className="pb-2 pr-4">{t('leaderboard.col.name')}</th>
+                  <th className="pb-2 pr-4 text-right">{t('leaderboard.col.score')}</th>
+                  <th className="pb-2 pr-4 text-right">{t('leaderboard.col.badges')}</th>
+                  <th className="pb-2 text-right">{t('leaderboard.col.modules')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,7 +91,7 @@ export function LeaderboardPage() {
                       <td className="py-2.5 pr-4">
                         {entry.name}
                         {isCurrentUser && (
-                          <span className="ml-2 text-xs text-primary font-normal">(you)</span>
+                          <span className="ml-2 text-xs text-primary font-normal">{t('leaderboard.you')}</span>
                         )}
                       </td>
                       <td className="py-2.5 pr-4 text-right tabular-nums">{entry.total_score}</td>
@@ -101,7 +103,7 @@ export function LeaderboardPage() {
                 {entries.length === 0 && (
                   <tr>
                     <td colSpan={5} className="py-6 text-center text-muted-foreground">
-                      No leaderboard entries yet.
+                      {t('leaderboard.empty')}
                     </td>
                   </tr>
                 )}

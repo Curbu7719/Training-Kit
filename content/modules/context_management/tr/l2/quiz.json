@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Özetlerin özetlerini kullanan, çok günlü, AI destekli bir migration sırasında, son turlar düzgün görünse de, asistan birinci günde açıkça belirtilen bir geriye dönük uyumluluk kuralını bozar. En olası neden nedir?",
+    "choices": [
+      "Temperature çok yüksek ayarlandı",
+      "Kural, tekrarlanan kayıplı özetlemeyle sıkıştırılarak yok edildi ve artık bağlamda değil",
+      "Modelin bilgi kesim tarihi kuralı dışladı",
+      "Retrieval çok fazla dosya döndürdü"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Gerçek bir refactor'da context stratejisi dengeleri hakkında hangi ifadeler doğrudur? (Uygun olanların hepsini seçin.)",
+    "choices": [
+      "Kayan pencere tasarım gereği unutkandır — erken kurallar başka yerde yakalanmadıkça kaybolur",
+      "Retrieval, zorlu sorunu pencereye sığdırmaktan doğru dosyaları getirmeye kaydırır",
+      "Daha büyük bir context window, konum etkilerini ve strateji ihtiyacını tamamen ortadan kaldırır",
+      "Çıktı token bütçesini paylaşır, bu yüzden yapıştırılmış dosyaların neredeyse dolu bir girdisi üretilen kodu kesebilir"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir mimar, AI oturumu ne kadar uzun çalışırsa çalışsın birkaç pazarlık konusu olmayan kuralı (bir geriye dönük uyumluluk kısıtı ve migration'ın kapsamı) bağlamda mevcut tutmalıdır. Hangi yaklaşım en uygundur?",
+    "choices": [
+      "Yalnızca daha büyük bir context window'a güvenip her seferinde tüm transkripti yeniden gönderin",
+      "O kuralları her çağrıda kelimesi kelimesine taşınan korumalı içerik olarak sabitleyin, gerisini özetleyin ya da kaydırın",
+      "Modelin önemli kuralları vurgulaması için temperature'ı yükseltin",
+      "Kuralları retrieval'a taşıyın ve retriever'ın onları her çağrıda döndürmesini umun"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

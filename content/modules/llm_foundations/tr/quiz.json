@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "En temel düzeyde, bir büyük dil modeli bir diff'ten commit mesajı taslağı hazırlarken ne yapar?",
+    "choices": [
+      "Mesajı bağlı bir gerçek veritabanından arar",
+      "Tekrar tekrar, her seferinde bir token olacak şekilde, bir sonraki token'ı tahmin eder",
+      "Diff'i program kodu olarak çalıştırır",
+      "En iyi eşleşen mesaj için canlı interneti arar"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden hangileri, bir yazılım iş akışında LLM kullanırken hesaba katmanız gereken gerçek sınırlamalardır? (Uygun olanların hepsini seçin.)",
+    "choices": [
+      "Halüsinasyon — var olmayan bir API metodunu kendinden emin biçimde önerebilir",
+      "Bilgi kesim tarihi — eğitimden sonra yayınlanan bir framework sürümünü bilmeyebilir",
+      "Belirsizlik — aynı prompt çalıştırmadan çalıştırmaya farklı çıktı verebilir",
+      "Tek satırdan uzun hiçbir çıktı üretemez"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Eğitim (training) ile çıkarım (inference) arasındaki fark nedir?",
+    "choices": [
+      "Eğitim her API çağrısında gerçekleşir; çıkarım bir kez gerçekleşir",
+      "Eğitim, modelin ağırlıklarını bir kez öğrenir; çıkarım, araçlarınızın gönderdiği her prompt'a yanıt vermek için bu donmuş ağırlıkları kullanır",
+      "İkisi aynı sürecin iki adıdır",
+      "Çıkarım, her yeni soruyla modelin bilgisini kalıcı olarak günceller"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Bir ekip kodlama aşaması için modeller seçiyor: (a) her push'ta commit mesajları üretmek ve (b) bir mimari öneriyi gizli bağımlılık açısından incelemek. Model seçimlerinin hangi eşleştirmesi en uygundur?",
+    "choices": [
+      "Güvende olmak için her ikisinde de en büyük model",
+      "Commit mesajları için küçük/ucuz model; mimari inceleme için büyük/yetenekli model",
+      "Commit mesajları için büyük/yetenekli model; mimari inceleme için küçük/ucuz model",
+      "Göreve bakılmaksızın maliyeti en aza indirmek için her ikisinde de en küçük model"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

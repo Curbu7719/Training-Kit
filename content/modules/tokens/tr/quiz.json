@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir AI kod inceleme botu bir pull-request diff'i okur. Bu diff neden eşit uzunlukta düz İngilizce metin bloğundan çok daha fazla token kullanabilir?",
+    "choices": [
+      "Kaynak kod tokenizasyondan muaftır",
+      "Koddaki noktalama, girinti ve tanımlayıcıların her biri token harcar, bu yüzden kod düz metinden 'daha ağır' tokenize edilir",
+      "Diff'ler her zaman tek bir token olarak sayılır",
+      "Düz metin kelime başına, kod ise satır başına faturalandırılır"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Token'lar ve hattaki bir AI özelliğinin maliyeti hakkında doğru olan TÜM ifadeleri seçin.",
+    "choices": [
+      "LLM kullanımı tipik olarak token başına faturalandırılır",
+      "Girdi token'ları (gönderdiğiniz diff/günlük) ve çıktı token'ları (AI'ın yanıtı) genellikle ayrı faturalandırılır",
+      "Bir kaynak kod satırı her zaman tam olarak bir token'a eşittir",
+      "Bir modelin context window sınırı satırla değil, token cinsinden ölçülür"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir geliştiricinin, 20.000 satırlık tek bir otomatik üretilmiş dosyayı incelemesi için bir AI aracına ihtiyacı var, ancak çağrı model yanıt vermeden başarısız oluyor. Token kavramlarını kullanarak, en olası neden ve çözüm nedir?",
+    "choices": [
+      "Dosya sorunsuz; model sadece yanıt vermemeyi seçti, bu yüzden değiştirmeden yeniden deneyin",
+      "Dosya, modelin context window'una sığamayacak kadar fazla girdi token'ı, bu yüzden onu parçalayın veya atlayın",
+      "Çıktı token'ları tükendi, bu yüzden token başına fiyatı düşürün",
+      "Diff'in çok az token'ı vardı, bu yüzden onu boşlukla doldurun"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Bir PM bir AI inceleyici bütçeliyor. Bir geliştirici, her PR'nin ortalama yaklaşık 9.300 girdi token'ı ve 550 çıktı token'ı olduğunu, ekibin ayda 1.500 PR birleştirdiğini ve sağlayıcının girdi ile çıktı için farklı oranlar uyguladığını bildiriyor. PM doğru bir aylık tahmin üretmek için ne yapmalı?",
+    "choices": [
+      "Girdi ve çıktı token'larını toplayıp tek bir fiyat uygulayın, çünkü tüm token'lar aynı maliyetlidir",
+      "Yalnızca girdi token'larını kullanın, çünkü AI'ın yorumları ücretsizdir",
+      "Girdi ve çıktı token'larını kendi oranlarında ayrı ayrı hesaplayın, ardından her birini 1.500 PR ile çarpın",
+      "Token sayılarını yok sayıp tahmini yalnızca PR sayısından yapın"
+    ],
+    "correct": [2],
+    "points": 1
+  }
+]

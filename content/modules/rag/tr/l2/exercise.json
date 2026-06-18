@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "RAG destekli bir kod tabanı asistanı, birkaç servis içeren bir monorepo üzerinde çalışıyor. Bir geliştirici, **billing** servisindeki varsayılan HTTP istek timeout'unu soruyor. Asistan kendinden emin bir şekilde **payments** servisinden gelen değerle yanıtlıyor ve payments dosyasını alıntılıyor. Loglar, doğru billing chunk'ının index'te var olduğunu ama 8. sırada, k=5 retrieval kesim noktasının altında sıralandığını gösteriyor. Billing ve payments chunk'ları, servis adı ve sayı dışında neredeyse aynı ifadelere sahip.\n\n**Karar:** En etkili düzeltme nedir? **Gerekçe:** Bu düzeltme kök nedeni neden çözer?",
+  "spec": {
+    "decision_choices": [
+      "Servise göre metadata filtreleme ile hybrid search ekle, sonra adayları re-rank et",
+      "Modelin yanıtını çeşitlendirmesi için generation temperature'ını yükselt",
+      "Generation prompt'unu daha kibar ve ayrıntılı olacak şekilde yeniden yaz",
+      "Soruyu birkaç kez yeniden embed et ve sonuçların ortalamasını al"
+    ],
+    "reason_choices": [
+      "Çünkü başarısızlık retrieval'dadır — doğru billing chunk'ı prompt'a hiç ulaşmadı — bu yüzden filtreleme, tam-terim ağırlıklandırma ve re-ranking doğru servisin chunk'ını top-k'ya çıkarır",
+      "Çünkü daha yüksek temperature, modelin doğru timeout'u eğitim verisinden hatırlamasını daha olası kılar",
+      "Çünkü daha ayrıntılı bir prompt, modeli index'teki her dosyayı yeniden okumaya zorlar",
+      "Çünkü birden çok soru embedding'inin ortalamasını almak, en yakın chunk'ın her zaman doğru olmasını garanti eder"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

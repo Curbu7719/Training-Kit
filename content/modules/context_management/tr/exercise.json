@@ -1,0 +1,16 @@
+{
+  "type": "order",
+  "prompt_md": "AI destekli, çok dosyalı bir refactor, düzenlenen dosyalar ve açıklamalar biriktikçe modelin context window sınırına yaklaşıyor. Bunu ele almak için bu adımları doğru sıraya dizin.",
+  "spec": {
+    "items": [
+      "Bir azaltma stratejisi uygula: yalnızca bu düzenlemeyle ilgili dosyaları getir, önceki ilerlemeyi özetle ve refactor kurallarını sabitle",
+      "Biriken bağlamın (düzenlenen dosyalar artı tartışma) token sınırına yaklaştığını tespit et",
+      "Kırpılmış bağlamı bir sonraki düzenleme isteğiyle yeniden gönder ve refactor'a devam et",
+      "Neyin korunmasının esas olduğuna (refactor kuralları, mevcut dosyalar) karşı neyin atılabileceğine ya da sıkıştırılabileceğine karar ver"
+    ]
+  },
+  "answer_key": {
+    "order": [1, 3, 0, 2]
+  },
+  "max_score": 10
+}

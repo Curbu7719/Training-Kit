@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Award } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/lib/i18n';
 import { Spinner } from '@/components/ui/spinner';
 
 // ---------------------------------------------------------------------------
@@ -31,6 +32,7 @@ interface EarnedBadge {
 
 export function BadgeShelf() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [badges, setBadges] = useState<EarnedBadge[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -70,7 +72,7 @@ export function BadgeShelf() {
   if (badges.length === 0) {
     return (
       <p className="py-4 text-center text-sm text-muted-foreground">
-        No badges yet. Complete modules to earn them!
+        {t('badge.noBadges')}
       </p>
     );
   }
@@ -80,7 +82,7 @@ export function BadgeShelf() {
       {badges.map((badge) => (
         <div
           key={badge.id}
-          title={`Earned: ${new Date(badge.awardedAt).toLocaleDateString()}`}
+          title={t('badge.earned', { date: new Date(badge.awardedAt).toLocaleDateString() })}
           className="flex flex-col items-center gap-1.5 rounded-lg border border-warning/30 bg-warning/5 p-3 text-center"
         >
           <Award className="h-8 w-8 text-warning" />

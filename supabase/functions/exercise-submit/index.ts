@@ -31,7 +31,7 @@
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
 import { createServiceClient, verifyJwt } from '../_shared/supabase-client.ts';
 import { gradeExercise, type ExerciseAnswer, type AnswerKey, type ExerciseType } from '../_shared/grading.ts';
-import { recomputeModuleProgress, type ModuleLevel } from '../_shared/recompute.ts';
+import { recomputeModuleProgress, type ModuleLevel, type LangCode } from '../_shared/recompute.ts';
 
 Deno.serve(async (req: Request) => {
   // 1. CORS preflight
@@ -117,7 +117,7 @@ Deno.serve(async (req: Request) => {
   // 6. Recompute module progress
   const { data: lesson } = await client
     .from('lessons')
-    .select('module_id, level')
+    .select('module_id, level, lang')
     .eq('id', exercise.lesson_id)
     .single();
 
@@ -128,6 +128,7 @@ Deno.serve(async (req: Request) => {
         userId,
         lesson.module_id,
         lesson.level as ModuleLevel,
+        lesson.lang as LangCode,
       );
     } catch (_err) {
       console.error('Progress recompute error:', _err);

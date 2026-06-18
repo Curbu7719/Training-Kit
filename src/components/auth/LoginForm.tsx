@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,6 +13,7 @@ interface LoginFormProps {
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const { signIn, signUp } = useAuth();
+  const { t } = useLanguage();
 
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
@@ -36,7 +38,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       }
       onSuccess();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      setError(err instanceof Error ? err.message : t('login.fallbackError'));
     } finally {
       setSubmitting(false);
     }
@@ -45,13 +47,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t('login.email')}</Label>
         <Input
           id="email"
           type="email"
           autoComplete="email"
           required
-          placeholder="you@example.com"
+          placeholder={t('login.emailPlaceholder')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={submitting}
@@ -60,14 +62,14 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">{t('login.password')}</Label>
         <Input
           id="password"
           type="password"
           autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
           required
           minLength={mode === 'signup' ? 8 : undefined}
-          placeholder={mode === 'signup' ? 'At least 8 characters' : ''}
+          placeholder={mode === 'signup' ? t('login.passwordPlaceholder') : ''}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={submitting}
@@ -85,38 +87,38 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         {submitting ? (
           <>
             <Spinner size="sm" />
-            {mode === 'signin' ? 'Signing in…' : 'Creating account…'}
+            {mode === 'signin' ? t('login.signingIn') : t('login.creatingAccount')}
           </>
         ) : mode === 'signin' ? (
-          'Sign in'
+          t('login.signIn')
         ) : (
-          'Create account'
+          t('login.signUp')
         )}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
         {mode === 'signin' ? (
           <>
-            No account?{' '}
+            {t('login.noAccount')}{' '}
             <button
               type="button"
               onClick={() => { setMode('signup'); setError(null); }}
               className="font-medium text-primary underline-offset-4 hover:underline"
               data-testid="switch-to-signup"
             >
-              Create one
+              {t('login.createOne')}
             </button>
           </>
         ) : (
           <>
-            Already have an account?{' '}
+            {t('login.alreadyHaveAccount')}{' '}
             <button
               type="button"
               onClick={() => { setMode('signin'); setError(null); }}
               className="font-medium text-primary underline-offset-4 hover:underline"
               data-testid="switch-to-signin"
             >
-              Sign in
+              {t('login.signIn')}
             </button>
           </>
         )}

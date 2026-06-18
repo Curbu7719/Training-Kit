@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir QA test uzmanı, bir AI sürüm-notları özelliğini, deterministik bir fonksiyon için yapacağı gibi normal bir assertEquals testiyle neden doğrulayamaz?",
+    "choices": [
+      "Aynı prompt her çalıştırmada farklı ifadeler üretebilir ve nadiren tek bir doğru çıktı string'i vardır",
+      "AI özellikleri asla yanlış çıktı üretmez, bu yüzden test edilecek bir şey yoktur",
+      "AI özellikleri için latency veya maliyeti ölçmek imkansızdır",
+      "Deterministik fonksiyonlar hiç test edilemez"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden hangileri, metriklerin aksine, değerlendirme YAKLAŞIMLARIDIR (yargı toplama yolları)? (Geçerli olanların tümünü seçin.)",
+    "choices": [
+      "Golden / offline veri kümeleri",
+      "Faithfulness / groundedness",
+      "İnsan incelemesi",
+      "LLM-as-judge"
+    ],
+    "correct": [0, 2, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir AI özetleyici, bazen sürüm notuna hiçbir merge edilmiş PR'da görünmeyen bir özellik ekliyor. Hangi metrik bu sorunu en doğrudan yakalar?",
+    "choices": [
+      "Faithfulness / groundedness",
+      "Latency",
+      "Çağrı başına maliyet",
+      "Relevance"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir PM ve QA test uzmanı, kaliteyi sessizce düşürmeden bir AI özelliğine bir prompt değişikliği ship etmek istiyor. Hangi pratikler güvenli, kanıt-temelli iterasyonu destekler? (Geçerli olanların tümünü seçin.)",
+    "choices": [
+      "Değişiklikten sonra bir golden-dataset eval paketini yeniden çalıştır ve yalnızca puanlar regresyon olmadan iyileşirse koru",
+      "Eval paketini, her sürümden önce çalışan bir regresyon geçidi olarak CI'a bağla",
+      "Değişikliği, iki veya üç elle seçilmiş demo'da ne kadar iyi göründüğüyle değerlendir",
+      "Bir kalite kazanımının bir hız veya maliyet regresyonunu gizlememesi için latency ve maliyeti kaliteyle birlikte izle"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

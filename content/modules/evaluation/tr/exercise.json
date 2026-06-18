@@ -1,0 +1,22 @@
+{
+  "type": "match",
+  "prompt_md": "Bir AI özelliği için eval paketini tanımlayan QA'sınız. Her değerlendirme metriğini, AI'ın çıktısı hakkında ölçtüğü şeyle eşleştirin.",
+  "spec": {
+    "left": [
+      "Accuracy",
+      "Relevance",
+      "Faithfulness / groundedness",
+      "Latency",
+      "Maliyet"
+    ],
+    "right": [
+      "Çıktının olgusal olarak doğru olup olmadığı",
+      "Çıktının kullanıcının isteğini gerçekten karşılayıp karşılamadığı",
+      "Yanıtın, olgu uydurmadan sağlanan kaynağa grounded olup olmadığı",
+      "Özelliğin bir isteğe ne kadar hızlı yanıt verdiği",
+      "Her model çağrısının ne kadar harcadığı"
+    ]
+  },
+  "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]] },
+  "max_score": 10
+}

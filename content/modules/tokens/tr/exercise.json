@@ -1,0 +1,22 @@
+{
+  "type": "fill",
+  "prompt_md": "Bir ekip bir AI kod inceleme botunu CI hattına bağlıyor. Her boşluğu doğru token kavramıyla tamamlayın.\n\n1. Bot bir PR'yi inceleyebilmeden önce, diff'i bir modelin okuduğu küçük parçalara bölünür; bu adıma ___ denir.\n2. O küçük parçaların her biri — çoğu zaman bir kelimenin tamamı yerine bir kelimenin parçası veya tek bir parantez — ___ olarak adlandırılır.\n3. 20.000 satırlık üretilmiş bir dosya aynı anda sığamayacak kadar fazla token olabilir, çünkü her modelin sabit bir context ___ vardır.\n4. Sağlayıcı, gönderilen diff'i üretilen yorumlardan farklı fiyatlandırdığı için, ekip ___ token'larını ve çıktı token'larını ayrı bütçeler.",
+  "spec": {
+    "blanks": 4,
+    "keywords": [
+      ["tokenization", "tokenisation", "tokenizing", "tokenize", "tokenizasyon"],
+      ["token", "sub-word", "subword", "sub word", "alt-kelime"],
+      ["window", "limit", "length", "size", "pencere", "sınır"],
+      ["input", "prompt", "girdi"]
+    ]
+  },
+  "answer_key": {
+    "accept": [
+      ["tokenization", "tokenisation", "tokenizing", "tokenize", "tokenizasyon"],
+      ["token", "sub-word", "subword", "sub word", "alt-kelime"],
+      ["window", "limit", "length", "size", "pencere", "sınır"],
+      ["input", "prompt", "girdi"]
+    ]
+  },
+  "max_score": 10
+}

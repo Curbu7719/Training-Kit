@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Tipik bir LLM uygulama mimarisinde, prompt'u kurmaktan, hangi modelin çağrılacağına karar vermekten ve kuralları uygulamaktan hangi katman sorumludur?",
+    "choices": [
+      "Client (tarayıcı/mobil uygulama)",
+      "Uygulama / orkestrasyon katmanı",
+      "Vector store",
+      "Model sağlayıcı"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden hangileri, tek bir bileşene değil, tüm AI sistemine uygulanan kesişen kaygılardır? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Sırları ve API anahtarlarını sunucu tarafında tutmak",
+      "PII için gizlilik ve veri yönetişimi",
+      "Sağlayıcı başarısız olduğunda güvenilirlik ve fallback'ler",
+      "Tek bir belirli prompt'un kesin ifadesini seçmek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir vector store, birçok mimariye öncelikle hangi yeteneği mümkün kılmak için dahil edilir?",
+    "choices": [
+      "Modelin yanıtlarını temellendirmek için ilgili belgeleri getirmek (RAG)",
+      "Daha hızlı çıkarım için modelin ağırlıklarını saklamak",
+      "Client'ın ağ trafiğini şifrelemek",
+      "Kullanıcıları otomatik olarak token başına faturalandırmak"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir mimar, ekibin LLM'i kod tabanı boyunca doğrudan sağlayıcının SDK'sini çağırmak yerine dahili bir arayüz üzerinden çağırması konusunda ısrar ediyor. Bu sağlayıcı-soyutlaması yaklaşımı hangi faydaları sağlar? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Sağlayıcıları veya modelleri takas etmek bir yeniden yazma değil bir yapılandırma değişikliği haline gelir",
+      "Routing eklemeyi kolaylaştırır (kolay görevler için küçük model, zor olanlar için büyük)",
+      "Sağlayıcı başarısız olduğunda bir fallback eklemek için tek bir yeri merkezileştirir",
+      "Herhangi bir guardrail veya output kontrolüne olan ihtiyacı ortadan kaldırır"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

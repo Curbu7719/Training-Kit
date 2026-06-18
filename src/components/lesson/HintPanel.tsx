@@ -3,6 +3,7 @@ import { ChevronDown, ChevronRight, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Markdown } from '@/lib/markdown';
+import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
@@ -145,6 +146,7 @@ interface Props {
 // ---------------------------------------------------------------------------
 
 export function HintPanel({ bodyMd }: Props) {
+  const { t } = useLanguage();
   const { hints: hintSection } = splitBodyMd(bodyMd);
   const [revealedHints, setRevealedHints] = useState(0);
 
@@ -156,6 +158,13 @@ export function HintPanel({ bodyMd }: Props) {
 
   if (!hasSomething) return null;
 
+  const defaultTab =
+    parsed.phrasings.length > 0
+      ? 'phrasings'
+      : parsed.hints.length > 0
+        ? 'hints'
+        : 'faq';
+
   return (
     <details className="rounded-lg border border-border bg-card">
       <summary
@@ -165,21 +174,21 @@ export function HintPanel({ bodyMd }: Props) {
         )}
       >
         <Lightbulb className="h-4 w-4 text-warning" />
-        Need another explanation?
+        {t('hint.toggle')}
         <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground transition-transform [[open]_&]:rotate-90" />
       </summary>
 
       <div className="border-t border-border px-4 pb-4 pt-3">
-        <Tabs defaultValue={parsed.phrasings.length > 0 ? 'phrasings' : parsed.hints.length > 0 ? 'hints' : 'faq'}>
+        <Tabs defaultValue={defaultTab}>
           <TabsList className="mb-4">
             {parsed.phrasings.length > 0 && (
-              <TabsTrigger value="phrasings">Alternative phrasings</TabsTrigger>
+              <TabsTrigger value="phrasings">{t('hint.phrasings')}</TabsTrigger>
             )}
             {parsed.hints.length > 0 && (
-              <TabsTrigger value="hints">Hints</TabsTrigger>
+              <TabsTrigger value="hints">{t('hint.hints')}</TabsTrigger>
             )}
             {parsed.faq.length > 0 && (
-              <TabsTrigger value="faq">FAQ</TabsTrigger>
+              <TabsTrigger value="faq">{t('hint.faq')}</TabsTrigger>
             )}
           </TabsList>
 
@@ -190,7 +199,7 @@ export function HintPanel({ bodyMd }: Props) {
                 <TabsList>
                   {parsed.phrasings.map((p, i) => (
                     <TabsTrigger key={i} value={`p-${i}`}>
-                      {p.title || `Version ${i + 1}`}
+                      {p.title || t('hint.version', { n: i + 1 })}
                     </TabsTrigger>
                   ))}
                 </TabsList>
@@ -213,7 +222,7 @@ export function HintPanel({ bodyMd }: Props) {
                     className="rounded-md border border-border bg-muted/40 px-4 py-3"
                   >
                     <p className="mb-1 text-xs font-semibold text-muted-foreground">
-                      Hint {i + 1}
+                      {t('hint.hintLabel', { n: i + 1 })}
                     </p>
                     <Markdown>{hint}</Markdown>
                   </div>
@@ -225,19 +234,20 @@ export function HintPanel({ bodyMd }: Props) {
                     size="sm"
                     onClick={() => setRevealedHints((n) => n + 1)}
                   >
-                    {revealedHints === 0 ? 'Show first hint' : 'Show next hint'}
+                    {revealedHints === 0 ? t('hint.showFirst') : t('hint.showNext')}
                   </Button>
                 )}
 
                 {revealedHints === 0 && (
                   <p className="text-sm text-muted-foreground">
-                    {parsed.hints.length} hint{parsed.hints.length > 1 ? 's' : ''} available.
-                    Reveal them one at a time.
+                    {parsed.hints.length === 1
+                      ? t('hint.available', { n: parsed.hints.length })
+                      : t('hint.availablePlural', { n: parsed.hints.length })}
                   </p>
                 )}
 
                 {revealedHints === parsed.hints.length && parsed.hints.length > 0 && (
-                  <p className="text-xs text-muted-foreground">All hints revealed.</p>
+                  <p className="text-xs text-muted-foreground">{t('hint.allRevealed')}</p>
                 )}
               </div>
             </TabsContent>
