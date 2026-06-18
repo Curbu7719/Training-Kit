@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "**Disiplinli bir vibe-coding iterasyonunun** adımlarını doğru sıraya dizin — ne istediğinize karar vermekten değişikliği güvenli bir şekilde landing etmeye kadar. Aşağıdaki öğeler karışık gösterilmiştir.",
+  "spec": {
+    "items": [
+      "Değişikliğin gerçekte ne yaptığını görmek için onu (ve test'leri) çalıştırın",
+      "Açık bir niyet/spec yazın: istediğiniz davranış, girdiler, çıktılar ve kenar durumları",
+      "Diff'i review edin ve çalışan durumu version control'e commit edin",
+      "Üretilen diff'i okuyun ve kabul etmeden önce her satırı anladığınızdan emin olun",
+      "Her seferinde tek bir değişiklik için küçük, odaklı bir prompt gönderin"
+    ]
+  },
+  "answer_key": { "order": [1, 4, 0, 3, 2] },
+  "max_score": 10
+}

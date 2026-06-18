@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Vibe coding'i *doğru* yapmanın (bir AI'a kodu dikkatsizce değil iyi bir şekilde yazdırmaya yön vermenin) ne demek olduğunu en iyi hangi ifade yakalar?",
+    "choices": [
+      "Kod çalıştığı ve doğru göründüğü sürece AI'ın ürettiği her şeyi kabul etmek",
+      "Açık niyetten başlamak, küçük review edilebilir adımlarla çalışmak ve kabul etmeden önce her diff'i okuyup anlamak",
+      "AI'ın bütün özelliği tek seferde üretmesi için mümkün olan en büyük prompt'u yazmak",
+      "Zaman kazanmak için AI'ın kendi değişikliklerini commit ve merge etmesine izin vermek"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden vibe coding'i iyi yapmanın disiplinleri olan HER ŞEYİ seçin.",
+    "choices": [
+      "Kabul etmeden önce AI'ın çıktısını okuyup anlamak",
+      "Çalışan durumları sık sık commit ederek test'leri ve version control'ü bir güvenlik ağı olarak kullanmak",
+      "Sır'ları ve hassas veriyi prompt'lardan uzak tutmak",
+      "Derlendiği sürece tam olarak anlamadığınız kodu göndermek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Vibe coding yaparken AI, kütüphanenizde var olmayan bir metot olan `db.fetchAllFast()` çağıran bir düzeltme öneriyor ve siz bunu belirttikten sonra aynı var olmayan çağrının hafif varyantlarını öneripduruyor. Ne oluyor ve ne yapmalısınız?",
+    "choices": [
+      "Model çok soğuk; temperature'ını yükseltin ve çıktıyı yine de yapıştırın",
+      "Bir API uyduruyor ve döngüye giriyor; prompt yazmayı bırakın, direksiyonu alın ve çağrıyı kendiniz yazın",
+      "Kütüphane bozuk; sonradan bir düzeltmeyi zorlamak için üretilen kodu commit edin",
+      "Hiçbir sorun yok; editörünüzde derleniyorsa doğru olmalı"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Bir QA/Tester'dan, bir takım arkadaşının büyük okunmamış bir AI çıktı bloğunu yapıştırarak vibe-code ettiği bir özelliği onaylaması isteniyor. Hangi yaklaşımlar bunu doğru yapmayı yansıtır? Geçerli olan HER ŞEYİ seçin.",
+    "choices": [
+      "AI tarafından yazılan kodu okunup test edilene kadar güvenilmez olarak ele almak",
+      "Makul-ama-bozuk mantığın merge'den önce ortaya çıkması için test'leri çalıştırmak (veya yazmak)",
+      "Uygulama çökmeden başladığı için onu onaylamak",
+      "Onaylamadan önce diff'i gömülü sır'lar ve eksik yetki kontrolleri için review etmek"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

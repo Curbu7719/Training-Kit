@@ -35,13 +35,16 @@ const SDLC_CODES = [
 
 const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scaling'] as const;
 
-const MODULE_CODES = [...SDLC_CODES, ...STRATEGY_CODES] as const;
+const VIBE_CODES = ['vibe_coding'] as const;
+
+const MODULE_CODES = [...SDLC_CODES, ...STRATEGY_CODES, ...VIBE_CODES] as const;
 
 type ModuleCode = (typeof MODULE_CODES)[number];
 
 const SECTIONS = [
   { titleKey: 'section.sdlc.title', codes: SDLC_CODES },
   { titleKey: 'section.strategy.title', codes: STRATEGY_CODES },
+  { titleKey: 'section.vibe.title', codes: VIBE_CODES },
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -261,6 +264,25 @@ export function DashboardPage() {
             </div>
           </section>
         ))}
+
+        {/* SDLC Exam CTA */}
+        <section>
+          <h2 className="mb-4 text-lg font-semibold">{t('section.exam.title')}</h2>
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">{t('section.exam.title')}</CardTitle>
+              <CardDescription>{t('exam.cta.blurb')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button
+                data-testid="start-exam-btn"
+                onClick={() => navigate('/exam')}
+              >
+                {t('exam.cta.button')}
+              </Button>
+            </CardContent>
+          </Card>
+        </section>
 
         <section>
           <h2 className="mb-4 text-lg font-semibold">{t('dashboard.badges')}</h2>

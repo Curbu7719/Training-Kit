@@ -248,6 +248,8 @@ const tr = {
   // Bölüm başlıkları
   'section.sdlc.title': 'SDLC\'de AI',
   'section.strategy.title': 'AI Strateji Okuryazarlığı',
+  'section.vibe.title': 'Vibe Coding',
+  'section.exam.title': 'SDLC Sınavı',
 
   // Strateji şeridi modülleri
   'module.ai_fit_buildbuy.title': 'AI Uygunluğu ve Yap/Satın Al',
@@ -256,6 +258,41 @@ const tr = {
   'module.ai_risk_governance.desc': 'Veri gizliliği, IP, uyumluluk ve sorumlu AI; AI kullanımını yöneten kontroller ve onay kapıları.',
   'module.ai_value_scaling.title': 'AI Değeri ve Ölçekleme',
   'module.ai_value_scaling.desc': 'İş gerekçesi ve ROI; AI\'ı pilottan ölçekli üretime taşımak.',
+
+  // Vibe Coding modülü
+  'module.vibe_coding.title': 'Vibe Coding',
+  'module.vibe_coding.desc': 'AI pair-programmer\'larla yazılım geliştirmek: IDE\'leri yönlendirmek, AI çıktısını incelemek ve kontrolü elde tutmak.',
+
+  // ---------------------------------------------------------------------------
+  // Sınav
+  // ---------------------------------------------------------------------------
+  'exam.pageTitle': 'SDLC Bilgi Sınavı',
+  'exam.instructions': 'Tüm 15 soruyu cevaplayın ve puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
+  'exam.questionLabel': 'Soru {n} / {total}',
+  'exam.answeredOf': '{total} sorudan {answered} tanesi cevaplandı',
+  'exam.allAnswered': 'Tümü cevaplandı — göndermeye hazır',
+  'exam.submit': 'Sınavı gönder',
+  'exam.submitting': 'Gönderiliyor…',
+  'exam.submitError': 'Gönderim başarısız oldu. Lütfen tekrar deneyin.',
+  'exam.loadingQuestions': 'Sorular yükleniyor…',
+
+  // Sonuçlar
+  'exam.correct': 'Doğru',
+  'exam.incorrect': 'Yanlış',
+  'exam.scoreSummary': '{total} sorudan {correct} tanesi doğru',
+  'exam.retake': 'Tekrar çöz',
+  'exam.badgeEarned': 'Rozet kazanıldı: {badge}',
+
+  // Motivasyon başlıkları
+  'exam.headline.perfect': 'Mükemmel puan! Olağanüstü bir performans!',
+  'exam.headline.outstanding': 'Harika bir sonuç!',
+  'exam.headline.passed': 'Geçtiniz!',
+  'exam.headline.close': 'Az kaldı — açıklamaları inceleyin ve tekrar deneyin!',
+  'exam.headline.keepGoing': 'Devam edin — her deneme bilginizi artırır!',
+
+  // Sınav CTA (ana sayfa)
+  'exam.cta.blurb': 'Bilginizi test etmeye hazır mısınız? 15 soruluk SDLC sınavına girin ve sertifikanızı kazanın.',
+  'exam.cta.button': 'Sınava başla',
 } as const;
 
 export default tr;

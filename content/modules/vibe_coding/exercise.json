@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "Arrange the steps of **one disciplined vibe-coding iteration** in the correct order — from deciding what you want to safely landing the change. The items below are shown shuffled.",
+  "spec": {
+    "items": [
+      "Run it (and the tests) to see what the change actually does",
+      "Write a clear intent/spec: the behaviour, inputs, outputs, and edge cases you want",
+      "Review the diff and commit the working state to version control",
+      "Read the generated diff and make sure you understand every line before accepting it",
+      "Send a small, focused prompt for one change at a time"
+    ]
+  },
+  "answer_key": { "order": [1, 4, 0, 3, 2] },
+  "max_score": 10
+}

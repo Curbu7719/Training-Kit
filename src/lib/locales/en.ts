@@ -248,6 +248,8 @@ const en = {
   // Section headings
   'section.sdlc.title': 'AI in the SDLC',
   'section.strategy.title': 'AI Strategy Literacy',
+  'section.vibe.title': 'Vibe Coding',
+  'section.exam.title': 'SDLC Exam',
 
   // Strategy strand modules
   'module.ai_fit_buildbuy.title': 'AI Fit & Build vs Buy',
@@ -256,6 +258,41 @@ const en = {
   'module.ai_risk_governance.desc': 'Data privacy, IP, compliance and responsible AI; the controls and gates that govern AI use.',
   'module.ai_value_scaling.title': 'AI Value & Scaling',
   'module.ai_value_scaling.desc': 'Building the business case and ROI; taking AI from pilot to production at scale.',
+
+  // Vibe Coding module
+  'module.vibe_coding.title': 'Vibe Coding',
+  'module.vibe_coding.desc': 'Building software with AI pair-programmers: prompting IDEs, reviewing AI output, and staying in control.',
+
+  // ---------------------------------------------------------------------------
+  // Exam
+  // ---------------------------------------------------------------------------
+  'exam.pageTitle': 'SDLC Knowledge Exam',
+  'exam.instructions': 'Answer all 15 questions and submit to see your score. You need 75 or above to pass.',
+  'exam.questionLabel': 'Question {n} of {total}',
+  'exam.answeredOf': '{answered} of {total} answered',
+  'exam.allAnswered': 'All answered — ready to submit',
+  'exam.submit': 'Submit exam',
+  'exam.submitting': 'Submitting…',
+  'exam.submitError': 'Submission failed. Please try again.',
+  'exam.loadingQuestions': 'Loading questions…',
+
+  // Results
+  'exam.correct': 'Correct',
+  'exam.incorrect': 'Incorrect',
+  'exam.scoreSummary': '{correct} of {total} correct',
+  'exam.retake': 'Retake exam',
+  'exam.badgeEarned': 'Badge earned: {badge}',
+
+  // Motivating headlines
+  'exam.headline.perfect': 'Perfect score! Absolutely outstanding!',
+  'exam.headline.outstanding': 'Outstanding result!',
+  'exam.headline.passed': 'You passed!',
+  'exam.headline.close': 'Close — review the explanations and retake!',
+  'exam.headline.keepGoing': 'Keep going — every attempt builds knowledge!',
+
+  // Exam CTA on dashboard
+  'exam.cta.blurb': 'Ready to test your knowledge? Take the 15-question SDLC exam and earn your certificate.',
+  'exam.cta.button': 'Start exam',
 } as const;
 
 export type TranslationKey = keyof typeof en;

@@ -77,6 +77,42 @@ export async function submitExercise(
   return data;
 }
 
+// ---------------------------------------------------------------------------
+// Exam
+// ---------------------------------------------------------------------------
+
+export interface ExamResult {
+  question_id: string;
+  is_correct: boolean;
+  /** Index (0-3) of the correct choice. */
+  correct: number;
+  /** Motivating explanation text. */
+  explanation: string;
+}
+
+export interface ExamSubmitResponse {
+  score: number;
+  correctCount: number;
+  total: number;
+  passed: boolean;
+  results: ExamResult[];
+  newBadge: string | null;
+}
+
+/** Submit all exam answers; returns grading results. */
+export async function submitExam(
+  answers: Record<string, number>,
+  lang: 'en' | 'tr'
+): Promise<ExamSubmitResponse> {
+  const { data, error } = await supabase.functions.invoke<ExamSubmitResponse>(
+    'exam-submit',
+    { body: { answers, lang } }
+  );
+  if (error) throw error;
+  if (!data) throw new Error('exam-submit returned no data');
+  return data;
+}
+
 /** Refresh progress state after completing a lesson; returns newly-earned badges. */
 export async function refreshProgress(
   module_id?: string,

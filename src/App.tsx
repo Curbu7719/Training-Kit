@@ -9,6 +9,7 @@ import { LessonPlayerPage } from '@/pages/LessonPlayerPage';
 import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { AdminRoute } from '@/components/auth/AdminRoute';
+import { ExamPage } from '@/pages/ExamPage';
 
 // ---------------------------------------------------------------------------
 // App — wraps everything in AuthProvider, declares all routes.
@@ -63,6 +64,16 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <LeaderboardPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* SDLC Exam */}
+          <Route
+            path="/exam"
+            element={
+              <ProtectedRoute>
+                <ExamPage />
               </ProtectedRoute>
             }
           />

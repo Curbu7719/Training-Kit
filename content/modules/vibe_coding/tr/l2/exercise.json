@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir deadline altında bir özelliği vibe-code ediyorsunuz. AI'a *\"bir kupon endpoint'i ekle\"* diye prompt yazıyorsunuz ve **ayrıca** ilgisiz bir faturalama modülünü refactor eden, editörünüzde hatasız çalışan ve kıdemli seviye kod gibi okunan kendinden emin, iyi adlandırılmış ~90 satırlık bir diff geri alıyorsunuz.\n\nSonraki adımda **tek** bir şey yapabilirsiniz. Diff'in büyük olduğu, temiz çalıştığı, idiomatic göründüğü ve istediğinizi aştığı göz önüne alındığında, hangi seçim L2 disiplinlerini söz konusu hata modlarına en iyi uygular — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "Çalıştığı ve iyi kod gibi okunduğu için diff'in tamamını şimdi kabul edip commit etmek",
+      "İlgisiz refactor'ı reddedin, sonra kupon kodunu satır satır okuyun ve commit etmeden önce kenar durumları için bir davranışsal test ekleyin",
+      "Modelin temperature'ını yükseltin ve daha uzun, daha eksiksiz bir versiyon için yeniden prompt yazın",
+      "Onu yalnızca sunucunun çökmeden başladığını kontrol eden bir smoke test arkasında merge edin"
+    ],
+    "reason_choices": [
+      "Çünkü okunmamış refactor kapsam kaymasıdır ve kendinden emin kod makul-ama-bozuk veya sessiz yanlış kod olabilir — küçük tek amaçlı diff'ler, spec'e karşı okuma ve bir davranışsal test tam da bu hataları sınırlayan disiplinlerdir",
+      "Çünkü editörde çökmeden çalışan kod, doğru olduğunun kanıtıdır",
+      "Çünkü daha uzun bir üretilmiş diff'in doğru olma olasılığı kısa olandan daha yüksektir",
+      "Çünkü başlamayı kontrol eden bir smoke test, sessiz yanlış mantığı yakalamak için yeterlidir"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

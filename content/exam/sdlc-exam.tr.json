@@ -1,0 +1,167 @@
+[
+  {
+    "prompt": "Ekibinizin her saat binlerce gelen destek talebini kategoriye göre sınıflandırması gerekiyor ve bütçe kısıtlı. Kalite çıtası orta düzeyde ve latency önemli. Hangi model seçimi en mantıklısı?",
+    "choices": [
+      "Her talep için her zaman en büyük, en yetenekli frontier modeli kullanmak",
+      "Küçük, hızlı ve daha ucuz bir modelle başlayıp yalnızca zor durumları daha büyük bir modele yükseltmek",
+      "Hiçbir talebi işlemeden önce devasa bir modeli sıfırdan fine-tune etmek",
+      "Yükü dağıtmak için her talep başına rastgele bir model seçmek"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet. Yüksek hacimli, orta zorlukta bir göreve küçük ve hızlı bir model eşleştirip yalnızca zor durumları yükseltmek, kaliteden ödün vermeden cost ve latency'i kontrol etmenin klasik yoludur. Keskin maliyet sezgisi!"
+  },
+  {
+    "prompt": "Bir geliştirici, istek sayısı sabit olmasına rağmen API faturasının hızla yükseldiğini fark ediyor. İlk olarak hangi etkeni incelemek en mantıklısı?",
+    "choices": [
+      "Geliştiricinin IDE'sinin renk teması",
+      "İstek başına token sayısı — uzun prompt'lar ve büyük çıktılar maliyeti artırır",
+      "Ekipte kaç mühendis olduğu",
+      "Modelin sağlayıcıda GPU mu yoksa CPU'da mı çalıştığı"
+    ],
+    "correct": 1,
+    "explanation": "Güzel teşhis. LLM maliyeti token başına faturalandırılır; bu yüzden şişkin prompt'lar ve uzun çıktılar trafik sabitken bile faturayı sessizce şişirir — context'i kısaltmak ve çıktı uzunluğunu sınırlamak en hızlı kazançtır. Harika tespit!"
+  },
+  {
+    "prompt": "200 sayfalık bir sözleşme üzerinde akıl yürütmesi gereken bir asistan geliştiriyorsunuz, ancak belge modelin context window'unu aşıyor. Nasıl bir tasarım yapmalısınız?",
+    "choices": [
+      "Tüm belgeyi yapıştırıp modelin önemsiz kısımları kesmesini ummak",
+      "Belgeyi parçalara ayırıp her soru için yalnızca ilgili bölümleri getirmek (RAG)",
+      "Özlülüğü zorlamak için daha küçük context window'lu bir modele geçmek",
+      "Her sorgudan önce kullanıcıdan sözleşmeyi kendisinin özetlemesini istemek"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet. İçerik context window'u aştığında, parçalama artı yalnızca ilgili pasajların getirilmesi sizi limitler içinde tutar ve aslında yanıt odağını da iyileştirir. Akıllıca bir mimari yaklaşım!"
+  },
+  {
+    "prompt": "Mevcut bir modül için bir LLM'in unit test üretmesini istiyorsunuz. Hangi prompt yaklaşımı işe yarar ve doğru testler üretme olasılığı en yüksek olanıdır?",
+    "choices": [
+      "Başka hiçbir bağlam vermeden 'biraz test yaz' demek",
+      "Gerçek fonksiyon kodunu, beklenen davranışı ve kullandığınız test framework'ünü vermek",
+      "Henüz var olmayan fonksiyonlar uydurmasını ve onları test etmesini istemek",
+      "Yalnızca test isimlerini isteyip gövdeleri körlemesine doldurmak"
+    ],
+    "correct": 1,
+    "explanation": "Aynen öyle. Modeli gerçek kod, beklenen davranış ve framework'ünüzle temellendirmek; derlenen ve doğru şeyleri assert eden testler üretmenin yoludur. İyi düşünülmüş!"
+  },
+  {
+    "prompt": "Ürün yöneticileri, AI'nın belirsiz özellik fikirlerini user story'lere dönüştürmesini istiyor. En iyi sonuçlar için nasıl prompt vermelisiniz?",
+    "choices": [
+      "Persona'yı, hedefi ve beklediğiniz acceptance-criteria formatını verip story'leri bu yapıda istemek",
+      "Tek bir paragraf isteyip formatın her seferinde sürpriz olmasına izin vermek",
+      "Hedef kitle veya sonuç olmadan yalnızca özellik başlığını vermek",
+      "Token tasarrufu için acceptance criteria'yı atlamasını söylemek"
+    ],
+    "correct": 0,
+    "explanation": "Harika tercih. Persona'yı, hedefi ve net bir acceptance-criteria şablonunu belirtmek, modele tutarlı ve kullanıma hazır story'ler üretmesi için gereken yapıyı verir. Güzel kurgulanmış!"
+  },
+  {
+    "prompt": "Müşteriye dönük chatbot'unuz zaman zaman toksik veya konu dışı yanıtlar üretiyor. Doğru tasarım yanıtı nedir?",
+    "choices": [
+      "Kötü çıktıların kaydedilmemesi için tüm loglamayı kaldırmak",
+      "Yanıtlar kullanıcılara ulaşmadan önce filtreleyen, doğrulayan ve sınırlayan input ve output guardrail'leri eklemek",
+      "Kullanıcılardan kibarca kötü yanıtları tetiklememelerini istemek",
+      "Sorunun kaybolmasını umarak modeli her hafta değiştirmek"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet. Hem girdileri hem çıktıları doğrulayan ve sınırlayan guardrail'ler, herkese açık bir asistanı şansa bırakmadan güvenli ve konuya sadık tutmanın sistematik yoludur. Sağlam güvenlik düşüncesi!"
+  },
+  {
+    "prompt": "Bir çalışan, müşteri adları, e-postaları ve hesap numaralarından oluşan bir tabloyu özetlemek için herkese açık bir AI aracına yapıştırmak istiyor. Ekip politikası onu nasıl yönlendirmeli?",
+    "choices": [
+      "Devam et — herkese açık AI araçları hiçbir şeyi asla saklamaz",
+      "PII'yi maskelemek veya göndermekten kaçınmak ve bunun yerine veri işleme sözleşmesi olan onaylı bir araç kullanmak",
+      "Yapıştır ama prompt'un başına 'lütfen bunu gizli tutun' eklemek",
+      "Önce tabloyu AI sağlayıcısının destek ekibine e-postayla göndermek"
+    ],
+    "correct": 1,
+    "explanation": "Güzel muhakeme. PII'yi denetlenmemiş herkese açık bir araca göndermek veri sızıntısı riski taşır; maskeleyip uygun veri şartlarına sahip onaylı bir araç kullanmak gizlilik açısından doğru yoldur. Müşteri verisini koruma içgüdünüz harika!"
+  },
+  {
+    "prompt": "Şirketinizdeki ekipler onaysız bir şekilde rastgele AI araçları benimsiyor ('shadow AI'). En etkili governance yanıtı nedir?",
+    "choices": [
+      "Tüm AI kullanımını yasaklamak ve yasağa uyulacağını varsaymak",
+      "İnsanların kuraldışına çıkmasına gerek kalmaması için onaylı, iyi desteklenen AI araçları ile net kullanım kuralları sağlamak",
+      "Resmi bir proje olmadığı için görmezden gelmek",
+      "Onaysız bir araç kullanırken yakalanan herkesi açıkça teşhir etmek"
+    ],
+    "correct": 1,
+    "explanation": "Aynen. Shadow AI, onaylı bir seçenek olmadığında gelişir; net rehberlik içeren onaylı araçlar sunmak talebi yeraltına itmek yerine güvenli bir şekilde yönlendirir. Olgun governance düşüncesi!"
+  },
+  {
+    "prompt": "Canlı sipariş durumunu arayabilen, stok kontrolü yapabilen ve iade işleyebilen bir AI asistanı istiyorsunuz. Bu hangi yeteneği gerektirir?",
+    "choices": [
+      "Yalnızca daha büyük bir context window, başka bir şey değil",
+      "Modelin gerçek API'lerinizi kontrollü bir şekilde çağırabilmesi için tool use / function calling",
+      "Modeli geçen yılın siparişleri üzerinde fine-tune etmek",
+      "Sağlayıcıda daha hızlı bir GPU"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet. Canlı sistemler üzerinde işlem yapmak, modelin eski eğitim verisinden tahmin yürütmesi yerine API'lerinizi kontrollü bir arayüz üzerinden çağırabilmesi için tool use / function calling gerektirir. Harika mimari okuma!"
+  },
+  {
+    "prompt": "Otonom bir agent'a shell komutları çalıştırma ve dosya silme yeteneği veriyorsunuz. Canlıya almadan önce en önemli guardrail nedir?",
+    "choices": [
+      "Hızı en üst düzeye çıkarmak için tamamen gözetimsiz çalışmasına izin vermek",
+      "İzinlerini dar bir şekilde kapsamak ve geri alınamaz veya yıkıcı eylemler için onay istemek",
+      "Hiçbir zaman izin hatasına takılmaması için ona admin hakları vermek",
+      "Çalıştırmaları temiz tutmak için tüm loglamayı devre dışı bırakmak"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet. En az ayrıcalık ilkesiyle kapsamlama artı yıkıcı, geri alınması zor eylemlerde insan onayı, otonom bir agent'ın gerçek zarar vermesini önleyen şeydir. Mükemmel güvenlik öncelikli tasarım!"
+  },
+  {
+    "prompt": "Kodlama asistanınız sürekli kod tabanınızda var olmayan internal API metotları uyduruyor. Bunu en iyi hangi tasarım değişikliği düzeltir?",
+    "choices": [
+      "Kullanıcılara uydurma metotları görmezden gelmelerini söylemek",
+      "Asistanı retrieval (RAG) yoluyla gerçek repository'nizde temellendirmek, böylece gerçek koddan yanıt versin",
+      "Daha yaratıcı olması için temperature'ı artırmak",
+      "Knowledge cutoff'ı olmayan bir modele geçmek"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet. Asistanı kendi repo'nuzda retrieval ile temellendirmek, API uydurmasını durduran şeydir — gerçekten var olan koddan yanıt verir. Keskin düşünce!"
+  },
+  {
+    "prompt": "Hukuki belgeleri özetleyen bir AI özelliğini yayına almadan önce kalitesini nasıl değerlendirmelisiniz?",
+    "choices": [
+      "Yayına alıp kullanıcıların şikayet etmesini beklemek",
+      "Bilinen doğru çıktılara sahip temsili girdilerden oluşan bir değerlendirme seti oluşturmak ve buna karşı ölçmek (eval)",
+      "Bir örnek çıktı okuyup işin bittiğini varsaymak",
+      "Kendi göreviniz için model sağlayıcısının pazarlama benchmark'larına güvenmek"
+    ],
+    "correct": 1,
+    "explanation": "Harika tercih. Temsili girdiler ve beklenen çıktılarla göreve özel bir eval seti, özelliğinizin genel bir benchmark'ta değil kendi verinizde çalıştığını bilmenin tek güvenilir yoludur. Titiz düşünce!"
+  },
+  {
+    "prompt": "Etkileşimli bir AI özelliği yavaş hissettiriyor ve kullanıcı deneyimini olumsuz etkiliyor. Yanıtı değiştirmeden algılanan latency'i en iyi hangi yaklaşım iyileştirir?",
+    "choices": [
+      "Yanıtı token token stream ederek kullanıcıların çıktıyı anında görmesini sağlamak ve sık sonuçları cache'lemek",
+      "Modele daha fazla malzeme vermek için her prompt'u daha uzun yapmak",
+      "'Daha çok düşünsün' diye her zaman en büyük modeli çağırmak",
+      "Kullanıcılar beklemeyi fark etmesin diye yükleme göstergesini kaldırmak"
+    ],
+    "correct": 0,
+    "explanation": "Güzel. Çıktıyı üretildikçe stream etmek artı tekrar eden sonuçları cache'lemek, yanıtın kendisini bozmadan algılanan hızı çarpıcı biçimde iyileştirir. Harika UX ve performans sezgisi!"
+  },
+  {
+    "prompt": "Yönetim, yeni bir özellik için özel bir kurum içi model mi geliştireceğinizi yoksa barındırılan bir AI API'sine erişim mi satın alacağınızı soruyor. Kararı ne yönlendirmeli?",
+    "choices": [
+      "Kulağa daha etkileyici geldiği için her zaman kurum içi geliştirmek",
+      "Farklılaşmanızı, verinizi, yeteneğinizi ve toplam maliyeti tartmak — yetenek gerçekten temel ve sürdürülebilir değilse bir API satın almak/kullanmak",
+      "Geliştirmek asla değmeyeceği için her zaman satın almak",
+      "Analiz felcinden kaçınmak için yazı tura atmak"
+    ],
+    "correct": 1,
+    "explanation": "Aynen. Build-vs-buy kararı, yeteneğin farklılaşmanız için temel olup olmadığına ve onu sürdürecek veri, yetenek ve bütçeye sahip olup olmadığınıza dayanır — gerçekten stratejik değilse çoğu ekip satın almalı. Sağlam stratejik muhakeme!"
+  },
+  {
+    "prompt": "Bir AI özelliğini pilottan tüm kullanıcılara ölçeklendiriyorsunuz ve sürdürülen yatırımı gerekçelendirmeniz gerekiyor. ROI'yi takip etmek için ne kurmalısınız?",
+    "choices": [
+      "İstek başına maliyeti somut bir değer metriğine (önlenen talepler, kazanılan saatler) karşı ölçmek ve ölçeklenirken izlemek",
+      "Demo herkesi etkilediği için ROI'nin pozitif olduğunu varsaymak",
+      "Denklemin değer tarafı olmadan yalnızca toplam harcamayı takip etmek",
+      "Herhangi bir sayıya bakmak için yıllık değerlendirmeyi beklemek"
+    ],
+    "correct": 0,
+    "explanation": "Tam isabet. İstek başına maliyeti somut bir değer metriğine bağlamak ve kullanım büyürken izlemek, ROI'yi kanıtlamanın ve ölçekte bozulan birim ekonomisini yakalamanın yoludur. Harika iş disiplini!"
+  }
+]

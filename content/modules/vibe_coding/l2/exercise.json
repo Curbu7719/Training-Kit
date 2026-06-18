@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "You are vibe-coding a feature under deadline. You prompt the AI to *\"add a coupon endpoint,\"* and it returns a confident, well-named ~90-line diff that **also** refactors an unrelated billing module, runs without error in your editor, and reads like senior-level code.\n\nYou can do **one** thing next. Given that the diff is large, runs cleanly, looks idiomatic, and exceeds what you asked for, which choice best applies the L2 disciplines to the failure modes in play — and why?",
+  "spec": {
+    "decision_choices": [
+      "Accept and commit the whole diff now, since it runs and reads like good code",
+      "Reject the unrelated refactor, then read the coupon code line by line and add a behavioural test for its edge cases before committing",
+      "Raise the model's temperature and reprompt for a longer, more complete version",
+      "Merge it behind a smoke test that only checks the server starts without crashing"
+    ],
+    "reason_choices": [
+      "Because the unread refactor is scope creep and the confident code may be plausible-but-broken or silent wrong code — small single-purpose diffs, reading against the spec, and a behavioural test are the disciplines that contain exactly those failures",
+      "Because code that runs without crashing in the editor is proof it is correct",
+      "Because a longer generated diff is more likely to be right than a short one",
+      "Because a smoke test that checks startup is enough to catch silent wrong logic"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}
