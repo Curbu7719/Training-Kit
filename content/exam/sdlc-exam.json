@@ -207,5 +207,16 @@
     ],
     "correct": 1,
     "explanation": "Spot on — a standard protocol like MCP lets you expose tools and data sources through one consistent interface the assistant can reuse, instead of brittle one-off integrations. Clean, scalable design!"
+  },
+  {
+    "prompt": "Your AI assistant must answer questions using your company's internal documentation, which changes every week. What's the most appropriate way to keep its answers accurate and current?",
+    "choices": [
+      "Retrieve the relevant up-to-date documents at query time (RAG) and ground the answer in them",
+      "Fine-tune the model on the docs once and rely on that",
+      "Paste the entire documentation into every prompt",
+      "Raise the temperature so the model is more creative"
+    ],
+    "correct": 0,
+    "explanation": "Exactly — retrieval (RAG) pulls the current documents at query time and grounds the answer, so weekly changes show up immediately without retraining. The right fit for fast-changing knowledge. Great call!"
   }
 ]

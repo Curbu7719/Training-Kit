@@ -207,5 +207,16 @@
     ],
     "correct": 1,
     "explanation": "Tam isabet — MCP gibi standart bir protokol, kırılgan tek-seferlik entegrasyonlar yerine tool'ları ve veri kaynaklarını asistanın yeniden kullanabileceği tek tutarlı arayüzle sunmanı sağlar. Temiz, ölçeklenebilir tasarım!"
+  },
+  {
+    "prompt": "AI asistanın, her hafta değişen şirket içi dokümantasyonu kullanarak soruları cevaplamalı. Cevaplarını doğru ve güncel tutmanın en uygun yolu nedir?",
+    "choices": [
+      "Sorgu anında ilgili güncel dokümanları getir (RAG) ve cevabı onlara dayandır",
+      "Modeli dokümanlarla bir kez fine-tune et ve ona güven",
+      "Tüm dokümantasyonu her prompt'a yapıştır",
+      "Model daha yaratıcı olsun diye temperature'ı yükselt"
+    ],
+    "correct": 0,
+    "explanation": "Aynen — retrieval (RAG), sorgu anında güncel dokümanları çeker ve cevabı onlara dayandırır; böylece haftalık değişiklikler yeniden eğitime gerek kalmadan anında yansır. Hızlı değişen bilgi için doğru yaklaşım. Harika!"
   }
 ]
