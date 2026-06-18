@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A read-heavy dashboard is slow because each load joins five tables to compute a total. The team caches the total on a parent row. Which two statements correctly describe this denormalization trade-off?",
+    "choices": [
+      "Reads get faster and simpler",
+      "Every write path must now keep the cached value in sync",
+      "The data automatically stays consistent with no extra effort",
+      "Foreign keys are no longer needed anywhere in the model"
+    ],
+    "correct": [0, 1],
+    "points": 1
+  },
+  {
+    "prompt": "Students can enrol in many courses, and each course has many students. What is the correct way to model this?",
+    "choices": [
+      "Add a foreign key from Student to Course only",
+      "Introduce a junction table holding (student_id, course_id) pairs",
+      "Duplicate each course's details on every student row",
+      "Store a comma-separated list of course IDs in a Student column"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Why is a system-generated surrogate key usually safer than using a real-world value (like an email address) as the primary key?",
+    "choices": [
+      "Surrogate keys are always shorter and use less storage",
+      "Real-world values can change and may not be truly unique, breaking references",
+      "Real-world values cannot be indexed by a database",
+      "Surrogate keys remove the need for foreign keys"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "What is a 'seam' in the context of extensibility?",
+    "choices": [
+      "A bug that appears only when two modules are combined",
+      "A deliberate point where new behavior can be added without rewriting the surrounding code",
+      "A performance bottleneck between two layers",
+      "A naming convention for configuration files"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "According to the YAGNI principle, when should you AVOID adding a seam?",
+    "choices": [
+      "When the change is both likely and expensive to retrofit later",
+      "When the future change is speculative and would be cheap to add later anyway",
+      "Whenever a boundary exists between two modules",
+      "Whenever more than one developer works on the code"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "A team expects to support several payment providers over time. Where should they place a seam?",
+    "choices": [
+      "Inside the database schema for orders",
+      "At the payment boundary, as a common interface each provider implements",
+      "In the UI button that starts checkout",
+      "In the logging configuration"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Select ALL true statements about extensibility seams.",
+    "choices": [
+      "A well-placed seam lets new behavior slot in without editing existing, working code",
+      "Every seam is free and adds no cost to the codebase",
+      "Adding a seam for every imaginable future can lead to over-engineering that is harder to change",
+      "Seams should be placed along the axis where change is most likely to occur"
+    ],
+    "correct": [0, 2, 3],
+    "points": 1
+  }
+]

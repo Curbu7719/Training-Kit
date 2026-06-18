@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A workflow checkpoints after each step, yet a resumed job still sends a confirmation email twice. What is the most likely root cause and fix?",
+    "choices": [
+      "The crash happened between the email sending and the checkpoint being saved; make the send step idempotent (keyed) so re-running it is a no-op",
+      "The checkpoint was saved too often; checkpoint less frequently",
+      "The email server was too fast; add an artificial delay before sending",
+      "The workflow had too many states; merge them into one state"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Two workers both reload the same checkpoint (version 7) and try to advance the workflow. Which mechanisms correctly ensure only one of them succeeds? (Select all that apply.)",
+    "choices": [
+      "A compare-and-set that applies the transition only if the state version is still 7",
+      "A lease/lock that a worker must hold to apply a transition",
+      "Letting both workers proceed, since checkpoints make duplication harmless",
+      "Storing the checkpoint only in each worker's local memory"
+    ],
+    "correct": [0, 1],
+    "points": 1
+  },
+  {
+    "prompt": "A request can sit in the 'In Review' state indefinitely if the reviewer never responds, and nothing else can move it. What is the design flaw, and the standard remedy?",
+    "choices": [
+      "There is no path from 'In Review' toward a terminal state; add a timeout transition (e.g. to 'Escalated') so the workflow can't hang forever",
+      "The state name is too long; rename it to something shorter",
+      "The checkpoint is too large; remove the reviewer field",
+      "The state machine has too few states; the fix is to add more review states"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

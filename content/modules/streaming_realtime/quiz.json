@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "What is the defining difference between streaming and classic request-response?",
+    "choices": [
+      "Streaming compresses the response so it uses less bandwidth",
+      "Streaming sends the answer incrementally as it is produced, instead of all at once at the end",
+      "Streaming always finishes faster in total elapsed time",
+      "Streaming removes the need for the client to make any request"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Which situations are good fits for streaming or real-time push? (Select all that apply.)",
+    "choices": [
+      "A long, gradually generated text answer where the user should see progress immediately",
+      "Live prices or scores that change continuously and should appear the moment they update",
+      "A tiny one-shot lookup that returns a single value in a few milliseconds",
+      "A chat feed where new messages should arrive without the client repeatedly asking"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Why can streaming dramatically improve the *perceived* performance of a slow response even when total time is unchanged?",
+    "choices": [
+      "Because it reduces the total number of bytes sent",
+      "Because time-to-first-byte drops, so the user sees output almost immediately instead of a frozen wait",
+      "Because it moves all computation onto the client",
+      "Because open connections are always faster than closed ones"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Which of these are real costs or risks introduced by streaming and real-time push that plain request-response avoids? (Select all that apply.)",
+    "choices": [
+      "Open connections consume server resources for their whole lifetime",
+      "A connection can drop mid-stream, requiring reconnection or resume logic",
+      "A fast producer can overwhelm a slow consumer (back-pressure)",
+      "The response can no longer contain any text"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

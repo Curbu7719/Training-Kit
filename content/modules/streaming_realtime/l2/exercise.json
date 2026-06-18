@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A team must show inventory counts that change roughly once every few minutes, on a page that thousands of users keep open in background tabs. There are no latency-sensitive decisions made from the number. They're tempted to push every change over a persistent connection to each open page. What should they do, and why?",
+  "spec": {
+    "decision_choices": [
+      "Push every change over a persistent connection to all open pages, since the data is technically live",
+      "Have clients poll for the current count at a sane interval instead of holding thousands of persistent connections open",
+      "Open a persistent connection but never handle reconnects, to keep the implementation small",
+      "Stop showing the count at all to avoid the problem entirely"
+    ],
+    "reason_choices": [
+      "Because updates are infrequent and non-urgent, so polling is simpler, cacheable, and avoids pinning thousands of idle connections — push's cost isn't justified here",
+      "Because persistent connections are always cheaper than periodic requests",
+      "Because polling makes the inventory number update faster than push ever could",
+      "Because real-time push is the only correct way to display any changing value"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

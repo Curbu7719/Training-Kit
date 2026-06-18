@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A document API must support three roles: members read only documents they own, team leads read any document owned by their team, and admins read everything. The current code only checks `document.owner_id == user.id`, which wrongly blocks leads and admins. A developer proposes simply skipping the ownership check for any staff account. What should the team do instead?",
+  "spec": {
+    "decision_choices": [
+      "Skip the ownership check for all staff accounts as proposed",
+      "Enforce a rule that grants access by role scoped to the correct relationship (own document, own team, or admin), failing closed otherwise",
+      "Remove the ownership check entirely and rely on the UI to hide documents",
+      "Keep owner-only and tell leads and admins to request documents manually"
+    ],
+    "reason_choices": [
+      "Because correct authorization must combine role and relationship and deny anything not explicitly permitted, so leads cannot reach other teams' documents",
+      "Because any logged-in staff member can be trusted with all data",
+      "Because hiding documents in the interface is an adequate access control",
+      "Because owner-only is the most secure rule even if it blocks legitimate access"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

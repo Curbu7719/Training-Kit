@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "What are the four standard sections of an Architecture Decision Record (ADR)?",
+    "choices": [
+      "Context, Options, Decision, Consequences",
+      "Problem, Code, Test, Deploy",
+      "Who, What, When, Where",
+      "Budget, Timeline, Owner, Status"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which of the following are genuine benefits of writing decisions down in ADRs? (Select all that apply.)",
+    "choices": [
+      "It records why a choice was made, so the team doesn't re-argue settled decisions",
+      "It forces an honest look at the downsides of the chosen option",
+      "It guarantees the decision will never need to change",
+      "It helps new team members understand why the system is the way it is"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "A teammate documents an option by listing only its advantages and leaves the downsides blank. Why is this a problem?",
+    "choices": [
+      "ADRs are not allowed to mention advantages",
+      "An honest trade-off must state what you give up, not only what you gain",
+      "Every option must always be rejected",
+      "The Consequences section is optional and can be skipped"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Six months after a decision, the team realises the context has changed and the choice no longer fits. What is the recommended way to handle this with ADRs?",
+    "choices": [
+      "Delete the old ADR so no one is confused",
+      "Edit the old ADR's decision in place and remove the original reasoning",
+      "Write a new ADR that supersedes the old one and references it",
+      "Avoid changing anything, since the decision was already recorded"
+    ],
+    "correct": [2],
+    "points": 1
+  }
+]

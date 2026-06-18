@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "When capacity-planning a real-time push system, which metric matters most and why?",
+    "choices": [
+      "Requests per second, because each push is a separate short request",
+      "Concurrent open connections, because each one pins server memory and a concurrency slot for its whole lifetime",
+      "Total bytes per response, because push responses are unusually large",
+      "Average CPU per request, because push has no connection state"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "A push system delivers events at-least-once, and clients reconnect frequently after network drops. Which measures keep this correct? (Select all that apply.)",
+    "choices": [
+      "Make consumers idempotent so applying the same event twice is harmless",
+      "Expose a cursor / last-event-id so a client can resume from where it left off",
+      "Add sequence numbers and reorder client-side when ordering matters",
+      "Assume each event is delivered exactly once and skip duplicate handling"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "An internal dashboard shows background-job status that changes a few times an hour, viewed in always-open background tabs, with no millisecond-sensitive decisions. Why is periodic polling often the better choice than real-time push here?",
+    "choices": [
+      "Because polling is stateless and cacheable, avoids pinning many idle connections, and recovers from a dropped network with the next tick — and the data isn't urgent enough to justify push's cost",
+      "Because polling always delivers data with lower latency than push",
+      "Because push cannot be used for status data at all",
+      "Because polling guarantees no event is ever missed under any circumstances"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

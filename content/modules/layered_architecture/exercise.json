@@ -1,0 +1,17 @@
+{
+  "type": "order",
+  "prompt_md": "A logged-in user triggers an action that needs data from an external service. Arrange the steps of this authenticated request in the order they happen across the layers, from the user's first interaction to the final screen update.",
+  "spec": {
+    "items": [
+      "The browser sends an API request, attaching the user's login token in the Authorization header",
+      "The serverless function verifies the token, fetches the allowed data from the BaaS layer, and calls the downstream external service",
+      "The user clicks a button in the UI",
+      "The external service responds; the function forwards a result back to the browser",
+      "The browser renders the updated UI for the user"
+    ]
+  },
+  "answer_key": {
+    "order": [2, 0, 1, 3, 4]
+  },
+  "max_score": 10
+}

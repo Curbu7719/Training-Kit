@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "**Context:** A small team is launching a new web app. They expect modest, steady traffic at first but want the option to grow. The team has limited operations staff and no dedicated database administrator. They are choosing how to run their primary relational database.\n\nThey are deciding between running the database themselves on a self-managed virtual machine, or using a **managed database service** from their cloud provider.\n\nPick the decision that best fits this context, **and** the reason that correctly justifies it.",
+  "spec": {
+    "decision_choices": [
+      "Run the database on a self-managed VM, handling backups, patching, and failover themselves",
+      "Use a managed database service and store a note explaining the trade-off in an ADR",
+      "Skip the database entirely and keep all data in application memory",
+      "Run a separate self-managed database on each developer's laptop in production"
+    ],
+    "reason_choices": [
+      "Because a managed service trades some cost and control for offloaded operational burden, which fits a team with limited ops staff",
+      "Because self-managed VMs are always cheaper and require no maintenance",
+      "Because in-memory storage is the only way to guarantee data is never lost",
+      "Because managed services remove the need to ever think about scaling or backups at all"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

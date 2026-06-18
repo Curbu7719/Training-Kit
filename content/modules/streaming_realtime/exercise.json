@@ -1,0 +1,17 @@
+{
+  "type": "order",
+  "prompt_md": "Arrange the events of a single streamed response in the correct order, from the user's action to the finished message.",
+  "spec": {
+    "items": [
+      "The server emits the first chunk of the answer as soon as it is produced",
+      "The user clicks Send; the client opens a stream and submits the request",
+      "The server sends a final \"done\" marker and closes the stream",
+      "The client appends each arriving chunk to the screen as it is received",
+      "The client sees the done marker and finalises the message"
+    ]
+  },
+  "answer_key": {
+    "order": [1, 0, 3, 2, 4]
+  },
+  "max_score": 10
+}

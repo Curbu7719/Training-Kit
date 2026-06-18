@@ -1,0 +1,18 @@
+{
+  "type": "mcq",
+  "prompt_md": "A team wants to make their payment processing swappable so they can change providers later without touching business logic. **Select every practice that supports this goal.**",
+  "spec": {
+    "choices": [
+      "Define a `PaymentProvider` contract listing the capabilities callers need (charge, refund, status)",
+      "Have the checkout, billing, and refund flows depend only on the `PaymentProvider` contract",
+      "Call the specific provider's SDK directly from each flow that needs to take a payment",
+      "Decide which provider to use in one startup/config point and inject it into callers",
+      "Write a thin adapter per provider that translates the contract into that provider's API"
+    ],
+    "multi": true
+  },
+  "answer_key": {
+    "correct": [0, 1, 3, 4]
+  },
+  "max_score": 10
+}

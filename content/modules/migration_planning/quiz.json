@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Why is a 'big-bang' switch (turning off the old system and turning on the new one all at once) considered risky?",
+    "choices": [
+      "It concentrates every possible failure into a single moment with no easy way back",
+      "It always costs more money than an incremental migration",
+      "It requires writing more code than any other approach",
+      "It is impossible to test the new system at all"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which of the following are hallmarks of a safe, incremental migration? (Select all that apply.)",
+    "choices": [
+      "The system keeps working after every individual step",
+      "There is a fast rollback available at each stage",
+      "Traffic is cut over gradually rather than all at once",
+      "The old system is deleted first, before the new one is verified"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "What does it mean to 'find the seams' before a migration?",
+    "choices": [
+      "Locate the points where your code talks to the dependency, ideally routing them through one thin layer",
+      "Delete all old data so the new system starts clean",
+      "Schedule the migration for a weekend to reduce traffic",
+      "Rewrite the entire application from scratch"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "In a data-store migration, what is the purpose of 'dual-writing' (writing to both the old and new store for a period)?",
+    "choices": [
+      "To permanently keep two copies of every system forever",
+      "To keep the new store's data current and consistent so it can be verified before reads switch to it",
+      "To make the migration finish faster by skipping verification",
+      "To delete the old store immediately after the first write"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

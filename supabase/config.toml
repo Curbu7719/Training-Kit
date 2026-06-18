@@ -1,0 +1,28 @@
+# Supabase local config. `supabase link` sets project_id to the real ref.
+project_id = "trainingkit"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+# Email/password for MVP. LDAP/SSO is a deferred seam (see DESIGN.md §1, §7).
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173"]
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false

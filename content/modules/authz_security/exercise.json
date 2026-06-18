@@ -1,0 +1,17 @@
+{
+  "type": "mcq",
+  "prompt_md": "An API endpoint returns a record by its ID. A logged-in user edits the ID in the request and receives a record belonging to someone else. Select **all** statements that are true about how to prevent this.",
+  "spec": {
+    "choices": [
+      "The server must perform a row-level check that the authenticated user owns the requested record",
+      "Authentication alone is not sufficient; a separate authorization check is required",
+      "Hiding the other IDs in the user interface is enough to secure the endpoint",
+      "Because the client cannot be trusted, the ownership check must run on the server"
+    ],
+    "multi": true
+  },
+  "answer_key": {
+    "correct": [0, 1, 3]
+  },
+  "max_score": 10
+}

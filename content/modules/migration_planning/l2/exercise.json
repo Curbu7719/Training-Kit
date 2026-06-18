@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "**Context:** A team is mid-migration from an old data store to a new one. They are currently **dual-writing** to both stores, the old store is still authoritative, and reads still come from the old store. A new feature requires a column to be renamed. They have many app instances deployed, and they may need to roll back any deployment quickly.\n\nAn engineer proposes: \"Let's just rename the column in place and drop the old name now — it's cleaner, and we'll fix any callers if they break.\"\n\nPick the best decision for this situation, **and** the reason that correctly justifies it.",
+  "spec": {
+    "decision_choices": [
+      "Rename the column in place and drop the old name immediately, fixing callers as breakages appear",
+      "Stop the migration entirely until the rename is finished, then resume",
+      "Use expand–contract: add the new column alongside the old, dual-write and migrate readers, and drop the old column only after nothing references it",
+      "Switch all reads to the new store first to avoid dealing with the old column"
+    ],
+    "reason_choices": [
+      "Because keeping the old and new shapes compatible at every step preserves the ability to roll back any deployment safely",
+      "Because renaming in place is always faster and faster is always better during a migration",
+      "Because pausing all migration work is the only way to make any schema change",
+      "Because once reads move to the new store, backward compatibility no longer matters at all"
+    ]
+  },
+  "answer_key": {
+    "decision": 2,
+    "reason": 0
+  },
+  "max_score": 10
+}

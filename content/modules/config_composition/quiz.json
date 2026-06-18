@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "In a layered configuration with precedence runtime > override > base, a setting has base=30, override=60, and no runtime value. What is the resolved final value?",
+    "choices": [
+      "30",
+      "60",
+      "90",
+      "It is undefined because runtime is missing"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "What is the main benefit of keeping configuration separate from code?",
+    "choices": [
+      "It makes the source code files smaller on disk",
+      "Behavior can change per environment without editing and redeploying the program",
+      "It removes the need for any default values",
+      "It encrypts all settings automatically"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Which statements about the immutable base layer are correct? (Select all that apply.)",
+    "choices": [
+      "It holds the default values the software ships with",
+      "It is the foundation that other layers override on top of",
+      "It does not change at runtime",
+      "It always wins over runtime-injected values"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "An override file for the 'staging' environment lists only 'log_level: debug'. The base sets 'log_level: info' and 'timeout: 30'. What is the resolved 'timeout' in staging?",
+    "choices": [
+      "30, because the override does not mention timeout, so it falls through to the base",
+      "0, because the override resets all unlisted settings",
+      "debug, because the override replaces the entire base",
+      "It is an error to omit timeout from the override"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

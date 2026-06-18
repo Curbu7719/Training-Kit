@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A product catalog must record that each product belongs to one or more categories, and each category contains many products. The team currently stores a single `category_id` foreign key on the Product row, but products clearly need to appear in several categories at once. What is the best way to model this relationship?",
+  "spec": {
+    "decision_choices": [
+      "Add more category_id columns to Product (category_id_2, category_id_3, ...)",
+      "Introduce a junction table holding (product_id, category_id) pairs",
+      "Store a comma-separated list of category IDs in one Product column",
+      "Duplicate the product as a separate row for each category"
+    ],
+    "reason_choices": [
+      "Because a many-to-many relationship needs its own table of key pairs, which scales to any number of links without duplication",
+      "Because adding fixed extra columns is the most flexible way to grow relationships",
+      "Because a delimited list lets the database enforce each category reference",
+      "Because duplicating the product keeps every category fully independent"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

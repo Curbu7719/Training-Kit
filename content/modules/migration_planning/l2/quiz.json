@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "In the expand–contract (parallel change) pattern, which steps are safe and reversible, and which is the dangerous one to perform last? (Select all statements that are TRUE.)",
+    "choices": [
+      "Adding the new shape alongside the old ('expand') is safe and reversible",
+      "Migrating readers and writers to the new shape is done gradually while both shapes work",
+      "Removing the old shape ('contract') is the irreversible step and should come last",
+      "Removing the old shape first, before anything uses the new shape, is the safest order"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "During a migration, new code begins writing data in a format the old code cannot read. Why is this dangerous?",
+    "choices": [
+      "It makes the new system run slower than the old one",
+      "It destroys the ability to roll back, because reverting to the old code would break on the new data",
+      "It violates the strangler-fig pattern's naming convention",
+      "It is harmless as long as the new code is well tested"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "A dual-write occasionally succeeds on the new store but fails on the old store, leaving the two inconsistent. What is the appropriate way to handle this?",
+    "choices": [
+      "Assume both writes always succeed and take no further action",
+      "Stop dual-writing immediately and delete the old store",
+      "Add reconciliation that periodically compares the stores, logs divergences, and converges them",
+      "Switch all reads to the new store right away to hide the inconsistency"
+    ],
+    "correct": [2],
+    "points": 1
+  }
+]

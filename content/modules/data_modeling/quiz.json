@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "In a data model, what does a primary key do?",
+    "choices": [
+      "Uniquely identifies each row within its table",
+      "Encrypts the values stored in a column",
+      "Points to a row in a different table",
+      "Stores the most important business field"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "One customer can place many orders, but each order belongs to exactly one customer. What kind of relationship is this?",
+    "choices": [
+      "Many-to-many",
+      "One-to-one",
+      "One-to-many",
+      "No relationship"
+    ],
+    "correct": [2],
+    "points": 1
+  },
+  {
+    "prompt": "Which two outcomes are direct benefits of normalizing a data model?",
+    "choices": [
+      "Each fact is stored in exactly one place",
+      "Updating a value requires changing only one row",
+      "Every table is guaranteed to load faster",
+      "Foreign keys become unnecessary"
+    ],
+    "correct": [0, 1],
+    "points": 1
+  },
+  {
+    "prompt": "A foreign key in the Order table stores a customer_id value. What is its purpose?",
+    "choices": [
+      "To make order_id unique",
+      "To link each order to a row in the Customer table",
+      "To store the customer's name and email directly",
+      "To define the data type of the order total"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

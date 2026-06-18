@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "An order-processing workflow captures payment in a step modeled as the transition `Reserved → Captured`. Workers can crash and restart, so a job may resume and re-run the capture step. The team must ensure that resuming after a crash never charges the customer twice. **What should they do, and why?**",
+  "spec": {
+    "decision_choices": [
+      "Make the capture step idempotent by sending a stable idempotency key (the order id) with each capture call",
+      "Stop checkpointing the workflow so it never resumes mid-step",
+      "Move the checkpoint into the worker's local in-memory cache for speed",
+      "Remove the 'Captured' state and merge it into 'Reserved'"
+    ],
+    "reason_choices": [
+      "Because re-running the capture with the same key returns the original result instead of charging again, so the repeat is harmless",
+      "Because in-memory checkpoints are automatically durable across restarts",
+      "Because fewer states always means fewer bugs, regardless of correctness",
+      "Because not checkpointing makes the workflow faster and that prevents crashes"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}
