@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A team wants to upgrade from one model provider to another with minimal risk. Which practices reduce the chance of a quality regression reaching users? (Select all that apply.)",
+    "choices": [
+      "Run the new model against a fixed offline eval set before any rollout",
+      "Shadow the new model against live traffic, logging its answers without showing them to users",
+      "Roll out behind a feature flag gradually (e.g., 5% then 25% then 100%) with a fast rollback",
+      "Deploy the new model to 100% of users immediately and watch for complaints"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A provider's API intermittently times out and occasionally returns malformed output. Which reliability patterns directly address these failure modes? (Select all that apply.)",
+    "choices": [
+      "Per-call timeouts so a slow provider doesn't hang the user",
+      "Capped retries with backoff for transient errors",
+      "A circuit breaker plus a degraded mode (backup model or graceful message)",
+      "Removing the output guardrail so malformed output passes straight through"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "An architect says provider abstraction is a prerequisite for several other capabilities, not just cleaner code. Which capabilities does a well-designed model abstraction directly enable? (Select all that apply.)",
+    "choices": [
+      "Failing over from a primary provider to a secondary one without changing feature code",
+      "Routing easy requests to a cheaper model and hard ones to a larger model",
+      "Centralizing where fallbacks and reliability logic wrap the model call",
+      "Guaranteeing the model never hallucinates"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "type": "order",
+  "prompt_md": "Your long-running conversation is approaching the model's context window limit. Arrange these steps into the correct order for handling it.",
+  "spec": {
+    "items": [
+      "Apply a reduction strategy: summarize old turns, drop the oldest with a sliding window, or move reference material to retrieval",
+      "Detect that the accumulated context is nearing the token limit",
+      "Re-send the trimmed context with the new request and continue the conversation",
+      "Decide which content is essential to keep versus what can be dropped or compressed"
+    ]
+  },
+  "answer_key": {
+    "order": [1, 3, 0, 2]
+  },
+  "max_score": 10
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A RAG assistant returns a confident answer that cites a real source document, but the cited document is the wrong one (US policy instead of EU policy). What does this most strongly indicate?",
+    "choices": [
+      "A retrieval failure: the wrong chunk was surfaced, and generation faithfully used what it was given",
+      "A generation failure: the model ignored the provided context",
+      "The embedding model needs to be retrained on new data",
+      "The temperature setting is too high"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which techniques specifically improve the RETRIEVAL stage (rather than the generation prompt)? (Select all that apply.)",
+    "choices": [
+      "Hybrid search combining semantic and keyword matching",
+      "Metadata filtering to restrict candidates by region, date, or access level",
+      "Re-ranking a candidate set with a more precise model before sending the top few onward",
+      "Instructing the model to answer only from the provided context"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Two chunks are nearly identical in meaning and differ only by a distinguishing token like a region code, and pure semantic search keeps retrieving the wrong one. Which combination best resolves this AND why?",
+    "choices": [
+      "Add metadata filtering plus hybrid search, because filtering removes ineligible chunks and keyword matching weights the exact distinguishing term",
+      "Increase top-k to 50, because retrieving more chunks always raises accuracy",
+      "Lower the chunk overlap to zero, because overlap is what causes duplicate retrieval",
+      "Raise the model temperature, because more randomness helps it pick the right source"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

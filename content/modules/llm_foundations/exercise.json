@@ -1,0 +1,24 @@
+{
+  "type": "match",
+  "prompt_md": "Match each **model trait** on the left to its correct **practical implication** on the right.",
+  "spec": {
+    "left": [
+      "Knowledge cutoff",
+      "Hallucination",
+      "Non-determinism (default sampling)",
+      "Low temperature setting",
+      "Larger model size"
+    ],
+    "right": [
+      "Supply recent or private facts in the prompt; the model won't know them on its own",
+      "Add a verification step for outputs that touch facts, since confident text can be wrong",
+      "Don't rely on exact-string equality in tests; the same prompt may vary run to run",
+      "Use it when you need focused, repeatable output such as structured or code responses",
+      "Reserve it for genuinely hard reasoning; expect higher cost and latency per call"
+    ]
+  },
+  "answer_key": {
+    "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]]
+  },
+  "max_score": 10
+}

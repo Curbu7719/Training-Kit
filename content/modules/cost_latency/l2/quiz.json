@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A chat feature streams responses. Users say it 'starts fast but drags on' for long answers. Which statements correctly explain or address this? (Select all that apply.)",
+    "choices": [
+      "Time-to-first-token is low, but total time grows with output length at the given token rate",
+      "Capping or shortening the output would reduce the 'dragging' portion of the latency",
+      "Streaming has already minimized total generation time, so output length no longer matters",
+      "Switching to a smaller, faster model could raise the tokens-per-second rate"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "A cascade sends every request to a small model first; if a confidence check fails it escalates to a large model. The small model handles 70% of requests; 30% escalate. Per request, the small call costs $0.0001 and the large call costs $0.0020. What is the approximate blended cost per request?",
+    "choices": [
+      "About $0.00073",
+      "About $0.00060",
+      "About $0.00210",
+      "About $0.00010"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "An architect is reviewing why a single user action is far more expensive and slower than the team expected, even though each individual model call looks cheap and fast. Which are plausible root causes worth investigating? (Select all that apply.)",
+    "choices": [
+      "The action fans out into several model calls (retrieval rerank, tool use, final synthesis) per user action",
+      "Failed calls are silently retried, multiplying token spend and latency",
+      "Per-token price is the only factor and pipeline structure cannot affect cost",
+      "Outputs are uncapped, so some responses generate far more tokens than assumed"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

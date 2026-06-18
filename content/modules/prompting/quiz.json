@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Why does the wording of a prompt matter so much to the quality of a model's output?",
+    "choices": [
+      "The model only sees the text you send it, so anything it needs to know must be in the prompt",
+      "Longer prompts always produce more accurate answers regardless of content",
+      "The model reads your project files and context automatically",
+      "Wording only affects tone, never correctness or format"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which statements about the system (or developer) message versus the user message are correct? Select all that apply.",
+    "choices": [
+      "The system message sets durable rules and persona and persists across turns",
+      "The user message carries the specific, changing request",
+      "The user message takes priority over the system message",
+      "Safety policy and role are best placed in the system message"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "What is the main purpose of wrapping input data in delimiters (such as XML-style tags or triple quotes)?",
+    "choices": [
+      "To separate your instructions from the data the model should process",
+      "To make the prompt shorter",
+      "To force the model to use a higher temperature",
+      "To translate the data into another language automatically"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "A PM asks a model to classify support tickets, but the script that consumes the output keeps breaking because the model replies with a friendly paragraph instead of a single label. Which prompt change most directly fixes this?",
+    "choices": [
+      "Add a system instruction specifying the exact allowed labels and demanding one word with no explanation",
+      "Increase the temperature so answers vary more",
+      "Ask the model to be 'a bit more concise' without specifying a format",
+      "Send the request more times until a short answer appears"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

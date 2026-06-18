@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A live, customer-facing assistant currently runs on one model provider. The team wants to add a **second provider as an automatic fallback** so a single provider outage doesn't take the feature down. Today, the first provider's SDK is called directly in dozens of places throughout the orchestration code. What is the best first architectural step, and why? **Pick the best decision and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Add try/catch blocks around each of the dozens of direct SDK call sites and call the second provider in each catch",
+      "Introduce a single internal model interface (provider abstraction) that all code calls, then implement failover inside it",
+      "Move the model calls into the browser client so the client can pick a provider",
+      "Disable guardrails so failed requests fall through to the second provider faster"
+    ],
+    "reason_choices": [
+      "Because a single abstraction gives one place to implement failover, retries, and routing, instead of duplicating fragile fallback logic across dozens of call sites",
+      "Because try/catch at every call site is the most maintainable way to add failover",
+      "Because the client is the right place to choose between model providers",
+      "Because guardrails are the main cause of provider outages"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

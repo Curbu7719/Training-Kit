@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A long-running assistant violates a compliance rule that was stated clearly on day one, even though recent turns look fine. Across a multi-day session using summaries-of-summaries, what is the most likely cause?",
+    "choices": [
+      "The temperature was set too high",
+      "The rule was compressed away by repeated lossy summarization and is no longer in the context",
+      "The model's knowledge cutoff excluded the rule",
+      "Retrieval returned too many chunks"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Which statements about context strategy trade-offs are accurate? (Select all that apply.)",
+    "choices": [
+      "Sliding window is amnesiac by design — anything older than the window is lost unless captured elsewhere",
+      "Retrieval shifts the hard problem from fitting the window to retrieving the right chunks",
+      "A larger context window fully eliminates position effects and the need for strategy",
+      "Output shares the token budget, so a near-full input can truncate the response"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "An architect must keep a few non-negotiable facts (a compliance constraint and the user's stated goal) present no matter how long the conversation runs. Which approach best fits?",
+    "choices": [
+      "Rely on a larger context window alone and send the full transcript every time",
+      "Pin those facts as protected content carried verbatim, while summarizing or sliding the rest",
+      "Raise the temperature so the model emphasizes important facts",
+      "Move the facts into retrieval and hope the retriever returns them each call"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

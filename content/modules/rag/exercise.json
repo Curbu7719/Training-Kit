@@ -1,0 +1,16 @@
+{
+  "type": "order",
+  "prompt_md": "Arrange the six steps of a Retrieval-Augmented Generation (RAG) pipeline into the correct end-to-end order. Remember: the indexing steps must be done before any question can be answered, and at query time you must retrieve relevant context before the model generates its answer.",
+  "spec": {
+    "items": [
+      "Augment the prompt by inserting the retrieved chunks as context",
+      "Chunk the source documents into smaller passages",
+      "Generate the final answer from the augmented prompt",
+      "Embed each chunk into a vector",
+      "Embed the user's question and retrieve the top-k most similar chunks",
+      "Store the chunk vectors in a vector index"
+    ]
+  },
+  "answer_key": { "order": [1, 3, 5, 4, 0, 2] },
+  "max_score": 10
+}

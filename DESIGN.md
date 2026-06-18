@@ -37,18 +37,22 @@ authored; quizzes and exercises are auto-graded server-side against an answer ke
 Ten generic modules, each derived from a BRDWizard architectural decision but
 taught as a transferable principle.
 
-| # | Module (generic concept) | Source decision (inspiration only) |
+**Subject (v0.3): generalized AI/LLM application architecture** — vendor-neutral,
+modeled on an "AI architect" certification. Each module also includes a
+"How each role uses this" section connecting the concept to each role's day job.
+
+| # | Module (code) | Covers |
 |---|---|---|
-| 1 | Layered architecture (client + BaaS + serverless functions) | ARCHITECTURE §1 |
-| 2 | Data modeling & schema design (tables, enums, relations) | §2 Postgres schema |
-| 3 | Authorization & security (row-level access control) | §2.1 RLS policies |
-| 4 | Abstraction & swappability (the provider interface pattern) | §4 LLMProvider |
-| 5 | Streaming & real-time data (server-sent events) | §3.2 streaming flow |
-| 6 | Context & state management (state machines, checkpointing, handoff) | ADR-0001 |
-| 7 | Configuration & layered composition (e.g. layered prompts/settings) | §7 |
-| 8 | Decision records & trade-off analysis (ADRs) | §8 export, ADR-0002 |
-| 9 | Migration planning (swapping a core dependency) | ADR-0002 |
-| 10 | Extensibility & seams (designing for future change) | §10 deferred seams |
+| 1 | LLM Foundations (`llm_foundations`) | What models are, next-token prediction, capabilities & limits, model choice |
+| 2 | Tokens & Tokenization (`tokens`) | What a token is, token↔cost/limit, input vs output tokens |
+| 3 | Context Management (`context_management`) | Context window, stateless calls, summarization/chunking/checkpointing |
+| 4 | Prompting (`prompting`) | System/user roles, structure, few-shot, output control |
+| 5 | Guardrails & Safety (`guardrails`) | Input/output controls, injection/jailbreaks, defense-in-depth |
+| 6 | Tool Use & Agents (`tool_use_agents`) | Function calling, the agent loop, when agents help, risks |
+| 7 | RAG (`rag`) | Chunk→embed→retrieve→augment→generate, grounding, citations |
+| 8 | Evaluation (`evaluation`) | Evals, metrics, LLM-as-judge, regression testing |
+| 9 | Cost, Latency & Performance (`cost_latency`) | Token cost, latency drivers, caching/routing/streaming |
+| 10 | AI System Architecture (`ai_architecture`) | Reference architecture, security/privacy, reliability, deployment |
 
 ### 2.1 Role × Module × Level matrix (draft)
 
@@ -56,16 +60,16 @@ Same module pool; per role, which modules are required at L1 (entry) vs L2 (deep
 
 | Module | Developer | Business Analyst | PM/PO | QA & Architect |
 |---|---|---|---|---|
-| 1 Layered architecture | L1 | L1 | L1 | L1 |
-| 2 Data modeling | L1 | L2 | — | L2 |
-| 3 Authz & security | L1 | L2 | L2 | L1 |
-| 4 Abstraction/swappability | L1 | — | L2 | L1 |
-| 5 Streaming/real-time | L2 | — | — | L2 |
-| 6 Context/state mgmt | L2 | L2 | L2 | L1 |
-| 7 Configuration/composition | L1 | L1 | L1 | L1 |
-| 8 ADR & trade-offs | L1 | L1 | L1 | L1 |
-| 9 Migration planning | L2 | — | L2 | L1 |
-| 10 Extensibility/seams | L2 | L2 | L2 | L1 |
+| 1 LLM Foundations | L1 | L1 | L1 | L1 |
+| 2 Tokens | L1 | L1 | L1 | L1 |
+| 3 Context Management | L1 | L2 | L2 | L1 |
+| 4 Prompting | L1 | L1 | L1 | L1 |
+| 5 Guardrails | L1 | L2 | L2 | L1 |
+| 6 Tool Use & Agents | L2 | — | L2 | L1 |
+| 7 RAG | L2 | — | L2 | L1 |
+| 8 Evaluation | L2 | L2 | L2 | L1 |
+| 9 Cost & Latency | L2 | — | L2 | L2 |
+| 10 AI System Architecture | L2 | — | L2 | L1 |
 
 - **L1** = role-appropriate entry level: the concept in plain language + one worked example.
 - **L2** = deeper: trade-offs, edge cases, and a scenario exercise.

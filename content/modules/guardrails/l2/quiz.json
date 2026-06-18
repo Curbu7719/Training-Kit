@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "An assistant summarizes user-supplied web pages. A page contains hidden text instructing the model to leak data. The team's input-validation layer screens only the user's typed message. Which statements correctly explain the situation? Select ALL that apply.",
+    "choices": [
+      "This is indirect prompt injection, carried in data the model reads rather than the user's message",
+      "Input validation as configured is blind to it because it never inspects the fetched page content",
+      "Output moderation is well positioned to catch the unsafe generated result",
+      "The attack proves input validation is the only layer that ever matters"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A product team keeps tightening its content filter until almost no risky output ever slips through, but support tickets about the assistant 'refusing normal requests' spike. In trade-off terms, what has happened? Select ALL that apply.",
+    "choices": [
+      "Safety was prioritized at the expense of usefulness, raising false positives (over-blocking)",
+      "The team should monitor and log refusals to find and tune the over-blocking",
+      "Over-blocking can erode user trust and push people toward unsafe workarounds",
+      "False positives have no downside as long as nothing unsafe gets through"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Why is placing every guardrail at a single stage (e.g. all of them pre-model) a weaker design than distributing independent controls across the pipeline? Select ALL that apply.",
+    "choices": [
+      "A control can only block what it can see; some unsafe content only exists in the model's output, after the pre-model stage",
+      "Distributed, independent layers avoid a single point of failure if one control is bypassed or unavailable",
+      "Different stages have different context, so a control runs best where its context is richest and its cost lowest",
+      "Stacking all controls pre-model guarantees indirect prompt injection can never succeed"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

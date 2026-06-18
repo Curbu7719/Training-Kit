@@ -1,0 +1,22 @@
+{
+  "type": "fill",
+  "prompt_md": "Complete each blank with the correct token concept.\n\n1. The process of breaking text into the small pieces a model reads is called ___.\n2. Each of those small pieces — often a piece of a word rather than a whole word — is called a ___.\n3. The fixed maximum number of tokens a model can consider at once (input plus output) is called its context ___.\n4. Because providers bill per token and usually charge differently for the prompt versus the generated reply, you should budget ___ tokens and output tokens separately.",
+  "spec": {
+    "blanks": 4,
+    "keywords": [
+      ["tokenization", "tokenisation", "tokenizing", "tokenize"],
+      ["token", "sub-word", "subword", "sub word"],
+      ["window", "limit", "length", "size"],
+      ["input", "prompt"]
+    ]
+  },
+  "answer_key": {
+    "accept": [
+      ["tokenization", "tokenisation", "tokenizing", "tokenize"],
+      ["token", "sub-word", "subword", "sub word"],
+      ["window", "limit", "length", "size"],
+      ["input", "prompt"]
+    ]
+  },
+  "max_score": 10
+}

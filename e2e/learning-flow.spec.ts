@@ -1,14 +1,15 @@
 import { test, expect, type Page } from '@playwright/test';
 
 // ---------------------------------------------------------------------------
-// learning-flow.spec.ts — full lesson-player journey on the adr_tradeoffs module.
+// learning-flow.spec.ts — full lesson-player journey on the ai_architecture module.
 //
-// Module chosen: "adr_tradeoffs" (code: adr_tradeoffs)
-//   • Required L1 for ALL tracks → available immediately after picking a track.
-//   • Exercise type: scenario (two linked MCQs with known answer_key).
-//     decision_key = 1, reason_key = 0  (from content/modules/adr_tradeoffs/exercise.json)
-//   • Quiz: 4 questions; we pick any first choice — test asserts the graded
-//     result UI surfaces regardless of correctness.
+// Module chosen: "ai_architecture" (code: ai_architecture)
+//   • Required (L2) for the Developer track → shows "Start" right after track pick.
+//   • Exercise type: scenario at both L1 and L2 (two linked MCQs). The test picks
+//     arbitrary decision/reason options — it only asserts the graded result UI
+//     surfaces and that progress is recorded, NOT a correct answer.
+//   • Quiz: we pick any first choice — graded result UI is asserted regardless of
+//     correctness.
 //
 // Tests create real users in the live Supabase DB (email auto-confirm ON).
 // Unique emails prevent rerun collisions. No cleanup is performed.
@@ -52,18 +53,18 @@ async function signUpAndPickTrack(page: Page, email: string): Promise<void> {
 // Tests
 // ---------------------------------------------------------------------------
 
-test.describe('Learning flow — adr_tradeoffs module', () => {
+test.describe('Learning flow — ai_architecture module', () => {
   test('dashboard lists track modules with status badges', async ({ page }) => {
     const email = uniqueEmail();
     await signUpAndPickTrack(page, email);
 
-    // The adr_tradeoffs card is module #8 — scroll it into view before asserting.
-    const moduleCard = page.getByTestId('module-card-adr_tradeoffs');
+    // The ai_architecture card is module #8 — scroll it into view before asserting.
+    const moduleCard = page.getByTestId('module-card-ai_architecture');
     await moduleCard.scrollIntoViewIfNeeded();
     await expect(moduleCard).toBeVisible({ timeout: 10_000 });
 
     // For a fresh user the card title is visible
-    await expect(moduleCard.getByText('Decision Records & Trade-Off Analysis')).toBeVisible();
+    await expect(moduleCard.getByText('AI System Architecture')).toBeVisible();
 
     // The status badge text must be one of the known statuses
     await expect(
@@ -77,14 +78,14 @@ test.describe('Learning flow — adr_tradeoffs module', () => {
     const email = uniqueEmail();
     await signUpAndPickTrack(page, email);
 
-    // Scroll the adr_tradeoffs module card into view and click its Start button
-    const moduleCard = page.getByTestId('module-card-adr_tradeoffs');
+    // Scroll the ai_architecture module card into view and click its Start button
+    const moduleCard = page.getByTestId('module-card-ai_architecture');
     await moduleCard.scrollIntoViewIfNeeded();
     await expect(moduleCard).toBeVisible({ timeout: 10_000 });
     await moduleCard.getByRole('button', { name: 'Start' }).click();
 
-    // Lesson player loads for adr_tradeoffs
-    await expect(page).toHaveURL(/\/learn\/adr_tradeoffs/, { timeout: 15_000 });
+    // Lesson player loads for ai_architecture
+    await expect(page).toHaveURL(/\/learn\/ai_architecture/, { timeout: 15_000 });
     // Wait for the header progress counter to confirm lessons loaded
     await expect(page.locator('text=/Level L[12]/')).toBeVisible({ timeout: 15_000 });
 
@@ -141,7 +142,7 @@ test.describe('Learning flow — adr_tradeoffs module', () => {
         continue;
       }
 
-      // --- 4. Exercise: scenario type (adr_tradeoffs)
+      // --- 4. Exercise: scenario type (ai_architecture)
       //    decision_key = 1, reason_key = 0
       const exerciseSubmit = page.getByTestId('exercise-submit-btn');
       if (await exerciseSubmit.isVisible({ timeout: 1_000 }).catch(() => false)) {
@@ -187,9 +188,9 @@ test.describe('Learning flow — adr_tradeoffs module', () => {
     await expect(page).toHaveURL('/dashboard', { timeout: 30_000 });
     await expect(page.getByRole('heading', { name: 'Your learning path' })).toBeVisible();
 
-    // adr_tradeoffs card should now show "Continue" or "Review" (not "Start")
+    // ai_architecture card should now show "Continue" or "Review" (not "Start")
     // confirming that progress was recorded.
-    const updatedCard = page.getByTestId('module-card-adr_tradeoffs');
+    const updatedCard = page.getByTestId('module-card-ai_architecture');
     await updatedCard.scrollIntoViewIfNeeded();
     await expect(updatedCard).toBeVisible({ timeout: 10_000 });
 

@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A multi-day AI research assistant must reference a large, frequently-updated policy library and also honor a few non-negotiable constraints (e.g. 'exclude EU-region records') that were stated at the very start of a session. Long sessions previously violated those early constraints after older turns were compressed. **What is the best way to keep the constraints reliably in context, and why?**",
+  "spec": {
+    "decision_choices": [
+      "Pin the non-negotiable constraints as protected facts carried verbatim every call, and use retrieval for the policy library",
+      "Switch to the largest available context window and re-send the entire transcript each call",
+      "Use a pure sliding window of the last 15 turns and nothing else",
+      "Summarize everything, including the constraints, into a single running summary"
+    ],
+    "reason_choices": [
+      "Because pinned facts bypass lossy summarization while retrieval keeps the large, changing library out of the window until needed",
+      "Because a larger window guarantees the model attends equally to all positions in the context",
+      "Because recent turns are the only context that ever matters for correctness",
+      "Because compressing the constraints into the summary makes them more durable over time"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

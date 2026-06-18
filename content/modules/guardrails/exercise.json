@@ -1,0 +1,17 @@
+{
+  "type": "mcq",
+  "prompt_md": "A team is adding guardrails to a customer-facing AI assistant. **Select every option that is a legitimate guardrail control** (acting on the model's input, output, or behaviour).",
+  "spec": {
+    "choices": [
+      "Validating and sanitizing user input before it reaches the model",
+      "Filtering and moderating the model's output before showing it to the user",
+      "Maintaining allow / deny lists for permitted and forbidden topics",
+      "Routing high-risk responses to a human for approval (human-in-the-loop)",
+      "Choosing a model with a larger context window to fit more tokens",
+      "Adding system-prompt constraints that define the assistant's role and limits"
+    ],
+    "multi": true
+  },
+  "answer_key": { "correct": [0, 1, 2, 3, 5] },
+  "max_score": 10
+}

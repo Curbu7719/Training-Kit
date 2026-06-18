@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "Arrange the events of one full agent-loop iteration into the correct sequence, from the model deciding it needs information through to it continuing with the result. Assume the model has tools available and the task needs external data.",
+  "spec": {
+    "items": [
+      "The application executes the real function and obtains a result.",
+      "The model plans and decides a tool is needed to make progress.",
+      "The model observes the returned result and continues reasoning toward the next step or final answer.",
+      "The application returns the tool result back into the conversation.",
+      "The model emits a structured tool request (it does not run the tool itself)."
+    ]
+  },
+  "answer_key": { "order": [1, 4, 0, 3, 2] },
+  "max_score": 10
+}

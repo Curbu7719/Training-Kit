@@ -26,54 +26,54 @@ interface ModuleEntry {
 
 const MODULES: ModuleEntry[] = [
   {
-    code: 'layered_architecture',
-    title: 'Layered Architecture',
+    code: 'llm_foundations',
+    title: 'LLM Foundations',
     requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
   },
   {
-    code: 'data_modeling',
-    title: 'Data Modeling & Schema Design',
-    requiredLevel: { developer: 'L1', business_analyst: 'L2', pm_po: null, qa_architect: 'L2' },
+    code: 'tokens',
+    title: 'Tokens & Tokenization',
+    requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
   },
   {
-    code: 'authz_security',
-    title: 'Authorization & Security',
+    code: 'context_management',
+    title: 'Context Windows & Management',
     requiredLevel: { developer: 'L1', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
   },
   {
-    code: 'abstraction_swappability',
-    title: 'Abstraction & Swappability',
-    requiredLevel: { developer: 'L1', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'streaming_realtime',
-    title: 'Streaming & Real-Time Data',
-    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: null, qa_architect: 'L2' },
-  },
-  {
-    code: 'context_state',
-    title: 'Context & State Management',
-    requiredLevel: { developer: 'L2', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'config_composition',
-    title: 'Configuration & Layered Composition',
+    code: 'prompting',
+    title: 'Prompting & Prompt Engineering',
     requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
   },
   {
-    code: 'adr_tradeoffs',
-    title: 'Decision Records & Trade-Off Analysis',
-    requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
+    code: 'guardrails',
+    title: 'Guardrails & Safety',
+    requiredLevel: { developer: 'L1', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
   },
   {
-    code: 'migration_planning',
-    title: 'Migration Planning',
+    code: 'tool_use_agents',
+    title: 'Tool Use & Agents',
     requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
   },
   {
-    code: 'extensibility_seams',
-    title: 'Extensibility & Seams',
+    code: 'rag',
+    title: 'Retrieval-Augmented Generation (RAG)',
+    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
+  },
+  {
+    code: 'evaluation',
+    title: 'Evaluating AI Systems',
     requiredLevel: { developer: 'L2', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
+  },
+  {
+    code: 'cost_latency',
+    title: 'Cost, Latency & Performance',
+    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L2' },
+  },
+  {
+    code: 'ai_architecture',
+    title: 'AI System Architecture',
+    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
   },
 ];
 

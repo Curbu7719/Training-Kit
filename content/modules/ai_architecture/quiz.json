@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "In a typical LLM application architecture, which layer is responsible for building the prompt, deciding which model to call, and enforcing rules?",
+    "choices": [
+      "The client (browser/mobile app)",
+      "The app / orchestration layer",
+      "The vector store",
+      "The model provider"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Which of the following are cross-cutting concerns that apply across the whole AI system rather than to a single component? (Select all that apply.)",
+    "choices": [
+      "Keeping secrets and API keys server-side",
+      "Privacy and data governance for PII",
+      "Reliability and fallbacks when the provider fails",
+      "Choosing the exact wording of one specific prompt"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A vector store is included in many architectures primarily to enable which capability?",
+    "choices": [
+      "Retrieving relevant documents to ground the model's answers (RAG)",
+      "Storing the model's weights for faster inference",
+      "Encrypting the client's network traffic",
+      "Billing users per token automatically"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "An architect insists the team call the LLM through an internal interface rather than calling the provider's SDK directly throughout the codebase. Which benefits does this provider-abstraction approach provide? (Select all that apply.)",
+    "choices": [
+      "Swapping providers or models becomes a configuration change rather than a rewrite",
+      "It makes it easier to add routing (small model for easy tasks, large for hard ones)",
+      "It centralizes a single place to add a fallback when the provider fails",
+      "It removes the need for any guardrails or output checks"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

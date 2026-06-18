@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "In tool use (function calling), what actually happens when the model 'uses' a tool?",
+    "choices": [
+      "The model emits a structured request, and the application executes the real function and returns the result",
+      "The model runs the function itself inside its weights",
+      "The tool replaces the model entirely for that turn",
+      "The application asks the model to write code that the user runs manually"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which steps make up one iteration of the agent loop? Select all that apply.",
+    "choices": [
+      "Plan the next step",
+      "Act by requesting a tool",
+      "Observe the returned result",
+      "Permanently retrain the model on the result"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A PM is deciding between a single model call and a full agent for a new feature. Which situation most justifies using an agent?",
+    "choices": [
+      "The task is multi-step and depends on fresh external data gathered along the way",
+      "The task is a one-shot summary of a fixed block of text",
+      "The team wants to reduce per-request cost as much as possible",
+      "The output must be a single deterministic label every time"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which of these are real risks of giving an agent autonomy, and which guardrails address them? Select all correct statements.",
+    "choices": [
+      "Runaway loops can be limited with a maximum-iteration cap",
+      "Cost grows with each loop iteration, so timeouts and budgets help",
+      "An early wrong observation can compound through later steps",
+      "Adding more tools always eliminates the risk of runaway loops"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

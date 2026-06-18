@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Why is evaluating an AI system harder than testing a typical deterministic program?",
+    "choices": [
+      "The same prompt can produce different wording each run, and there is rarely one single correct output string",
+      "AI systems never produce incorrect outputs, so there is nothing to test",
+      "It is impossible to measure latency or cost for AI systems",
+      "Deterministic programs cannot be tested at all"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Which of the following are evaluation APPROACHES (ways to gather judgments), as opposed to metrics? (Select all that apply.)",
+    "choices": [
+      "Golden / offline datasets",
+      "Faithfulness / groundedness",
+      "Human review",
+      "LLM-as-judge"
+    ],
+    "correct": [0, 2, 3],
+    "points": 1
+  },
+  {
+    "prompt": "A summarizer's outputs sometimes include details that never appeared in the source review. Which metric most directly captures this problem?",
+    "choices": [
+      "Faithfulness / groundedness",
+      "Latency",
+      "Cost per call",
+      "Relevance"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "A PM wants to ship a prompt change but must avoid silently degrading quality. Which practices support safe, evidence-based iteration? (Select all that apply.)",
+    "choices": [
+      "Rerun a golden-dataset eval suite after the change and keep it only if scores improve with no regression",
+      "Run the eval suite automatically as a regression gate before each release",
+      "Judge the change by how good it looks on two or three hand-picked demos",
+      "Track latency and cost alongside quality so a quality gain isn't hiding a speed or cost regression"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

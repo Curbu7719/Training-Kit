@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A high-volume background job classifies millions of records per month. Analysis shows about **85%** of records are easy and a small, cheap model labels them correctly with high confidence, while the rest are genuinely ambiguous and need the large model. The team currently sends **every** record to the large model and wants to cut cost **without losing quality on the hard cases**. Latency is not user-facing. **Pick the best design decision and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Send every record to the large model but cap the output to one token",
+      "Use a cascade: the small model labels first, escalating to the large model only when its confidence check fails",
+      "Send every record to the small model only and accept whatever it returns",
+      "Batch all records and send them all to the large model in one big request"
+    ],
+    "reason_choices": [
+      "Because most records are easy, so paying the large-model price only on the escalated minority lowers average cost while the hard cases still reach the large model",
+      "Because capping output to one token removes the need for a large model entirely",
+      "Because the small model is always as accurate as the large model, so quality cannot drop",
+      "Because batching changes the per-token price charged by the provider"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

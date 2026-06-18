@@ -1,0 +1,22 @@
+{
+  "type": "match",
+  "prompt_md": "Match each AI evaluation metric to what it measures.",
+  "spec": {
+    "left": [
+      "Accuracy",
+      "Relevance",
+      "Faithfulness / groundedness",
+      "Latency",
+      "Cost"
+    ],
+    "right": [
+      "Whether the output is correct",
+      "Whether the output actually addresses the question asked",
+      "Whether the output stays within the supplied sources without inventing facts",
+      "How fast the system responds",
+      "How much each call spends"
+    ]
+  },
+  "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]] },
+  "max_score": 10
+}

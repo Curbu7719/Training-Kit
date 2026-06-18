@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A team is building a customer-facing chatbot. To save time, a developer proposes having the **browser client call the model provider's API directly**, embedding the provider API key in the front-end JavaScript so there's no server to maintain. Given a sound layered AI architecture, what should the team do, and why? **Pick the best decision and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Embed the API key in the front-end and call the provider directly from the browser",
+      "Route all model calls through a server-side orchestration layer that holds the key and builds the prompt",
+      "Store the API key in the browser's localStorage and call the provider from there",
+      "Put the API key in a public config file served by the CDN"
+    ],
+    "reason_choices": [
+      "Because the client is untrusted: a key in front-end code can be extracted by anyone, and the orchestration layer is where secrets, prompts, guardrails, and logging belong",
+      "Because front-end JavaScript is compiled and therefore hides the key from users",
+      "Because localStorage is encrypted and safe for storing API secrets",
+      "Because CDNs prevent users from reading the files they serve"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}
