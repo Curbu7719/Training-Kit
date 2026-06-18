@@ -1,7 +1,6 @@
 // leaderboard/leaderboard.test.ts
 //
-// Deno unit tests for the pure helpers exported from the leaderboard and
-// admin-api functions.
+// Deno unit tests for the pure helpers shared by leaderboard and admin-api.
 //
 // Run with:
 //   deno test supabase/functions/leaderboard/leaderboard.test.ts
@@ -9,8 +8,8 @@
 // These tests have no I/O — they only exercise deterministic logic.
 
 import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
-import { maskEmail } from './index.ts';
-import { validateCorrectIndexes } from '../admin-api/index.ts';
+import { maskEmail } from '../_shared/leaderboard-helpers.ts';
+import { validateCorrectIndexes } from '../_shared/admin-helpers.ts';
 
 // ---------------------------------------------------------------------------
 // maskEmail
@@ -50,7 +49,7 @@ Deno.test('maskEmail — does not mask a string with @ but no domain dot (malfor
 });
 
 Deno.test('maskEmail — does not mask a string with @ but no local-part', () => {
-  // "@example.com" — does not match: local-part before @ is empty
+  // "@example.com" — local-part before @ is empty, pattern does not match
   assertEquals(maskEmail('@example.com'), '@example.com');
 });
 

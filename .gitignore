@@ -29,3 +29,8 @@ npm-debug.log*
 # Supabase
 supabase/.branches
 supabase/.temp
+
+# Generated build artifacts (from tsc -b of vite.config.ts)
+vite.config.js
+vite.config.d.ts
+*.tsbuildinfo

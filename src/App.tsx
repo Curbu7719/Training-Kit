@@ -7,6 +7,9 @@ import { LoginPage } from '@/pages/LoginPage';
 import { TrackPickerPage } from '@/pages/TrackPickerPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { LessonPlayerPage } from '@/pages/LessonPlayerPage';
+import { LeaderboardPage } from '@/pages/LeaderboardPage';
+import { AdminPage } from '@/pages/AdminPage';
+import { AdminRoute } from '@/components/auth/AdminRoute';
 
 // ---------------------------------------------------------------------------
 // TrackPickerGuard — auth required, but active_track not required.
@@ -68,6 +71,26 @@ export default function App() {
             <ProtectedRoute>
               <LessonPlayerPage />
             </ProtectedRoute>
+          }
+        />
+
+        {/* Leaderboard — auth + track required */}
+        <Route
+          path="/leaderboard"
+          element={
+            <ProtectedRoute>
+              <LeaderboardPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin panel — admin role required */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
           }
         />
 

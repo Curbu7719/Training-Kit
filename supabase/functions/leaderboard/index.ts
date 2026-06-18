@@ -23,30 +23,9 @@
 
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
 import { createServiceClient, verifyJwt } from '../_shared/supabase-client.ts';
+import { maskEmail } from '../_shared/leaderboard-helpers.ts';
 
-// ---------------------------------------------------------------------------
-// Pure helper — testable with no I/O
-// ---------------------------------------------------------------------------
-
-/**
- * Mask a display name that looks like an email address.
- * Returns the local-part (before @) if the value matches a basic email pattern,
- * otherwise returns the value unchanged.
- *
- * Examples:
- *   "jane.doe@example.com" → "jane.doe"
- *   "Alice"                → "Alice"
- *   "alice@"               → "alice@"  (malformed — no domain, left as-is)
- */
-export function maskEmail(displayName: string | null | undefined): string {
-  if (!displayName) return 'Anonymous';
-  // Match a simple email: something@something.something
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (emailPattern.test(displayName)) {
-    return displayName.split('@')[0];
-  }
-  return displayName;
-}
+export { maskEmail };
 
 // ---------------------------------------------------------------------------
 // Entry point

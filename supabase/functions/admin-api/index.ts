@@ -25,36 +25,9 @@
 
 import { corsHeaders, handleCors } from '../_shared/cors.ts';
 import { createServiceClient, verifyJwt } from '../_shared/supabase-client.ts';
+import { validateCorrectIndexes } from '../_shared/admin-helpers.ts';
 
-// ---------------------------------------------------------------------------
-// Pure helpers — small, testable, no I/O
-// ---------------------------------------------------------------------------
-
-/**
- * Validate that every index in `correct` is within bounds of `choices`.
- * `correct` is stored as a jsonb array of integer indexes.
- * Returns an error message string, or null if valid.
- */
-export function validateCorrectIndexes(
-  choices: unknown,
-  correct: unknown,
-): string | null {
-  if (!Array.isArray(choices) || choices.length === 0) {
-    return '`choices` must be a non-empty array';
-  }
-  if (!Array.isArray(correct) || correct.length === 0) {
-    return '`correct` must be a non-empty array of integer indexes';
-  }
-  for (const idx of correct) {
-    if (typeof idx !== 'number' || !Number.isInteger(idx)) {
-      return `\`correct\` entries must be integers, got: ${JSON.stringify(idx)}`;
-    }
-    if (idx < 0 || idx >= choices.length) {
-      return `\`correct\` index ${idx} is out of bounds for choices length ${choices.length}`;
-    }
-  }
-  return null;
-}
+export { validateCorrectIndexes };
 
 // ---------------------------------------------------------------------------
 // Action handlers — each receives the service client, the parsed body, and

@@ -7,12 +7,16 @@ import { test, expect, type Page } from '@playwright/test';
 //   • Required L1 for ALL tracks → available immediately after picking a track.
 //   • Exercise type: scenario (two linked MCQs with known answer_key).
 //     decision_key = 1, reason_key = 0  (from content/modules/adr_tradeoffs/exercise.json)
-//   • Quiz: 4 questions, all single-correct-answer choices, keys known from
-//     content/modules/adr_tradeoffs/quiz.json (indices: 0, 0, 1, 2).
+//   • Quiz: 4 questions; we pick any first choice — test asserts the graded
+//     result UI surfaces regardless of correctness.
 //
 // Tests create real users in the live Supabase DB (email auto-confirm ON).
 // Unique emails prevent rerun collisions. No cleanup is performed.
 // ---------------------------------------------------------------------------
+
+// Extend the per-test timeout to accommodate remote Supabase edge-function latency
+// (quiz-submit + exercise-submit + progress each add network round trips).
+test.setTimeout(120_000);
 
 function uniqueEmail(): string {
   const rand = Math.random().toString(36).slice(2, 8);
@@ -44,14 +48,6 @@ async function signUpAndPickTrack(page: Page, email: string): Promise<void> {
   await expect(page).toHaveURL('/dashboard', { timeout: 15_000 });
 }
 
-/** Click the first choice button that contains the given text (partial match). */
-async function clickChoiceByText(page: Page, text: string): Promise<void> {
-  await page.locator('[role="group"] button, [role="radiogroup"] button')
-    .filter({ hasText: text })
-    .first()
-    .click();
-}
-
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
@@ -61,114 +57,120 @@ test.describe('Learning flow — adr_tradeoffs module', () => {
     const email = uniqueEmail();
     await signUpAndPickTrack(page, email);
 
-    // The adr_tradeoffs module card should be present
+    // The adr_tradeoffs card is module #8 — scroll it into view before asserting.
     const moduleCard = page.getByTestId('module-card-adr_tradeoffs');
+    await moduleCard.scrollIntoViewIfNeeded();
     await expect(moduleCard).toBeVisible({ timeout: 10_000 });
 
-    // For a brand-new user, status is either "Locked" or "In progress" (never "Passed")
-    await expect(moduleCard.getByRole('img').or(moduleCard.locator('svg'))).toHaveCount(0, { timeout: 0 }).catch(() => {
-      // Not asserting SVG count — just check status badge text is present
-    });
-
-    // Status badge exists on the card
-    const badge = moduleCard.locator('[class*="badge"], [data-slot="badge"]').first()
-      .or(moduleCard.locator('text=Locked').or(moduleCard.locator('text=In progress')).or(moduleCard.locator('text=Passed')));
-    // At minimum the card title is visible
+    // For a fresh user the card title is visible
     await expect(moduleCard.getByText('Decision Records & Trade-Off Analysis')).toBeVisible();
+
+    // The status badge text must be one of the known statuses
+    await expect(
+      moduleCard.getByText('Locked')
+        .or(moduleCard.getByText('In progress'))
+        .or(moduleCard.getByText('Passed'))
+    ).toBeVisible({ timeout: 5_000 });
   });
 
   test('open module → step through concept → example → quiz → exercise → complete → progress updated', async ({ page }) => {
     const email = uniqueEmail();
     await signUpAndPickTrack(page, email);
 
-    // Navigate to the adr_tradeoffs module via the Start/Continue button on its card
+    // Scroll the adr_tradeoffs module card into view and click its Start button
     const moduleCard = page.getByTestId('module-card-adr_tradeoffs');
+    await moduleCard.scrollIntoViewIfNeeded();
     await expect(moduleCard).toBeVisible({ timeout: 10_000 });
-    await moduleCard.getByRole('button').click();
+    await moduleCard.getByRole('button', { name: 'Start' }).click();
 
-    // Lesson player should load with the module title
+    // Lesson player loads for adr_tradeoffs
     await expect(page).toHaveURL(/\/learn\/adr_tradeoffs/, { timeout: 15_000 });
-    await expect(page.locator('p').filter({ hasText: 'Decision Records' })).toBeVisible({ timeout: 10_000 });
+    // Wait for the header progress counter to confirm lessons loaded
+    await expect(page.locator('text=/Level L[12]/')).toBeVisible({ timeout: 15_000 });
 
     // ---------------------------------------------------------------------------
-    // Step through each lesson in order.
-    // The lesson nav pills appear at the top; each has a kind icon + title.
-    // For concept/example lessons we click the "Next" / "Mark complete" button.
-    // For quiz lessons we answer each question and advance with "Next question" / "Finish quiz".
-    // For the exercise lesson we submit with the correct scenario answer.
+    // Drive through every lesson.
+    //
+    // State machine: the page shows exactly one "primary action" at a time:
+    //   • lesson-next-btn     → concept/example: advance
+    //   • quiz-submit-btn     → quiz: pick a choice, submit, wait for result
+    //   • quiz-next-btn       → quiz: advance after seeing the result
+    //   • exercise-submit-btn → exercise: select answers, submit, wait for result
+    //   • exercise-continue-btn → exercise: advance after seeing result
+    //   • all-lessons-done-banner visible → exit loop
+    //
+    // Edge function calls (quiz-submit, exercise-submit, progress) are remote
+    // and may take up to 30 s — each network wait uses a 30 s timeout.
     // ---------------------------------------------------------------------------
 
-    // We iterate by clicking through lessons until all are done.
-    // The lesson player tracks completedIdxs; once all are done the banner appears.
-    // Strategy: keep clicking the visible action buttons until the all-done banner shows.
-
-    // Max iterations guard (10 lessons max per module)
-    for (let attempt = 0; attempt < 30; attempt++) {
-      // All-done banner → exit loop
+    for (let attempt = 0; attempt < 40; attempt++) {
+      // Check for the all-done banner first
       const doneBanner = page.getByTestId('all-lessons-done-banner');
       if (await doneBanner.isVisible()) break;
 
-      // --- Concept / example: click Next or Mark complete ---
+      // --- 1. Concept / example lesson: Next or Mark complete ---
       const nextBtn = page.getByTestId('lesson-next-btn');
-      if (await nextBtn.isVisible({ timeout: 500 }).catch(() => false)) {
+      if (await nextBtn.isVisible({ timeout: 1_000 }).catch(() => false)) {
         await nextBtn.click();
+        // Brief wait for the page to transition to the next lesson
+        await page.waitForTimeout(300);
         continue;
       }
 
-      // --- Quiz: submit answer + next question ---
+      // --- 2. Quiz: pick a choice and submit ---
       const quizSubmit = page.getByTestId('quiz-submit-btn');
-      if (await quizSubmit.isVisible({ timeout: 500 }).catch(() => false)) {
-        // Pick the first choice button in the answer group that isn't already selected.
-        // We need at least one answer selected to enable Submit. We don't need to pick
-        // the correct one — the test asserts the graded result UI appears, not pass/fail.
+      if (await quizSubmit.isVisible({ timeout: 1_000 }).catch(() => false)) {
+        // Pick the first available (unselected) choice
         const choices = page.locator('[role="group"][aria-label="Answer choices"] button');
-        const firstChoice = choices.first();
-        await firstChoice.click();
+        await choices.first().click();
         await quizSubmit.click();
 
-        // Wait for the result feedback + next/finish button
-        const nextQ = page.getByTestId('quiz-next-btn');
-        await expect(nextQ).toBeVisible({ timeout: 15_000 });
-        await nextQ.click();
-        continue;
-      }
-
-      // --- Quiz next-btn visible directly (already answered) ---
-      const quizNext = page.getByTestId('quiz-next-btn');
-      if (await quizNext.isVisible({ timeout: 500 }).catch(() => false)) {
+        // Edge function response — allow up to 30 s
+        const quizNext = page.getByTestId('quiz-next-btn');
+        await expect(quizNext).toBeVisible({ timeout: 30_000 });
         await quizNext.click();
+        await page.waitForTimeout(300);
         continue;
       }
 
-      // --- Exercise: scenario type (adr_tradeoffs) ---
-      // decision index 1 = "Use a managed database service and store a note…"
-      // reason index 0 = "Because a managed service trades some cost…"
+      // --- 3. Quiz next button visible (result already shown from a prior iteration) ---
+      const quizNext = page.getByTestId('quiz-next-btn');
+      if (await quizNext.isVisible({ timeout: 1_000 }).catch(() => false)) {
+        await quizNext.click();
+        await page.waitForTimeout(300);
+        continue;
+      }
+
+      // --- 4. Exercise: scenario type (adr_tradeoffs)
+      //    decision_key = 1, reason_key = 0
       const exerciseSubmit = page.getByTestId('exercise-submit-btn');
-      if (await exerciseSubmit.isVisible({ timeout: 500 }).catch(() => false)) {
-        // Pick decision (index 1 — second radio in the Decision group)
+      if (await exerciseSubmit.isVisible({ timeout: 1_000 }).catch(() => false)) {
+        // Decision group: pick index 1 (second button)
         const decisionGroup = page.locator('[aria-label="Decision"]');
+        await expect(decisionGroup).toBeVisible({ timeout: 5_000 });
         await decisionGroup.locator('button').nth(1).click();
 
-        // After clicking a decision, the Reason group appears
+        // Reason group appears once a decision is picked
         const reasonGroup = page.locator('[aria-label="Reason"]');
         await expect(reasonGroup).toBeVisible({ timeout: 5_000 });
-        // Pick reason (index 0 — first radio in Reason group)
+        // Pick index 0 (first button)
         await reasonGroup.locator('button').nth(0).click();
 
         await exerciseSubmit.click();
 
-        // Wait for the result status
-        await expect(page.getByTestId('exercise-result')).toBeVisible({ timeout: 15_000 });
+        // Edge function response — allow up to 30 s
+        await expect(page.getByTestId('exercise-result')).toBeVisible({ timeout: 30_000 });
 
-        // Click Continue to advance to the next lesson (or all-done banner)
+        // Click Continue to advance
         const continueBtn = page.getByTestId('exercise-continue-btn');
         await expect(continueBtn).toBeVisible({ timeout: 5_000 });
         await continueBtn.click();
+        await page.waitForTimeout(300);
         continue;
       }
 
-      // Safety: if nothing matched, wait a moment for the page to settle
-      await page.waitForTimeout(500);
+      // Nothing matched yet — page may be mid-transition; wait briefly
+      await page.waitForTimeout(600);
     }
 
     // All lessons done banner must now be visible
@@ -176,25 +178,23 @@ test.describe('Learning flow — adr_tradeoffs module', () => {
     await expect(doneBanner).toBeVisible({ timeout: 10_000 });
     await expect(doneBanner).toContainText('All lessons complete!');
 
-    // Click "Complete module" to trigger /progress edge function and navigate back
+    // Click "Complete module" — triggers the /progress edge function
     const completeBtn = page.getByTestId('complete-module-btn');
     await expect(completeBtn).toBeEnabled();
     await completeBtn.click();
 
-    // Should return to the dashboard
-    await expect(page).toHaveURL('/dashboard', { timeout: 20_000 });
+    // Navigates back to the dashboard
+    await expect(page).toHaveURL('/dashboard', { timeout: 30_000 });
     await expect(page.getByRole('heading', { name: 'Your learning path' })).toBeVisible();
 
-    // The adr_tradeoffs module card should now reflect updated status
-    // (either "In progress" or "Passed" depending on quiz score — we assert it changed from
-    // the initial "Locked" state or the CTA changed from "Start" to "Continue" / "Review").
+    // adr_tradeoffs card should now show "Continue" or "Review" (not "Start")
+    // confirming that progress was recorded.
     const updatedCard = page.getByTestId('module-card-adr_tradeoffs');
+    await updatedCard.scrollIntoViewIfNeeded();
     await expect(updatedCard).toBeVisible({ timeout: 10_000 });
 
-    // The card must no longer show only "Start" as the sole CTA — it shows "Continue" or "Review"
-    // which confirms progress was recorded.
     await expect(
       updatedCard.getByRole('button', { name: /Continue|Review/ })
-    ).toBeVisible({ timeout: 10_000 });
+    ).toBeVisible({ timeout: 15_000 });
   });
 });

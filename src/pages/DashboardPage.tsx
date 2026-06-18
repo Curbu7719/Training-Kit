@@ -210,6 +210,14 @@ export function DashboardPage() {
                 {profile.display_name}
               </span>
             )}
+            <Button variant="ghost" size="sm" onClick={() => navigate('/leaderboard')}>
+              Leaderboard
+            </Button>
+            {profile?.role === 'admin' && (
+              <Button variant="ghost" size="sm" onClick={() => navigate('/admin')}>
+                Admin
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={() => void handleSignOut()} data-testid="sign-out-btn">
               Sign out
             </Button>
