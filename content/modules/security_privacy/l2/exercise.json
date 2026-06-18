@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Your team ships an AI support assistant that retrieves customer tickets from a **vector store** and feeds them to a model. You already redact every prompt an agent types. A privacy review finds that the **vector store was built from the full, un-redacted ticket history**, and that you **log the assembled prompt** (typed text plus retrieved ticket content) to a shared observability platform.\n\nYou can make **one** change next. Given that the sensitive PII enters through ingestion and retrieved context — not the typed prompt — which change best addresses the root cause, and why?",
+  "spec": {
+    "decision_choices": [
+      "Tighten the redaction filter that runs on the agent's typed prompt only",
+      "Classify and redact PII at ingestion (before embedding), isolate the store per tenant, and exclude the assembled prompt from plain logs",
+      "Switch to a model with a larger context window so it retrieves fewer tickets",
+      "Lower the model's temperature so its answers are more deterministic"
+    ],
+    "reason_choices": [
+      "Because the leak surfaces are upstream — the vector store and the logs hold raw PII regardless of the typed-prompt redaction, so controlling ingestion, isolation, and logging addresses the root cause",
+      "Because redacting the typed prompt also redacts the retrieved context and the vector store",
+      "Because a larger context window prevents customer data from being embedded",
+      "Because deterministic answers cannot contain personal data"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

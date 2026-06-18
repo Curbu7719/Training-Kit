@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir geliştirici, gerçek müşteri e-postaları ve canlı bir API anahtarı içeren bir üretim stack trace'ini ücretsiz bir tüketici chatbot'una yapıştırıyor. Chatbot'un cevabı doğru olsa bile bu neden bir güvenlik ve gizlilik sorunudur?",
+    "choices": [
+      "Çünkü prompt'un kendisi kontrolünüzden çıkar — PII ve secret saklanabilir, log'lanabilir, eğitim için kullanılabilir veya başka bir bölgede depolanabilir",
+      "Çünkü tüketici chatbot'ları kurumsal olanlardan daha az doğru hata ayıklama cevapları verir",
+      "Çünkü uzun bir stack trace yapıştırmak çok fazla token kullanır ve modeli yavaşlatır",
+      "Çünkü stack trace'ler telif hakkıyla korunur ve paylaşılamaz"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "SDLC'de AI kullanırken aşağıdakilerden gerçek güvenlik veya gizlilik riski olan TÜM seçenekleri işaretleyin.",
+    "choices": [
+      "Müşteri PII'sini veya tescilli kaynak kodunu, prompt'ları saklayan veya bunlarla eğitim yapan bir sağlayıcıya göndermek",
+      "Bir belgede gizlenmiş, modeli veriyi dışarı sızdırması için kandıran bir prompt injection",
+      "Geliştiricilerin kodu onaylanmamış tüketici chatbot'larına yapıştırması (shadow AI)",
+      "Onaylı bir zero-retention aracı kullanarak, hassas veri içermeyen bir kod parçacığını biçimlendirmesini istemek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Ekibiniz, geliştiricilerin kodu sessizce rastgele chatbot'lara yapıştırmasını (shadow AI) durdurmak istiyor. Hangi yaklaşım bunu en iyi gün ışığına çıkarır? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Bir kurumsal anlaşma ve zero-retention ayarlarıyla onaylı bir AI aracı sağlamak",
+      "AI araçlarına hangi verinin gönderilip gönderilemeyeceği konusunda net bir politika yayınlamak",
+      "Yalnızca topyekûn bir yasağa güvenmek yerine geliştiricileri riskler konusunda eğitmek",
+      "Tüm AI araçlarını güvenlik duvarında engellemek ve sorunun çözüldüğünü varsaymak"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Onaylı bir AI aracına bir hata ayıklama prompt'u göndermeden önce, hangi tek uygulama prompt'un gizlilik riskini en doğrudan azaltır?",
+    "choices": [
+      "Metinden PII ve secret'ları redact ederek yalnızca hatayı teşhis etmek için gereken asgari bilgiyi göndermek",
+      "Trace'in daha fazlasını okuması için daha büyük context window'lu bir model seçmek",
+      "Cevabın daha yaratıcı olması için modelin sıcaklığını artırmak",
+      "Nöbet rotasyonu gecikmesin diye tüm trace'i hızlıca göndermek"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

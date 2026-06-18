@@ -1,0 +1,17 @@
+{
+  "type": "mcq",
+  "prompt_md": "Your team is adopting AI assistants across the SDLC. **Select every option that is a genuine security or privacy risk, OR a sound safeguard against one** (i.e. every option that belongs in a security & privacy review of AI usage).",
+  "spec": {
+    "choices": [
+      "Pasting a production database row with customer PII into a consumer chatbot that retains prompts (risk)",
+      "Redacting emails, addresses, and API keys before sending a stack trace to an AI tool (safeguard)",
+      "A prompt injection hidden in a fetched document that exfiltrates sensitive context (risk)",
+      "Using only approved tools with zero-retention / no-train settings enabled (safeguard)",
+      "Choosing a model purely because it has the largest context window (neither a risk nor a safeguard)",
+      "Developers using unsanctioned chatbots with no policy or enterprise agreement — shadow AI (risk)"
+    ],
+    "multi": true
+  },
+  "answer_key": { "correct": [0, 1, 2, 3, 5] },
+  "max_score": 10
+}

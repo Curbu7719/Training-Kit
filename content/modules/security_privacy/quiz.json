@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "A developer pastes a production stack trace containing real customer emails and a live API key into a free consumer chatbot. Why is this a security and privacy problem even if the chatbot's answer is correct?",
+    "choices": [
+      "Because the prompt itself leaves your control — the PII and secret may be retained, logged, used for training, or stored in another region",
+      "Because consumer chatbots give less accurate debugging answers than enterprise ones",
+      "Because pasting a long stack trace uses too many tokens and slows the model",
+      "Because stack traces are copyrighted and cannot be shared"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Select ALL of the following that are genuine security or privacy risks when using AI in the SDLC.",
+    "choices": [
+      "Sending customer PII or proprietary source code to a provider that retains prompts or trains on them",
+      "A prompt injection hidden in a document that tricks the model into exfiltrating data",
+      "Developers pasting code into unsanctioned consumer chatbots (shadow AI)",
+      "Asking the model to format a code snippet that contains no sensitive data, using an approved zero-retention tool"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Your team wants to stop developers from quietly pasting code into random chatbots (shadow AI). Which approach best brings this into the light? Select ALL that apply.",
+    "choices": [
+      "Provide a sanctioned AI tool with an enterprise agreement and zero-retention settings",
+      "Publish a clear policy on what data may and may not be sent to AI tools",
+      "Educate developers on the risks instead of relying only on a blanket ban",
+      "Block all AI tools at the firewall and assume the problem is solved"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Before sending a debugging prompt to an approved AI tool, which single practice most directly reduces the privacy risk of the prompt?",
+    "choices": [
+      "Redact PII and secrets from the text so only the minimum needed to diagnose the bug is sent",
+      "Choose a model with a larger context window so it reads more of the trace",
+      "Increase the model's temperature so the answer is more creative",
+      "Send the full trace quickly so the on-call rotation isn't delayed"
+    ],
+    "correct": [0],
+    "points": 1
+  }
+]

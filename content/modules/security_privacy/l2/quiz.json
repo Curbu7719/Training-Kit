@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A team redacts every prompt an agent types, but they embedded the full raw ticket history (with customer PII) into a vector store, and they log the assembled prompt including retrieved ticket text. Which statements correctly explain why PII is still leaking? Select ALL that apply.",
+    "choices": [
+      "The vector store holds raw PII ingested upstream, so redacting the typed prompt does not protect it",
+      "Retrieved context is appended after redaction, so un-redacted PII flows into the logs",
+      "Privacy must be controlled at every data flow, not only at the typed prompt",
+      "Redacting the typed prompt is sufficient because all other surfaces inherit that redaction"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Your team assumed an AI provider offered zero-retention and no-train. Before sending confidential source code, what must you actually verify? Select ALL that apply.",
+    "choices": [
+      "Whether the signed agreement and API configuration truly disable retention and training",
+      "The processing region, to confirm it meets your data-residency obligations",
+      "Any abuse-monitoring retention window and which sub-processors can see prompts",
+      "Nothing — the free and enterprise tiers of a product always share the same terms"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Why is binding AI usage rules to a data-classification scheme (public / confidential / regulated) stronger than telling developers to 'be careful'? Select ALL that apply.",
+    "choices": [
+      "You cannot enforce a rule you cannot express; classification turns judgement into policy",
+      "Each tier can carry specific rules (e.g. regulated data is never sent, confidential needs zero-retention)",
+      "Classification lets controls like redaction and tool-routing be applied automatically per tier",
+      "Classification guarantees that prompt injection and log leaks can never occur"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

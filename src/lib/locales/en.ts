@@ -227,6 +227,9 @@ const en = {
   'module.guardrails.title': 'Guardrails & Safety',
   'module.guardrails.desc': 'Identifying prompt injection and jailbreak risks; designing layered defenses.',
 
+  'module.security_privacy.title': 'Security & Privacy',
+  'module.security_privacy.desc': 'Handling PII and secrets with AI; preventing prompt and data leaks; surfacing shadow AI.',
+
   'module.tool_use_agents.title': 'Tool Use & Agents',
   'module.tool_use_agents.desc': 'Function-calling integrations; reasoning about agentic loops and failure modes.',
 

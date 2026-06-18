@@ -25,6 +25,7 @@ const SDLC_CODES = [
   'context_management',
   'prompting',
   'guardrails',
+  'security_privacy',
   'tool_use_agents',
   'rag',
   'evaluation',

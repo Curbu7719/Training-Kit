@@ -25,24 +25,32 @@ const authed = createClient(url, anon, { auth: { persistSession: false }, global
 const { error: trErr } = await authed.from('profiles').update({ active_track: 'developer' }).eq('id', uid);
 check('set active_track (own RLS update)', !trErr, trErr?.message);
 
-// grading: one quiz + one exercise, correct answers
-const { data: q } = await admin.from('quiz_questions').select('id, correct').limit(1).single();
-const { data: ex } = await admin.from('exercises').select('id, type, answer_key').limit(1).single();
-const ans = ex.type === 'order' ? { order: ex.answer_key.order }
+// grading + module completion: fully complete one module's L1 (deterministic badge).
+const { data: mod } = await admin.from('modules').select('id').eq('code', 'llm_foundations').single();
+const { data: lessons } = await admin.from('lessons').select('id').eq('module_id', mod.id).eq('level', 'L1').eq('lang', 'en');
+const lessonIds = lessons.map((l) => l.id);
+const { data: quizQs } = await admin.from('quiz_questions').select('id, correct').in('lesson_id', lessonIds);
+const { data: exsList } = await admin.from('exercises').select('id, type, answer_key').in('lesson_id', lessonIds);
+const exAns = (ex) => ex.type === 'order' ? { order: ex.answer_key.order }
   : ex.type === 'mcq' ? { selected: ex.answer_key.correct }
   : ex.type === 'scenario' ? { decision: ex.answer_key.decision, reason: ex.answer_key.reason }
   : ex.type === 'match' ? { pairs: ex.answer_key.pairs }
   : { values: ex.answer_key.accept.map((s) => s[0]) };
-const { data: qr } = await authed.functions.invoke('quiz-submit', { body: { quiz_question_id: q.id, chosen: q.correct } });
+
+const { data: qr } = await authed.functions.invoke('quiz-submit', { body: { quiz_question_id: quizQs[0].id, chosen: quizQs[0].correct } });
 check('quiz-submit grades correct', qr?.is_correct === true, JSON.stringify(qr));
-const { data: er } = await authed.functions.invoke('exercise-submit', { body: { exercise_id: ex.id, answer: ans } });
+for (const q of quizQs.slice(1)) await authed.functions.invoke('quiz-submit', { body: { quiz_question_id: q.id, chosen: q.correct } });
+
+let er;
+for (const ex of exsList) er = (await authed.functions.invoke('exercise-submit', { body: { exercise_id: ex.id, answer: exAns(ex) } })).data;
 check('exercise-submit grades full', er?.score === er?.max_score && er?.passed, JSON.stringify(er));
 
-// progress + badge written
-const { data: prog } = await admin.from('user_progress').select('status, score').eq('user_id', uid);
-check('user_progress recorded', Array.isArray(prog) && prog.length > 0, JSON.stringify(prog));
-const { data: ubadges } = await admin.from('user_badges').select('badge_id').eq('user_id', uid);
-check('badge awarded', (ubadges?.length ?? 0) >= 1, `${ubadges?.length ?? 0} badge(s)`);
+// progress + badge written (full module → passed + its badge)
+const { data: prog } = await admin.from('user_progress').select('status, score').eq('user_id', uid).eq('module_id', mod.id);
+check('user_progress recorded (module passed)', (prog ?? []).some((p) => p.status === 'passed'), JSON.stringify(prog));
+const { data: ubadges } = await admin.from('user_badges').select('badges(code)').eq('user_id', uid);
+const badgeCodes = (ubadges ?? []).map((b) => b.badges.code);
+check('badge awarded', badgeCodes.includes('badge_llm_foundations'), badgeCodes.join(',') || 'none');
 
 // answer-key privacy: anon cannot read `correct`
 const { error: leakErr } = await pub.from('quiz_questions').select('correct').limit(1);

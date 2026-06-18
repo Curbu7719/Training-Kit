@@ -227,6 +227,9 @@ const tr = {
   'module.guardrails.title': 'Güvenlik Önlemleri',
   'module.guardrails.desc': 'Prompt injection ve jailbreak risklerini tanımlamak; katmanlı savunmalar tasarlamak.',
 
+  'module.security_privacy.title': 'Güvenlik & Gizlilik',
+  'module.security_privacy.desc': 'AI ile PII ve sırların yönetimi; prompt ve veri sızıntılarını önleme; shadow AI\'ı görünür kılma.',
+
   'module.tool_use_agents.title': 'Araç Kullanımı ve Ajanlar',
   'module.tool_use_agents.desc': 'Fonksiyon çağrısı entegrasyonları; ajantik döngüler ve hata modları hakkında akıl yürütmek.',
 

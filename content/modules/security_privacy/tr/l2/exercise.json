@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Ekibiniz, müşteri ticket'larını bir **vector store**'dan getirip bir modele besleyen bir AI destek asistanı yayınlıyor. Bir temsilcinin yazdığı her prompt'u zaten redact ediyorsunuz. Bir gizlilik incelemesi, **vector store'un tam, redact edilmemiş ticket geçmişinden oluşturulduğunu** ve **birleştirilmiş prompt'u** (yazılan metin artı getirilen ticket içeriği) paylaşılan bir gözlemlenebilirlik platformuna **log'ladığınızı** buluyor.\n\nSonraki adımda **bir** değişiklik yapabilirsiniz. Hassas PII'nin yazılan prompt'tan değil, alım ve getirilen bağlam yoluyla girdiği göz önüne alındığında, hangi değişiklik kök nedeni en iyi şekilde ele alır — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "Yalnızca temsilcinin yazdığı prompt'ta çalışan redaction filtresini sıkılaştır",
+      "PII'yi alımda (embed etmeden önce) sınıflandır ve redact et, store'u tenant başına izole et ve birleştirilmiş prompt'u düz log'lardan dışla",
+      "Daha az ticket getirmesi için daha büyük context window'lu bir modele geç",
+      "Cevapları daha deterministik olsun diye modelin sıcaklığını düşür"
+    ],
+    "reason_choices": [
+      "Çünkü sızıntı yüzeyleri yukarı akıştadır — vector store ve log'lar, yazılan prompt redaction'ından bağımsız olarak ham PII tutar, bu yüzden alımı, izolasyonu ve log'lamayı kontrol etmek kök nedeni ele alır",
+      "Çünkü yazılan prompt'u redact etmek getirilen bağlamı ve vector store'u da redact eder",
+      "Çünkü daha büyük bir context window, müşteri verisinin embed edilmesini önler",
+      "Çünkü deterministik cevaplar kişisel veri içeremez"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

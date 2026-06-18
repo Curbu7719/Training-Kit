@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Bir ekip, bir temsilcinin yazdığı her prompt'u redact ediyor, ancak tüm ham ticket geçmişini (müşteri PII'siyle) bir vector store'a embed etti ve getirilen ticket metni dahil birleştirilmiş prompt'u log'luyor. PII'nin neden hâlâ sızdığını hangi ifadeler doğru açıklar? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Vector store, yukarı akışta alınmış ham PII tutar, bu yüzden yazılan prompt'u redact etmek onu korumaz",
+      "Getirilen bağlam redaction'dan sonra eklenir, bu yüzden redact edilmemiş PII log'lara akar",
+      "Gizlilik yalnızca yazılan prompt'ta değil, her veri akışında kontrol edilmelidir",
+      "Yazılan prompt'u redact etmek yeterlidir çünkü diğer tüm yüzeyler o redaction'ı devralır"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Ekibiniz bir AI sağlayıcısının zero-retention ve no-train sunduğunu varsaydı. Confidential kaynak kodu göndermeden önce gerçekte neyi doğrulamalısınız? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "İmzalı anlaşmanın ve API yapılandırmasının retention ve eğitimi gerçekten devre dışı bırakıp bırakmadığını",
+      "Data-residency yükümlülüklerinizi karşıladığını onaylamak için işleme bölgesini",
+      "Herhangi bir kötüye kullanım izleme retention penceresini ve prompt'ları hangi alt işleyicilerin görebileceğini",
+      "Hiçbir şey — bir ürünün ücretsiz ve kurumsal katmanları her zaman aynı şartları paylaşır"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "AI kullanım kurallarını bir veri sınıflandırma şemasına (public / confidential / regüle) bağlamak, geliştiricilere 'dikkatli ol' demekten neden daha güçlüdür? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "İfade edemediğiniz bir kuralı uygulayamazsınız; sınıflandırma muhakemeyi politikaya dönüştürür",
+      "Her katman belirli kurallar taşıyabilir (örn. regüle veri asla gönderilmez, confidential zero-retention gerektirir)",
+      "Sınıflandırma, redaction ve araç-yönlendirme gibi kontrollerin her katmana otomatik uygulanmasını sağlar",
+      "Sınıflandırma, prompt injection ve log sızıntılarının asla olamayacağını garanti eder"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]
