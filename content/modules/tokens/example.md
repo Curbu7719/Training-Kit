@@ -1,36 +1,35 @@
-# Worked Example: Counting Tokens in a Support Reply
+# Worked Example: Budgeting an AI Code-Review Bot
 
-A team is building an assistant that drafts customer-support replies. They want to
-estimate the token cost of a single request before turning the feature on.
+**Phase: continuous integration / code review.** A platform team wants to add an AI
+reviewer that comments on every pull request. Before turning it on, they estimate the
+token cost so they can budget the feature for the month.
 
-**The input prompt** the model receives is:
+**What goes in.** On a typical PR the bot reads the diff plus a little surrounding code —
+about **600 lines**. Source code is token-heavy: braces, indentation, and identifiers all
+cost tokens, so the team does not use the prose ratio. They run one representative diff
+through a tokenizer for their model and measure **~9,000 input tokens**. They also prepend
+a fixed instruction prompt ("Review this diff for bugs, security issues, and style…") of
+about **300 tokens**, so input is **~9,300 tokens** per PR.
 
-> "You are a helpful support agent. Reply politely to this customer message:
-> 'My order #4521 hasn't arrived and I want a refund.'"
+**What comes out.** The bot writes roughly **400 words** of review comments. Using the
+rough output guess of `400 ÷ 75 × 100 ≈ 530 output tokens`, they round to **~550 output
+tokens**.
 
-That input is about **34 words**. Using the rough rule of **100 tokens ≈ 75 words**,
-they estimate the input at roughly `34 ÷ 75 × 100 ≈ 45 tokens`. Note that the order
-number `#4521` does *not* count as one neat token — digits and the `#` symbol often
-split into several tokens each, so the real count is usually a little higher than the
-word-based guess. This is exactly why "1 word ≠ 1 token."
+**Per-PR cost.** Because input and output are billed separately, they cost them apart.
+Suppose their model charges \$3 per million input tokens and \$15 per million output tokens:
 
-**The output** the model generates is a 3-sentence reply, about **60 words**, which
-estimates to roughly `60 ÷ 75 × 100 ≈ 80 output tokens`.
+| Part | Tokens | Rate (per 1M) | Cost |
+|---|---|---|---|
+| Input (diff + prompt) | 9,300 | \$3 | \$0.0279 |
+| Output (comments) | 550 | \$15 | \$0.0083 |
+| **Per PR** | | | **~\$0.036** |
 
-**Putting it together for pricing.** Because input and output are billed separately,
-the team budgets them separately:
+**Scaling to a month.** The team merges about **1,500 PRs/month**, so the estimate is
+`1,500 × \$0.036 ≈ \$54/month` — cheap enough to approve.
 
-| Part | Approx. words | Approx. tokens |
-|---|---|---|
-| Input (prompt) | 34 | ~45 |
-| Output (reply) | 60 | ~80 |
-| **Total** | 94 | **~125** |
+**The catch they check for.** One huge PR (a generated migration of 20,000 lines) would
+blow past the model's context window entirely, so the bot is configured to **skip or
+chunk** diffs over a token threshold rather than fail.
 
-**Checking the estimate.** Before launch they run the same prompt through a tokenizer
-library for their model and get **52 input tokens** and **78 output tokens** — close to
-the estimate, but the input was undercounted because of `#4521`. They use the exact
-counts for the cost model.
-
-**The takeaway:** the rough ratio is fine for a first pass, but anything that drives a
-billing decision should be counted exactly, and input vs. output tokens should always be
-tracked apart because they are priced apart.
+**The takeaway:** estimate per request, separate input from output, multiply by volume —
+and guard against the single oversized file that breaks the budget *and* the context limit.

@@ -1,22 +1,22 @@
 [
   {
-    "prompt": "At the most basic level, what does a large language model do when it generates a response?",
+    "prompt": "At the most basic level, what does a large language model do when it drafts a commit message from a diff?",
     "choices": [
-      "Looks each answer up in a connected fact database",
+      "Looks the message up in a connected fact database",
       "Predicts the next token repeatedly, one token at a time",
-      "Executes the user's prompt as program code",
-      "Searches the live internet for the best matching page"
+      "Executes the diff as program code",
+      "Searches the live internet for the best matching message"
     ],
     "correct": [1],
     "points": 1
   },
   {
-    "prompt": "Which of the following are genuine limitations you must design around when using an LLM? (Select all that apply.)",
+    "prompt": "Which of the following are genuine limitations you must design around when using an LLM in a software workflow? (Select all that apply.)",
     "choices": [
-      "Hallucination — it can state false information confidently",
-      "Knowledge cutoff — it lacks data after its training date",
-      "Non-determinism — the same prompt may yield different answers",
-      "It cannot produce text longer than one sentence"
+      "Hallucination — it can confidently suggest an API method that does not exist",
+      "Knowledge cutoff — it may not know a framework version released after training",
+      "Non-determinism — the same prompt may yield different output run to run",
+      "It cannot produce any output longer than a single line"
     ],
     "correct": [0, 1, 2],
     "points": 1
@@ -24,21 +24,21 @@
   {
     "prompt": "What is the difference between training and inference?",
     "choices": [
-      "Training happens on every request; inference happens once",
-      "Training learns the model's weights once; inference uses those frozen weights to answer each prompt",
+      "Training happens on every API call; inference happens once",
+      "Training learns the model's weights once; inference uses those frozen weights to answer each prompt your tools send",
       "They are two names for the same process",
-      "Inference updates the model's knowledge with each new question"
+      "Inference permanently updates the model's knowledge with each new question"
     ],
     "correct": [1],
     "points": 1
   },
   {
-    "prompt": "A PM is scoping a high-volume feature that classifies short messages into 4 fixed categories, and must keep cost low and outputs repeatable. Which choice best fits?",
+    "prompt": "A team is choosing models for the coding phase: (a) generating commit messages on every push, and (b) reviewing an architecture proposal for hidden coupling. Which pairing of model choices is most appropriate?",
     "choices": [
-      "The largest available model at high temperature for creativity",
-      "The smallest model that reliably does the task, at low temperature",
-      "Any model at high temperature, since classification needs variety",
-      "A model with the most recent knowledge cutoff, regardless of size"
+      "Largest model for both, to be safe",
+      "Small/cheap model for commit messages; large/capable model for the architecture review",
+      "Large/capable model for commit messages; small/cheap model for the architecture review",
+      "Smallest model for both, to minimize cost regardless of task"
     ],
     "correct": [1],
     "points": 1

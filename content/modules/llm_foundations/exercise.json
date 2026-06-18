@@ -1,20 +1,20 @@
 {
   "type": "match",
-  "prompt_md": "Match each **model trait** on the left to its correct **practical implication** on the right.",
+  "prompt_md": "Match each **SDLC task** on the left to the **model choice or trait** that best fits it on the right.",
   "spec": {
     "left": [
-      "Knowledge cutoff",
-      "Hallucination",
-      "Non-determinism (default sampling)",
-      "Low temperature setting",
-      "Larger model size"
+      "Generating a one-line commit message on every push (high volume, simple)",
+      "Reviewing an architecture proposal for hidden coupling and failure modes",
+      "Producing structured output where the same input must give the same result",
+      "A model recommending a framework method that no longer exists",
+      "Generating varied edge-case test inputs for a parsing function"
     ],
     "right": [
-      "Supply recent or private facts in the prompt; the model won't know them on its own",
-      "Add a verification step for outputs that touch facts, since confident text can be wrong",
-      "Don't rely on exact-string equality in tests; the same prompt may vary run to run",
-      "Use it when you need focused, repeatable output such as structured or code responses",
-      "Reserve it for genuinely hard reasoning; expect higher cost and latency per call"
+      "Pick a small, fast, cheap model to keep per-call cost and latency low at scale",
+      "Reserve the largest, most capable model for this hard, open-ended reasoning task",
+      "Set a low temperature for focused, repeatable output",
+      "Add a human verification step, because the model can hallucinate confidently",
+      "Set a slightly higher temperature so suggestions are diverse rather than repetitive"
     ]
   },
   "answer_key": {

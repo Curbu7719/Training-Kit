@@ -1,38 +1,45 @@
-# Worked Example: An Agent Answering "What Should I Wear in Paris Tomorrow?"
+# Worked Example: An Agent Fixing a Failing Test
 
-A single model call can't answer this well — it doesn't know tomorrow's weather (knowledge cutoff) and can't look it up. So we give it two tools and let it run an **agent loop**.
+A teammate reports that `test_apply_discount` is red after a recent change. A single model call can't fix it well — it can't see the failure or the source. So we give a coding assistant three tools and let it run an **agent loop**.
 
 **Tools the app declares to the model:**
 
-- `get_forecast(city, date)` → returns temperature and conditions.
-- `get_calendar(date)` → returns the user's events for that day.
+- `run_tests(path)` → runs the suite, returns pass/fail and any traceback.
+- `search_code(query)` → returns matching files and line ranges.
+- `apply_patch(diff)` → applies a unified diff to the working tree.
 
-**Iteration 1 — plan and act.** The model reasons that it needs the weather first. Instead of guessing, it emits a tool request:
+**Iteration 1 — plan and act.** The model reasons it must see the actual failure first. Instead of guessing, it emits a tool request:
 
-> `get_forecast(city="Paris", date="tomorrow")`
+> `run_tests(path="tests/test_discount.py")`
 
 The model stops and waits — it has *requested*, not executed.
 
-**The app executes.** Your code calls the real weather service and returns the result into the conversation:
+**The app executes.** Your code runs pytest and returns the result into the conversation:
 
-> Result: `12°C, light rain in the afternoon.`
+> Result: `FAILED — AssertionError: expected 90, got 100. apply_discount() in cart.py:42`
 
-**Iteration 2 — observe, plan, act again.** The model now knows the weather but realizes outfit advice depends on the day's plans. It requests the second tool:
+**Iteration 2 — observe, plan, act again.** The model now knows where the bug is but needs the source. It requests:
 
-> `get_calendar(date="tomorrow")`
+> `search_code(query="def apply_discount")`
 
-The app runs it and returns:
+The app returns `cart.py:40-46`, revealing the discount is never subtracted.
 
-> Result: `Outdoor walking tour, 2-5 PM.`
+**Iteration 3 — act.** The model proposes a fix:
 
-**Iteration 3 — observe and finish.** With both observations in hand, the model has everything it needs. It calls no more tools and writes the final answer:
+> `apply_patch(diff="--- a/cart.py ... price - discount ...")`
 
-> "Expect 12°C and afternoon rain during your 2-5 PM walking tour — wear a warm layer and bring a waterproof jacket and umbrella."
+The app applies it.
+
+**Iteration 4 — verify and finish.** The model re-runs the suite:
+
+> `run_tests(path="tests/test_discount.py")` → `PASSED`
+
+It calls no more tools and reports: "Fixed `apply_discount` in cart.py:42 — the discount wasn't being subtracted. Tests pass."
 
 **What this illustrates:**
 
-- The model **requested** tools; the **app executed** them — the two never blur.
-- The loop ran **plan → act → observe** twice before converging, then stopped on its own.
-- A guardrail matters here: if a tool kept failing, a **max-iteration limit** (say, 5) would halt the loop instead of letting it spin forever and rack up cost.
+- The model **requested** tools; the **app executed** them — the boundary never blurs.
+- The loop ran **plan → act → observe** until tests went green, then stopped on its own.
+- A guardrail matters: if `run_tests` kept failing, a **max-iteration limit** (say, 8) would halt the loop instead of letting it edit-and-retry forever.
 
-A single call would have hallucinated the weather. The agent loop let the model *gather what it didn't know*, step by step, before committing to an answer.
+A single call would have hallucinated a patch. The agent loop let the model *gather the failure and the source it didn't know*, step by step, before committing a fix that's actually verified.

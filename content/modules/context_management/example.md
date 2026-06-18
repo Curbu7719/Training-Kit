@@ -1,16 +1,16 @@
-# Worked Example: A Chatbot That Forgets
+# Worked Example: A Multi-File Refactor That Loses the Plan (Maintenance Phase)
 
-A team builds a customer-service chatbot on top of an LLM. Early testing looks great — short conversations work perfectly. Then a tester has a long, 40-message back-and-forth, and partway through the bot "forgets" the customer's name and order number mentioned at the start.
+**Phase: Maintenance/Refactoring.** A developer asks an AI assistant to rename a core `User` model to `Account` across a legacy service — touching about 30 files. The session starts well: the assistant updates the model, the repository class, and a few callers. Then, twenty files in, it "forgets" an early instruction ("keep the old `user_id` column name for DB compatibility") and starts renaming the column too, breaking migrations.
 
-**Why it happened.** The app was re-sending the **entire** conversation on every call, because the model is stateless and only knows what's in the current request. As the chat grew, the accumulated transcript approached the **context window** limit. To fit, the oldest messages — the ones containing the name and order number — were dropped. The model never saw them, so it couldn't use them.
+**Why it happened.** The tool was re-sending the **entire** transcript — every edited file and explanation — on each call, because the model is stateless. As the refactor grew, the accumulated context approached the **context window** limit. To fit, the oldest content — including that compatibility instruction — was dropped. The model never saw it, so it couldn't honor it.
 
 **Fixing it with strategy choices.** The team combines two approaches:
 
-- **Sliding window** for the raw transcript: keep only the last 10 messages verbatim, since recent turns matter most for flow.
-- **Summarization** for the rest: whenever messages fall out of the window, fold their key facts ("Customer: Dana Lee, Order #4821, issue: late delivery") into a running summary that is always re-sent at the top of the context.
+- **Retrieval** for the codebase: instead of pasting all 30 files, fetch only the few files relevant to the current edit. This keeps the window lean across the whole refactor.
+- **Summarization with pinned facts** for the plan: maintain a short running summary of the refactor's rules ("rename `User`→`Account`; **keep `user_id` column**; update all callers"), always re-sent at the top so it never scrolls out.
 
-Now each call contains: a short summary of essentials + the last 10 messages + the new user turn — comfortably within the window, yet preserving the facts that matter.
+Now each call contains: the pinned refactor rules + a summary of progress so far + only the files being edited now — comfortably within the window.
 
-**A further option.** For policies and product details the bot must reference, the team uses **retrieval** instead of pasting the whole manual: store it externally and pull in only the relevant paragraph per question. This keeps the window lean.
+**A further option.** For long requirements threads in the BA's intake notes, the same idea applies: **summarize** the thread rather than pasting every message.
 
-**Takeaway:** running out of context isn't a bug in the model — it's a design constraint. The fix is deciding *what to include* each call and using summarization, a sliding window, and retrieval to keep the essentials present while staying under the limit.
+**Takeaway:** running out of context isn't a model bug — it's a design constraint. The fix is deciding *what to include* each call, using retrieval for code and summarization for the plan, so the essential rules stay present while you stay under the limit.

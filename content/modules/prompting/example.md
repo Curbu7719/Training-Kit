@@ -1,37 +1,34 @@
-# Worked Example: Turning a Vague Prompt into a Reliable One
+# Worked Example: Prompting for Unit Tests During the Coding Phase
 
-**The task:** a team wants a model to classify incoming customer messages as `billing`, `technical`, or `other`, so a script can route them automatically.
+**The task:** during the coding phase, a developer wants the model to generate unit tests for a `parse_price` function so the new pricing feature ships with coverage.
 
 **First attempt (vague):**
 
-> Read this message and tell me what it's about: "My card was charged twice this month."
+> Write some tests for my parse_price function.
 
-The model replies with a friendly paragraph: *"It sounds like you've been double-charged — I'd recommend contacting billing support..."* That's helpful to a human but useless to a router. There's no fixed category, and the wording changes every run.
+The model has no code, no framework, and no idea what edge cases matter. It invents a plausible-looking function signature, picks a random framework, and writes two happy-path tests against an API that doesn't exist. Useless to the build.
 
-**Engineered prompt.** We add a role, explicit categories, a delimiter around the data, and a strict output format:
+**Engineered prompt.** We add a role, paste the real code in delimiters, state the task precisely, and pin the output format:
 
-> **System:** You are a message classifier. Respond with exactly one word: `billing`, `technical`, or `other`. No explanation.
+> **System:** You are a senior Python engineer. Write tests using `pytest` only. Do not invent functions that aren't shown.
 >
-> **User:** Classify the message between the tags.
-> `<message>My card was charged twice this month.</message>`
+> **User:** Generate unit tests for the function between the tags. Cover: a valid price string, an empty string, a negative value, and a non-numeric input.
+> Return a single test file, no prose.
+> `<code>def parse_price(s): ...</code>`
 
-Now the model returns:
+Now the model returns a clean `test_parse_price.py` with four targeted tests using the project's actual framework.
 
-> `billing`
+**Adding a few-shot example** locks in house style. We prepend one existing test so naming and structure match:
 
-**Adding a few-shot example** makes edge cases consistent. We prepend two examples to the user message:
-
-> Examples:
-> `<message>The app crashes when I open settings.</message>` → `technical`
-> `<message>Do you ship to Canada?</message>` → `other`
->
-> Now classify: `<message>My card was charged twice this month.</message>`
+> Example of our test style:
+> `<test>def test_parse_price_valid(): assert parse_price("9.99") == 9.99</test>`
+> Now generate the rest in this style.
 
 **Why each change mattered:**
 
-- The **system message** pinned the role and forbade extra prose — so output is parseable.
-- **Explicit categories** removed guesswork about the label set.
-- **Delimiters** (`<message>` tags) separated the data from the instruction, so a message containing the word "classify" can't hijack the prompt.
-- **Few-shot examples** showed the boundary cases, cutting misclassification.
+- The **system message** pinned the framework and forbade invented APIs — so tests actually run.
+- **Pasting the code in delimiters** gave the model ground truth instead of a guess, and kept a comment in the code from being read as an instruction.
+- **Listing the exact cases** turned "some tests" into the edge cases QA cares about.
+- The **few-shot example** matched the team's naming convention, so the diff merges cleanly.
 
-**The lesson:** the model didn't get smarter between attempts — the *brief* did. A structured, specific, example-backed prompt turned an unpredictable paragraph into a single reliable token the rest of the system can act on.
+**The lesson:** the model didn't get smarter between attempts — the *brief* did. A structured, code-grounded, example-backed prompt turned a guess into runnable tests the CI pipeline can execute.

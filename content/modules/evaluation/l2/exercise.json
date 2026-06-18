@@ -1,6 +1,6 @@
 {
   "type": "scenario",
-  "prompt_md": "A team's offline eval over their golden dataset reports **94% accuracy** using an LLM-as-judge, so they ship. After launch, users complain specifically about answers to a particular question category. Investigation shows that category made up only a tiny fraction of the golden dataset, and when humans re-rate those answers they disagree sharply with the judge, which had rated long, confident-but-wrong answers as acceptable.\n\n**Decision:** What should the team do? **Reason:** Why does that address the root cause?",
+  "prompt_md": "QA's offline eval over their golden dataset reports **94% accuracy** for an AI feature using an LLM-as-judge, so the team ships. After launch, users complain specifically about answers in one question category. Investigation shows that category made up only a tiny fraction of the golden dataset, and when humans re-rate those answers they disagree sharply with the judge, which had rated long, confident-but-wrong answers as acceptable.\n\n**Decision:** What should the team do? **Reason:** Why does that address the root cause?",
   "spec": {
     "decision_choices": [
       "Stratify the dataset to represent the failing category, slice eval scores by segment, and validate the judge against human ratings",
@@ -12,7 +12,7 @@
       "Because a high aggregate hid a failing subgroup and a biased judge over-rated it, so representative data, per-segment scoring, and judge validation restore a trustworthy measurement",
       "Because aggregate scores are always more reliable than individual user reports",
       "Because more randomness in outputs will average out the failing category",
-      "Because a smaller dataset is faster to run and that is what matters most"
+      "Because a smaller dataset is faster to run in CI and that is what matters most"
     ]
   },
   "answer_key": {

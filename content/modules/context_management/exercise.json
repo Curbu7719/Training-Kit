@@ -1,12 +1,12 @@
 {
   "type": "order",
-  "prompt_md": "Your long-running conversation is approaching the model's context window limit. Arrange these steps into the correct order for handling it.",
+  "prompt_md": "An AI-assisted multi-file refactor is approaching the model's context window limit as edited files and explanations pile up. Arrange these steps into the correct order for handling it.",
   "spec": {
     "items": [
-      "Apply a reduction strategy: summarize old turns, drop the oldest with a sliding window, or move reference material to retrieval",
-      "Detect that the accumulated context is nearing the token limit",
-      "Re-send the trimmed context with the new request and continue the conversation",
-      "Decide which content is essential to keep versus what can be dropped or compressed"
+      "Apply a reduction strategy: retrieve only the files relevant to this edit, summarize earlier progress, and pin the refactor rules",
+      "Detect that the accumulated context (edited files plus discussion) is nearing the token limit",
+      "Re-send the trimmed context with the next edit request and continue the refactor",
+      "Decide what is essential to keep (the refactor rules, the current files) versus what can be dropped or compressed"
     ]
   },
   "answer_key": {

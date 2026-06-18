@@ -1,18 +1,18 @@
 {
   "type": "scenario",
-  "prompt_md": "A multi-day AI research assistant must reference a large, frequently-updated policy library and also honor a few non-negotiable constraints (e.g. 'exclude EU-region records') that were stated at the very start of a session. Long sessions previously violated those early constraints after older turns were compressed. **What is the best way to keep the constraints reliably in context, and why?**",
+  "prompt_md": "An AI assistant is driving a multi-day legacy migration. It must reference a large, frequently-edited source tree and also honor a few non-negotiable rules (e.g. 'preserve the public /v1/orders response shape') stated at the very start. Earlier long sessions violated those rules after older turns were compressed into summaries-of-summaries. **What is the best way to keep the rules reliably in context, and why?**",
   "spec": {
     "decision_choices": [
-      "Pin the non-negotiable constraints as protected facts carried verbatim every call, and use retrieval for the policy library",
-      "Switch to the largest available context window and re-send the entire transcript each call",
+      "Pin the non-negotiable rules as protected facts carried verbatim every call, and use retrieval for the source tree",
+      "Switch to the largest available context window and re-send the entire transcript and all files each call",
       "Use a pure sliding window of the last 15 turns and nothing else",
-      "Summarize everything, including the constraints, into a single running summary"
+      "Summarize everything, including the rules, into a single running summary"
     ],
     "reason_choices": [
-      "Because pinned facts bypass lossy summarization while retrieval keeps the large, changing library out of the window until needed",
-      "Because a larger window guarantees the model attends equally to all positions in the context",
-      "Because recent turns are the only context that ever matters for correctness",
-      "Because compressing the constraints into the summary makes them more durable over time"
+      "Because pinned facts bypass lossy summarization while retrieval keeps the large, changing source tree out of the window until a file is needed",
+      "Because a larger window guarantees the model attends equally to every file regardless of position",
+      "Because only the most recent turns ever matter for a migration's correctness",
+      "Because compressing the rules into the summary makes them more durable over time"
     ]
   },
   "answer_key": {

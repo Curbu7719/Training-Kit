@@ -1,13 +1,13 @@
-# Worked Example: Choosing a Model for a Support-Ticket Tagger
+# Worked Example: Choosing Models Across a Coding Sprint (Coding Phase)
 
-A team wants to automatically tag incoming support tickets with one of five categories (Billing, Bug, Feature Request, Account, Other). They expect about 50,000 tickets per month and want to see how next-token prediction and model choice play out in practice.
+**Phase: Coding/Implementation.** A development team is wiring AI into its daily workflow during a feature sprint. Three distinct lifecycle tasks come up, and each calls for a different model choice — showing the capability/cost/latency trade-off in practice.
 
-**The task framed for an LLM.** They give the model a prompt like: *"Classify this ticket into exactly one of: Billing, Bug, Feature Request, Account, Other. Ticket: 'I was charged twice this month.' Category:"*. The model continues the text — its most probable next token after `Category:` is ` Billing`. That single high-probability continuation **is** the classification. No database lookup happened; the model recognized the pattern.
+**Task 1 — generating commit messages.** Every push triggers a small prompt: *"Summarize this diff as a one-line commit message. Diff: ..."*. The model continues the text and its most probable next tokens become the message. This is high-volume, simple, and well-bounded, so the team picks a **small, fast, cheap** model at **low temperature** — they want concise, consistent phrasing, not creativity. Paying flagship prices on every commit would be wasteful.
 
-**Why a small model fits.** This is a simple, high-volume, well-bounded task. A large flagship model would be more capable than needed, slower per call, and far more expensive across 50,000 calls. The smallest model that classifies reliably wins on **cost and latency** — exactly the capability-vs-cost-vs-latency trade-off.
+**Task 2 — generating unit-test cases.** A tester prompts the model to produce edge cases for a date-parsing function. This needs more reasoning than a commit message but isn't the hardest task, so a **mid-tier** model fits. Temperature is set slightly higher so the model proposes *varied* inputs (leap years, time zones, empty strings) rather than repeating the obvious ones.
 
-**Why low temperature.** They set temperature near zero. They want the same ticket to get the same tag every time and the answer constrained to the five allowed words. High temperature would invite creative but unwanted variation like "Payment Issue."
+**Task 3 — reviewing an architecture proposal.** An architect asks the model to critique a proposed service split for hidden coupling and failure modes. This is genuinely hard, open-ended reasoning where a weak answer is costly, so the team reserves the **largest, most capable** model — accepting its higher cost and latency because it runs rarely and the stakes are high.
 
-**Where the limits bite.** Knowledge cutoff is irrelevant here — no current-events knowledge is required. But **hallucination** still matters: the model might occasionally invent a sixth category or mis-tag an ambiguous ticket. So the team adds a guardrail — reject any output not in the allowed list and route low-confidence cases to a human.
+**Where the limits bite.** The model once suggested a library method that doesn't exist — a **hallucination**. So the team treats every AI suggestion as a draft a human verifies, and pins the framework version in prompts to offset the **knowledge cutoff**.
 
-**Result:** a cheap, fast, mostly-deterministic classifier, with a simple validation layer absorbing the model's probabilistic nature. The model choice followed directly from the task's demands, not from picking "the best" model.
+**Result:** one team, three tasks, three model sizes. The choice followed each task's demands — not a habit of always reaching for "the best" model.

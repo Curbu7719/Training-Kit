@@ -2,52 +2,51 @@
 
 At L1 you learned the core relationships: cost ≈ tokens × per-token price (input and
 output priced separately), the main latency drivers, the optimization levers, and the
-quality/cost/latency triangle. L2 sharpens this into the metrics and decisions you make
-when a feature runs at real scale.
+quality/cost/latency triangle, all framed around an AI check in CI. L2 sharpens this into
+the metrics and decisions you make when AI tooling runs at real team scale — across
+thousands of commits, builds, and reviews a month.
 
 **Latency is two numbers, not one.** Streaming systems are measured by
-**time-to-first-token (TTFT)** — how long until the first token appears — and
-**inter-token latency** (or tokens-per-second) once generation starts. Total time ≈
-TTFT + (output tokens ÷ tokens-per-second). This matters because the levers hit
-different terms: streaming improves *perceived* speed by surfacing a low TTFT, while
-shortening output reduces the second term. A feature can have great TTFT but feel slow
-if it generates 2,000 tokens at a low token rate.
+**time-to-first-token (TTFT)** — how long until the first review comment appears — and
+**inter-token latency** (or tokens-per-second) after that. Total ≈ TTFT + (output tokens
+÷ tokens-per-second). Streaming surfaces a low TTFT so a developer sees feedback fast;
+shortening the review reduces the second term. A check can have great TTFT but still feel
+slow if it emits 2,000 tokens of prose at a low token rate.
 
-**Caching is more than one thing.** *Prompt/prefix caching* lets you reuse the
-processing of a stable prompt prefix (system instructions, few-shot examples,
-long shared context) at a reduced input rate — high-value when the prefix is large and
-repeated. *Response caching* skips the model entirely for identical or
-semantically-similar requests. They compose: cache responses where you can, and prefix-
-cache the rest.
+**Caching is more than one thing.** *Prefix caching* reuses the processing of a stable
+prompt prefix — the coding standards, the few-shot review examples, shared repo context —
+at a reduced input rate; high-value because that prefix repeats on every PR. *Response
+caching* skips the model entirely when the same diff is re-reviewed (a re-run, a rebase
+with no real change). They compose: response-cache where you can, prefix-cache the rest.
 
-**Routing and cascades.** Beyond a fixed "small vs. large" split, a **cascade** tries a
-cheap model first and escalates to a larger one only when a confidence or validation
-check fails. This pays off when most requests are easy: you pay the large-model price
-only on the hard minority, lowering *average* cost while preserving quality on hard cases.
+**Routing and cascades.** Beyond a fixed small-vs-large split, a **cascade** runs a cheap
+model first and escalates to a larger one only when a confidence or validation check
+fails — e.g. a small model handles a one-line config change, but a risky multi-file
+refactor escalates. When most PRs are easy, you pay the large-model price only on the hard
+minority, lowering *average* cost while preserving quality where it matters.
 
-**Throughput vs. latency.** Batching and high concurrency raise **throughput**
-(requests served per second, lowering unit cost) but can *raise* per-request latency if
-work queues. Interactive features optimize for latency; offline/bulk jobs optimize for
-throughput. The same model can serve both with different settings.
+**Throughput vs. latency.** Nightly bulk jobs (re-scanning the whole codebase, generating
+test stubs across many files) optimize for **throughput** via batching and concurrency,
+accepting queueing. The interactive merge-gate check optimizes for latency. The same model
+serves both with different settings.
 
-**Total cost is more than the model call.** A single user action may fan out into
-multiple LLM calls (retrieval reranking, tool use, a final synthesis, plus retries on
-failure). Budget the *whole pipeline per user action*, not one call — retries and
-multi-step chains are a common source of surprise cost and latency.
+**Total cost is more than one call.** Reviewing one PR may fan out into several LLM calls
+— summarize the diff, retrieve related code, draft comments, plus a retry on a timeout.
+Budget the *whole pipeline per PR*, not one call; retries and multi-step chains are a
+common source of surprise CI spend.
 
-**Measuring before tuning.** You cannot optimize what you do not log. Track input
-tokens, output tokens, TTFT, total latency, and calls-per-action, broken down by
-feature and model. Most "the bill is too high" problems are explained by one runaway
-feature or an uncapped output, visible only once you measure.
+**Measuring before tuning.** Track input tokens, output tokens, TTFT, total latency, and
+calls-per-PR, broken down by check and model. Most "the AI tooling bill exploded" problems
+trace to one runaway check or an uncapped review, visible only once you measure.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Logs TTFT, token rate, and per-action call counts; implements
-  prefix caching, response caching, and cascades, and load-tests for queueing effects.
-- **Business Analyst:** Builds a cost model over the full per-action pipeline (including
-  retries and multi-step calls), not a single call, to forecast spend accurately.
-- **PM/Product Owner:** Chooses latency targets in terms users feel (TTFT for chat) and
-  decides which features justify cascades or larger models versus aggressive trimming.
-- **QA & Architect:** Sets separate SLOs for interactive vs. batch paths, tests cascade
-  escalation and retry behaviour under load, and ensures observability covers every
-  call in a fan-out.
+- **Developer/Engineer:** Logs TTFT, token rate, and per-PR call counts; implements prefix
+  caching, response caching, and cascades, and load-tests the check for queueing at peak.
+- **Business Analyst:** Builds a cost model over the full per-PR pipeline (retries and
+  multi-step calls included), not a single call, to forecast the team's AI-tooling spend.
+- **PM/Product Owner:** Sets latency targets developers actually feel (TTFT on the merge
+  gate) and decides which checks justify a cascade or larger model versus aggressive trimming.
+- **QA & Architect:** Sets separate SLOs for the interactive merge gate vs. nightly batch
+  jobs, tests cascade escalation and retry behaviour under peak load, and ensures
+  observability covers every call in a fan-out.

@@ -1,13 +1,13 @@
 {
   "type": "order",
-  "prompt_md": "Arrange the six steps of a Retrieval-Augmented Generation (RAG) pipeline into the correct end-to-end order. Remember: the indexing steps must be done before any question can be answered, and at query time you must retrieve relevant context before the model generates its answer.",
+  "prompt_md": "Your team is building a RAG assistant that answers questions about your own codebase and wiki. Arrange the six pipeline steps into the correct end-to-end order. Remember: the indexing steps (over the repo + wiki) must be done before any developer question can be answered, and at query time you must retrieve relevant context before the model generates its answer.",
   "spec": {
     "items": [
-      "Augment the prompt by inserting the retrieved chunks as context",
-      "Chunk the source documents into smaller passages",
+      "Augment the prompt by inserting the retrieved repo/wiki chunks as context",
+      "Chunk the repository and wiki into smaller passages",
       "Generate the final answer from the augmented prompt",
       "Embed each chunk into a vector",
-      "Embed the user's question and retrieve the top-k most similar chunks",
+      "Embed the developer's question and retrieve the top-k most similar chunks",
       "Store the chunk vectors in a vector index"
     ]
   },

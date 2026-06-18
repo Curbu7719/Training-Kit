@@ -1,17 +1,17 @@
 {
   "type": "scenario",
-  "prompt_md": "A RAG-powered HR assistant runs over a company's policy documents for multiple countries. A user in Germany asks for the parental-leave entitlement. The assistant confidently answers with the figure from the **US** policy and cites the US document. Logs show the correct German policy chunk exists in the index but ranked 9th, below the k=5 retrieval cutoff. The German and US chunks are nearly identical in wording except for the country name and the numbers.\n\n**Decision:** What is the most effective fix? **Reason:** Why does that fix address the root cause?",
+  "prompt_md": "A RAG-powered codebase assistant runs over a monorepo containing several services. A developer asks for the default HTTP request timeout in the **billing** service. The assistant confidently answers with the value from the **payments** service and cites the payments file. Logs show the correct billing chunk exists in the index but ranked 8th, below the k=5 retrieval cutoff. The billing and payments chunks are nearly identical in wording except for the service name and the number.\n\n**Decision:** What is the most effective fix? **Reason:** Why does that fix address the root cause?",
   "spec": {
     "decision_choices": [
-      "Add metadata filtering by country plus hybrid search, then re-rank the candidates",
+      "Add metadata filtering by service plus hybrid search, then re-rank the candidates",
       "Raise the generation temperature so the model varies its answer",
       "Rewrite the generation prompt to be more polite and detailed",
       "Re-embed the question several times and average the results"
     ],
     "reason_choices": [
-      "Because the failure is in retrieval — the correct chunk never reached the prompt — so filtering, exact-term weighting, and re-ranking surface the right country's chunk into the top-k",
-      "Because higher temperature makes the model more likely to recall the correct figure from its training data",
-      "Because a more detailed prompt forces the model to re-read all documents in the index",
+      "Because the failure is in retrieval — the correct billing chunk never reached the prompt — so filtering, exact-term weighting, and re-ranking surface the right service's chunk into the top-k",
+      "Because higher temperature makes the model more likely to recall the correct timeout from its training data",
+      "Because a more detailed prompt forces the model to re-read every file in the index",
       "Because averaging multiple question embeddings guarantees the closest chunk is always correct"
     ]
   },

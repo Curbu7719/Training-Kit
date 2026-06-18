@@ -1,44 +1,44 @@
 [
   {
-    "prompt": "What is the main problem Retrieval-Augmented Generation (RAG) is designed to solve?",
+    "prompt": "A team wants an assistant that answers questions about their own codebase and internal wiki without inventing endpoints. What core problem does RAG solve for them?",
     "choices": [
-      "A model can only answer from its training data and may not know your fresh or proprietary information",
-      "Models are too slow to generate text without retrieval",
-      "Embeddings cannot be stored without retraining the model",
+      "A model can only answer from its training data and has never seen the team's repo or wiki, so it must be supplied that context at question time",
+      "Models are too slow to generate code without retrieval",
+      "Embeddings cannot be stored without retraining the model on the repo",
       "Language models cannot produce grammatically correct sentences"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "Which of the following are part of the indexing phase that happens BEFORE any question is asked? (Select all that apply.)",
+    "prompt": "When indexing a repository and wiki for a codebase Q&A assistant, which steps happen BEFORE any developer asks a question? (Select all that apply.)",
     "choices": [
-      "Chunking documents into passages",
+      "Chunking the repo and wiki into passages",
       "Embedding each chunk into a vector",
-      "Embedding the user's question and retrieving top-k chunks",
+      "Embedding the developer's question and retrieving top-k chunks",
       "Storing the chunk vectors in a vector index"
     ],
     "correct": [0, 1, 3],
     "points": 1
   },
   {
-    "prompt": "Why can a RAG system retrieve a chunk titled 'Account recovery steps' for the question 'How do I reset my password?' even though they share no keywords?",
+    "prompt": "Why can the assistant retrieve a wiki page titled 'Backoff and re-queue policy' for the question 'How do I retry a failed job?' even though they share no keywords?",
     "choices": [
       "Because embeddings place text with similar meaning at nearby points in vector space, so retrieval ranks by semantic similarity",
-      "Because the model was fine-tuned on that specific article",
-      "Because keyword search always strips out common words like 'how' and 'my'",
-      "Because the chunk was manually tagged with the word 'password'"
+      "Because the model was fine-tuned on that specific wiki page",
+      "Because keyword search always strips out common words like 'how' and 'do'",
+      "Because the chunk was manually tagged with the word 'retry'"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "A QA engineer is testing a RAG-based support assistant before release. Which checks most directly verify that answers are properly grounded?",
+    "prompt": "A QA engineer is testing a RAG-based codebase assistant before the team adopts it. Which checks most directly verify that answers are properly grounded in the real code and docs?",
     "choices": [
-      "Confirm each answer cites a real source document that actually contains the claim",
+      "Confirm each answer cites a real file or wiki page that actually contains the claim",
       "Confirm the assistant says it could not find an answer when no relevant chunk is retrieved",
       "Confirm the answer text matches the model's output character-for-character on every rerun",
-      "Confirm the answer does not assert facts that are absent from the retrieved chunks"
+      "Confirm the answer does not assert APIs or fields that are absent from the retrieved chunks"
     ],
     "correct": [0, 1, 3],
     "points": 1

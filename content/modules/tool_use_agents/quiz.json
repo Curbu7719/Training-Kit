@@ -1,43 +1,43 @@
 [
   {
-    "prompt": "In tool use (function calling), what actually happens when the model 'uses' a tool?",
+    "prompt": "A coding assistant 'uses' a run_tests tool to check a fix. What actually happens?",
     "choices": [
-      "The model emits a structured request, and the application executes the real function and returns the result",
-      "The model runs the function itself inside its weights",
+      "The model emits a structured request, and the application runs the real test command and returns the result",
+      "The model runs the test suite itself inside its weights",
       "The tool replaces the model entirely for that turn",
-      "The application asks the model to write code that the user runs manually"
+      "The application asks the model to write a shell script that the developer runs manually"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "Which steps make up one iteration of the agent loop? Select all that apply.",
+    "prompt": "Which steps make up one iteration of the agent loop while it fixes a failing test? Select all that apply.",
     "choices": [
-      "Plan the next step",
-      "Act by requesting a tool",
-      "Observe the returned result",
-      "Permanently retrain the model on the result"
+      "Plan the next step (e.g. decide it needs to see the failure)",
+      "Act by requesting a tool (e.g. run_tests or apply_patch)",
+      "Observe the returned result (the traceback or pass/fail)",
+      "Permanently retrain the model on the test output"
     ],
     "correct": [0, 1, 2],
     "points": 1
   },
   {
-    "prompt": "A PM is deciding between a single model call and a full agent for a new feature. Which situation most justifies using an agent?",
+    "prompt": "A PM is deciding between a single model call and a full agent for a new dev-tooling feature. Which situation most justifies an agent?",
     "choices": [
-      "The task is multi-step and depends on fresh external data gathered along the way",
-      "The task is a one-shot summary of a fixed block of text",
-      "The team wants to reduce per-request cost as much as possible",
-      "The output must be a single deterministic label every time"
+      "Fixing a bug, which is multi-step and depends on re-running tests after each edit",
+      "Summarizing a single pull-request description into one paragraph",
+      "Reducing per-request cost as much as possible",
+      "Producing a single deterministic label for a log line every time"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "Which of these are real risks of giving an agent autonomy, and which guardrails address them? Select all correct statements.",
+    "prompt": "Which of these are real failure modes of giving a coding agent autonomy, and the guardrails that address them? Select all correct statements.",
     "choices": [
-      "Runaway loops can be limited with a maximum-iteration cap",
-      "Cost grows with each loop iteration, so timeouts and budgets help",
-      "An early wrong observation can compound through later steps",
+      "Runaway edit-and-retry loops can be capped with a maximum-iteration limit",
+      "A destructive tool like force-push or delete-branch should sit behind a human-approval gate",
+      "An early misread of a test failure can compound through later edits",
       "Adding more tools always eliminates the risk of runaway loops"
     ],
     "correct": [0, 1, 2],

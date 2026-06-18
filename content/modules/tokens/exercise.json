@@ -1,6 +1,6 @@
 {
   "type": "fill",
-  "prompt_md": "Complete each blank with the correct token concept.\n\n1. The process of breaking text into the small pieces a model reads is called ___.\n2. Each of those small pieces — often a piece of a word rather than a whole word — is called a ___.\n3. The fixed maximum number of tokens a model can consider at once (input plus output) is called its context ___.\n4. Because providers bill per token and usually charge differently for the prompt versus the generated reply, you should budget ___ tokens and output tokens separately.",
+  "prompt_md": "A team is wiring an AI code-review bot into their CI pipeline. Complete each blank with the correct token concept.\n\n1. Before the bot can review a PR, its diff is split into the small pieces a model reads, a step called ___.\n2. Each of those small pieces — often a piece of a word or a single brace rather than a whole word — is called a ___.\n3. A 20,000-line generated file may be too many tokens to fit at once because every model has a fixed context ___.\n4. Because the provider prices the diff sent in differently from the comments generated, the team budgets ___ tokens and output tokens separately.",
   "spec": {
     "blanks": 4,
     "keywords": [

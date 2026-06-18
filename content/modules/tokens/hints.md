@@ -3,36 +3,38 @@
 ## Alternative phrasings of the core idea
 
 - A token is the small chunk — often a piece of a word — that an LLM actually reads and
-  generates; text is split into tokens before the model sees it.
-- Models think in tokens, not words: pricing and context limits are both measured per
-  token, so word counts are only a rough proxy.
-- "Tokenization" is just the step that chops your text into these sub-word pieces before
-  the model processes it.
+  generates; a diff, a log, or a spec is split into tokens before the model sees it.
+- Models think in tokens, not words: the cost of an AI reviewer and the size of file it
+  can read are both measured per token, so word/line counts are only a rough proxy.
+- "Tokenization" is the step that chops your text — including source code and logs — into
+  these sub-word pieces before the model processes it.
 
 ## Hint stack
 
-- **H1 (nudge):** Remember that a token is usually *smaller* than a word. What unit does
-  the question really want you to count or reason about?
-- **H2 (structural):** Use the rough ratio **100 tokens ≈ 75 words** to convert. And
-  remember input tokens and output tokens are counted — and priced — separately.
-- **H3 (near-answer):** Take the word count, multiply by 100/75 (about 1.33) for a token
-  estimate. Long words, numbers, and punctuation push the real count higher, so treat the
-  estimate as a floor and count exactly when cost matters.
+- **H1 (nudge):** A token is usually *smaller* than a word, and code tokenizes heavier than
+  prose. What unit does the question really want you to count or budget?
+- **H2 (structural):** Use **100 tokens ≈ 75 words** for prose to convert, but count code
+  exactly with a tokenizer. Remember input tokens (the diff/log you send) and output tokens
+  (the AI's comments) are counted — and priced — separately.
+- **H3 (near-answer):** For cost, multiply tokens-per-request by request volume by the
+  per-token price, and do input and output separately. For limits, check whether the file
+  fits the context window before sending — chunk it if not.
 
 ## FAQ
 
 **Q: Is one token always one word?**
-No. Common short words are often one token, but longer or rarer words split into several
-tokens. Spaces, punctuation, and numbers also affect the split, so 1 word ≠ 1 token.
+No. Common short words are often one token, but longer words split into several, and source
+code splits even more (braces, indentation, identifiers). So 1 word ≠ 1 token.
 
 **Q: Do input and output tokens cost the same?**
-Usually not. Most providers bill input and output separately, and output tokens are often
-more expensive. Always budget the two apart.
+Usually not. Most providers bill input and output separately, and output is often more
+expensive. When budgeting an AI reviewer, count the diff (input) and the comments (output)
+apart.
+
+**Q: Why would a huge file blow the budget *or* the limit?**
+A 20,000-line generated file is a huge number of input tokens — expensive — and may simply
+exceed the model's context window, so it won't fit in one call at all. Chunk or skip it.
 
 **Q: How do I get an exact count instead of an estimate?**
 Use a tokenizer tool or library for your specific model. Each model family tokenizes a
-little differently, so counts can vary between models for the same text.
-
-**Q: Why do context limits matter if I'm only sending a short prompt?**
-Because input *and* output share the same context window. A short prompt that triggers a
-very long response can still hit the limit.
+little differently, and code especially varies, so always measure when cost matters.

@@ -1,11 +1,11 @@
 [
   {
-    "prompt": "Why is evaluating an AI system harder than testing a typical deterministic program?",
+    "prompt": "Why can't a QA tester verify an AI release-notes feature with a normal assertEquals test the way they would a deterministic function?",
     "choices": [
       "The same prompt can produce different wording each run, and there is rarely one single correct output string",
-      "AI systems never produce incorrect outputs, so there is nothing to test",
-      "It is impossible to measure latency or cost for AI systems",
-      "Deterministic programs cannot be tested at all"
+      "AI features never produce incorrect outputs, so there is nothing to test",
+      "It is impossible to measure latency or cost for AI features",
+      "Deterministic functions cannot be tested at all"
     ],
     "correct": [0],
     "points": 1
@@ -22,7 +22,7 @@
     "points": 1
   },
   {
-    "prompt": "A summarizer's outputs sometimes include details that never appeared in the source review. Which metric most directly captures this problem?",
+    "prompt": "An AI summarizer sometimes adds a feature to the release note that appeared in no merged PR. Which metric most directly captures this problem?",
     "choices": [
       "Faithfulness / groundedness",
       "Latency",
@@ -33,10 +33,10 @@
     "points": 1
   },
   {
-    "prompt": "A PM wants to ship a prompt change but must avoid silently degrading quality. Which practices support safe, evidence-based iteration? (Select all that apply.)",
+    "prompt": "A PM and QA tester want to ship a prompt change to an AI feature without silently degrading quality. Which practices support safe, evidence-based iteration? (Select all that apply.)",
     "choices": [
       "Rerun a golden-dataset eval suite after the change and keep it only if scores improve with no regression",
-      "Run the eval suite automatically as a regression gate before each release",
+      "Wire the eval suite into CI as a regression gate that runs before each release",
       "Judge the change by how good it looks on two or three hand-picked demos",
       "Track latency and cost alongside quality so a quality gain isn't hiding a speed or cost regression"
     ],

@@ -1,44 +1,44 @@
 [
   {
-    "prompt": "Why does the wording of a prompt matter so much to the quality of a model's output?",
+    "prompt": "A developer asks a model to 'write some tests for my function' but pastes no code. Why does this so often produce useless output?",
     "choices": [
-      "The model only sees the text you send it, so anything it needs to know must be in the prompt",
-      "Longer prompts always produce more accurate answers regardless of content",
-      "The model reads your project files and context automatically",
-      "Wording only affects tone, never correctness or format"
+      "The model only sees the text you send, so without the code and framework it invents a signature and guesses the tests",
+      "Longer prompts always produce more accurate tests regardless of content",
+      "The model reads your repository and CI config automatically",
+      "Wording only affects tone, never which framework or cases the model chooses"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "Which statements about the system (or developer) message versus the user message are correct? Select all that apply.",
+    "prompt": "Which statements about the system (developer) message versus the user message are correct? Select all that apply.",
     "choices": [
-      "The system message sets durable rules and persona and persists across turns",
-      "The user message carries the specific, changing request",
+      "Durable rules like the test framework and coding standards belong in the system message and persist across turns",
+      "The specific request for this function or this user story belongs in the user message",
       "The user message takes priority over the system message",
-      "Safety policy and role are best placed in the system message"
+      "Safety policy and persona are best placed in the system message"
     ],
     "correct": [0, 1, 3],
     "points": 1
   },
   {
-    "prompt": "What is the main purpose of wrapping input data in delimiters (such as XML-style tags or triple quotes)?",
+    "prompt": "When prompting a model to refactor a function, why wrap the existing code in delimiters such as triple backticks or XML-style tags?",
     "choices": [
-      "To separate your instructions from the data the model should process",
+      "To separate your instructions from the code the model should process, so a comment in the code isn't read as an instruction",
       "To make the prompt shorter",
       "To force the model to use a higher temperature",
-      "To translate the data into another language automatically"
+      "To translate the code into another language automatically"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "A PM asks a model to classify support tickets, but the script that consumes the output keeps breaking because the model replies with a friendly paragraph instead of a single label. Which prompt change most directly fixes this?",
+    "prompt": "A Business Analyst prompts a model to turn a stakeholder request into a user story, but the output keeps coming back as a loose paragraph with no acceptance criteria, breaking the team's backlog template. Which prompt change most directly fixes this?",
     "choices": [
-      "Add a system instruction specifying the exact allowed labels and demanding one word with no explanation",
-      "Increase the temperature so answers vary more",
-      "Ask the model to be 'a bit more concise' without specifying a format",
-      "Send the request more times until a short answer appears"
+      "Specify the exact output template ('As a... I want... so that...' plus a numbered acceptance-criteria list) and show one example story in that format",
+      "Increase the temperature so the wording varies more each run",
+      "Ask the model to be 'a bit more structured' without giving a template",
+      "Re-send the request repeatedly until a well-formatted story appears"
     ],
     "correct": [0],
     "points": 1

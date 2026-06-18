@@ -1,15 +1,15 @@
 {
   "type": "order",
-  "prompt_md": "You are assembling a well-structured prompt that asks a model to classify a customer message into a fixed set of labels and return a parseable result. Arrange the fragments below into the recommended order: role/policy first, then the task, then the data wrapped in delimiters, then the few-shot examples, and finally the explicit output-format instruction.",
+  "prompt_md": "During the coding phase, you are assembling a well-structured prompt that asks a model to generate unit tests for a function. Arrange the fragments below into the recommended order: role/policy first (system), then the code to test wrapped in delimiters, then the task, then a few-shot style example, and finally the explicit output-format instruction.",
   "spec": {
     "items": [
-      "Examples: <message>The app crashes on startup.</message> -> technical ; <message>Do you ship to Canada?</message> -> other",
-      "System: You are a message classifier for a support inbox.",
-      "Respond with exactly one word and no other text.",
-      "Your task: classify the customer message into one of: billing, technical, other.",
-      "Message to classify: <message>My card was charged twice this month.</message>"
+      "Example of our test style: <test>def test_parse_price_valid(): assert parse_price(\"9.99\") == 9.99</test>",
+      "System: You are a senior Python engineer. Use pytest only and never invent functions that aren't shown.",
+      "Return a single test file and no prose.",
+      "Your task: write unit tests covering a valid price, an empty string, a negative value, and a non-numeric input.",
+      "Code to test: <code>def parse_price(s): ...</code>"
     ]
   },
-  "answer_key": { "order": [1, 3, 4, 0, 2] },
+  "answer_key": { "order": [1, 4, 3, 0, 2] },
   "max_score": 10
 }

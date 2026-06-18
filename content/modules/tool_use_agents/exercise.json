@@ -1,13 +1,13 @@
 {
   "type": "order",
-  "prompt_md": "Arrange the events of one full agent-loop iteration into the correct sequence, from the model deciding it needs information through to it continuing with the result. Assume the model has tools available and the task needs external data.",
+  "prompt_md": "A coding agent has tools to run the test suite, search the code, and apply a patch. Arrange the events of one full agent-loop iteration into the correct sequence, from the model deciding it needs information through to it continuing with the result. Assume the model has decided it must first see the failing test's output.",
   "spec": {
     "items": [
-      "The application executes the real function and obtains a result.",
-      "The model plans and decides a tool is needed to make progress.",
-      "The model observes the returned result and continues reasoning toward the next step or final answer.",
-      "The application returns the tool result back into the conversation.",
-      "The model emits a structured tool request (it does not run the tool itself)."
+      "The application runs the real pytest command and obtains the traceback.",
+      "The model plans and decides it needs to run the test suite to see the actual failure.",
+      "The model observes the returned traceback and continues reasoning toward the next step (e.g. searching for the buggy function).",
+      "The application returns the test result back into the conversation.",
+      "The model emits a structured run_tests request (it does not run pytest itself)."
     ]
   },
   "answer_key": { "order": [1, 4, 0, 3, 2] },

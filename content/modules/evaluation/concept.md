@@ -1,22 +1,22 @@
-# Evaluating AI Systems
+# Evaluating AI Features
 
-When you build a normal program, you test it: given this input, you expect that output, and a passing test proves it works. AI systems are harder, because the same prompt can produce different wording every time and there's rarely one "correct" string. Yet you still need to know whether the system is good enough to ship — and whether a change made it better or worse. **Evaluation** is how you measure the quality of an AI system systematically, instead of relying on a few impressive demos.
+When you test a normal feature, you assert: given this input, expect that output, and a green test proves it works. An **AI feature** breaks that contract — the same prompt can produce different wording every run, and there's rarely one "correct" string. A QA tester can't write `assertEquals` against a summary. Yet the team still needs to know whether the feature is good enough to ship, and whether a prompt change made it better or worse. **Evaluation** ("eval") is how you measure the quality of an AI feature systematically — it's what testing *becomes* when outputs are non-deterministic.
 
-**Why it matters:** without measurement you're flying blind. A prompt tweak that looks great on three examples may quietly break a dozen others. AI outputs also drift as you swap models, edit prompts, or change retrieval. Evaluation turns "it feels better" into evidence.
+**Why it matters:** without measurement you're shipping on demos. A prompt tweak that looks great on three examples may quietly break a dozen others. Outputs also drift as you swap models, edit prompts, or change retrieval. Evaluation turns "it feels better" into evidence.
 
 **Common approaches:**
-- **Golden / offline datasets** — a curated set of inputs with known-good expected outputs (or rubrics). You run the system over them and score the results. Repeatable and cheap to rerun.
-- **Human review** — people rate outputs for quality, correctness, or tone. The gold standard for nuanced judgment, but slow and expensive.
+- **Golden / offline datasets** — a curated set of inputs with known-good expected outputs or rubrics. The QA equivalent of a test suite: run the feature over them, score the results, rerun any time. Repeatable and cheap.
+- **Human review** — people rate outputs for correctness, tone, or safety. The gold standard for nuance, but slow and expensive.
 - **LLM-as-judge** — a second model scores outputs against a rubric (e.g., "is this answer faithful to the source?"). Fast and scalable, but the judge itself must be validated.
-- **A/B tests** — release two variants to real users and compare real outcomes. The truest signal, but slow and only available post-launch.
+- **A/B tests** — release two variants and compare real user outcomes. Truest signal, but only available post-launch.
 
-**Metrics you'll track:** **accuracy** (is it right?), **relevance** (does it address the question?), **faithfulness / groundedness** (does it stick to the supplied sources without inventing?), **latency** (how fast?), and **cost** (how much per call?). Quality, speed, and cost trade off against each other.
+**Metrics you'll track:** **accuracy** (is it right?), **relevance** (does it address the request?), **faithfulness / groundedness** (does it stick to supplied sources?), **latency**, and **cost**. Quality, speed, and cost trade off.
 
-**Regression testing** means rerunning your eval suite after every change so a fix in one place doesn't silently break another. This enables **eval-driven iteration**: change a prompt, run the suite, keep the change only if the scores improve. It's the AI equivalent of test-driven development — you let the numbers, not vibes, decide.
+**Regression testing** means rerunning the eval suite after every change so a fix in one place doesn't silently break another — wired into CI like any other test gate. This enables **eval-driven iteration**: change a prompt, run the suite, keep the change only if scores improve. It's TDD for AI: the numbers decide, not vibes.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Builds the eval harness and golden datasets, wires LLM-as-judge scoring, and runs the suite as a regression gate before every change ships.
-- **Business Analyst:** Defines what "good" means for the use case — which metrics matter and the rubric for correctness — so evaluation reflects real business value.
-- **PM/Product Owner:** Sets quality thresholds and weighs accuracy against latency and cost, and chooses when an A/B test is worth the slower signal.
-- **QA & Architect:** Designs regression suites that tolerate non-determinism (scoring properties, not exact strings) and ensures evals run in CI so quality can't silently regress.
+- **Developer/Engineer:** Wires the eval suite into CI as a regression gate so a prompt change can't merge if scores drop.
+- **Business Analyst:** Defines what "good" means for the feature — which metrics matter and the correctness rubric — so evaluation reflects real business value.
+- **PM/Product Owner:** Sets the quality bar (the pass threshold) and weighs accuracy against latency and cost when deciding to ship.
+- **QA/Tester & Architect:** Builds the eval suite and golden dataset, scores properties instead of exact strings to tolerate non-determinism, and designs the observability so quality is visible in production.

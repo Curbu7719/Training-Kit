@@ -4,28 +4,28 @@
     "choices": [
       "The maximum tokens the model can consider at once, covering both input and output",
       "Only the number of input tokens you are allowed to send",
-      "The model's permanent long-term memory of all past conversations",
+      "The model's permanent long-term memory of all past refactors",
       "The maximum number of separate API calls allowed per minute"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "Why must an application re-supply prior conversation on every call?",
+    "prompt": "During a long multi-file refactor, why must the AI tool re-supply the prior context on every call?",
     "choices": [
       "Because each API call is stateless — the model retains no memory between calls",
       "Because re-sending makes the model respond faster",
       "Because the provider deletes old messages after one minute",
-      "It doesn't — the model automatically remembers all earlier turns"
+      "It doesn't — the model automatically remembers all earlier files and edits"
     ],
     "correct": [0],
     "points": 1
   },
   {
-    "prompt": "Which of the following are valid strategies for staying within the context window? (Select all that apply.)",
+    "prompt": "Which of the following are valid strategies for staying within the context window while working across a large codebase or a long requirements thread? (Select all that apply.)",
     "choices": [
-      "Summarizing earlier conversation into a short recap",
-      "Retrieving only the most relevant pieces of a large corpus per request",
+      "Summarizing an earlier interview or transcript into a short recap",
+      "Retrieving only the few files relevant to the current edit",
       "Keeping only the most recent N turns (sliding window)",
       "Increasing the temperature setting"
     ],
@@ -33,12 +33,12 @@
     "points": 1
   },
   {
-    "prompt": "A BA is reviewing a feature where long chats start producing contradictory answers. Which fact best explains the root cause to the team?",
+    "prompt": "An AI assistant doing a 30-file refactor starts ignoring a 'keep the old column name' rule it was given at the start. Which fact best explains the root cause to the team?",
     "choices": [
       "The model's temperature is set too low",
-      "As context grew past the window limit, older essential messages were dropped and no longer seen by the model",
+      "As the transcript grew past the window limit, the early rule was dropped and is no longer seen by the model",
       "The model's training finished, so it stopped learning",
-      "Retrieval always corrupts the conversation history"
+      "Retrieval always corrupts the edit history"
     ],
     "correct": [1],
     "points": 1

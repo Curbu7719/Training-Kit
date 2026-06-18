@@ -1,14 +1,14 @@
 {
   "type": "mcq",
-  "prompt_md": "A team is adding guardrails to a customer-facing AI assistant. **Select every option that is a legitimate guardrail control** (acting on the model's input, output, or behaviour).",
+  "prompt_md": "A team is wiring an AI coding agent into their development pipeline. The agent can edit files, run shell commands, and open pull requests. **Select every option that is a legitimate guardrail control** (acting on the agent's input, its actions, or its output).",
   "spec": {
     "choices": [
-      "Validating and sanitizing user input before it reaches the model",
-      "Filtering and moderating the model's output before showing it to the user",
-      "Maintaining allow / deny lists for permitted and forbidden topics",
-      "Routing high-risk responses to a human for approval (human-in-the-loop)",
-      "Choosing a model with a larger context window to fit more tokens",
-      "Adding system-prompt constraints that define the assistant's role and limits"
+      "Validating and sanitizing issue/PR text before the agent treats it as a task",
+      "Running the agent in a sandbox with scoped file, command, and network permissions",
+      "Maintaining an allow/deny list so safe commands run but 'rm -rf' and force-push are blocked",
+      "Scanning the agent's diff for secrets or PII before it can commit",
+      "Choosing a model with a larger context window so it can read more of the codebase",
+      "Requiring a human review/approval gate before an AI-generated change merges or deploys"
     ],
     "multi": true
   },

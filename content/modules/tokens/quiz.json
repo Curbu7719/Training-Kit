@@ -1,44 +1,44 @@
 [
   {
-    "prompt": "Which statement best describes a token in the context of large language models?",
+    "prompt": "An AI code-review bot reads a pull-request diff. Why might that diff use far more tokens than an equally long block of plain English prose?",
     "choices": [
-      "A whole word, always exactly one per English word",
-      "A sub-word unit that text is broken into before the model processes it",
-      "A single letter of the alphabet",
-      "A complete sentence the model reads at once"
+      "Source code is exempt from tokenization",
+      "Punctuation, indentation, and identifiers in code each cost tokens, so code tokenizes 'heavier' than prose",
+      "Diffs are always counted as a single token",
+      "Prose is billed per word while code is billed per line"
     ],
     "correct": [1],
     "points": 1
   },
   {
-    "prompt": "Select ALL statements that are true about tokens and pricing.",
+    "prompt": "Select ALL statements that are true about tokens and the cost of an AI feature in the pipeline.",
     "choices": [
       "LLM usage is typically billed per token",
-      "Input tokens and output tokens are usually billed separately",
-      "One word always equals exactly one token",
-      "Context window limits are measured in tokens, not words"
+      "Input tokens (the diff/log you send) and output tokens (the AI's reply) are usually billed separately",
+      "One source-code line always equals exactly one token",
+      "A model's context window limit is measured in tokens, not lines"
     ],
     "correct": [0, 1, 3],
     "points": 1
   },
   {
-    "prompt": "Using the rough rule of thumb that 100 tokens is about 75 words, roughly how many tokens is a 150-word prompt?",
+    "prompt": "A developer needs an AI tool to review a single auto-generated file of 20,000 lines, but the call fails before the model responds. Using token concepts, what is the most likely cause and fix?",
     "choices": [
-      "About 75 tokens",
-      "About 150 tokens",
-      "About 200 tokens",
-      "About 1,000 tokens"
+      "The file is fine; the model simply chose not to answer, so retry unchanged",
+      "The file is far too many input tokens to fit the model's context window, so chunk or skip it",
+      "Output tokens were exhausted, so lower the price per token",
+      "The diff had too few tokens, so pad it with whitespace"
     ],
-    "correct": [2],
+    "correct": [1],
     "points": 1
   },
   {
-    "prompt": "A Business Analyst is estimating the monthly cost of a feature that summarizes documents. A developer reports the prompts average 500 input tokens and the summaries average 300 output tokens per request. What should the BA do to produce an accurate cost estimate?",
+    "prompt": "A PM is budgeting an AI reviewer. A developer reports each PR averages about 9,300 input tokens and 550 output tokens, the team merges 1,500 PRs a month, and the provider charges different rates for input and output. What should the PM do to produce an accurate monthly estimate?",
     "choices": [
-      "Add input and output tokens together and apply a single price, since all tokens cost the same",
-      "Use only the input token count, because output is free",
-      "Cost input and output tokens separately, since providers usually price them differently",
-      "Ignore token counts and estimate cost purely by the number of words"
+      "Add input and output tokens together and apply one price, since all tokens cost the same",
+      "Use only input tokens, because the AI's comments are free",
+      "Cost input and output tokens separately at their own rates, then multiply each by 1,500 PRs",
+      "Ignore token counts and estimate purely from the number of PRs"
     ],
     "correct": [2],
     "points": 1

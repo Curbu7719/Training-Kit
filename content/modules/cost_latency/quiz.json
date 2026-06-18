@@ -1,6 +1,6 @@
 [
   {
-    "prompt": "A request sends a 6,000-token prompt and receives a 200-token answer. Input is priced at $5 per million tokens and output at $15 per million tokens. Roughly what does this request cost?",
+    "prompt": "An AI PR-reviewer sends a 6,000-token prompt (diff + style guide) and receives a 200-token review. Input is priced at $5 per million tokens and output at $15 per million tokens. Roughly what does one review cost?",
     "choices": [
       "About $0.033",
       "About $0.093",
@@ -11,34 +11,34 @@
     "points": 1
   },
   {
-    "prompt": "Which of the following typically INCREASE the latency of a single LLM feature? (Select all that apply.)",
+    "prompt": "Which of the following typically INCREASE the latency of an AI check running in CI on each pull request? (Select all that apply.)",
     "choices": [
-      "Using a larger model",
-      "Generating a longer output",
-      "Adding a retrieval/tool step before the model answers",
-      "Streaming the response to the user"
+      "Using a larger model for the review",
+      "Asking for a longer, more detailed review",
+      "Fetching extra source files before the model answers",
+      "Streaming the comments to the developer as they are generated"
     ],
     "correct": [0, 1, 2],
     "points": 1
   },
   {
-    "prompt": "Which statements about LLM cost and latency optimization are correct? (Select all that apply.)",
+    "prompt": "A team is optimizing an AI assistant that runs in their pipeline. Which statements about its cost and latency are correct? (Select all that apply.)",
     "choices": [
-      "Prompt caching avoids re-paying to process a stable prompt prefix",
-      "Streaming reduces the total number of tokens generated",
-      "Routing easy tasks to a smaller model can cut both cost and latency",
-      "Output tokens are usually priced higher than input tokens"
+      "Prefix-caching the style guide avoids re-paying to process it on every PR",
+      "Streaming reduces the total number of tokens generated per review",
+      "Routing tiny diffs to a smaller model can cut both cost and latency",
+      "Output tokens (the review comments) are usually priced higher than input tokens"
     ],
     "correct": [0, 2, 3],
     "points": 1
   },
   {
-    "prompt": "A PM is told a chat feature feels slow even though total response time is acceptable for the use case, and the budget is tight. Which change best improves PERCEIVED speed WITHOUT increasing cost?",
+    "prompt": "A PM is told the AI merge-gate check feels slow to developers even though its total time is acceptable for CI, and the tooling budget is tight. Which change best improves PERCEIVED speed WITHOUT increasing cost?",
     "choices": [
-      "Switch to a larger, more capable model",
-      "Stream the response so tokens appear as they are generated",
-      "Remove prompt caching to simplify the pipeline",
-      "Increase the maximum output length"
+      "Switch every PR to a larger, more capable model",
+      "Stream the review so comments appear as they are generated",
+      "Remove prefix caching to simplify the pipeline",
+      "Raise the maximum review length"
     ],
     "correct": [1],
     "points": 1

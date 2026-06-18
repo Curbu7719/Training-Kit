@@ -1,26 +1,26 @@
 # The Context Window and Managing It
 
-Every LLM has a **context window**: the maximum amount of text — measured in tokens — it can consider at once. Crucially, this window covers **both** the input you send (your instructions, the conversation so far, any supplied documents) **and** the output the model generates. If the window is, say, 100,000 tokens and your input already fills 95,000, only about 5,000 tokens are left for the answer.
+Every LLM has a **context window**: the maximum amount of text — measured in tokens — it can consider at once. Crucially, this window covers **both** the input you send (instructions, the conversation so far, any code or spec you paste) **and** the output it generates. If the window is 100,000 tokens and you've pasted 95,000 tokens of source files, only ~5,000 are left for the answer.
 
-**An analogy:** the context window is a whiteboard of fixed size. You can write anything on it, but only so much fits. To add something new once it's full, you must erase something — and the model can only reason about what is currently on the board, never what was wiped off.
+**An analogy:** the context window is a whiteboard of fixed size. You can write any part of the codebase or requirements on it, but only so much fits. To add a new file once it's full, you must erase something — and the model can only reason about what is currently on the board.
 
-A second essential fact: **each API call is stateless**. The model does not "remember" your previous message. Any sense of an ongoing conversation is an illusion created by the application **re-supplying the prior context** with every call. If you don't send the earlier turns back, they're gone as far as the model is concerned.
+A second essential fact: **each API call is stateless**. The model does not remember your previous message. Any sense of an ongoing refactor or a long requirements interview is an illusion created by the application **re-supplying the prior context** every call. If you don't send the earlier turns back, they're gone as far as the model is concerned.
 
-So a core engineering question becomes **what to include** in that limited, re-sent window: the system instructions, the most relevant prior turns, the specific documents or data needed for *this* request — and what to leave out.
+So a core engineering question becomes **what to include** in that limited window: the system instructions, the relevant files, the specific spec section needed for *this* request — and what to leave out.
 
-**What happens when you run out?** Either the call is rejected for exceeding the limit, or older content gets dropped/truncated and the model silently loses information — leading to forgotten instructions or contradictory answers.
+**What happens when you run out?** Either the call is rejected for exceeding the limit, or older content is dropped and the model silently loses information — forgetting an instruction or contradicting an earlier decision in a multi-file change.
 
 Common **strategies** to live within the window:
 
-- **Summarization** — compress earlier conversation or documents into a short recap that preserves the essentials.
-- **Chunking** — split a large document into pieces and process them one at a time.
-- **Retrieval** — store information externally and pull in only the few most relevant pieces per request.
-- **Sliding window** — keep only the most recent N turns, letting the oldest fall away.
-- **Checkpointing / handoff** — periodically save a structured summary of progress so work can continue (or transfer to another session) without resending everything.
+- **Summarization** — compress an earlier conversation or a long requirements thread into a short recap that preserves the essentials.
+- **Chunking** — split a large file or document into pieces and process them one at a time.
+- **Retrieval** — store the codebase or docs externally and pull in only the few most relevant pieces per request.
+- **Sliding window** — keep only the most recent N turns of an interview or session, letting the oldest fall away.
+- **Checkpointing / handoff** — periodically save a structured summary of progress so a refactor (or a session) can continue without resending everything.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Builds the call so context is re-supplied each request and stays under the limit, choosing summarization, retrieval, or a sliding window per use case.
-- **Business Analyst:** Identifies which inputs are truly essential to a task, so prompts carry the right data and don't waste the window on irrelevant material.
-- **PM/Product Owner:** Understands that longer conversations and bigger documents cost more tokens and may hit limits, shaping feature scope and budget expectations.
-- **QA & Architect:** Tests behavior near and past the context limit (long chats, huge inputs) and chooses an architecture — retrieval vs summarization vs checkpointing — that degrades gracefully.
+- **Developer/Engineer:** Feeds an AI just the relevant files for a multi-file refactor via retrieval, instead of pasting the whole repo and overflowing the window.
+- **Business Analyst:** Summarizes a long stakeholder interview into a compact recap so the model can keep the whole requirements thread coherent without exceeding limits.
+- **PM/Product Owner:** Understands that bigger documents and longer sessions cost more tokens and may hit limits, shaping feature scope and budget.
+- **QA/Tester & Architect:** A tester probes behavior near and past the limit (very long chats, huge inputs); an architect chooses retrieval vs summarization vs checkpointing so the system degrades gracefully.

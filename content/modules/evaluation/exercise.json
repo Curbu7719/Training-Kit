@@ -1,6 +1,6 @@
 {
   "type": "match",
-  "prompt_md": "Match each AI evaluation metric to what it measures.",
+  "prompt_md": "You are QA, defining the eval suite for an AI feature. Match each evaluation metric to what it measures about the AI's output.",
   "spec": {
     "left": [
       "Accuracy",
@@ -10,11 +10,11 @@
       "Cost"
     ],
     "right": [
-      "Whether the output is correct",
-      "Whether the output actually addresses the question asked",
-      "Whether the output stays within the supplied sources without inventing facts",
-      "How fast the system responds",
-      "How much each call spends"
+      "Whether the output is factually correct",
+      "Whether the output actually addresses the user's request",
+      "Whether the answer is grounded in the supplied source without inventing facts",
+      "How fast the feature responds to a request",
+      "How much each model call spends"
     ]
   },
   "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]] },

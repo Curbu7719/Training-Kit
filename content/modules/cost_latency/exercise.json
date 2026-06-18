@@ -1,14 +1,14 @@
 {
   "type": "mcq",
-  "prompt_md": "A team's LLM feature is over budget and feels slow. They want changes that reduce **cost**, **latency**, or both **without** unacceptably hurting quality. **Select every option that is a legitimate cost or latency optimization lever.**",
+  "prompt_md": "An **AI code reviewer** runs in CI on every pull request. It is over budget and developers say the merge-gate check feels slow. The team wants changes that reduce **cost**, **latency**, or both **without** unacceptably hurting review quality. **Select every option that is a legitimate cost or latency optimization lever.**",
   "spec": {
     "choices": [
-      "Cap the maximum output length and instruct the model to be concise",
-      "Cache a stable prompt prefix so it isn't re-processed each call",
-      "Route simple, high-volume requests to a smaller, cheaper model",
-      "Trim irrelevant history and retrieved text from the input context",
-      "Always use the largest available model for every request",
-      "Add extra unrelated retrieval steps to every request just in case"
+      "Cap the review to the top issues and instruct the model to be terse",
+      "Prefix-cache the stable style guide and rubric so they aren't re-processed each PR",
+      "Route tiny, routine diffs to a smaller, cheaper model",
+      "Send only the changed hunks plus a few lines of context, not whole files",
+      "Always send every PR's full repository to the largest available model",
+      "Add extra unrelated file lookups to every PR review just in case"
     ],
     "multi": true
   },
