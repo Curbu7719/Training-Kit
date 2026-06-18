@@ -163,5 +163,49 @@
     ],
     "correct": 0,
     "explanation": "Tam isabet. İstek başına maliyeti somut bir değer metriğine bağlamak ve kullanım büyürken izlemek, ROI'yi kanıtlamanın ve ölçekte bozulan birim ekonomisini yakalamanın yoludur. Harika iş disiplini!"
+  },
+  {
+    "prompt": "Bir AI kodlama oturumu uzadı ve modelin context limitine yaklaştı, ama görev bitmedi. Önemli olanı kaybetmeden devam etmenin en iyi yolu nedir?",
+    "choices": [
+      "Devam et ve en eski mesajların sessizce pencereden düşmesine izin ver",
+      "Önemli kararları ve mevcut durumu kompakt bir handoff'a özetle, sonra o özetten devam et",
+      "Sıfırdan yeni bir oturum aç ve tüm ham transkripti yeniden yapıştır",
+      "Model daha çok hatırlasın diye temperature'ı düşür"
+    ],
+    "correct": 1,
+    "explanation": "Aynen — kararların ve mevcut durumun kısa bir özeti/handoff'u, önemli olanı çok daha az token'la korur; iş temizce devam eder. Akıllı context hijyeni!"
+  },
+  {
+    "prompt": "Bir AI PR-review botu ayda yaklaşık 800 pull request işliyor. Her çağrı ortalama ~6.000 input token ve ~1.000 output token; output token'ları input'tan daha pahalı. Aylık faturayı en doğrudan ne belirler?",
+    "choices": [
+      "Depodaki dosya sayısı",
+      "Tüm çağrılardaki toplam token (input + output), output kendi yüksek fiyatıyla ağırlıklandırılarak",
+      "Ekipte kaç geliştirici olduğu",
+      "Modelin parametre sayısı"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet — maliyet, tüm çağrılardaki toplam token (input + output) ile belirlenir ve output daha pahalı olduğu için onu ona göre ağırlıklandırırsın. Faturayı öngörmeni ve kontrol etmeni sağlayan hesap budur!"
+  },
+  {
+    "prompt": "Başarısız testleri düzeltmek için shell komutları çalıştırabilen ve dosya düzenleyebilen bir AI agent tasarlıyorsun. Hangi tasarım tercihi otonomi ile güvenliği en iyi dengeler?",
+    "choices": [
+      "Her şeyi hızlı düzeltebilsin diye kısıtsız shell erişimi ver",
+      "Sandbox içinde, komut allow-list'i ve değişiklikler merge edilmeden önce insan onay kapısı ile çalıştır",
+      "Tüm guardrail'leri kaldır ama logları haftada bir incele",
+      "Adım limiti olmadan tüm testler geçene kadar sonsuza dek döngüde bırak"
+    ],
+    "correct": 1,
+    "explanation": "Aynen — least-privilege sandbox, allow-list ve merge öncesi insan kapısı, agent'ı yararlı kılarken yanlış bir eylemin gerçek hasara yol açmasını engeller. Agent'ları sorumlu şekilde böyle yayına alırsın!"
+  },
+  {
+    "prompt": "Ekibin, bir AI asistanının birkaç dahili sisteme (wiki, ticket takip, veritabanı) tek seferlik özel entegrasyonlar yerine tutarlı ve yeniden kullanılabilir tek bir arayüzle erişmesini istiyor. Hangi yaklaşım en uygun?",
+    "choices": [
+      "Her entegrasyonu prompt'un içine ayrı ayrı hard-code et",
+      "Her sistemi standart bir tool/context protokolü (örn. MCP) üzerinden sun ki asistan onlara tek tip, yeniden kullanılabilir şekilde bağlansın",
+      "Her çağrıda her sistemin tüm içeriğini context window'a yapıştır",
+      "Her gece modeli her sistemin verisiyle fine-tune et"
+    ],
+    "correct": 1,
+    "explanation": "Tam isabet — MCP gibi standart bir protokol, kırılgan tek-seferlik entegrasyonlar yerine tool'ları ve veri kaynaklarını asistanın yeniden kullanabileceği tek tutarlı arayüzle sunmanı sağlar. Temiz, ölçeklenebilir tasarım!"
   }
 ]

@@ -275,7 +275,7 @@ const tr = {
   // Sınav
   // ---------------------------------------------------------------------------
   'exam.pageTitle': 'SDLC Bilgi Sınavı',
-  'exam.instructions': 'Tüm 15 soruyu cevaplayın ve puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
+  'exam.instructions': 'Tüm soruları cevaplayın ve puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
   'exam.questionLabel': 'Soru {n} / {total}',
   'exam.answeredOf': '{total} sorudan {answered} tanesi cevaplandı',
   'exam.allAnswered': 'Tümü cevaplandı — göndermeye hazır',
@@ -299,7 +299,7 @@ const tr = {
   'exam.headline.keepGoing': 'Devam edin — her deneme bilginizi artırır!',
 
   // Sınav CTA (ana sayfa)
-  'exam.cta.blurb': 'Bilginizi test etmeye hazır mısınız? 15 soruluk SDLC sınavına girin ve sertifikanızı kazanın.',
+  'exam.cta.blurb': 'Bilginizi test etmeye hazır mısınız? SDLC sınavına girin ve sertifikanızı kazanın.',
   'exam.cta.button': 'Sınava başla',
 } as const;
 

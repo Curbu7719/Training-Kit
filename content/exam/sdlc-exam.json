@@ -163,5 +163,49 @@
     ],
     "correct": 0,
     "explanation": "Exactly right. Tying cost per request to a concrete value metric and watching it as usage grows is how you prove ROI and catch unit economics that break at scale. Great business discipline!"
+  },
+  {
+    "prompt": "An AI coding session has run long and is near the model's context limit, but the task isn't finished. What's the best way to continue without losing what matters?",
+    "choices": [
+      "Keep going and let the oldest messages silently fall out of the window",
+      "Summarize the key decisions and current state into a compact handoff, then continue from that summary",
+      "Start a brand-new session and re-paste the entire raw transcript",
+      "Lower the temperature so the model remembers more"
+    ],
+    "correct": 1,
+    "explanation": "Exactly — a concise summary/handoff of the decisions and current state preserves what matters in far fewer tokens, so work continues cleanly. Smart context hygiene!"
+  },
+  {
+    "prompt": "An AI PR-review bot processes about 800 pull requests a month. Each call averages ~6,000 input tokens and ~1,000 output tokens, and output tokens are priced higher than input. What most directly drives the monthly bill?",
+    "choices": [
+      "The number of files in the repository",
+      "The total tokens processed (input + output) across all calls, with output weighted by its higher price",
+      "How many developers are on the team",
+      "The model's parameter count"
+    ],
+    "correct": 1,
+    "explanation": "Right on — cost is driven by total tokens (input + output) across all calls, and since output is priced higher you weight it accordingly. That's the calculation that lets you forecast and control the bill!"
+  },
+  {
+    "prompt": "You're designing an AI agent that can run shell commands and edit files to fix failing tests. Which design choice best balances autonomy with safety?",
+    "choices": [
+      "Give it unrestricted shell access so it can fix anything quickly",
+      "Run it in a sandbox with a command allow-list and a human approval gate before changes are merged",
+      "Remove all guardrails but review the logs once a week",
+      "Let it loop indefinitely until all tests pass, with no step limit"
+    ],
+    "correct": 1,
+    "explanation": "Exactly — least-privilege sandboxing, an allow-list, and a human gate before merge let the agent be useful without letting a wrong action cause real damage. That's how you ship agents responsibly!"
+  },
+  {
+    "prompt": "Your team wants an AI assistant to reach several internal systems (a wiki, a ticket tracker, a database) through one consistent, reusable interface instead of bespoke one-off integrations. Which approach fits best?",
+    "choices": [
+      "Hard-code each integration separately inside the prompt",
+      "Expose each system through a standard tool/context protocol (e.g. MCP) so the assistant connects to them in a uniform, reusable way",
+      "Paste the full contents of every system into the context window on each call",
+      "Fine-tune the model on each system's data every night"
+    ],
+    "correct": 1,
+    "explanation": "Spot on — a standard protocol like MCP lets you expose tools and data sources through one consistent interface the assistant can reuse, instead of brittle one-off integrations. Clean, scalable design!"
   }
 ]

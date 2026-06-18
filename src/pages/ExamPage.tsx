@@ -27,17 +27,18 @@ interface ExamQuestion {
 interface QuestionCardProps {
   question: ExamQuestion;
   index: number;
+  total: number;
   selected: number | undefined;
   onSelect: (choiceIdx: number) => void;
 }
 
-function QuestionCard({ question, index, selected, onSelect }: QuestionCardProps) {
+function QuestionCard({ question, index, total, selected, onSelect }: QuestionCardProps) {
   const { t } = useLanguage();
   return (
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="text-sm font-semibold text-muted-foreground">
-          {t('exam.questionLabel', { n: index + 1, total: 15 })}
+          {t('exam.questionLabel', { n: index + 1, total })}
         </CardTitle>
         <CardDescription className="text-base text-card-foreground mt-1 leading-snug">
           {question.prompt}
@@ -74,6 +75,7 @@ function QuestionCard({ question, index, selected, onSelect }: QuestionCardProps
 interface ResultItemProps {
   question: ExamQuestion;
   index: number;
+  total: number;
   chosenIdx: number;
   isCorrect: boolean;
   correctIdx: number;
@@ -83,6 +85,7 @@ interface ResultItemProps {
 function ResultItem({
   question,
   index,
+  total,
   chosenIdx,
   isCorrect,
   correctIdx,
@@ -100,7 +103,7 @@ function ResultItem({
           )}
           <div>
             <p className="text-xs font-semibold text-muted-foreground">
-              {t('exam.questionLabel', { n: index + 1, total: 15 })} &mdash;{' '}
+              {t('exam.questionLabel', { n: index + 1, total })} &mdash;{' '}
               <span className={isCorrect ? 'text-success' : 'text-destructive'}>
                 {isCorrect ? t('exam.correct') : t('exam.incorrect')}
               </span>
@@ -320,6 +323,7 @@ export function ExamPage() {
                   key={r.question_id}
                   question={q}
                   index={questions.indexOf(q)}
+                  total={questions.length}
                   chosenIdx={answers[r.question_id] ?? -1}
                   isCorrect={r.is_correct}
                   correctIdx={r.correct}
@@ -381,6 +385,7 @@ export function ExamPage() {
               key={q.id}
               question={q}
               index={i}
+              total={questions.length}
               selected={answers[q.id]}
               onSelect={(ci) => setAnswers((prev) => ({ ...prev, [q.id]: ci }))}
             />

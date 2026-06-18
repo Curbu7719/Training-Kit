@@ -275,7 +275,7 @@ const en = {
   // Exam
   // ---------------------------------------------------------------------------
   'exam.pageTitle': 'SDLC Knowledge Exam',
-  'exam.instructions': 'Answer all 15 questions and submit to see your score. You need 75 or above to pass.',
+  'exam.instructions': 'Answer all the questions and submit to see your score. You need 75 or above to pass.',
   'exam.questionLabel': 'Question {n} of {total}',
   'exam.answeredOf': '{answered} of {total} answered',
   'exam.allAnswered': 'All answered — ready to submit',
@@ -299,7 +299,7 @@ const en = {
   'exam.headline.keepGoing': 'Keep going — every attempt builds knowledge!',
 
   // Exam CTA on dashboard
-  'exam.cta.blurb': 'Ready to test your knowledge? Take the 15-question SDLC exam and earn your certificate.',
+  'exam.cta.blurb': 'Ready to test your knowledge? Take the SDLC exam and earn your certificate.',
   'exam.cta.button': 'Start exam',
 } as const;
 
