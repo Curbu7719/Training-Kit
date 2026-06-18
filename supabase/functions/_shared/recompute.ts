@@ -169,15 +169,6 @@ export async function recomputeModuleProgress(
   // -----------------------------------------------------------------------
   const newBadgeCodes: string[] = [];
 
-  // Load user's active track (needed for track-level badges)
-  const { data: profile } = await client
-    .from('profiles')
-    .select('active_track')
-    .eq('id', userId)
-    .single();
-
-  const activeTrack: string | null = profile?.active_track ?? null;
-
   // Load all badges and existing user badges
   const { data: allBadges } = await client.from('badges').select('id, code, criteria');
   const { data: existingBadges } = await client
@@ -197,17 +188,16 @@ export async function recomputeModuleProgress(
       // Check if the specific module is now passed at any required level
       earned = await isModulePassed(client, userId, criteria.module);
 
-    } else if (criteria.type === 'track_level_complete') {
-      // All required modules for the track at the given level must be passed
-      if (activeTrack === criteria.track) {
-        earned = await isTrackLevelComplete(client, userId, criteria.track, criteria.level as ModuleLevel);
-      }
+    } else if (criteria.type === 'all_modules_level') {
+      // Single shared curriculum: every module that HAS lessons at this level
+      // must be passed at that level.
+      earned = await isAllModulesLevelComplete(client, userId, criteria.level as ModuleLevel);
 
-    } else if (criteria.type === 'track_complete') {
-      // All required module_tracks rows for the track (any level) must be passed
-      if (activeTrack === criteria.track) {
-        earned = await isTrackComplete(client, userId, criteria.track);
-      }
+    } else if (criteria.type === 'all_modules_complete') {
+      // Full certificate: all L1 content AND all L2 content passed.
+      earned =
+        (await isAllModulesLevelComplete(client, userId, 'L1')) &&
+        (await isAllModulesLevelComplete(client, userId, 'L2'));
     }
 
     if (earned) {
@@ -262,36 +252,26 @@ async function isModulePassed(
 }
 
 /**
- * Returns true if all required modules for the given track at the given level
- * have been passed by the user.
+ * Returns true if EVERY module that has lessons at the given level has been
+ * passed at that level by the user. Track-free (single shared curriculum).
+ *
+ * Note: only modules that actually have L2 content count toward L2 completion,
+ * so L1-only modules don't block the L2 / certificate badges.
  */
-async function isTrackLevelComplete(
+async function isAllModulesLevelComplete(
   client: SupabaseClient,
   userId: string,
-  trackCode: string,
   level: ModuleLevel,
 ): Promise<boolean> {
-  const { data: track } = await client
-    .from('tracks')
-    .select('id')
-    .eq('code', trackCode)
-    .single();
-
-  if (!track) return false;
-
-  // All required module_tracks for this track at this level
-  const { data: required } = await client
-    .from('module_tracks')
+  // Distinct modules that have lessons authored at this level.
+  const { data: lessons } = await client
+    .from('lessons')
     .select('module_id')
-    .eq('track_id', track.id)
-    .eq('level', level)
-    .eq('required', true);
+    .eq('level', level);
 
-  if (!required || required.length === 0) return false;
+  const moduleIds = [...new Set((lessons ?? []).map((l) => l.module_id))];
+  if (moduleIds.length === 0) return false;
 
-  const moduleIds = required.map((r) => r.module_id);
-
-  // How many of those have a passing progress row at this level?
   const { data: passed } = await client
     .from('user_progress')
     .select('module_id')
@@ -300,48 +280,6 @@ async function isTrackLevelComplete(
     .eq('status', 'passed')
     .in('module_id', moduleIds);
 
-  return (passed ?? []).length === moduleIds.length;
-}
-
-/**
- * Returns true if all required module_tracks entries for the track (across
- * all levels) have been passed by the user.
- * This is the condition for the track completion certificate.
- */
-async function isTrackComplete(
-  client: SupabaseClient,
-  userId: string,
-  trackCode: string,
-): Promise<boolean> {
-  const { data: track } = await client
-    .from('tracks')
-    .select('id')
-    .eq('code', trackCode)
-    .single();
-
-  if (!track) return false;
-
-  const { data: required } = await client
-    .from('module_tracks')
-    .select('module_id, level')
-    .eq('track_id', track.id)
-    .eq('required', true);
-
-  if (!required || required.length === 0) return false;
-
-  // For each required (module_id, level) pair, check there is a passing row
-  for (const row of required) {
-    const { data: progress } = await client
-      .from('user_progress')
-      .select('status')
-      .eq('user_id', userId)
-      .eq('module_id', row.module_id)
-      .eq('level', row.level)
-      .eq('status', 'passed')
-      .limit(1);
-
-    if ((progress ?? []).length === 0) return false;
-  }
-
-  return true;
+  const passedSet = new Set((passed ?? []).map((p) => p.module_id));
+  return moduleIds.every((id) => passedSet.has(id));
 }
