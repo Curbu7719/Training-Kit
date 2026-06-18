@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Hasar dosyalarını özetleyen bir AI asistanı, üç haftalık bir pilotta on eksper için inceleme süresini **%30** kısalttı. Genç bir analist, case olarak '%30 daha hızlı'yı öne sürerek şimdi 300 eksperin tamamına ölçeklendirmek istiyor. Bir kıdemli eksperin, yanlış bir özet bir hasarı yanlış fiyatlandırabileceği için özetleri doğrulamak adına haftada iki saat harcaması gerektiğini ve istek başına inference maliyetinin 300 kullanıcıda modellenmediğini öğreniyorsunuz.\n\nTam bir dağıtıma bütçe taahhüt etmeden önce **tek** bir sonraki adım atabilirsiniz. En sağlam hamle hangisidir — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "%30 manşetinin gücüyle hemen 300 eksperin tamamına ölçeklendirin",
+      "Case'i baseline ve delta eksi toplam maliyet (gözetim saatleri dahil) olarak oluşturun, 300 kullanıcıda incelenen hasar başına maliyeti modelleyin ve dalgalar halinde dağıtırken öncü göstergeleri izleyin",
+      "Pilot'u durdurun, çünkü insan incelemesi gerektiren herhangi bir araç değer sağlayamaz",
+      "Başarı metriği olarak 'haftada üretilen özetler'i raporlayın ve dağıtımı onaylayın"
+    ],
+    "reason_choices": [
+      "Çünkü gerçek değer delta eksi sunmanın toplam maliyetidir, birim ekonomisi ölçekte tersine dönebilir ve öncü göstergeler tam bir dağıtım tıkanmadan önce bir adoption veya maliyet sorununu yakalamanıza izin verir",
+      "Çünkü %30'luk bir pilot sonucu 60 kat kullanıcıda her zaman değişmeden geçerlidir, dolayısıyla başka analize gerek yoktur",
+      "Çünkü gözetim maliyeti, bir insan çıktıyı incelediğinde tanım gereği net değeri negatif yapar",
+      "Çünkü üretilen özet hacmi, iş değerini en iyi kanıtlayan metriktir"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

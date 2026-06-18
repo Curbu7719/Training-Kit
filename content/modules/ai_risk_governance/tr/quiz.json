@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir kuruluşta AI governance'ın ne için olduğunu en iyi hangi ifade özetler?",
+    "choices": [
+      "AI modelinin asla hata yapamayacağını garanti eder",
+      "AI kullanımının risklerini görünür kılar ve her birine bir sahip ve kontrol atar",
+      "Tamamen mühendisler tarafından ele alınan salt teknik bir görevdir",
+      "AI çıktısının herhangi bir insan incelemesine olan ihtiyacı ortadan kaldırır"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden meşru AI governance kontrolü olan TÜM seçenekleri işaretleyin.",
+    "choices": [
+      "AI'nin hangi veri ve görevler için kullanılabileceğini belirten bir kabul edilebilir kullanım politikası",
+      "AI'nin nerede, hangi veri ve risk katmanıyla kullanıldığını envanterleyen bir AI kullanım kaydı",
+      "Hesap verebilirlik için prompt'ların, çıktıların ve kararların audit günlüklemesi",
+      "Veri koşullarına bakılmaksızın en düşük fiyatlı AI satıcısını seçmek"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir ekip, müşteri adlarını ve sipariş geçmişini harici bir AI sağlayıcısına göndermeyi planlıyor. En doğrudan hangi İKİ risk doğar ve onları hangi kontroller yanıtlar? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Veri gizliliği / PII riski; redaksiyon, bir kabul edilebilir kullanım politikası ve bir eğitim-yok sözleşme maddesiyle yanıtlanır",
+      "IP ve lisanslama / çıktı-sahipliği riski; satıcı sözleşmesini inceleyerek yanıtlanır",
+      "Modelin context window'unun çok küçük olması riski; daha büyük bir modelle yanıtlanır",
+      "Donanım arızası riski; daha hızlı sunucular alarak yanıtlanır"
+    ],
+    "correct": [0, 1],
+    "points": 1
+  },
+  {
+    "prompt": "Bir İş Analistinden, yeni bir işe-alım-eleme aracı için AI governance'ı desteklemesi isteniyor. Bu rol için EN uygun görev hangisidir?",
+    "choices": [
+      "Prompt'lar gönderilmeden önce tanımlayıcıları çıkaran PII-redaksiyon kodunu yazmak",
+      "Her AI kullanımını dokunduğu veriye ve geçerli düzenlemelere eşlemek, AI kullanım kaydını ve risk katmanlamayı beslemek",
+      "Tüm ürün için nihai canlıya-geçiş kararını onaylamak",
+      "Modelin sinir ağı mimarisini tasarlamak"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

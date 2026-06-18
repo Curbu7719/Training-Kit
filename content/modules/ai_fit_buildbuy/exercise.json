@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Your team is adding a feature that **converts a free-text customer request into a polished email reply** that a human agent edits before sending. A separate part of the screen must also show the customer's **exact account balance**, pulled from your database.\n\nYou are deciding how to source the **reply-drafting** part. AI reply-drafting is **not** your product's differentiator, you have **no labeled dataset** yet, and you want to ship quickly while keeping the freedom to change providers later.\n\nWhich sourcing decision best fits this situation — and why?",
+  "spec": {
+    "decision_choices": [
+      "Use AI to compute the exact account balance as well, to keep one consistent technology",
+      "Build a custom model in-house now, since owning the model is always cheapest long-term",
+      "Call a hosted LLM API behind a thin internal abstraction layer for the reply drafting, keeping the balance as a deterministic database query",
+      "Buy the most proprietary end-to-end SaaS suite available so the vendor handles everything"
+    ],
+    "reason_choices": [
+      "Because the reply drafting is fuzzy language work that fits AI and a human edits it, while the exact balance is a known lookup best left to deterministic code — and an abstraction layer keeps vendor lock-in and switching costs low",
+      "Because AI gives the same answer every time, so it is ideal for computing an exact balance",
+      "Because building in-house has the lowest total cost of ownership in every case",
+      "Because higher vendor lock-in reduces switching costs and is therefore desirable"
+    ]
+  },
+  "answer_key": {
+    "decision": 2,
+    "reason": 0
+  },
+  "max_score": 10
+}

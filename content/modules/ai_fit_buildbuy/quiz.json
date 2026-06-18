@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Which problem is the BEST fit for AI rather than deterministic code?",
+    "choices": [
+      "Calculating sales tax from a known rate table",
+      "Validating that an email address has a valid format",
+      "Summarizing the themes across 500 free-text customer reviews",
+      "Routing a support ticket by an exact priority lookup table"
+    ],
+    "correct": [2],
+    "points": 1
+  },
+  {
+    "prompt": "Select ALL reasons that deterministic code is often preferable to an AI model when the rule is exact and known.",
+    "choices": [
+      "It gives the same answer every time for the same input",
+      "It is typically cheaper and faster per execution and easier to test",
+      "It is non-deterministic, which is desirable for exact rules",
+      "Its behavior is predictable, so the result can be verified directly"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "A PM/Product Owner is deciding how to source an AI feature that is NOT the product's differentiator, where the team has no labeled data and needs to ship quickly. Which sourcing choice best fits, and why?",
+    "choices": [
+      "Build a model in-house, because owning the model always lowers total cost",
+      "Call a hosted API behind an abstraction layer, because it ships fast and keeps vendor lock-in low while leaving other options open",
+      "Fine-tune a model immediately, because fine-tuning never requires labeled data",
+      "Buy the most proprietary SaaS available, because lock-in reduces switching costs"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Select ALL statements that correctly describe total cost of ownership (TCO) and vendor lock-in when sourcing an AI feature.",
+    "choices": [
+      "TCO includes integration, evaluation, monitoring, and maintenance — not just the per-call price",
+      "Vendor lock-in raises switching costs when proprietary formats and prompts make leaving expensive",
+      "An abstraction layer over the provider helps keep switching costs low",
+      "The cheapest per-call price always means the lowest total cost of ownership"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

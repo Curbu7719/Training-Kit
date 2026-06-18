@@ -241,6 +241,18 @@ const en = {
 
   'module.ai_architecture.title': 'AI System Architecture',
   'module.ai_architecture.desc': 'Reading and drawing a full AI system architecture; identifying security and privacy risks.',
+
+  // Section headings
+  'section.sdlc.title': 'AI in the SDLC',
+  'section.strategy.title': 'AI Strategy Literacy',
+
+  // Strategy strand modules
+  'module.ai_fit_buildbuy.title': 'AI Fit & Build vs Buy',
+  'module.ai_fit_buildbuy.desc': 'When AI is the right tool; build vs buy vs fine-tune; vendor lock-in and total cost.',
+  'module.ai_risk_governance.title': 'AI Risk & Governance',
+  'module.ai_risk_governance.desc': 'Data privacy, IP, compliance and responsible AI; the controls and gates that govern AI use.',
+  'module.ai_value_scaling.title': 'AI Value & Scaling',
+  'module.ai_value_scaling.desc': 'Building the business case and ROI; taking AI from pilot to production at scale.',
 } as const;
 
 export type TranslationKey = keyof typeof en;

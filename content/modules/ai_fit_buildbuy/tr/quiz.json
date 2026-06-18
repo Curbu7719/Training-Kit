@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Hangi problem, deterministik kod yerine AI için EN İYİ uyumdur?",
+    "choices": [
+      "Bilinen bir oran tablosundan satış vergisini hesaplama",
+      "Bir e-posta adresinin geçerli bir biçime sahip olduğunu doğrulama",
+      "500 serbest metinli müşteri yorumundaki temaları özetleme",
+      "Bir destek talep'ini kesin bir öncelik arama tablosuyla yönlendirme"
+    ],
+    "correct": [2],
+    "points": 1
+  },
+  {
+    "prompt": "Kural kesin ve bilinir olduğunda deterministik kodun bir AI modeline sıklıkla tercih edilmesinin TÜM nedenlerini seçin.",
+    "choices": [
+      "Aynı girdi için her seferinde aynı yanıtı verir",
+      "Genellikle yürütme başına daha ucuz ve daha hızlıdır ve test edilmesi daha kolaydır",
+      "Non-deterministik'tir, bu da kesin kurallar için arzu edilir",
+      "Davranışı öngörülebilirdir, dolayısıyla sonuç doğrudan doğrulanabilir"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  },
+  {
+    "prompt": "Bir PM/Ürün Sahibi, ürünün farklılaştırıcısı OLMAYAN, ekibin etiketli verisinin bulunmadığı ve hızlı yayınlanması gereken bir AI özelliğini nasıl temin edeceğine karar veriyor. Hangi temin etme seçimi en iyi uyar ve neden?",
+    "choices": [
+      "Şirket içinde bir model build et, çünkü modele sahip olmak her zaman toplam maliyeti düşürür",
+      "Bir soyutlama katmanının arkasında barındırılan bir API çağır, çünkü hızlı yayınlanır ve diğer seçenekleri açık tutarken vendor lock-in'i düşük tutar",
+      "Hemen bir modeli fine-tune et, çünkü fine-tune asla etiketli veri gerektirmez",
+      "Mevcut en tescilli SaaS'i satın al, çünkü lock-in switching cost'ları azaltır"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Bir AI özelliğini temin ederken total cost of ownership (TCO) ve vendor lock-in'i doğru tanımlayan TÜM ifadeleri seçin.",
+    "choices": [
+      "TCO; entegrasyon, değerlendirme, izleme ve bakımı içerir — yalnızca çağrı başına fiyatı değil",
+      "Vendor lock-in, tescilli biçimler ve prompt'lar ayrılmayı pahalı yaptığında switching cost'ları yükseltir",
+      "Sağlayıcı üzerindeki bir soyutlama katmanı switching cost'ları düşük tutmaya yardımcı olur",
+      "En düşük çağrı başına fiyat her zaman en düşük total cost of ownership anlamına gelir"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Bir banka lansmanda bir AI kredi-değerlendirme aracını onayladı, sonra sekiz ay boyunca satıcı modeli güncelledi ve ekip bir yeniden-inceleme olmadan yeni veri alanları (yaş, posta kodu) ekledi. Governance başarısızlığını hangi ifadeler doğru açıklar? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Kullanım bir kez katmanlandı ve asla yeniden katmanlanmadı, böylece yeni eklenen bias'a yatkın alanlar değerlendirilmeden kaldı",
+      "Governance'ı tek seferlik bir lansman geçidi olarak ele almak, incelenmemiş riskin eski onayın arkasına saklanmasına izin verdi",
+      "Her karar audit günlüklendiği için banka, hangi model sürümünün ve alanların her kararı yönlendirdiğini yine de yeniden oluşturabildi",
+      "Lansman onayı sonraki herhangi bir model veya veri değişikliğini otomatik kapsar, bu yüzden hiçbir yeniden-inceleme asla gerekmedi"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir şirket AI onay sürecini o kadar ağırlaştırır ki personel sessizce onaysız araçları kayıt dışı kullanır. Trade-off açısından ne olmuştur ve nasıl ele alınmalıdır? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Risk azaltma, benimseme hızına karşı aşırı ağırlıklandırıldı; kaydedilmeden çalışan 'gölge AI' üretti",
+      "Gölge AI, AI kullanım kaydını eskitir, böylece gerçek maruz kalma görünmez hale gelir",
+      "Sahiplenilmiş yolu geçici çözümden daha hızlı yapmak, kullanımları governance altına geri getirmeye yardımcı olur",
+      "Gölge AI zararsızdır çünkü personel yine de işini yapıyor"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Audit günlükleme ve bir insan-döngüde kaydı, yüksek katmanlı, düzenlemeye tabi AI kullanımları için neden isteğe bağlı değil olarak tanımlanır? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "AI etkili bir karar itiraz edildiğinde, kimin, hangi temelde ve hangi gözetimle karar verdiğini göstermeniz gerekir",
+      "Kararı sonradan bir düzenleyiciye açıklanabilir ve savunulabilir kılarlar",
+      "Gerçek hiçbir inceleme kaydetmeyen bir lastik-damga inceleme yine de tam hesap verebilirlik sağlar",
+      "Model sürümünü ve girdileri günlüklemek, belirli bir karara nasıl varıldığını yeniden oluşturmanızı sağlar"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1
+  }
+]

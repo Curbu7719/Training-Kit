@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Bir ekip bir AI aracının 'haftada 10 analist-saati tasarruf ettiğini' raporluyor, ancak bir kıdemli incelemecinin çıktısını kontrol etmek için haftada 8 saat harcadığını keşfediyorsunuz. Business case açısından hangi ifadeler doğrudur? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Gerçek değer, delta eksi sunmanın toplam maliyetidir, dolayısıyla gözetim maliyeti tasarruf edilen 10 saate karşı netleştirilmelidir",
+      "Manşet, pilot'un üstlendiği inceleme/gözetim maliyetini göz ardı ettiği için değeri olduğundan fazla gösterir",
+      "Toplam maliyet sayıldığında case, '10 saat tasarruf'un önerdiğinden çok daha incedir",
+      "Gözetim maliyeti önemsizdir; business case'e yalnızca brüt tasarruf edilen saatler girer"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Olgun bir AI programı, yalnızca ardıl sonuçları beklemek yerine ölçeklendir-ya-da-durdur geçidini neden öncü göstergelere (örn. adoption derinliği, taslak kabul oranı, ilk-değere-süre) bağlar? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Üç aylık azaltılan maliyet gibi ardıl sonuçlar, bir dağıtımı onunla yönlendirmek için fazla geç gelir",
+      "Öncü göstergeler ardıl sonucun gerçekleşip gerçekleşmeyeceğini öngörür, bir dağıtım tıkanmadan önce müdahaleye izin verir",
+      "Öncü göstergeler bir adoption sorununu erken ortaya çıkarabilir, eğitim veya iş akışı uyumu hâlâ düzeltilebilirken",
+      "Öncü göstergelerin nihai iş sonucuna eşit olması garantilidir, dolayısıyla ardıl metriklere asla ihtiyaç duyulmaz"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir QA & Mimar'dan, istek başına inference maliyeti, destek yükü ve uç durum işlemesinin tümü hacimle artan bir pilot'u ölçeklendirmeyi onaylaması isteniyor. Bu rolün değer-ve-ölçeklendirme düşüncesini nasıl uygulaması gerektiğini en iyi hangi yanıt yansıtır?",
+    "choices": [
+      "Hemen onaylayın, çünkü pilot'un küçük ölçekli maliyetleri ihmal edilebilirdi",
+      "Hedef hacimde değer birimi başına maliyeti modelleyin ve onaylamadan önce faydanın altında kaldığını doğrulayın, çünkü birim ekonomisi ölçekte tersine dönebilir",
+      "Onaylayın, çünkü ham kullanım büyümesi başlı başına değerin kanıtıdır",
+      "Tüm ölçeklendirmeyi reddedin, çünkü AI maliyetleri her zaman olası herhangi bir faydadan daha hızlı büyür"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

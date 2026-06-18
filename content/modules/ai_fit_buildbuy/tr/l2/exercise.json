@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Belge-çıkarma özelliğiniz bir yıl önce, ince bir soyutlama katmanının arkasında **barındırılan bir LLM API'si çağırılarak** yayınlandı. O zamandan beri: hacim ayda 2.000'den 900.000 faturaya büyüdü, dolayısıyla **çağrı başına fiyat artık en büyük maliyet kaleminiz**; finans düşük riskli faturaları otomatik kaydediyor, dolayısıyla **tolere edilebilir hata oranı düştü**; ve **bir yıllık etiketli çıkarımlar** biriktirdiniz. Analiz, çoğu faturanın **birkaç bilinen şablonu** izlediğini, yalnızca azınlığın gerçekten yeni düzenlerde olduğunu gösteriyor.\n\nSonraki adımda **bir** temin etme değişikliği yapabilirsiniz. L2 merceğine en iyi hangi değişiklik uyar — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "Zaten çalıştığı için her şeyi genel barındırılan API üzerinde değiştirmeden tutun",
+      "Bilinen-şablon faturaları deterministik bir ayrıştırıcıya yönlendirin ve yeni-düzen kalanı için daha küçük bir modeli fine-tune edin, mevcut soyutlama katmanını koruyarak",
+      "Her fatura için tamamen özel bir şirket içi model build edin, çünkü modele sahip olmak her zaman en ucuzdur",
+      "İşlemleri basitleştirmek için soyutlama katmanı olmadan mevcut en tescilli uzman SaaS paketine geçin"
+    ],
+    "reason_choices": [
+      "Çünkü AI yüzeyini indirgenemez belirsiz adıma daraltmak maliyeti düşürür ve test edilebilirliği yükseltir, fine-tune artık mevcut olan etiketli veriden daha yüksek doğruluk için yararlanır ve soyutlama switching cost'u düşük ve kararı geri alınabilir tutar",
+      "Çünkü değiştirilmemiş API'yi tutmak en iyisidir, zira çağrı başına fiyat herhangi bir hacimde önemsizdir",
+      "Çünkü şirket içinde build etmek hacimden veya farklılaşmadan bağımsız olarak her zaman en düşük total cost of ownership'e sahiptir",
+      "Çünkü soyutlama olmayan tescilli bir paket lock-in'i maksimize eder, bu da switching cost'ları düşürür"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

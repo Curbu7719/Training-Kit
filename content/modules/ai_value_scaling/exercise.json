@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "A team wants to take an AI idea all the way from concept to organisation-wide value. Arrange the steps of the pilot → production → scale lifecycle into the correct order, from first to last.",
+  "spec": {
+    "items": [
+      "Roll out widely with change management (training, trust, feedback) and keep measuring adoption",
+      "Define the real value metric and the success threshold before building anything",
+      "Run a small, time-boxed pilot with a real user group and measure against the threshold",
+      "Decide to scale or kill based on the value metric, real adoption, and sustainable cost",
+      "Harden the proven pilot into a monitored production system with owners and support"
+    ]
+  },
+  "answer_key": { "order": [1, 2, 3, 4, 0] },
+  "max_score": 10
+}

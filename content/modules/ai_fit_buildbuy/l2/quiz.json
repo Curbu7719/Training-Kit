@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A feature uploads invoices and must (a) read fields from varied, novel layouts and (b) re-check arithmetic totals that are already printed on the invoice. Applying the 'fit is a spectrum' idea, which statements are correct? Select ALL that apply.",
+    "choices": [
+      "The varied-layout field reading is the irreducibly fuzzy core that genuinely fits AI",
+      "Re-checking known arithmetic totals is exact work best done in deterministic code",
+      "Narrowing the AI surface to only the fuzzy step makes the system cheaper, more testable, and more swappable",
+      "Both steps should be sent to the model so the technology stays uniform"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A team's hosted-API extraction feature has grown from 2,000 to 900,000 calls per month, accuracy needs have risen, and they now hold a year of labeled data. Why might re-sourcing toward a fine-tuned model be justified? Select ALL that apply.",
+    "choices": [
+      "At real volume the per-call API price has become the largest cost line, a TCO concern",
+      "Accumulated labeled data now makes fine-tuning viable where it was not before",
+      "Sourcing is reversible and should be revisited as volume, accuracy needs, and data change",
+      "A larger per-call price is always preferable because it signals higher quality"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "An architect wants the build-vs-buy decision to stay reversible and lock-in low. Which design choices support that goal? Select ALL that apply.",
+    "choices": [
+      "Put the provider behind an abstraction layer so it can be swapped without rewriting the product",
+      "Keep prompts and evaluation suites portable across providers",
+      "Maintain an exit plan the team can actually execute",
+      "Adopt the most proprietary vendor format available to maximize switching costs"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

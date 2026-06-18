@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "A team reports that an AI tool 'saves 10 analyst-hours per week,' but you discover a senior reviewer spends 8 hours per week checking its output. In business-case terms, which statements are correct? Select ALL that apply.",
+    "choices": [
+      "The real value is the delta minus the total cost to deliver, so the oversight cost must be netted against the 10 hours saved",
+      "The headline overstates value because it ignored the review/oversight cost the pilot incurred",
+      "The case is much thinner than '10 hours saved' suggests once total cost is counted",
+      "Oversight cost is irrelevant; only the gross hours saved belong in the business case"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Why does a mature AI program tie its scale-or-kill gate to leading indicators (e.g. adoption depth, draft acceptance rate, time-to-first-value) rather than waiting for lagging outcomes alone? Select ALL that apply.",
+    "choices": [
+      "Lagging outcomes like quarterly cost reduced arrive too late to steer a rollout by",
+      "Leading indicators predict whether the lagging outcome will land, allowing intervention before a rollout stalls",
+      "Leading indicators can reveal an adoption problem early, when training or workflow fit can still be fixed",
+      "Leading indicators are guaranteed to equal the final business outcome, so lagging metrics are never needed"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A QA & Architect is asked to sign off on scaling a pilot whose per-request inference cost, support load, and edge-case handling all rise with volume. Which response best reflects how this role should apply value-and-scaling thinking?",
+    "choices": [
+      "Approve immediately, because the pilot's small-scale costs were negligible",
+      "Model the cost per unit of value at the target volume and confirm it stays below the benefit before approving, since unit economics can invert at scale",
+      "Approve, because raw usage growth is itself proof of value",
+      "Reject all scaling, because AI costs always grow faster than any possible benefit"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

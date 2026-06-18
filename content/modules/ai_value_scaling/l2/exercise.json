@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "An AI assistant that summarises claim files cut review time **30%** for ten adjusters in a three-week pilot. A junior analyst wants to scale to all 300 adjusters now, citing '30% faster' as the case. You learn that a senior adjuster must spend two hours a week verifying summaries because a wrong summary can mis-price a claim, and that per-request inference cost has not been modelled at 300 users.\n\nYou can take **one** next step before committing budget to a full rollout. Which is the soundest move — and why?",
+  "spec": {
+    "decision_choices": [
+      "Scale to all 300 adjusters immediately on the strength of the 30% headline",
+      "Build the case as baseline vs. delta minus total cost (including the oversight hours), model cost per reviewed claim at 300 users, and track leading indicators as you roll out in waves",
+      "Kill the pilot, because any tool that needs human review cannot deliver value",
+      "Report 'summaries generated per week' as the success metric and approve the rollout"
+    ],
+    "reason_choices": [
+      "Because real value is the delta minus the total cost to deliver, unit economics can invert at scale, and leading indicators let you catch an adoption or cost problem before a full rollout stalls",
+      "Because a 30% pilot result always holds unchanged at 60x the users, so no further analysis is needed",
+      "Because oversight cost makes net value negative by definition whenever a human reviews output",
+      "Because volume of summaries generated is the metric that best proves business value"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "prompt": "Bir özellik faturalar yüklüyor ve şunları yapmalı: (a) çeşitli, yeni düzenlerden alanları okumak ve (b) faturada zaten basılı olan aritmetik toplamları yeniden kontrol etmek. 'Uygunluk bir spektrumdur' fikrini uygulayarak, hangi ifadeler doğrudur? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Çeşitli-düzen alan okuma, gerçekten AI'ya uyan indirgenemez belirsiz çekirdektir",
+      "Bilinen aritmetik toplamları yeniden kontrol etmek, deterministik kodda en iyi yapılan kesin iştir",
+      "AI yüzeyini yalnızca belirsiz adıma daraltmak sistemi daha ucuz, daha test edilebilir ve daha değiştirilebilir yapar",
+      "Teknoloji tek tip kalsın diye her iki adım da modele gönderilmelidir"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir ekibin barındırılan-API çıkarma özelliği ayda 2.000'den 900.000 çağrıya büyüdü, doğruluk ihtiyaçları yükseldi ve şimdi bir yıllık etiketli veriye sahipler. Fine-tune edilmiş bir modele doğru yeniden temin etmek neden haklı olabilir? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Gerçek hacimde çağrı başına API fiyatı en büyük maliyet kalemi olmuştur, bir TCO endişesi",
+      "Biriktirilen etiketli veri, daha önce mümkün olmayan fine-tune'u şimdi uygulanabilir kılıyor",
+      "Temin etme geri alınabilir ve hacim, doğruluk ihtiyaçları ve veri değiştikçe yeniden ele alınmalıdır",
+      "Daha büyük bir çağrı başına fiyat her zaman tercih edilir çünkü daha yüksek kaliteyi işaret eder"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir mimar, build-vs-buy kararının geri alınabilir ve lock-in'in düşük kalmasını istiyor. Hangi tasarım seçimleri bu hedefi destekler? Geçerli olan TÜM seçenekleri seçin.",
+    "choices": [
+      "Sağlayıcıyı bir soyutlama katmanının arkasına koyun, böylece ürün yeniden yazılmadan değiştirilebilsin",
+      "Prompt'ları ve değerlendirme paketlerini sağlayıcılar arasında taşınabilir tutun",
+      "Ekibin gerçekten yürütebileceği bir çıkış planı sürdürün",
+      "Switching cost'ları maksimize etmek için mevcut en tescilli vendor biçimini benimseyin"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  }
+]

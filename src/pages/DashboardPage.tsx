@@ -17,7 +17,9 @@ import type { TranslationKey } from '@/lib/locales/en';
 // `code` matches the modules table; title/description come from i18n.
 // ---------------------------------------------------------------------------
 
-const MODULE_CODES = [
+// Two sections: the operational "AI in the SDLC" strand and the separate
+// "AI Strategy Literacy" strand.
+const SDLC_CODES = [
   'llm_foundations',
   'tokens',
   'context_management',
@@ -30,7 +32,16 @@ const MODULE_CODES = [
   'ai_architecture',
 ] as const;
 
+const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scaling'] as const;
+
+const MODULE_CODES = [...SDLC_CODES, ...STRATEGY_CODES] as const;
+
 type ModuleCode = (typeof MODULE_CODES)[number];
+
+const SECTIONS = [
+  { titleKey: 'section.sdlc.title', codes: SDLC_CODES },
+  { titleKey: 'section.strategy.title', codes: STRATEGY_CODES },
+] as const;
 
 // ---------------------------------------------------------------------------
 // Status model
@@ -229,23 +240,26 @@ export function DashboardPage() {
           <p className="mt-1.5 text-xs text-muted-foreground">{t('dashboard.summary')}</p>
         </section>
 
-        <section>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {MODULE_CODES.map((code, i) => {
-              const { l1, l2 } = statusFor(code);
-              return (
-                <ModuleCard
-                  key={code}
-                  code={code}
-                  index={i}
-                  l1Status={l1}
-                  l2Status={l2}
-                  onOpen={() => navigate(`/learn/${code}`)}
-                />
-              );
-            })}
-          </div>
-        </section>
+        {SECTIONS.map(({ titleKey, codes }) => (
+          <section key={titleKey}>
+            <h2 className="mb-4 text-lg font-semibold">{t(titleKey as TranslationKey)}</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {codes.map((code, i) => {
+                const { l1, l2 } = statusFor(code);
+                return (
+                  <ModuleCard
+                    key={code}
+                    code={code}
+                    index={i}
+                    l1Status={l1}
+                    l2Status={l2}
+                    onOpen={() => navigate(`/learn/${code}`)}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        ))}
 
         <section>
           <h2 className="mb-4 text-lg font-semibold">{t('dashboard.badges')}</h2>

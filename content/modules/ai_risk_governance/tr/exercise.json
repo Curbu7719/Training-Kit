@@ -1,0 +1,22 @@
+{
+  "type": "match",
+  "prompt_md": "Soldaki her **AI riskini**, onu en doğrudan ele alan sağdaki **governance kontrolü veya azaltıcı önlemle** eşleştirin.",
+  "spec": {
+    "left": [
+      "Personelin müşteri PII'sini harici bir AI aracına yapıştırması",
+      "Modelin çıktısının sahibinin kim olduğunun ve verinizin satıcının modelini eğitip eğitmediğinin belirsiz olması",
+      "Düzenlemeye tabi bir kararın (örn. işe alım) sonradan açıklanabilir ve hesap verebilir olması gerekmesi",
+      "Gizli kaynak kodunun veya kimlik bilgilerinin harici bir servise sızması",
+      "Kaç AI aracının kullanımda olduğunu veya hangi veriye dokunduklarını kimsenin bilmemesi"
+    ],
+    "right": [
+      "PII redaksiyonu artı hangi verinin gönderilebileceğine dair bir kabul edilebilir kullanım politikası",
+      "Çıktı sahipliğini ve bir eğitim-yok maddesini çözen, incelenmiş bir satıcı sözleşmesi",
+      "Prompt'ların, çıktıların ve kararların audit günlüklemesi",
+      "Gizli verinin ve sır'ların araca asla ulaşmaması için erişim kapsamlandırma",
+      "Her AI kullanımını, verisini ve risk katmanını envanterleyen bir AI kullanım kaydı"
+    ]
+  },
+  "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]] },
+  "max_score": 10
+}

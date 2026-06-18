@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Bir AI sistemi için gerçek bir değer metriği ile bir vanity metriği arasındaki farkı en iyi hangi ifade özetler?",
+    "choices": [
+      "Gerçek bir değer metriği bir iş sonucuna (zaman, para, risk, kalite) bağlanır; bir vanity metriği etkileyici görünür ama bağlanmaz",
+      "Bir vanity metriği her zaman gerçek bir değer metriğinden daha büyük bir sayıdır",
+      "Gerçek bir değer metriği bir dashboard'da raporlanan herhangi bir şeydir; bir vanity metriği bir slaytta raporlanan herhangi bir şeydir",
+      "Fark yoktur; ikisi de modelin ne sıklıkta çağrıldığını ölçer"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Aşağıdakilerden bir AI pilot'unu ölçeklendirmek yerine DURDURMA (sonlandırma) zamanının geldiğine işaret eden TÜM seçenekleri seçin.",
+    "choices": [
+      "Değer metriği, gerçek çabaya rağmen önceden anlaşılmış eşiği hiç geçmiyor",
+      "Eğitim ve destekten sonra bile adoption düşük kalıyor",
+      "Daha yüksek hacimde çalıştırma maliyeti, sağladığı faydayı aşıyor",
+      "Pilot değer eşiğini geçti ve temsilciler söylenmeden kullanmaya devam ediyor"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Bir AI yeteneğini fikirden geniş kullanıma götürmenin aşamalarını doğru sıraya koyun.",
+    "choices": [
+      "Pilot, sonra production, sonra ölçeklendirme",
+      "Ölçeklendirme, sonra pilot, sonra production",
+      "Production, sonra ölçeklendirme, sonra pilot",
+      "Ölçeklendirme, sonra production, sonra pilot"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Bir PM/Ürün Sahibi, bir AI taslak hazırlama aracının teknik olarak çalıştığını ve '40 temsilcinin tamamına erişilebilir' olduğunu, ancak gerçekleşmiş değerin sıfıra yakın olduğunu raporluyor. Bu rolün AI değeri ve ölçeklendirme düşüncesini nasıl kullanması gerektiğini en iyi hangi yanıt yansıtır?",
+    "choices": [
+      "AI'ın başarısız olduğu sonucuna varıp onu hemen kapatın, çünkü erişilebilirlik değer yaratmadı",
+      "Bunu bir adoption boşluğu olarak ele alın ve değişim yönetimini yönetin — eğitim, güven, net iş akışları — yalnızca erişilebilirliği değil, aktif ve tekrar eden kullanıcıları ölçerek",
+      "'Tüm temsilcilere erişilebilir'i başarı metriği olarak raporlayın ve dağıtımı tamamlanmış sayın",
+      "Modelin doğruluğunu artırın, çünkü değeri yönlendiren tek şey doğruluktur"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

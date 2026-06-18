@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Which statement best captures the difference between a real value metric and a vanity metric for an AI system?",
+    "choices": [
+      "A real value metric ties to a business outcome (time, money, risk, quality); a vanity metric looks impressive but does not",
+      "A vanity metric is always a larger number than a real value metric",
+      "A real value metric is anything reported in a dashboard; a vanity metric is anything reported in a slide",
+      "There is no difference; both measure how often the model is called"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "Select ALL of the following that are signals it is time to KILL (stop) an AI pilot rather than scale it.",
+    "choices": [
+      "Its value metric never clears the pre-agreed threshold despite real effort",
+      "Adoption stays low even after training and support",
+      "The cost to run it at higher volume exceeds the benefit it delivers",
+      "The pilot cleared its value threshold and agents keep using it without being told to"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "Put the stages of taking an AI capability from idea to wide use in the correct order.",
+    "choices": [
+      "Pilot, then production, then scale",
+      "Scale, then pilot, then production",
+      "Production, then scale, then pilot",
+      "Scale, then production, then pilot"
+    ],
+    "correct": [0],
+    "points": 1
+  },
+  {
+    "prompt": "A PM/Product Owner reports that an AI drafting tool is technically working and 'available to all 40 agents,' but realised value is near zero. Which response best reflects how this role should use AI value and scaling thinking?",
+    "choices": [
+      "Conclude the AI failed and shut it down immediately, since availability did not create value",
+      "Treat this as an adoption gap and lead change management — training, trust, clear workflows — while measuring active and repeat users, not just availability",
+      "Report 'available to all agents' as the success metric and consider the rollout complete",
+      "Increase the model's accuracy, since accuracy is the only thing that drives value"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

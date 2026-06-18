@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Ekibiniz, **serbest metinli bir müşteri talebini, bir insan temsilcinin göndermeden önce düzenlediği cilalı bir e-posta yanıtına dönüştüren** bir özellik ekliyor. Ekranın ayrı bir bölümü ayrıca veritabanınızdan çekilen müşterinin **kesin hesap bakiyesini** göstermeli.\n\n**Yanıt taslağı oluşturma** kısmını nasıl temin edeceğinize karar veriyorsunuz. AI ile yanıt taslağı oluşturma ürününüzün farklılaştırıcısı **değil**, henüz etiketli bir veri kümeniz **yok** ve sonradan sağlayıcı değiştirme özgürlüğünü koruyarak hızlı yayınlamak istiyorsunuz.\n\nBu duruma en iyi hangi temin etme kararı uyar — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "Tek tutarlı bir teknoloji için kesin hesap bakiyesini de hesaplamak üzere AI kullanın",
+      "Şimdi şirket içinde özel bir model build edin, çünkü modele sahip olmak uzun vadede her zaman en ucuzdur",
+      "Yanıt taslağı oluşturma için ince bir dahili soyutlama katmanının arkasında barındırılan bir LLM API'si çağırın, bakiyeyi deterministik bir veritabanı sorgusu olarak tutun",
+      "Sağlayıcının her şeyi yönetmesi için mevcut en tescilli uçtan uca SaaS paketini satın alın"
+    ],
+    "reason_choices": [
+      "Çünkü yanıt taslağı oluşturma AI'ya uyan belirsiz dil işidir ve bir insan onu düzenler, kesin bakiye ise deterministik koda en iyi bırakılan bilinir bir aramadır — ve bir soyutlama katmanı vendor lock-in ile switching cost'ları düşük tutar",
+      "Çünkü AI her seferinde aynı yanıtı verir, dolayısıyla kesin bir bakiyeyi hesaplamak için idealdir",
+      "Çünkü şirket içinde build etmek her durumda en düşük total cost of ownership'e sahiptir",
+      "Çünkü daha yüksek vendor lock-in switching cost'ları azaltır ve bu nedenle arzu edilir"
+    ]
+  },
+  "answer_key": {
+    "decision": 2,
+    "reason": 0
+  },
+  "max_score": 10
+}

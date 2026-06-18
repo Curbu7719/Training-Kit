@@ -241,6 +241,18 @@ const tr = {
 
   'module.ai_architecture.title': 'AI Sistem Mimarisi',
   'module.ai_architecture.desc': 'Tam bir AI sistem mimarisini okumak ve çizmek; güvenlik ve gizlilik risklerini belirlemek.',
+
+  // Bölüm başlıkları
+  'section.sdlc.title': 'SDLC\'de AI',
+  'section.strategy.title': 'AI Strateji Okuryazarlığı',
+
+  // Strateji şeridi modülleri
+  'module.ai_fit_buildbuy.title': 'AI Uygunluğu ve Yap/Satın Al',
+  'module.ai_fit_buildbuy.desc': 'AI ne zaman doğru araç; yap/satın al/fine-tune; vendor lock-in ve toplam maliyet.',
+  'module.ai_risk_governance.title': 'AI Risk ve Yönetişim',
+  'module.ai_risk_governance.desc': 'Veri gizliliği, IP, uyumluluk ve sorumlu AI; AI kullanımını yöneten kontroller ve onay kapıları.',
+  'module.ai_value_scaling.title': 'AI Değeri ve Ölçekleme',
+  'module.ai_value_scaling.desc': 'İş gerekçesi ve ROI; AI\'ı pilottan ölçekli üretime taşımak.',
 } as const;
 
 export default tr;

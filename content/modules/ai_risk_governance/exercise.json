@@ -1,0 +1,22 @@
+{
+  "type": "match",
+  "prompt_md": "Match each **AI risk** on the left to the **governance control or mitigation** on the right that most directly addresses it.",
+  "spec": {
+    "left": [
+      "Staff pasting customer PII into an external AI tool",
+      "Unclear who owns the model's output and whether your data trains the vendor's model",
+      "A regulated decision (e.g. hiring) must be explainable and accountable later",
+      "Confidential source code or credentials leaking to an external service",
+      "Nobody knows how many AI tools are in use or what data they touch"
+    ],
+    "right": [
+      "PII redaction plus an acceptable-use policy on what data may be sent",
+      "A reviewed vendor contract settling output ownership and a no-training clause",
+      "Audit logging of prompts, outputs, and decisions",
+      "Access scoping so confidential data and secrets never reach the tool",
+      "An AI use register inventorying every AI use, its data, and its risk tier"
+    ]
+  },
+  "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4]] },
+  "max_score": 10
+}

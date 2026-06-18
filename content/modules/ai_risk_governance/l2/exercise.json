@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Your company runs an AI tool that helps make **customer-facing, regulated lending decisions**. It was reviewed and approved once at launch and entered in the AI use register at **high tier**. Since then the vendor has shipped a **new model version** and your team has begun feeding it **new applicant data fields**, all without any re-review.\n\nYou can make **one** governance improvement next. Given that the risk here comes from a high-tier use **drifting after a one-time approval**, which change best addresses the root cause — and why?",
+  "spec": {
+    "decision_choices": [
+      "Negotiate a lower price with the AI vendor to reduce program cost",
+      "Make governance continuous: add re-review triggers on any model-version or data-field change, schedule recurring bias testing, and keep the register and risk tier current",
+      "Switch to a model with a larger context window so it can read more applicant history",
+      "Remove the human-in-the-loop step to speed up loan decisions"
+    ],
+    "reason_choices": [
+      "Because the exposure is drift after a one-time gate — the model, data, and law change over time, so only continuous re-tiering, bias testing, and an up-to-date register keep the controls proportionate to the real risk",
+      "Because a cheaper contract reduces the bias and explainability risk of automated lending",
+      "Because a larger context window guarantees fair and explainable lending decisions",
+      "Because removing human oversight makes the audit trail stronger"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

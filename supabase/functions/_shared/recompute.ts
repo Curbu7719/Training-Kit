@@ -192,15 +192,18 @@ export async function recomputeModuleProgress(
       earned = await isModulePassed(client, userId, criteria.module);
 
     } else if (criteria.type === 'all_modules_level') {
-      // Single shared curriculum: every module that HAS lessons at this level
-      // must be passed at that level.
-      earned = await isAllModulesLevelComplete(client, userId, criteria.level as ModuleLevel);
+      // Every module in this category that HAS lessons at this level must be
+      // passed at that level. Category defaults to 'sdlc' for older criteria.
+      earned = await isAllModulesLevelComplete(
+        client, userId, criteria.level as ModuleLevel, criteria.category ?? 'sdlc',
+      );
 
     } else if (criteria.type === 'all_modules_complete') {
-      // Full certificate: all L1 content AND all L2 content passed.
+      // Section certificate: all L1 content AND all L2 content in the category passed.
+      const category = criteria.category ?? 'sdlc';
       earned =
-        (await isAllModulesLevelComplete(client, userId, 'L1')) &&
-        (await isAllModulesLevelComplete(client, userId, 'L2'));
+        (await isAllModulesLevelComplete(client, userId, 'L1', category)) &&
+        (await isAllModulesLevelComplete(client, userId, 'L2', category));
     }
 
     if (earned) {
@@ -255,22 +258,30 @@ async function isModulePassed(
 }
 
 /**
- * Returns true if EVERY module that has lessons at the given level has been
- * passed at that level by the user. Track-free (single shared curriculum).
+ * Returns true if EVERY module IN THE GIVEN CATEGORY that has lessons at the
+ * given level has been passed at that level by the user. Track-free.
  *
  * Note: only modules that actually have L2 content count toward L2 completion,
- * so L1-only modules don't block the L2 / certificate badges.
+ * so L1-only modules don't block the L2 / certificate badges. Category scopes
+ * a section (e.g. 'sdlc' vs 'strategy') to its own certificate.
  */
 async function isAllModulesLevelComplete(
   client: SupabaseClient,
   userId: string,
   level: ModuleLevel,
+  category: string,
 ): Promise<boolean> {
-  // Distinct modules that have lessons authored at this level.
+  // Modules in this category.
+  const { data: mods } = await client.from('modules').select('id').eq('category', category);
+  const categoryModuleIds = (mods ?? []).map((m) => m.id);
+  if (categoryModuleIds.length === 0) return false;
+
+  // Distinct in-category modules that have lessons authored at this level.
   const { data: lessons } = await client
     .from('lessons')
     .select('module_id')
-    .eq('level', level);
+    .eq('level', level)
+    .in('module_id', categoryModuleIds);
 
   const moduleIds = [...new Set((lessons ?? []).map((l) => l.module_id))];
   if (moduleIds.length === 0) return false;

@@ -1,0 +1,15 @@
+{
+  "type": "order",
+  "prompt_md": "Bir ekip bir AI fikrini kavramdan organizasyon geneli değere kadar götürmek istiyor. Pilot → production → ölçeklendirme yaşam döngüsünün adımlarını ilkten sona doğru doğru sıraya dizin.",
+  "spec": {
+    "items": [
+      "Değişim yönetimiyle (eğitim, güven, geri bildirim) geniş çapta dağıtın ve adoption'ı ölçmeye devam edin",
+      "Herhangi bir şey inşa etmeden önce gerçek değer metriğini ve başarı eşiğini tanımlayın",
+      "Gerçek bir kullanıcı grubuyla küçük, süreyle sınırlı bir pilot yürütün ve eşiğe karşı ölçün",
+      "Değer metriğine, gerçek adoption'a ve sürdürülebilir maliyete dayanarak ölçeklendir ya da durdur kararı verin",
+      "Kanıtlanmış pilot'u, sahipleri ve desteği olan izlenen bir production sistemine sağlamlaştırın"
+    ]
+  },
+  "answer_key": { "order": [1, 2, 3, 4, 0] },
+  "max_score": 10
+}

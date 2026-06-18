@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Your document-extraction feature was shipped a year ago by **calling a hosted LLM API** behind a thin abstraction layer. Since then: volume grew from 2,000 to 900,000 invoices/month so the **per-call price is now your largest cost line**; finance auto-posts low-risk invoices so the **tolerable error rate dropped**; and you have accumulated **a year of labeled extractions**. Analysis shows most invoices follow a **handful of known templates**, with only a minority in genuinely novel layouts.\n\nYou can make **one** sourcing change next. Which change best fits the L2 lens — and why?",
+  "spec": {
+    "decision_choices": [
+      "Keep everything on the general hosted API unchanged, since it already works",
+      "Route the known-template invoices to a deterministic parser, and fine-tune a smaller model for the novel-layout remainder, keeping the existing abstraction layer",
+      "Build a fully custom in-house model for every invoice, since owning the model is always cheapest",
+      "Switch to the most proprietary specialist SaaS suite with no abstraction layer to simplify operations"
+    ],
+    "reason_choices": [
+      "Because shrinking the AI surface to the irreducibly fuzzy step lowers cost and raises testability, fine-tuning leverages the now-available labeled data for higher accuracy, and the abstraction keeps switching cost low and the decision reversible",
+      "Because keeping the unchanged API is best, as per-call price is irrelevant at any volume",
+      "Because building in-house always has the lowest total cost of ownership regardless of volume or differentiation",
+      "Because a proprietary suite with no abstraction maximizes lock-in, which lowers switching costs"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

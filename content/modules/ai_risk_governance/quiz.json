@@ -1,0 +1,46 @@
+[
+  {
+    "prompt": "Which statement best captures what AI governance is for in an organisation?",
+    "choices": [
+      "It guarantees the AI model can never make a mistake",
+      "It makes the risks of AI use visible and assigns an owner and control to each one",
+      "It is purely a technical task handled entirely by engineers",
+      "It replaces the need for any human review of AI output"
+    ],
+    "correct": [1],
+    "points": 1
+  },
+  {
+    "prompt": "Select ALL of the following that are legitimate AI governance controls.",
+    "choices": [
+      "An acceptable-use policy stating what data and tasks AI may be used for",
+      "An AI use register inventorying where AI is used, with what data and risk tier",
+      "Audit logging of prompts, outputs, and decisions for accountability",
+      "Choosing whichever AI vendor has the lowest price regardless of its data terms"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1
+  },
+  {
+    "prompt": "A team plans to send customer names and order history to an external AI provider. Which TWO risks are most directly raised, and which controls answer them? Select ALL that apply.",
+    "choices": [
+      "Data privacy / PII risk, answered by redaction, an acceptable-use policy, and a no-training contract clause",
+      "IP & licensing / output-ownership risk, answered by reviewing the vendor contract",
+      "The risk that the model's context window is too small, answered by a larger model",
+      "Hardware failure risk, answered by buying faster servers"
+    ],
+    "correct": [0, 1],
+    "points": 1
+  },
+  {
+    "prompt": "A Business Analyst is asked to support AI governance for a new hiring-screening tool. Which task is the BEST fit for that role?",
+    "choices": [
+      "Writing the PII-redaction code that strips identifiers before prompts are sent",
+      "Mapping each AI use to the data it touches and the regulations that apply, feeding the AI use register and risk tiering",
+      "Approving the final go-live decision for the whole product",
+      "Designing the model's neural network architecture"
+    ],
+    "correct": [1],
+    "points": 1
+  }
+]

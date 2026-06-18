@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Şirketiniz, **müşteriye dönük, düzenlemeye tabi kredi kararları** vermeye yardımcı olan bir AI aracı çalıştırıyor. Lansmanda bir kez incelendi ve onaylandı ve AI kullanım kaydına **yüksek katmanda** girildi. O zamandan beri satıcı bir **yeni model sürümü** yayınladı ve ekibiniz ona **yeni başvuran veri alanları** beslemeye başladı, hepsi herhangi bir yeniden-inceleme olmadan.\n\nSonraki adımda **bir** governance iyileştirmesi yapabilirsiniz. Buradaki riskin, **tek seferlik bir onaydan sonra kayan** yüksek katmanlı bir kullanımdan geldiği göz önüne alındığında, kök nedeni en iyi hangi değişiklik ele alır — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "Program maliyetini azaltmak için AI satıcısıyla daha düşük bir fiyat müzakere etmek",
+      "Governance'ı sürekli kılmak: herhangi bir model-sürümü veya veri-alanı değişikliğinde yeniden-inceleme tetikleyicileri ekleyin, yinelenen bias testi zamanlayın ve kaydı ile risk katmanını güncel tutun",
+      "Daha fazla başvuran geçmişi okuyabilmesi için daha büyük context window'lu bir modele geçmek",
+      "Kredi kararlarını hızlandırmak için insan-döngüde adımını kaldırmak"
+    ],
+    "reason_choices": [
+      "Çünkü maruz kalma tek seferlik bir geçitten sonraki kaymadır — model, veri ve yasa zamanla değişir, bu yüzden yalnızca sürekli yeniden katmanlama, bias testi ve güncel bir kayıt kontrolleri gerçek riske orantılı tutar",
+      "Çünkü daha ucuz bir sözleşme, otomatik kredinin bias ve açıklanabilirlik riskini azaltır",
+      "Çünkü daha büyük bir context window adil ve açıklanabilir kredi kararlarını garanti eder",
+      "Çünkü insan gözetimini kaldırmak audit izini güçlendirir"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}
