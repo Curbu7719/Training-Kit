@@ -1,247 +1,229 @@
 # TrainingKit — Design Document
 
-**Version:** 0.2 (Draft for review)
-**Date:** 2026-06-17
-**Status:** Design — pre-implementation
+**Version:** 0.3
+**Date:** 2026-06-18
+**Status:** Active — in development
 
-A role-based e-learning platform that teaches the **general principles of modern
-application architecture** in plain language, with worked examples, hands-on
-exercises, progress tracking and gamified scoring.
+A two-level e-learning platform that teaches **modern AI application architecture**
+to everyone on a product team: developers, analysts, PMs, QA engineers alike.
 
-The *topic list* (curriculum scope) is derived from the real architectural
-decisions in the BRDWizard project, but the *content is taught generically* —
-abstract principles with generic examples, not a BRDWizard case study.
-
-**The training flow is fully deterministic — no LLM at runtime.** Lessons are
-authored; quizzes and exercises are auto-graded server-side against an answer key.
+The platform is fully deterministic at runtime — no LLM in the grading path.
+Lessons are authored; quizzes and exercises are auto-graded server-side.
 
 ---
 
-## 1. Decisions locked (2026-06-17)
+## 1. Decisions locked
 
 | # | Decision | Choice |
 |---|---|---|
-| 1 | Content format | **Hybrid authoring, deterministic runtime** — authored lessons; auto-graded quizzes/exercises; no LLM in the flow |
-| 2 | AI / LLM | **None at runtime.** No AI tutor, no free-text AI grading. (Removes the Azure/GitHub-Models choice entirely.) |
-| 3 | Curriculum framing | **Fully generic/abstract** — topics derived from BRDWizard, content taught abstractly |
-| 4 | Roles (tracks) | Developer · Business Analyst · PM/PO · QA & Architect |
-| 5 | Scoring | **Full gamification** — points + badges + level locks + per-track certificate + optional leaderboard |
-| 6 | Language | **English** (UI + content) |
-| 7 | Auth | **Email/password (MVP)** via Supabase Auth; **LDAP/SSO is a deferred seam** (BRDWizard ARCHITECTURE §6.2 — `signInWithSSO()`, no schema change) |
-| 8 | Repo | Fresh scaffold in `trainingkit/`, reusing BRDWizard patterns |
+| 1 | Content format | Authored lessons + auto-graded quizzes/exercises; no LLM at runtime |
+| 2 | Audience | Single track for everyone — no role splitting; one shared curriculum |
+| 3 | Curriculum | AI application architecture, vendor-neutral, practical and job-relevant |
+| 4 | Levels | **L1 → L2** two-tier progression per module; L2 unlocks after L1 passed |
+| 5 | Scoring | Points + badges + level locks + completion certificate |
+| 6 | Language | English (UI + content) |
+| 7 | Auth | Email/password via Supabase Auth; LDAP/SSO is a deferred seam |
+| 8 | Repo | `trainingkit/`, Vite + React 18 + TS + Tailwind + Radix + Supabase |
 
 ---
 
 ## 2. Curriculum
 
-Ten generic modules, each derived from a BRDWizard architectural decision but
-taught as a transferable principle.
+Ten modules covering what every professional actually needs to work effectively
+with AI systems. Scope: architecture, integration, evaluation, safety, and costs.
+LLM internals (weights, training, temperature) are deliberately **out of scope** —
+this is a builder and operator curriculum, not a researcher curriculum.
 
-**Subject (v0.3): generalized AI/LLM application architecture** — vendor-neutral,
-modeled on an "AI architect" certification. Each module also includes a
-"How each role uses this" section connecting the concept to each role's day job.
+### Module list
 
-| # | Module (code) | Covers |
+| # | Module (code) | What you will be able to do after this module |
 |---|---|---|
-| 1 | LLM Foundations (`llm_foundations`) | What models are, next-token prediction, capabilities & limits, model choice |
-| 2 | Tokens & Tokenization (`tokens`) | What a token is, token↔cost/limit, input vs output tokens |
-| 3 | Context Management (`context_management`) | Context window, stateless calls, summarization/chunking/checkpointing |
-| 4 | Prompting (`prompting`) | System/user roles, structure, few-shot, output control |
-| 5 | Guardrails & Safety (`guardrails`) | Input/output controls, injection/jailbreaks, defense-in-depth |
-| 6 | Tool Use & Agents (`tool_use_agents`) | Function calling, the agent loop, when agents help, risks |
-| 7 | RAG (`rag`) | Chunk→embed→retrieve→augment→generate, grounding, citations |
-| 8 | Evaluation (`evaluation`) | Evals, metrics, LLM-as-judge, regression testing |
-| 9 | Cost, Latency & Performance (`cost_latency`) | Token cost, latency drivers, caching/routing/streaming |
-| 10 | AI System Architecture (`ai_architecture`) | Reference architecture, security/privacy, reliability, deployment |
+| 1 | How LLMs work (`llm_foundations`) | Explain what an LLM is and does in plain language; choose between models for a task |
+| 2 | Tokens & costs (`tokens`) | Estimate token usage and cost; design prompts that stay within budget and limits |
+| 3 | Context window management (`context_management`) | Handle long conversations and documents without losing information or hitting limits |
+| 4 | Prompting for real work (`prompting`) | Write system prompts and user turns that produce reliable, structured output |
+| 5 | Guardrails & safety (`guardrails`) | Identify injection and jailbreak risks; design layered defenses |
+| 6 | Tool use & agents (`tool_use_agents`) | Design function-calling integrations; reason about agentic loops and failure modes |
+| 7 | RAG — retrieval-augmented generation (`rag`) | Build a retrieval pipeline; choose chunking and embedding strategies |
+| 8 | Evaluation & testing (`evaluation`) | Define evals; measure quality; set up regression tests for prompts and pipelines |
+| 9 | Cost, latency & reliability (`cost_latency`) | Profile a pipeline; apply caching, routing, and streaming; set SLOs |
+| 10 | AI system architecture (`ai_architecture`) | Read and draw a full AI system architecture; identify security and privacy risks |
 
-### 2.1 Role × Module × Level matrix (draft)
+### Why these ten
 
-Same module pool; per role, which modules are required at L1 (entry) vs L2 (deep).
+Every module maps to a decision a team member faces when building or operating
+an AI product. Excluded on purpose:
 
-| Module | Developer | Business Analyst | PM/PO | QA & Architect |
-|---|---|---|---|---|
-| 1 LLM Foundations | L1 | L1 | L1 | L1 |
-| 2 Tokens | L1 | L1 | L1 | L1 |
-| 3 Context Management | L1 | L2 | L2 | L1 |
-| 4 Prompting | L1 | L1 | L1 | L1 |
-| 5 Guardrails | L1 | L2 | L2 | L1 |
-| 6 Tool Use & Agents | L2 | — | L2 | L1 |
-| 7 RAG | L2 | — | L2 | L1 |
-| 8 Evaluation | L2 | L2 | L2 | L1 |
-| 9 Cost & Latency | L2 | — | L2 | L2 |
-| 10 AI System Architecture | L2 | — | L2 | L1 |
+- **Temperature, top-p, and other sampling parameters** — operators rarely need
+  to tune these; the defaults are fine for almost all production use cases. Setting
+  them is a one-line config change, not a curriculum topic.
+- **Pre-training / fine-tuning internals** — unless you are training a model,
+  this is not your job.
+- **Academic benchmarks** — MMLU, HellaSwag, etc. are model-selection data points,
+  not operational knowledge.
 
-- **L1** = role-appropriate entry level: the concept in plain language + one worked example.
-- **L2** = deeper: trade-offs, edge cases, and a scenario exercise.
-- A user picks a track; the matrix defines their required path. Modules not in
-  their track are still browsable (optional, no badge weight).
+### L1 vs L2
 
-### 2.2 Module anatomy
+Every module has two levels. A learner must pass L1 before L2 unlocks.
 
-Every module is a sequence of **lesson units** — all deterministic:
+| Level | What it covers | Format |
+|---|---|---|
+| L1 | The concept in plain language + one worked example + a short quiz | Concept → Example → Quiz (3–5 questions) |
+| L2 | Trade-offs, edge cases, failure modes + a scenario exercise | Deep-dive → Scenario exercise (interactive) |
 
-1. **Concept** — short, plain-language explanation (authored markdown).
-2. **Worked example** — one generic, concrete illustration (authored).
-3. **Multiple explanations / hints** — replaces an AI tutor: each concept ships with
-   2–3 alternative phrasings + a hint stack + a short FAQ (all authored).
-4. **Quiz** — 3–5 auto-graded questions, checked server-side against the key.
-5. **Scenario exercise** — an auto-gradable interaction (see §2.3), no free text.
-
-### 2.3 Deterministic exercise types
-
-All auto-gradable without an LLM; the curriculum maps cleanly onto these:
-
-- **Multiple choice** (single / multi-select).
-- **Ordering / sequencing** — e.g. order the layers of a request flow.
-- **Matching** — concept ↔ definition, decision ↔ rationale.
-- **Fill-in-the-blank** — exact or keyword-set match.
-- **Best-trade-off scenario** — given a situation, pick the best decision *and* the
-  reason (two linked MCQs). This is how ADR/trade-off modules are exercised.
+L1 is designed to be completable in ~20 minutes.
+L2 adds another ~30 minutes of depth.
 
 ---
 
-## 3. Gamification & progression
+## 3. Module anatomy
 
-- **Points:** quiz (per correct answer) + exercise (per correct interaction).
-- **Pass threshold:** a module is *passed* at ≥70% combined.
-- **Level locks:** L2 of a module unlocks only after L1 passed; later modules may
-  list prerequisites (a small DAG, not strictly linear).
-- **Badges:** per-module completion badge; per-level (all-L1 / all-L2 in track) badge.
-- **Certificate:** issued on completing a track's full required path (L1+L2).
-- **Leaderboard:** optional, opt-in, per-track and global (toggleable by admin).
-- All progress is per-user and resumable.
+Every L1 unit:
+
+1. **Concept** — plain-language explanation, no jargon without a definition.
+2. **Worked example** — one concrete, realistic illustration from a product context.
+3. **Alternative explanations** — 2–3 phrasings of the same concept for different
+   mental models (developer / business / PM framing). Replaces an AI tutor.
+4. **Quiz** — 3–5 auto-graded multiple-choice questions, graded server-side.
+
+Every L2 unit adds:
+
+5. **Deep-dive** — trade-offs, edge cases, what breaks in production.
+6. **Scenario exercise** — one of the five auto-gradable types below.
+
+### Exercise types (all deterministic, no free text)
+
+| Type | Description | Example use |
+|---|---|---|
+| Multiple choice | Single or multi-select | "Which of these is a prompt injection?" |
+| Ordering | Drag steps into correct sequence | "Order the RAG pipeline steps" |
+| Matching | Connect concept ↔ definition | "Match each caching strategy to its trade-off" |
+| Fill-in-the-blank | Exact or keyword-set match | "The context window is measured in ___" |
+| Best-trade-off scenario | Pick a decision + justify it (two linked MCQs) | "Given this latency requirement, which approach is best and why?" |
 
 ---
 
-## 4. Technical architecture
+## 4. Gamification & progression
 
-Reuses the BRDWizard stack (minus the LLM layer) — we "dogfood" the architecture we teach.
+- **Points:** each correct quiz answer and exercise interaction earns points.
+- **Pass threshold:** ≥ 70% on a module level to mark it passed.
+- **Level lock:** L2 is hidden until L1 is passed.
+- **Badges:** one badge per module (awarded on L1 pass); one "depth" badge per module (L2 pass).
+- **Certificate:** issued on passing all 10 modules at L1; a second "expert" certificate on all L2.
+- **Leaderboard:** optional, opt-in, global (off by default, toggled by admin).
+- Progress is per-user and fully resumable.
+
+---
+
+## 5. Technical architecture
 
 ```
 ┌──────────────────────────────────────────────────────────┐
 │                  BROWSER (React SPA)                      │
-│  Auth · Track picker · Lesson player · Quiz · Exercise    │
+│  Auth · Module list · Lesson player · Quiz · Exercise     │
 │  Progress dashboard · Leaderboard · Admin (content)       │
 └───────┬──────────────────────┬───────────────────────────┘
         │ supabase-js          │ REST (submit/grade)
         ▼                      ▼
 ┌──────────────────────────────────────────────────────────┐
 │                       SUPABASE                            │
-│  Auth (email/pw MVP → LDAP/SSO seam)   Postgres + RLS     │
+│  Auth (email/pw → LDAP/SSO seam)   Postgres + RLS        │
 │  Edge Functions (Deno):                                   │
 │    /quiz-submit   /exercise-submit   /progress            │
 │    /content-admin                                         │
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **Frontend:** React 18 + Vite + TS + Tailwind + Radix UI (same component set).
+- **Frontend:** React 18 + Vite + TypeScript + Tailwind + Radix UI.
 - **Backend:** Supabase — Postgres + RLS + Auth + Edge Functions (Deno).
-- **No external AI dependency.** Grading is deterministic; the answer key lives
-  server-side and is never shipped to the client.
-- **Auth:** Supabase Auth email/password for MVP. `profiles` table carries the
-  chosen track + role + admin flag. LDAP/SSO is a future swap — no schema change.
+- **Grading is server-side only.** Answer keys never reach the client.
+- **Auth:** email/password for MVP. `profiles` row carries display name and
+  progress metadata. LDAP/SSO is a future seam — no schema change required.
 
-### 4.1 Grading map
+### Grading edge functions
 
-| Use | Function | Logic |
+| Endpoint | Input | Logic |
 |---|---|---|
-| Quiz answer | `/quiz-submit` | compare chosen index/set to `correct` key |
-| Exercise answer | `/exercise-submit` | type-specific deterministic check (order, match, keywords, MCQ) |
-| Progress/badges | `/progress` | recompute status, points, badge/cert eligibility |
-
-Grading runs in edge functions (not the client) so answer keys stay private and
-scores can't be forged. RLS still guards all reads/writes.
+| `/quiz-submit` | question_id + chosen answer(s) | compare to `correct` key, return is_correct + points |
+| `/exercise-submit` | exercise_id + answer payload | type-specific deterministic check |
+| `/progress` | user_id + module_id + level | recompute status, points total, badge/cert eligibility |
 
 ---
 
-## 5. Data model (Postgres sketch)
+## 6. Data model (Postgres)
 
 ```
-profiles        (id→auth.users, display_name, role[user|admin], active_track, created_at)
-tracks          (id, code, title, description, sort_order)
-modules         (id, code, title, concept_md, sort_order)
-module_tracks   (module_id, track_id, level[L1|L2], required, prereq_module_id?)   -- the matrix
-lessons         (id, module_id, kind[concept|example|quiz|exercise], title, body_md, sort_order)
+profiles        (id→auth.users, display_name, role[user|admin], created_at)
+modules         (id, code, title, sort_order)
+lessons         (id, module_id, level[L1|L2], kind[concept|example|quiz|exercise],
+                 title, body_md, sort_order)
 quiz_questions  (id, lesson_id, prompt, choices jsonb, correct jsonb, points)
-exercises       (id, lesson_id, type[mcq|order|match|fill|scenario], prompt_md, spec jsonb, answer_key jsonb, max_score)
-user_progress   (id, user_id, module_id, level, status[locked|in_progress|passed], score, updated_at)
+exercises       (id, lesson_id, type[mcq|order|match|fill|scenario],
+                 prompt_md, spec jsonb, answer_key jsonb, max_score)
+user_progress   (id, user_id, module_id, level[L1|L2],
+                 status[locked|in_progress|passed], score, updated_at)
 quiz_attempts   (id, user_id, quiz_question_id, chosen jsonb, is_correct, created_at)
 exercise_subs   (id, user_id, exercise_id, answer jsonb, score, passed, created_at)
 badges          (id, code, title, criteria jsonb)
 user_badges     (user_id, badge_id, awarded_at)
 ```
 
-- **RLS:** users read shared content (tracks/modules/lessons/quiz/exercises *minus
-  the answer key columns* — keys exposed only to edge functions via service role);
-  users read/write only their own progress/attempts/submissions; admins write content.
-  Same RLS patterns as BRDWizard §2.1.
-- `quiz_questions.correct` and `exercises.answer_key` are **never selected by the
-  client** — graded server-side only.
-- Content tables are admin-editable at runtime (content-admin function + UI).
+Key RLS rules:
+- Users read all content rows except `correct` and `answer_key` columns.
+- Users read/write only their own progress, attempts, and submissions.
+- Admins write content rows.
+
+Note: the `tracks` and `module_tracks` tables from v0.2 are removed. There is
+one shared module list; the `active_track` column is removed from `profiles`.
 
 ---
 
-## 6. Repo structure (target)
+## 7. Repo structure
 
 ```
 trainingkit/
-├── DESIGN.md                    ← this document
-├── docs/
-│   ├── ARCHITECTURE.md          ← derived, app-specific
-│   └── CONTENT-GUIDE.md         ← how lessons/exercises are authored
-├── content/                     ← authored curriculum (markdown + json seeds)
-│   └── modules/<code>/{concept.md, example.md, hints.md, quiz.json, exercise.json}
-├── src/                         ← React SPA
+├── DESIGN.md
+├── content/
+│   └── modules/<code>/
+│       ├── l1-concept.md
+│       ├── l1-example.md
+│       ├── l1-hints.md
+│       ├── l1-quiz.json
+│       ├── l2-deepdive.md
+│       └── l2-exercise.json
+├── src/
 │   ├── lib/supabase.ts
 │   ├── hooks/{useAuth, useProgress, useQuiz, useExercise}
 │   ├── components/{auth, dashboard, lesson, quiz, exercise, admin, shared, ui}
-│   └── pages/{Login, TrackPicker, Dashboard, LessonPlayer, Leaderboard, Admin}
+│   └── pages/{Login, Dashboard, LessonPlayer, Leaderboard, Admin}
 ├── supabase/
 │   ├── migrations/0001_initial_schema.sql
 │   └── functions/
-│       ├── quiz-submit/   exercise-submit/   progress/   content-admin/
+│       ├── quiz-submit/  exercise-submit/  progress/  content-admin/
 │       └── _shared/{supabase-client.ts, auth.ts, grading.ts}
-└── scripts/seed-content.mjs     ← loads content/ into DB
+└── scripts/seed-content.mjs
 ```
 
 ---
 
-## 7. Build plan — subagent team
+## 8. Build phases
 
-Phased build; each phase a focused subagent (or small parallel set).
-
-**Phase 0 — Foundation**
-- Scaffold Vite+React+TS+Tailwind+Radix; Supabase config; env seams.
-
-**Phase 1 — Data & auth**
-- `design-architect` → `fullstack-dev-assistant`: migrations (schema §5 + RLS),
-  email/password login, `profiles` + track selection. Leave LDAP/SSO seam stubbed.
-
-**Phase 2 — Grading edge functions**
-- `fullstack-dev-assistant`: `_shared/grading.ts` (per-type deterministic graders);
-  `/quiz-submit`, `/exercise-submit`, `/progress`.
-
-**Phase 3 — Learning UI**
-- `ui-ux-designer` → `fullstack-dev-assistant`: lesson player, the 5 exercise-type
-  widgets, quiz, multi-explanation/hint panel, progress dashboard, gamification surface.
-
-**Phase 4 — Content**
-- content-authoring agent: write generic lessons + hints + quizzes + exercises for
-  the 10 modules (English), seed via `content/` + `scripts/seed-content.mjs`.
-
-**Phase 5 — Admin + gamification logic**
-- Badges/certificate/leaderboard logic; content-admin UI.
-
-**Phase 6 — Tests & deploy**
-- `e2e-test-engineer`: Playwright flows (login → track → lesson → quiz → exercise
-  → progress → badge). Deploy config (Supabase + static host).
+| Phase | Owner | Deliverable |
+|---|---|---|
+| 0 | scaffold | Vite + React + TS + Tailwind + Radix + Supabase config |
+| 1 | fullstack | Schema migration, auth (email/pw), login → dashboard flow |
+| 2 | fullstack | Grading edge functions (`/quiz-submit`, `/exercise-submit`, `/progress`) |
+| 3 | ui + fullstack | Lesson player, quiz widget, 5 exercise widgets, progress dashboard |
+| 4 | content | Author all 10 modules × L1 + L2 content + seed script |
+| 5 | fullstack | Badges, certificate, leaderboard, admin content UI |
+| 6 | e2e | Playwright: login → module → quiz → exercise → badge. Deploy config. |
 
 ---
 
-## 8. Open questions
+## 9. Open questions
 
-1. Track enrollment: single active track per user, or multiple concurrent tracks?
-2. Leaderboard on by default at launch, or admin-gated off?
+1. Should a user be able to jump ahead and attempt L2 without passing L1?
+   (Current default: no — hard lock.)
+2. Leaderboard opt-in or opt-out at account creation?
 3. Hosting target for the SPA (Supabase static / Vercel / internal)?
-4. LDAP/SSO: which provider when we get there (Azure AD / Okta / direct)? — deferred.
-```
+4. LDAP/SSO provider when implemented (Azure AD / Okta / direct)? — deferred.

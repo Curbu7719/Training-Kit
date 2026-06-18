@@ -1,10 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from '@/hooks/useAuth';
+import { AuthProvider } from '@/hooks/useAuth';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
-import { Spinner } from '@/components/ui/spinner';
 import { Toaster } from '@/components/ui/toast';
 import { LoginPage } from '@/pages/LoginPage';
-import { TrackPickerPage } from '@/pages/TrackPickerPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { LessonPlayerPage } from '@/pages/LessonPlayerPage';
 import { LeaderboardPage } from '@/pages/LeaderboardPage';
@@ -12,36 +10,8 @@ import { AdminPage } from '@/pages/AdminPage';
 import { AdminRoute } from '@/components/auth/AdminRoute';
 
 // ---------------------------------------------------------------------------
-// TrackPickerGuard — auth required, but active_track not required.
-// ProtectedRoute always redirects to /track when there's no track, which would
-// cause an infinite loop if we used it to guard /track itself.
-// ---------------------------------------------------------------------------
-
-function TrackPickerGuard() {
-  const { user, profile, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  // If the user already has a track, skip straight to the dashboard.
-  if (profile?.active_track) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return <TrackPickerPage />;
-}
-
-// ---------------------------------------------------------------------------
 // App — wraps everything in AuthProvider, declares all routes.
+// No track picker: the platform has one shared curriculum for everyone.
 // ---------------------------------------------------------------------------
 
 export default function App() {
@@ -51,10 +21,7 @@ export default function App() {
         {/* Public */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* Auth-gated (no track requirement) */}
-        <Route path="/track" element={<TrackPickerGuard />} />
-
-        {/* Auth + track required */}
+        {/* Auth-gated */}
         <Route
           path="/dashboard"
           element={
@@ -64,7 +31,7 @@ export default function App() {
           }
         />
 
-        {/* Lesson player — auth + track required */}
+        {/* Lesson player */}
         <Route
           path="/learn/:moduleCode"
           element={
@@ -74,7 +41,7 @@ export default function App() {
           }
         />
 
-        {/* Leaderboard — auth + track required */}
+        {/* Leaderboard */}
         <Route
           path="/leaderboard"
           element={
@@ -94,10 +61,10 @@ export default function App() {
           }
         />
 
-        {/* Root → dashboard (ProtectedRoute handles further redirects) */}
+        {/* Root → dashboard */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-        {/* Anything else → root */}
+        {/* Everything else → root */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

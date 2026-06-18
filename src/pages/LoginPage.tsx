@@ -6,16 +6,15 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { Spinner } from '@/components/ui/spinner';
 
 export function LoginPage() {
-  const { user, profile, loading } = useAuth();
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
 
-  // If already authenticated, skip straight to the right destination.
+  // Already authenticated — go straight to the dashboard.
   useEffect(() => {
-    if (loading) return;
-    if (user) {
-      navigate(profile?.active_track ? '/dashboard' : '/track', { replace: true });
+    if (!loading && user) {
+      navigate('/dashboard', { replace: true });
     }
-  }, [user, profile, loading, navigate]);
+  }, [user, loading, navigate]);
 
   if (loading) {
     return (
@@ -25,13 +24,10 @@ export function LoginPage() {
     );
   }
 
-  // Already redirecting — don't flash the login form.
-  if (user) return null;
+  if (user) return null; // redirecting — don't flash the form
 
   function handleSuccess() {
-    // Auth state will update via onAuthStateChange; the effect above drives redirect.
-    // We do a manual navigate here as a fast path for when the profile is already known.
-    navigate(profile?.active_track ? '/dashboard' : '/track', { replace: true });
+    navigate('/dashboard', { replace: true });
   }
 
   return (
@@ -39,7 +35,7 @@ export function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl text-primary">TrainingKit</CardTitle>
-          <CardDescription>Role-based architecture training</CardDescription>
+          <CardDescription>AI application architecture — for everyone on the team</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginForm onSuccess={handleSuccess} />

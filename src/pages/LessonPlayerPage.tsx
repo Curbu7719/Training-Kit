@@ -211,8 +211,8 @@ export function LessonPlayerPage() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [finishing, setFinishing] = useState(false);
 
-  // Determine the user's level for this module from module_tracks.
-  // For now we fall back to 'L1' if not determinable.
+  // The level the user is currently working on (L1 default; L2 once L1 is passed).
+  // Determined from user_progress — no track required.
   const [userLevel, setUserLevel] = useState<'L1' | 'L2'>('L1');
 
   const load = useCallback(async () => {
@@ -230,23 +230,23 @@ export function LessonPlayerPage() {
       if (modErr || !modData) throw new Error(`Module "${moduleCode}" not found.`);
       setModuleRow(modData as ModuleRow);
 
-      // 2. Resolve user's level for this module from module_tracks
-      if (profile.active_track) {
-        const { data: mtData } = await supabase
-          .from('module_tracks')
-          .select('level')
-          .eq('module_id', modData.id)
-          .eq('track_id', profile.active_track)
-          .maybeSingle();
+      // 2. Determine the user's active level from user_progress.
+      //    L2 is accessible once the user has passed L1 for this module.
+      const { data: progressRows } = await supabase
+        .from('user_progress')
+        .select('level, status')
+        .eq('user_id', profile.id)
+        .eq('module_id', modData.id);
 
-        if (mtData && (mtData.level === 'L1' || mtData.level === 'L2')) {
-          setUserLevel(mtData.level);
-        }
-      }
+      const l1Passed = (progressRows ?? []).some(
+        (r: { level: string; status: string }) => r.level === 'L1' && r.status === 'passed'
+      );
+      const resolvedLevel: 'L1' | 'L2' = l1Passed ? 'L2' : 'L1';
+      setUserLevel(resolvedLevel);
 
-      // 3. Load level-filtered lessons. L2 users see L1+L2 (cumulative).
-      const levelFilter =
-        userLevel === 'L2' ? ['L1', 'L2'] : ['L1'];
+      // 3. Load level-filtered lessons. L2 session loads L1+L2 (cumulative view).
+      const levelFilter: string[] =
+        resolvedLevel === 'L2' ? ['L1', 'L2'] : ['L1'];
 
       const { data: lessonData, error: lessonErr } = await supabase
         .from('lessons')
@@ -298,7 +298,7 @@ export function LessonPlayerPage() {
     } finally {
       setLoading(false);
     }
-  }, [moduleCode, profile, userLevel]);
+  }, [moduleCode, profile]);
 
   useEffect(() => {
     void load();

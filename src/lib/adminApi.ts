@@ -134,7 +134,6 @@ export interface UserSummary {
   id: string;
   display_name: string | null;
   role: 'user' | 'admin';
-  active_track: string | null;
   modules_passed: number;
   total_score: number;
   badge_count: number;

@@ -30,22 +30,15 @@ const TEST_PASSWORD = 'e2ePassword1!';
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Sign up a brand-new user and pick the developer track. Returns on /dashboard. */
-async function signUpAndPickTrack(page: Page, email: string): Promise<void> {
+/** Sign up a brand-new user. Single shared curriculum → lands on /dashboard. */
+async function signUp(page: Page, email: string): Promise<void> {
   await page.goto('/login');
   await page.getByTestId('switch-to-signup').click();
   await page.getByTestId('email-input').fill(email);
   await page.getByTestId('password-input').fill(TEST_PASSWORD);
   await page.getByTestId('auth-submit-btn').click();
 
-  // Lands on /track after auto-confirmed sign-up
-  await expect(page).toHaveURL('/track', { timeout: 15_000 });
-
-  // Pick the Developer track
-  await page.getByTestId('track-card-developer').click();
-  await page.getByTestId('start-learning-btn').click();
-
-  // Lands on /dashboard
+  // Auto-confirmed sign-up → straight to the dashboard (no track picker).
   await expect(page).toHaveURL('/dashboard', { timeout: 15_000 });
 }
 
@@ -56,15 +49,15 @@ async function signUpAndPickTrack(page: Page, email: string): Promise<void> {
 test.describe('Learning flow — ai_architecture module', () => {
   test('dashboard lists track modules with status badges', async ({ page }) => {
     const email = uniqueEmail();
-    await signUpAndPickTrack(page, email);
+    await signUp(page, email);
 
     // The ai_architecture card is module #8 — scroll it into view before asserting.
     const moduleCard = page.getByTestId('module-card-ai_architecture');
     await moduleCard.scrollIntoViewIfNeeded();
     await expect(moduleCard).toBeVisible({ timeout: 10_000 });
 
-    // For a fresh user the card title is visible
-    await expect(moduleCard.getByText('AI System Architecture')).toBeVisible();
+    // For a fresh user the card title (heading) is visible
+    await expect(moduleCard.getByRole('heading', { name: 'AI System Architecture' })).toBeVisible();
 
     // The status badge text must be one of the known statuses
     await expect(
@@ -76,7 +69,7 @@ test.describe('Learning flow — ai_architecture module', () => {
 
   test('open module → step through concept → example → quiz → exercise → complete → progress updated', async ({ page }) => {
     const email = uniqueEmail();
-    await signUpAndPickTrack(page, email);
+    await signUp(page, email);
 
     // Scroll the ai_architecture module card into view and click its Start button
     const moduleCard = page.getByTestId('module-card-ai_architecture');

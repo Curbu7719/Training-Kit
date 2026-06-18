@@ -1,214 +1,198 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Clock, CheckCircle2 } from 'lucide-react';
+import { Lock, Clock, CheckCircle2, Circle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
-import type { TrackCode } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
-// Static module × track matrix — mirrors DESIGN.md §2.1
+// Single shared curriculum — one path for everyone (no role splitting).
+// Titles/descriptions are display copy; `code` matches the modules table.
+// ---------------------------------------------------------------------------
+
+interface Module {
+  code: string;
+  title: string;
+  description: string;
+}
+
+const MODULES: Module[] = [
+  { code: 'llm_foundations', title: 'How LLMs Work', description: 'What an LLM is and does; capabilities and limits; choosing the right model for a task.' },
+  { code: 'tokens', title: 'Tokens & Costs', description: 'What a token is; estimating usage and cost; designing prompts that stay within budget and limits.' },
+  { code: 'context_management', title: 'Context Window Management', description: 'Handling long conversations and documents without losing information or hitting limits.' },
+  { code: 'prompting', title: 'Prompting for Real Work', description: 'Writing system prompts and user turns that produce reliable, structured output.' },
+  { code: 'guardrails', title: 'Guardrails & Safety', description: 'Identifying prompt injection and jailbreak risks; designing layered defenses.' },
+  { code: 'tool_use_agents', title: 'Tool Use & Agents', description: 'Function-calling integrations; reasoning about agentic loops and failure modes.' },
+  { code: 'rag', title: 'RAG — Retrieval-Augmented Generation', description: 'Building a retrieval pipeline; choosing chunking and embedding strategies.' },
+  { code: 'evaluation', title: 'Evaluation & Testing', description: 'Defining evals; measuring quality; setting up regression tests for prompts and pipelines.' },
+  { code: 'cost_latency', title: 'Cost, Latency & Reliability', description: 'Profiling a pipeline; applying caching, routing, and streaming; setting SLOs.' },
+  { code: 'ai_architecture', title: 'AI System Architecture', description: 'Reading and drawing a full AI system architecture; identifying security and privacy risks.' },
+];
+
+// ---------------------------------------------------------------------------
+// Status model
 // ---------------------------------------------------------------------------
 
 type Level = 'L1' | 'L2';
-type ModuleStatus = 'locked' | 'in_progress' | 'passed';
-
-interface ModuleEntry {
-  code: string;
-  title: string;
-  requiredLevel: Record<TrackCode, Level | null>;
-}
-
-const MODULES: ModuleEntry[] = [
-  {
-    code: 'llm_foundations',
-    title: 'LLM Foundations',
-    requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
-  },
-  {
-    code: 'tokens',
-    title: 'Tokens & Tokenization',
-    requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
-  },
-  {
-    code: 'context_management',
-    title: 'Context Windows & Management',
-    requiredLevel: { developer: 'L1', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'prompting',
-    title: 'Prompting & Prompt Engineering',
-    requiredLevel: { developer: 'L1', business_analyst: 'L1', pm_po: 'L1', qa_architect: 'L1' },
-  },
-  {
-    code: 'guardrails',
-    title: 'Guardrails & Safety',
-    requiredLevel: { developer: 'L1', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'tool_use_agents',
-    title: 'Tool Use & Agents',
-    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'rag',
-    title: 'Retrieval-Augmented Generation (RAG)',
-    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'evaluation',
-    title: 'Evaluating AI Systems',
-    requiredLevel: { developer: 'L2', business_analyst: 'L2', pm_po: 'L2', qa_architect: 'L1' },
-  },
-  {
-    code: 'cost_latency',
-    title: 'Cost, Latency & Performance',
-    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L2' },
-  },
-  {
-    code: 'ai_architecture',
-    title: 'AI System Architecture',
-    requiredLevel: { developer: 'L2', business_analyst: null, pm_po: 'L2', qa_architect: 'L1' },
-  },
-];
-
-const TRACK_LABELS: Record<TrackCode, string> = {
-  developer: 'Developer / Engineer',
-  business_analyst: 'Business Analyst',
-  pm_po: 'PM / Product Owner',
-  qa_architect: 'QA & Architect',
-};
-
-// ---------------------------------------------------------------------------
-// DB progress row shape
-// ---------------------------------------------------------------------------
+type DbStatus = 'locked' | 'in_progress' | 'passed';
+type CellStatus = 'not_started' | 'locked' | 'in_progress' | 'passed';
 
 interface ProgressRow {
   module_id: string;
   level: Level;
-  status: ModuleStatus;
+  status: DbStatus;
   score: number;
 }
 
-interface ModuleDbRow {
-  id: string;
-  code: string;
-}
-
-// ---------------------------------------------------------------------------
-// Status badge component
-// ---------------------------------------------------------------------------
-
-const STATUS_CONFIG: Record<
-  ModuleStatus,
-  { label: string; icon: typeof Lock; badgeVariant: 'warning' | 'accent' | 'success' }
-> = {
-  locked: { label: 'Locked', icon: Lock, badgeVariant: 'warning' },
-  in_progress: { label: 'In progress', icon: Clock, badgeVariant: 'accent' },
-  passed: { label: 'Passed', icon: CheckCircle2, badgeVariant: 'success' },
+const STATUS_CONFIG: Record<CellStatus, { label: string; icon: typeof Lock; className: string }> = {
+  not_started: { label: 'Not started', icon: Circle, className: 'bg-muted text-muted-foreground' },
+  locked: { label: 'Locked', icon: Lock, className: 'bg-warning/10 text-warning' },
+  in_progress: { label: 'In progress', icon: Clock, className: 'bg-accent/10 text-accent' },
+  passed: { label: 'Passed', icon: CheckCircle2, className: 'bg-success/10 text-success' },
 };
 
-function StatusBadge({ status }: { status: ModuleStatus }) {
-  const { label, icon: Icon, badgeVariant } = STATUS_CONFIG[status];
+function StatusBadge({ status }: { status: CellStatus }) {
+  const { label, icon: Icon, className } = STATUS_CONFIG[status];
   return (
-    <Badge variant={badgeVariant}>
+    <span className={cn('inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium', className)}>
       <Icon className="h-3 w-3" />
       {label}
-    </Badge>
+    </span>
   );
 }
 
 // ---------------------------------------------------------------------------
-// DashboardPage
+// Module card
+// ---------------------------------------------------------------------------
+
+interface ModuleCardProps {
+  module: Module;
+  index: number;
+  l1Status: CellStatus;
+  l2Status: CellStatus;
+  onOpen: () => void;
+}
+
+function ModuleCard({ module, index, l1Status, l2Status, onOpen }: ModuleCardProps) {
+  // Primary action label reflects where the learner is in this module.
+  const ctaLabel =
+    l1Status === 'passed' && l2Status === 'passed'
+      ? 'Review'
+      : l1Status === 'in_progress' || l1Status === 'passed'
+        ? 'Continue'
+        : 'Start';
+
+  return (
+    <Card data-testid={`module-card-${module.code}`}>
+      <CardHeader className="pb-3">
+        <div className="flex items-start gap-3">
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+            {index + 1}
+          </span>
+          <div>
+            <CardTitle className="text-base leading-snug">{module.title}</CardTitle>
+            <CardDescription className="mt-0.5">{module.description}</CardDescription>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="flex flex-col gap-2">
+        {/* L1 row */}
+        <div className="flex items-center justify-between rounded-md border border-border px-3 py-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-muted-foreground">L1</span>
+            <span className="text-sm">Foundations</span>
+          </div>
+          <StatusBadge status={l1Status} />
+        </div>
+
+        {/* L2 row — dimmed while locked */}
+        <div
+          className={cn(
+            'flex items-center justify-between rounded-md border border-border px-3 py-2',
+            l2Status === 'locked' && 'opacity-50'
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-muted-foreground">L2</span>
+            <span className="text-sm">Deep dive</span>
+          </div>
+          <StatusBadge status={l2Status} />
+        </div>
+
+        <Button size="sm" className="mt-1 w-full" onClick={onOpen}>
+          {ctaLabel}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
 // ---------------------------------------------------------------------------
 
 export function DashboardPage() {
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
 
-  const track = profile!.active_track!;
-  const trackLabel = TRACK_LABELS[track];
+  // module code → id, and module_id → { L1, L2 } progress.
+  const [moduleIdByCode, setModuleIdByCode] = useState<Record<string, string>>({});
+  const [progressByModule, setProgressByModule] = useState<Record<string, Partial<Record<Level, ProgressRow>>>>({});
+  const [loading, setLoading] = useState(true);
 
-  // Map module_id → progress row, loaded from user_progress.
-  const [progressMap, setProgressMap] = useState<Record<string, ProgressRow>>({});
-  // Map module code → module id, needed to look up progress.
-  const [moduleIdMap, setModuleIdMap] = useState<Record<string, string>>({});
-  const [loadingProgress, setLoadingProgress] = useState(true);
-
-  const loadProgress = useCallback(async () => {
+  const load = useCallback(async () => {
     if (!profile) return;
-    setLoadingProgress(true);
+    setLoading(true);
 
-    // Fetch module id → code mapping
-    const { data: modData } = await supabase
-      .from('modules')
-      .select('id, code');
-
+    const { data: mods } = await supabase.from('modules').select('id, code');
     const idMap: Record<string, string> = {};
-    if (modData) {
-      for (const m of modData as ModuleDbRow[]) {
-        idMap[m.code] = m.id;
-      }
-    }
-    setModuleIdMap(idMap);
+    for (const m of (mods ?? []) as { id: string; code: string }[]) idMap[m.code] = m.id;
+    setModuleIdByCode(idMap);
 
-    // Fetch user's progress rows
-    const { data: progData } = await supabase
+    const { data: prog } = await supabase
       .from('user_progress')
       .select('module_id, level, status, score')
       .eq('user_id', profile.id);
 
-    const pMap: Record<string, ProgressRow> = {};
-    if (progData) {
-      for (const row of progData as ProgressRow[]) {
-        pMap[row.module_id] = row;
-      }
+    const byModule: Record<string, Partial<Record<Level, ProgressRow>>> = {};
+    for (const row of (prog ?? []) as ProgressRow[]) {
+      (byModule[row.module_id] ??= {})[row.level] = row;
     }
-    setProgressMap(pMap);
-    setLoadingProgress(false);
+    setProgressByModule(byModule);
+    setLoading(false);
   }, [profile]);
 
   useEffect(() => {
-    void loadProgress();
-  }, [loadProgress]);
+    void load();
+  }, [load]);
 
-  async function handleSignOut() {
-    await signOut();
+  // Derive L1/L2 status for a module. L2 stays locked until L1 is passed.
+  function statusFor(code: string): { l1: CellStatus; l2: CellStatus; l1Passed: boolean } {
+    const moduleId = moduleIdByCode[code];
+    const rows = moduleId ? progressByModule[moduleId] : undefined;
+    const l1: CellStatus = rows?.L1?.status ?? 'not_started';
+    const l1Passed = l1 === 'passed';
+    const l2: CellStatus = l1Passed ? (rows?.L2?.status ?? 'not_started') : 'locked';
+    return { l1, l2, l1Passed };
   }
 
-  // Compute overall track progress: required modules passed / total required.
-  const requiredModules = MODULES.filter((m) => m.requiredLevel[track] !== null);
-  const passedRequired = requiredModules.filter((m) => {
-    const moduleId = moduleIdMap[m.code];
-    if (!moduleId) return false;
-    return progressMap[moduleId]?.status === 'passed';
-  }).length;
-  const trackPct =
-    requiredModules.length > 0
-      ? Math.round((passedRequired / requiredModules.length) * 100)
-      : 0;
+  const passedCount = MODULES.filter((m) => statusFor(m.code).l1Passed).length;
+  const overallPct = Math.round((passedCount / MODULES.length) * 100);
 
   return (
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <div className="flex items-center gap-3">
-            <span className="text-xl font-bold text-primary">TrainingKit</span>
-            <span className="hidden rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary sm:inline-block">
-              {trackLabel}
-            </span>
-          </div>
+        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-6 py-4">
+          <span className="text-xl font-bold text-primary">TrainingKit</span>
           <div className="flex items-center gap-3">
             {profile?.display_name && (
-              <span className="hidden text-sm text-muted-foreground sm:block">
-                {profile.display_name}
-              </span>
+              <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
             )}
             <Button variant="ghost" size="sm" onClick={() => navigate('/leaderboard')}>
               Leaderboard
@@ -218,114 +202,51 @@ export function DashboardPage() {
                 Admin
               </Button>
             )}
-            <Button variant="outline" size="sm" onClick={() => void handleSignOut()} data-testid="sign-out-btn">
+            <Button variant="outline" size="sm" onClick={() => void signOut()} data-testid="sign-out-btn">
               Sign out
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 py-8 space-y-8">
-        {/* Track progress strip */}
+      {/* Body */}
+      <main className="mx-auto max-w-4xl px-6 py-8 space-y-8">
         <section>
           <div className="mb-2 flex items-center justify-between">
             <h1 className="text-2xl font-bold">Your learning path</h1>
-            <span className="text-sm text-muted-foreground">
-              {passedRequired}/{requiredModules.length} required modules passed
-            </span>
+            <span className="text-sm text-muted-foreground">{passedCount}/{MODULES.length} modules passed</span>
           </div>
-          <Progress value={trackPct} className="h-2" />
+          <Progress value={overallPct} className="h-2" />
           <p className="mt-1.5 text-xs text-muted-foreground">
-            {trackPct}% of {trackLabel} track complete
+            10 modules · two levels each · complete L1 to unlock L2
           </p>
         </section>
 
-        {/* Module grid */}
         <section>
           <div className="grid gap-4 sm:grid-cols-2">
-            {MODULES.map((mod) => {
-              const level = mod.requiredLevel[track];
-              const isRequired = level !== null;
-              const moduleId = moduleIdMap[mod.code];
-              const progress = moduleId ? progressMap[moduleId] : undefined;
-              const status: ModuleStatus = progress?.status ?? 'locked';
-              const scoreRaw = progress?.score ?? 0;
-              const scorePct = Math.round(scoreRaw * 100);
-
+            {MODULES.map((mod, i) => {
+              const { l1, l2 } = statusFor(mod.code);
               return (
-                <Card
+                <ModuleCard
                   key={mod.code}
-                  className={cn(!isRequired && 'opacity-60')}
-                  data-testid={`module-card-${mod.code}`}
-                >
-                  <CardHeader className="pb-2">
-                    <div className="flex items-start justify-between gap-2">
-                      <CardTitle className="text-base">{mod.title}</CardTitle>
-                      <StatusBadge status={status} />
-                    </div>
-                    <CardDescription className="flex items-center gap-2">
-                      {isRequired ? (
-                        <>
-                          Required
-                          <Badge variant="outline" className="text-[10px] px-1.5 py-0">
-                            {level}
-                          </Badge>
-                        </>
-                      ) : (
-                        'Optional'
-                      )}
-                      {progress && (
-                        <span className="ml-auto text-xs">{scorePct}%</span>
-                      )}
-                    </CardDescription>
-                  </CardHeader>
-
-                  <CardContent className="space-y-3">
-                    {/* Score progress bar */}
-                    <Progress
-                      value={scorePct}
-                      className={cn(
-                        'h-1.5',
-                        status === 'passed' && '[&>div]:bg-success',
-                        status === 'in_progress' && '[&>div]:bg-accent',
-                        status === 'locked' && '[&>div]:bg-border'
-                      )}
-                    />
-
-                    {/* CTA */}
-                    {status !== 'locked' && (
-                      <Button
-                        size="sm"
-                        variant={status === 'passed' ? 'outline' : 'default'}
-                        onClick={() => navigate(`/learn/${mod.code}`)}
-                        className="w-full"
-                      >
-                        {status === 'passed' ? 'Review' : 'Continue'}
-                      </Button>
-                    )}
-                    {status === 'locked' && isRequired && (
-                      <Button
-                        size="sm"
-                        onClick={() => navigate(`/learn/${mod.code}`)}
-                        className="w-full"
-                        disabled={loadingProgress}
-                      >
-                        Start
-                      </Button>
-                    )}
-                  </CardContent>
-                </Card>
+                  module={mod}
+                  index={i}
+                  l1Status={l1}
+                  l2Status={l2}
+                  onOpen={() => navigate(`/learn/${mod.code}`)}
+                />
               );
             })}
           </div>
         </section>
 
-        {/* Badges / certificate strip */}
         <section>
           <h2 className="mb-4 text-lg font-semibold">Your badges</h2>
           <BadgeShelf />
         </section>
       </main>
+
+      {loading && <span className="sr-only">Loading progress…</span>}
     </div>
   );
 }

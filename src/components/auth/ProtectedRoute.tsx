@@ -10,13 +10,12 @@ interface ProtectedRouteProps {
 /**
  * Guards a route behind authentication.
  *
- * - While the auth session is resolving: render a centred spinner.
+ * - While the auth session is resolving: centred spinner.
  * - No session: redirect to /login.
- * - Authenticated but no active_track set: redirect to /track.
- * - Otherwise: render children.
+ * - Authenticated: render children.
  */
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { user, profile, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -28,13 +27,6 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (!user) {
     return <Navigate to="/login" replace />;
-  }
-
-  // Profile has loaded (or failed to load) — bounce to track picker if no track set.
-  // We only redirect once profile is non-null OR we know load finished without a profile row.
-  // If profile is still null after loading=false it means the row doesn't exist yet → /track.
-  if (!profile?.active_track) {
-    return <Navigate to="/track" replace />;
   }
 
   return <>{children}</>;

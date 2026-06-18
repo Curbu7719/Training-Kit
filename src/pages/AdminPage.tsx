@@ -408,12 +408,7 @@ function ContentTab() {
 // UsersTab
 // ---------------------------------------------------------------------------
 
-const TRACK_LABELS: Record<string, string> = {
-  developer: 'Developer',
-  business_analyst: 'Business Analyst',
-  pm_po: 'PM / PO',
-  qa_architect: 'QA & Architect',
-};
+// No track labels — single shared curriculum, no per-user track.
 
 function UsersTab() {
   const [users, setUsers] = useState<UserSummary[]>([]);
@@ -446,7 +441,6 @@ function UsersTab() {
           <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
             <th className="pb-2 pr-4">Name</th>
             <th className="pb-2 pr-4">Role</th>
-            <th className="pb-2 pr-4">Track</th>
             <th className="pb-2 pr-4 text-right">Modules passed</th>
             <th className="pb-2 pr-4 text-right">Total score</th>
             <th className="pb-2 text-right">Badges</th>
@@ -461,9 +455,6 @@ function UsersTab() {
                   {u.role}
                 </Badge>
               </td>
-              <td className="py-2 pr-4 text-muted-foreground">
-                {u.active_track ? (TRACK_LABELS[u.active_track] ?? u.active_track) : '—'}
-              </td>
               <td className="py-2 pr-4 text-right tabular-nums">{u.modules_passed}</td>
               <td className="py-2 pr-4 text-right tabular-nums">{u.total_score}</td>
               <td className="py-2 text-right tabular-nums">{u.badge_count}</td>
@@ -471,7 +462,7 @@ function UsersTab() {
           ))}
           {users.length === 0 && (
             <tr>
-              <td colSpan={6} className="py-6 text-center text-muted-foreground">
+              <td colSpan={5} className="py-6 text-center text-muted-foreground">
                 No users found.
               </td>
             </tr>
