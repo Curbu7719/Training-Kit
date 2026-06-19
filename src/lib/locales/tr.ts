@@ -281,6 +281,8 @@ const tr = {
   'module.ai_risk_governance.desc': 'Veri gizliliği, IP, uyumluluk ve sorumlu AI; AI kullanımını yöneten kontroller ve onay kapıları.',
   'module.ai_value_scaling.title': 'AI Değeri ve Ölçekleme',
   'module.ai_value_scaling.desc': 'İş gerekçesi ve ROI; AI\'ı pilottan ölçekli üretime taşımak.',
+  'module.ai_delivery_portfolio.title': 'AI Teslimi ve Portföy Yönetimi',
+  'module.ai_delivery_portfolio.desc': 'Bir AI projesini gate\'li bir deney olarak yürütmek; AI portföyünde bahisleri önceliklendirmek, fonlamak ve durdurmak.',
 
   // Vibe Coding modülü
   'module.vibe_coding.title': 'Vibe Coding',

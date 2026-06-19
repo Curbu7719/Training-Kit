@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "A portfolio manager is asked to report AI progress to the steering committee. Which of these is a vanity metric that should NOT be the headline?",
+    "choices": [
+      "Hours saved per analyst across the live initiatives",
+      "Support tickets resolved without a human, against the agreed target",
+      "The total number of AI pilots the organisation is running",
+      "Adoption: active users and repeat use of the shipped features"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "The number of pilots measures activity, not outcome — a classic vanity metric. Hours saved, tickets auto-resolved against target, and real adoption all tie to business value and belong in the portfolio view; a pilot count does not."
+  },
+  {
+    "prompt": "Two pilots in your portfolio independently need the same eval harness, guardrail/PII checks, and cost observability. From a portfolio standpoint, what is usually the better investment? (Select all that apply.)",
+    "choices": [
+      "Fund the capability once as a shared platform both pilots adopt",
+      "Let each team rebuild its own copy so they stay fully independent",
+      "A shared platform also lowers the cost and risk of future initiatives that need the same capability",
+      "Building it twice is fine because duplicated plumbing has no downside"
+    ],
+    "correct": [0, 2],
+    "points": 1,
+    "explanation": "When several initiatives need the same capability, funding it once as a shared platform avoids paying twice and makes every current and future pilot cheaper and more consistent. Deliberately rebuilding the same plumbing per team is waste and produces inconsistent risk controls."
+  },
+  {
+    "prompt": "A pilot has already consumed a large share of its budget but still shows no value against its agreed metric. What is the disciplined portfolio decision, and why?",
+    "choices": [
+      "Keep funding it because stopping now would waste what has already been spent",
+      "Kill or pause it; the decision should weigh future return, not sunk cost, and the freed budget can fund a better bet",
+      "Double its budget so it finally has enough to succeed",
+      "Quietly keep it running so the team's morale isn't affected"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Already-spent money is sunk and irrelevant to the forward decision. If a pilot shows no value against its metric, killing or pausing it frees budget for better bets; continuing because of past cost is the sunk-cost trap that quietly drains a portfolio."
+  },
+  {
+    "prompt": "Why should a portfolio manager treat standardising every initiative on a single model provider as a risk to manage?",
+    "choices": [
+      "Because using one provider is always cheaper, so there is never any risk",
+      "Because a single price change, outage, or model deprecation would then hit the whole portfolio at once — concentration risk best contained by a provider abstraction and a deliberate exit strategy",
+      "Because providers legally require you to use at least three vendors",
+      "Because model quality is identical across all providers, making the choice irrelevant"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "If the whole portfolio quietly depends on one provider, any price hike, outage, or version deprecation hits everything simultaneously — that's concentration risk. A provider abstraction, knowledge of switching costs, and a deliberate exit strategy keep it from becoming a portfolio-wide crisis."
+  }
+]

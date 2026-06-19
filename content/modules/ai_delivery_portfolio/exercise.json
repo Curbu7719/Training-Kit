@@ -1,0 +1,17 @@
+{
+  "type": "mcq",
+  "prompt_md": "You are the project manager for a proposed **AI ticket-triage** feature. The business wants it on the roadmap. You want to manage the inherent uncertainty of an AI feature instead of treating it like a normal fixed-scope build. **Select every option that is a sound way to run this as an AI project.**",
+  "spec": {
+    "choices": [
+      "Agree a success metric and threshold up front (e.g. ≥85% correctly routed on a labelled sample) before any build",
+      "Run a short feasibility spike against real, messy data to measure quality before committing a launch date",
+      "Keep an AI risk register covering data, model-quality, cost-at-scale, and compliance risks, each with an owner",
+      "Define acceptance as eval scores over the threshold plus guardrails passing and cost within budget",
+      "Commit a fixed delivery date and scope before the spike, because the stakeholder needs certainty",
+      "Remove the kill option once the pilot is funded, since stopping would waste the money already spent"
+    ],
+    "multi": true
+  },
+  "answer_key": { "correct": [0, 1, 2, 3] },
+  "max_score": 10
+}

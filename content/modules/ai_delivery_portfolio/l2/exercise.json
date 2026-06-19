@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "You manage an AI portfolio with a **fixed quarterly budget** and five pilots competing for it. One is a flashy **insights dashboard** with an impressive demo but **no business value metric**. Two others — a sales-email drafter and a document extractor — both show **real, measured value** but are each **independently rebuilding the same eval harness, guardrails, and cost observability**. Budget is tight and you can't fully fund everything. **Pick the best portfolio decision and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Fully fund the flashy insights dashboard because its demo impressed leadership, and cut the two value-proven pilots",
+      "Kill the no-value insights dashboard and redirect that budget into a shared eval/guardrails/observability platform the two proven pilots both adopt",
+      "Fund all five equally so no team feels singled out, even if each gets too little to succeed",
+      "Keep every pilot building its own plumbing so teams stay fully independent"
+    ],
+    "reason_choices": [
+      "Because killing a bet with no value metric frees budget, and funding the shared capability once stops paying twice for the same plumbing and makes every current and future pilot cheaper and more consistent",
+      "Because the most impressive demo is always the highest-value bet regardless of business metrics",
+      "Because spreading a fixed budget evenly across all initiatives maximises the chance each one succeeds",
+      "Because duplicated plumbing across teams is a sign of a healthy, independent portfolio"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

@@ -34,7 +34,7 @@ const SDLC_CODES = [
   'ai_operations_sre',
 ] as const;
 
-const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scaling'] as const;
+const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scaling', 'ai_delivery_portfolio'] as const;
 
 const VIBE_CODES = ['vibe_coding'] as const;
 

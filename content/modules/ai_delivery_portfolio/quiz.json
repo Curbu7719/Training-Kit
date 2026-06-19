@@ -1,0 +1,62 @@
+[
+  {
+    "prompt": "Why is delivering an AI feature usually run as a time-boxed experiment rather than a fixed-scope build with a binary 'done'?",
+    "choices": [
+      "Because AI features are cheaper to build than normal features, so planning is unnecessary",
+      "Because the output is probabilistic and you don't know up front whether the model is good enough on your real data, so the project is discovery-shaped",
+      "Because experiments never have deadlines or budgets",
+      "Because regulations forbid giving AI features a delivery date"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "An AI feature is probabilistic and there's rarely one correct output, and the key unknown — is the model good enough on your data — is untested at the start. So you run a discovery-shaped experiment with a success metric and a kill option, not a fixed-scope build you sign off as binary done."
+  },
+  {
+    "prompt": "A feasibility spike on real data shows your AI feature can't reach the agreed quality threshold, even after tuning. From a delivery standpoint, what is the right framing of a decision to stop the pilot?",
+    "choices": [
+      "A failure that should be hidden from stakeholders to protect the team",
+      "A success: a clear 'no' that frees budget and people for a better bet",
+      "Irrelevant, because a funded pilot must always ship something",
+      "Proof that AI can never work for this organisation"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Killing a pilot that can't clear the bar is a successful outcome of the experiment — it returns budget and people to better bets. The real failure is the sunk-cost trap: pouring more money into a weak pilot just because it's already funded."
+  },
+  {
+    "prompt": "Which of the following are AI-specific risks that belong on an AI project's risk register? (Select all that apply.)",
+    "choices": [
+      "Data isn't available, clean, or labelled enough to evaluate quality",
+      "Per-call cost is fine in a demo but breaks the business case at real volume",
+      "A privacy or regulatory gate must clear before the feature can ship",
+      "The office Wi-Fi is occasionally slow in the afternoon"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Data readiness, cost-at-scale, and a compliance gate are real AI-specific delivery risks with named owners and mitigations. Generic office annoyances aren't project risks for this feature and don't belong on the register."
+  },
+  {
+    "prompt": "How should acceptance criteria (the definition of 'done') be written for a non-deterministic AI feature?",
+    "choices": [
+      "As an exact expected output string the feature must return every time",
+      "As measurable properties: eval scores over a threshold on a held-out set, guardrails passing, and cost/latency within budget",
+      "As 'it looked good in the demo to the stakeholders'",
+      "As the number of prompts the team ran during development"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Because there's no single correct output to assert, acceptance is statistical: a quality score over a threshold on held-out data, guardrail pass rate, and cost/latency budgets. A demo impression or a prompt count tells you nothing about whether it's actually good enough to ship."
+  },
+  {
+    "prompt": "TRADE-OFF: At the start of a pilot you can either invest two weeks building a thorough, stratified golden eval set, or ship the pilot faster with a thin, happy-path eval set. What is the trade-off?",
+    "choices": [
+      "There is no trade-off; the thin eval set is always better because it is faster",
+      "A thorough eval set delays the pilot but measures quality you can trust (including hard cases); a thin one starts faster but can report a misleadingly high score and let a weak feature pass the gate",
+      "A thorough eval set is always required and a thin one can never be used under any circumstances",
+      "Both eval sets give identical results, so the choice only affects documentation"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "It's a real trade-off between speed and trustworthy measurement. A thin happy-path eval set gets you to a number faster but can hide failures on hard cases and pass a weak feature; a stratified set costs time but the score actually means something. The right call depends on the stakes — a low-risk internal tool can start thin, a customer-facing or regulated feature can't."
+  }
+]
