@@ -2,39 +2,39 @@
 
 **Alternative phrasings of the core idea**
 
-- "An AI feature is probabilistic, so a project to deliver it is discovery-shaped — you run a
-  time-boxed experiment with a pre-agreed success metric and a real willingness to kill it,
-  not a fixed-scope build with a binary done."
-- "You can't estimate the product because the key unknown — is the model good enough on our
-  real data — is untested, so you estimate a feasibility spike first; data readiness and eval
-  readiness are hard dependencies that gate everything else."
-- "Done isn't 'the output equals X'; it's measurable properties — eval scores over a
-  threshold, guardrails passing, cost and latency in budget, plus a human sign-off — checked
-  at each stage-gate where proceed, narrow, or kill are the only honest options."
+- "In an AI-driven SDLC the bottleneck moves from *writing* code to *specifying, reviewing, and
+  verifying* it — so you manage intent, review capacity, and quality gates, not typing speed."
+- "AI makes generation fast but not the last 10% — edge cases, integration, and debugging
+  plausible-but-wrong code — so estimate the review and verification work, not the generation
+  that's already done."
+- "Generated code is often subtly wrong while looking confident, so quality gates (human review,
+  tests, security/type checks) get *more* important, not less, and a human stays accountable for
+  what merges."
 
 **Hint stack**
 
-- **H1 (nudge):** Ask what's actually *unknown* about an AI feature. It's not the UI or the
-  plumbing — it's whether the model is good enough on real data. The whole plan exists to
-  resolve that unknown cheaply before betting big.
-- **H2 (structure):** Walk the gates. Feasibility (spike on real data, measure quality) →
-  pilot (real users get value) → production (monitored, owned) → scale. At each, list the
-  go/no-go criteria and keep *narrow scope* and *kill* on the table.
-- **H3 (worked path):** A spike returns 78% overall but 91% on the top categories. Don't ship
-  78% and don't kill outright — narrow the scope to the slice that clears the bar, write
-  eval-based acceptance criteria for it, and gate the rest for later.
+- **H1 (nudge):** Ask what the *constraint* really is once AI writes the code. It isn't typing —
+  it's specifying clearly, reviewing trustworthily, and verifying. The whole plan exists to keep
+  those from becoming the new bottleneck.
+- **H2 (structure):** Walk the workflow. Specify intent → generate → review (correctness,
+  security, patterns) → test/verify → integrate. The fast step is generation; price and gate the
+  slow ones, and keep *fix-and-re-verify* and *hand-write the risky part* on the table.
+- **H3 (worked path):** The assistant produces a parser that's 80% right and 100% confident —
+  mis-parses non-USD amounts and pulls a flagged dependency. Don't ship the demo and don't throw
+  it all out: tighten intent, regenerate with explicit edge-case handling, swap the dependency,
+  add tests, then merge.
 
 **Short FAQ**
 
-- **Why is killing a pilot a success?** Because a pilot is an experiment, and a clear "no"
-  frees budget and people for a better bet. The failure is *not* killing a weak pilot and
-  pouring more money into it because it's already funded (the sunk-cost trap).
-- **Why can't I just give a delivery date?** Because the date depends on an untested unknown —
-  the model's accuracy on your data. Commit to the *spike* first; commit to a launch date only
-  once the spike shows the bar is reachable.
-- **What makes acceptance criteria different for an AI feature?** They're statistical, not
-  exact: a quality score over a threshold on a held-out set, guardrail pass rate, and cost/
-  latency budgets — because there's no single correct output to assert against.
-- **Isn't a risk register just normal PM hygiene?** Yes, but AI adds specific risks a normal
-  project doesn't carry — data readiness, model quality, per-call cost at scale, and vendor
-  dependence — so they belong on the register with named owners.
+- **Doesn't AI just make the project 3× faster?** Generation gets faster; delivery is paced by
+  review, integration, and verification, which don't shrink the same way. Output up 3× can still
+  mean shipping no sooner if review becomes the bottleneck.
+- **Why are quality gates more important now, not less?** Because plausible, confident,
+  fast-arriving code is exactly the kind that hides subtle bugs and insecure patterns. The gates
+  — human review, tests, security/type checks — are where correctness is actually earned.
+- **What's the difference between output and throughput?** Output is lines of code, PR count, "AI
+  adoption %" — easy for AI to inflate. Throughput is cycle time, defect-escape rate, and working
+  value shipped. Only throughput tells you whether delivery actually improved.
+- **What new risks does AI-driven delivery add?** Automation bias (over-trusting plausible code),
+  security and IP/licensing of generated code, architectural drift from locally-reasonable
+  suggestions, and skill atrophy / unclear ownership of code nobody hand-wrote.

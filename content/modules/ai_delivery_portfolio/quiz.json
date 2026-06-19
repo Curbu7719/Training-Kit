@@ -1,62 +1,62 @@
 [
   {
-    "prompt": "Why is delivering an AI feature usually run as a time-boxed experiment rather than a fixed-scope build with a binary 'done'?",
+    "prompt": "In an AI-driven SDLC where assistants generate most of the code, where does the delivery bottleneck typically move to?",
     "choices": [
-      "Because AI features are cheaper to build than normal features, so planning is unnecessary",
-      "Because the output is probabilistic and you don't know up front whether the model is good enough on your real data, so the project is discovery-shaped",
-      "Because experiments never have deadlines or budgets",
-      "Because regulations forbid giving AI features a delivery date"
+      "To typing code faster, since that is still the main constraint",
+      "To specifying intent clearly, reviewing for correctness and security, and verifying the output — because generation is no longer the slow part",
+      "To buying more GPUs so the assistant runs faster",
+      "Nowhere; AI removes all bottlenecks so delivery is uniformly faster"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "An AI feature is probabilistic and there's rarely one correct output, and the key unknown — is the model good enough on your data — is untested at the start. So you run a discovery-shaped experiment with a success metric and a kill option, not a fixed-scope build you sign off as binary done."
+    "explanation": "When code appears in seconds, writing it stops being the constraint. Throughput is then gated by how fast humans can specify precisely, review trustworthily, and verify — so that's where the bottleneck moves, and where a manager should focus."
   },
   {
-    "prompt": "A feasibility spike on real data shows your AI feature can't reach the agreed quality threshold, even after tuning. From a delivery standpoint, what is the right framing of a decision to stop the pilot?",
+    "prompt": "A feature looks '90% done in a day' with AI assistance but the last 10% takes a week. What does this teach about estimating an AI-driven project?",
     "choices": [
-      "A failure that should be hidden from stakeholders to protect the team",
-      "A success: a clear 'no' that frees budget and people for a better bet",
-      "Irrelevant, because a funded pilot must always ship something",
-      "Proof that AI can never work for this organisation"
+      "That AI estimates are always wrong, so estimation should be abandoned",
+      "That generation gets much faster but edge cases, integration, and debugging plausible-but-wrong code don't shrink the same way, so you must estimate the review and verification work explicitly",
+      "That the team is simply too slow and needs to be replaced",
+      "That the last 10% should just be skipped to hit the date"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Killing a pilot that can't clear the bar is a successful outcome of the experiment — it returns budget and people to better bets. The real failure is the sunk-cost trap: pouring more money into a weak pilot just because it's already funded."
+    "explanation": "AI compresses the 'get something working' part, but edge cases, integration, and debugging confident-but-wrong output remain. Pricing the whole project as uniformly faster ignores the last-10% reality; you estimate the review/integration/verification work separately."
   },
   {
-    "prompt": "Which of the following are AI-specific risks that belong on an AI project's risk register? (Select all that apply.)",
+    "prompt": "Which of the following are risks specifically heightened by an AI-driven SDLC? (Select all that apply.)",
     "choices": [
-      "Data isn't available, clean, or labelled enough to evaluate quality",
-      "Per-call cost is fine in a demo but breaks the business case at real volume",
-      "A privacy or regulatory gate must clear before the feature can ship",
-      "The office Wi-Fi is occasionally slow in the afternoon"
+      "Automation bias — accepting plausible generated code without genuine review because it looks right",
+      "Security and IP/licensing exposure from generated code (insecure patterns, echoed or outdated dependencies)",
+      "Architectural drift, as each locally-reasonable suggestion makes the codebase less consistent",
+      "The office coffee machine being broken on Mondays"
     ],
     "correct": [0, 1, 2],
     "points": 1,
-    "explanation": "Data readiness, cost-at-scale, and a compliance gate are real AI-specific delivery risks with named owners and mitigations. Generic office annoyances aren't project risks for this feature and don't belong on the register."
+    "explanation": "Over-trusting confident output, security/IP risk in generated code, and architectural drift from unenforced patterns are all amplified when AI writes much of the code. A broken coffee machine isn't a delivery risk for the feature and doesn't belong on the register."
   },
   {
-    "prompt": "How should acceptance criteria (the definition of 'done') be written for a non-deterministic AI feature?",
+    "prompt": "When AI generates a large share of the code, how should the team's quality gates and definition of done change?",
     "choices": [
-      "As an exact expected output string the feature must return every time",
-      "As measurable properties: eval scores over a threshold on a held-out set, guardrails passing, and cost/latency within budget",
-      "As 'it looked good in the demo to the stakeholders'",
-      "As the number of prompts the team ran during development"
+      "Relax them, since the AI already wrote working code and review just slows everyone down",
+      "Strengthen them — human review of generated code, automated tests, type checks, and security scanning become the gates that make AI speed safe, and 'done' means clearing them",
+      "Replace all gates with a single check that the code compiles",
+      "Define done as the number of lines or PRs the assistant produced"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Because there's no single correct output to assert, acceptance is statistical: a quality score over a threshold on held-out data, guardrail pass rate, and cost/latency budgets. A demo impression or a prompt count tells you nothing about whether it's actually good enough to ship."
+    "explanation": "A fast stream of plausible, confident code raises the stakes on review, so gates get more important, not less. 'Done' shifts from 'it compiles / the demo works' to 'it passed human review, tests, and security/type checks,' with a human accountable for the merge."
   },
   {
-    "prompt": "TRADE-OFF: At the start of a pilot you can either invest two weeks building a thorough, stratified golden eval set, or ship the pilot faster with a thin, happy-path eval set. What is the trade-off?",
+    "prompt": "TRADE-OFF: A teammate proposes merging AI-generated code quickly with only a light skim to capture the velocity, instead of doing thorough human review plus tests on every change. What is the trade-off?",
     "choices": [
-      "There is no trade-off; the thin eval set is always better because it is faster",
-      "A thorough eval set delays the pilot but measures quality you can trust (including hard cases); a thin one starts faster but can report a misleadingly high score and let a weak feature pass the gate",
-      "A thorough eval set is always required and a thin one can never be used under any circumstances",
-      "Both eval sets give identical results, so the choice only affects documentation"
+      "There is no trade-off; light review is always better because it is faster",
+      "Light review ships faster now but lets subtle, confident bugs and insecure patterns through, raising defect-escape and maintenance cost; thorough review is slower but catches what fast, plausible code hides — the right call depends on the stakes of the change",
+      "Thorough review is always mandatory and light review can never be used for anything",
+      "Both approaches produce identical quality, so the choice only affects paperwork"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "It's a real trade-off between speed and trustworthy measurement. A thin happy-path eval set gets you to a number faster but can hide failures on hard cases and pass a weak feature; a stratified set costs time but the score actually means something. The right call depends on the stakes — a low-risk internal tool can start thin, a customer-facing or regulated feature can't."
+    "explanation": "It's a real speed-vs-safety trade-off. Light review captures velocity but AI's plausible, confident output is exactly where subtle bugs and insecure patterns hide, so escapes and rework rise. The right balance depends on stakes — a throwaway prototype can skim; production or regulated code can't."
   }
 ]

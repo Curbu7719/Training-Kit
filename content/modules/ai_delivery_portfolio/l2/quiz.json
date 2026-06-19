@@ -1,50 +1,50 @@
 [
   {
-    "prompt": "A portfolio manager is asked to report AI progress to the steering committee. Which of these is a vanity metric that should NOT be the headline?",
+    "prompt": "A portfolio manager reports on AI-driven development to the steering committee. Which of these is a vanity metric that should NOT be the headline?",
     "choices": [
-      "Hours saved per analyst across the live initiatives",
-      "Support tickets resolved without a human, against the agreed target",
-      "The total number of AI pilots the organisation is running",
-      "Adoption: active users and repeat use of the shipped features"
+      "Cycle time from idea to merged-and-verified across the teams",
+      "Change-failure and defect-escape rates for shipped work",
+      "The total lines of code the assistants generated this quarter",
+      "Value delivered against each initiative's agreed outcome"
     ],
     "correct": [2],
     "points": 1,
-    "explanation": "The number of pilots measures activity, not outcome — a classic vanity metric. Hours saved, tickets auto-resolved against target, and real adoption all tie to business value and belong in the portfolio view; a pilot count does not."
+    "explanation": "Lines generated measures activity, not outcome — and AI inflates it effortlessly, so it's a classic vanity metric. Cycle time, change-failure/defect-escape rates, and value delivered tie to real outcomes and belong in the portfolio view; generated-code volume does not."
   },
   {
-    "prompt": "Two pilots in your portfolio independently need the same eval harness, guardrail/PII checks, and cost observability. From a portfolio standpoint, what is usually the better investment? (Select all that apply.)",
+    "prompt": "Two teams in your AI-driven org independently build the same setup: assistant config, golden patterns, secure scanning of generated code, and review automation. From a portfolio standpoint, what is usually the better investment? (Select all that apply.)",
     "choices": [
-      "Fund the capability once as a shared platform both pilots adopt",
+      "Fund the AI workflow once as a shared platform both teams adopt",
       "Let each team rebuild its own copy so they stay fully independent",
-      "A shared platform also lowers the cost and risk of future initiatives that need the same capability",
-      "Building it twice is fine because duplicated plumbing has no downside"
+      "A shared platform also makes every future team faster and safer and keeps risk controls consistent",
+      "Building it twice is fine because duplicated AI tooling has no downside"
     ],
     "correct": [0, 2],
     "points": 1,
-    "explanation": "When several initiatives need the same capability, funding it once as a shared platform avoids paying twice and makes every current and future pilot cheaper and more consistent. Deliberately rebuilding the same plumbing per team is waste and produces inconsistent risk controls."
+    "explanation": "When several teams need the same capability, funding it once as a shared platform avoids paying twice and makes every current and future team faster, safer, and more consistent. Letting each team rebuild assistant config and secure scanning is waste and produces inconsistent risk controls across the portfolio."
   },
   {
-    "prompt": "A pilot has already consumed a large share of its budget but still shows no value against its agreed metric. What is the disciplined portfolio decision, and why?",
+    "prompt": "AI assistants make each initiative much cheaper and faster to start. What does this mean for prioritisation and kill discipline in the portfolio?",
     "choices": [
-      "Keep funding it because stopping now would waste what has already been spent",
-      "Kill or pause it; the decision should weigh future return, not sunk cost, and the freed budget can fund a better bet",
-      "Double its budget so it finally has enough to succeed",
-      "Quietly keep it running so the team's morale isn't affected"
+      "They matter less, because cheap-to-build means you can afford to finish everything",
+      "They matter more, because cheap-to-start invites a sprawl of low-value, lightly-reviewed bets, and a low-value initiative is still low-value once built",
+      "They become irrelevant, since AI guarantees every initiative will succeed",
+      "You should fund whichever initiative the assistant generated the most code for"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Already-spent money is sunk and irrelevant to the forward decision. If a pilot shows no value against its metric, killing or pausing it frees budget for better bets; continuing because of past cost is the sunk-cost trap that quietly drains a portfolio."
+    "explanation": "Lower build cost raises, not lowers, the need for discipline: more ideas become viable, so without prioritisation and real kill discipline you accumulate half-finished, lightly-reviewed bets. Cheap-to-start doesn't make a low-value bet worth finishing — and 'the AI already built most of it' is just the sunk-cost trap restated."
   },
   {
-    "prompt": "Why should a portfolio manager treat standardising every initiative on a single model provider as a risk to manage?",
+    "prompt": "Why should a portfolio manager treat standardising every team on a single AI coding assistant or model provider as a risk to manage?",
     "choices": [
       "Because using one provider is always cheaper, so there is never any risk",
-      "Because a single price change, outage, or model deprecation would then hit the whole portfolio at once — concentration risk best contained by a provider abstraction and a deliberate exit strategy",
+      "Because a single price change, outage, model deprecation, or quality regression would then hit all of the org's delivery at once — concentration risk best contained by a provider abstraction and a deliberate exit strategy",
       "Because providers legally require you to use at least three vendors",
-      "Because model quality is identical across all providers, making the choice irrelevant"
+      "Because all coding assistants are identical, making the choice irrelevant"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "If the whole portfolio quietly depends on one provider, any price hike, outage, or version deprecation hits everything simultaneously — that's concentration risk. A provider abstraction, knowledge of switching costs, and a deliberate exit strategy keep it from becoming a portfolio-wide crisis."
+    "explanation": "If the whole org quietly depends on one assistant or model provider, any price hike, outage, deprecation, or quality regression disrupts all delivery simultaneously — that's concentration risk. A provider abstraction where practical, knowledge of switching costs, and a deliberate exit strategy keep it from becoming an org-wide crisis."
   }
 ]

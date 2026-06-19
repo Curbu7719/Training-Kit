@@ -1,70 +1,69 @@
-# Delivering an AI Project
+# Delivering Software in an AI-Driven SDLC
 
-Running an AI feature as a project is not like running a normal software project, and the
-managers who treat it the same way get burned. A normal feature has a knowable scope and a
-binary "done": the form validates, the test goes green, you ship. An **AI feature is
-probabilistic** — the same input can produce different output, there's rarely one correct
-answer, and you don't know up front whether the model is even good enough at *your* task. So
-the project is **discovery-shaped**: closer to running an experiment than pouring concrete.
+When the software development lifecycle itself becomes **AI-driven**, developers work alongside
+AI coding assistants and agents that generate a large share of the code, draft tests, and do
+first-pass reviews. This is not a small productivity tweak — it changes the *shape* of delivery,
+and a manager who runs an AI-driven team the same way they ran a hand-coded one gets surprised
+in predictable ways.
 
-**A running example.** Your organisation wants to add **AI ticket-triage** — automatically
-routing incoming support tickets to the right team. As the project manager you can't just
-put it on the roadmap with a fixed date and a "build it" ticket. You have to manage the
-uncertainty deliberately. The same discipline applies to any AI initiative — a summarizer, a
-document extractor, an assistant.
+**A running example.** Your team is building and extending an internal **expense-management
+app**, and everyone now works with an AI coding assistant. It scaffolds endpoints, writes
+components, drafts tests, and proposes refactors. As the delivery lead you can't just assume
+"AI writes the code, so we're 3× faster — ship the date 3× sooner." You have to manage a
+workflow whose bottlenecks have *moved*.
 
-## The pilot is an experiment, not a deliverable
+## The bottleneck moves from writing to specifying and verifying
 
-The single most important shift: **a pilot is a time-boxed experiment with a pre-agreed
-success metric and a real willingness to kill it.** Before you start you define what "good
-enough" means as a *number* (e.g. "≥ 85% of tickets routed to the correct team, measured on a
-labelled sample"), pick a real user group, and agree the threshold below which you stop.
-Killing a pilot that doesn't clear the bar is a **success** — it frees budget for a better
-bet — not a failure to hide.
+When AI produces code in seconds, **typing code is no longer the constraint**. The new
+constraints are **clear intent** (specifying precisely what you actually want), **review**
+(judging whether the output is correct, secure, and fits the system), and **verification**
+(proving it works). Throughput is now gated by how fast humans can specify and trust the
+output — not by how fast code appears on screen.
 
-## Estimating under uncertainty
+## Estimation changes shape — beware the last 10%
 
-You cannot estimate an AI feature like a CRUD screen, because the hard question — *is the
-model good enough on our real data?* — is unknown until you test it. So you **estimate the
-experiment, not the product**: budget a short **feasibility spike** that runs the model
-against real, messy data and measures quality, *before* committing to a delivery date.
-**Data readiness** (is the data available, clean, labelled enough to evaluate?) and **eval
-readiness** (can we even build a way to measure quality?) are hard dependencies — if either
-is missing, that's your first piece of work, not the model.
+AI makes greenfield and boilerplate work dramatically faster, so estimates for "get something
+working" shrink. But the **last 10%** — edge cases, integration with the existing system, and
+debugging the plausible-but-wrong code the model produced confidently — does *not* shrink at the
+same rate. The classic trap is **"90% done in a day, the last 10% takes a week."** Estimate the
+review, integration, and verification work explicitly; don't price the whole project as
+uniformly faster just because generation got faster.
 
-## The AI risk register
+## Quality gates get more important, not less
 
-Every AI project carries risks a normal project doesn't. Track them explicitly, each with an
-owner and a mitigation:
+A fast stream of plausible code raises the stakes on review. AI output is often **subtly wrong**
+— a hallucinated API, an insecure pattern, a missed edge case — while looking completely
+confident. So the **definition of done shifts**: human review of generated code, strong
+automated tests, type checks, and security scanning become the gates that make AI speed *safe*.
+The developer's role moves from **author to reviewer / editor / verifier**, and a human stays
+accountable for whatever merges.
 
-- **Data risk** — the data isn't available, clean, or labelled enough to train or evaluate.
-- **Quality risk** — the model can't reach the accuracy the use case needs.
-- **Cost risk** — it works, but per-call cost at real volume breaks the business case.
-- **Compliance risk** — a privacy/regulatory gate must clear before it can ship.
-- **Vendor risk** — dependence on one provider's model, pricing, or availability.
+## Risks specific to AI-driven delivery
 
-## Acceptance criteria for fuzzy features
+- **Automation bias / over-trust** — accepting plausible code without genuine review because it
+  looks right and arrived fast.
+- **Security & correctness of generated code** — vulnerable patterns, outdated or hallucinated
+  dependencies, subtle logic bugs the author never reasoned through.
+- **IP & licensing** — generated code can echo licensed source; provenance and compliance matter.
+- **Architectural drift** — each suggestion is locally reasonable, but the codebase grows
+  inconsistent without enforced patterns.
+- **Skill atrophy & ownership** — "who actually understands this code?" becomes a real
+  maintainability risk.
 
-"Done" can't be "the output equals X." Define acceptance as **measurable properties**: eval
-scores over the agreed threshold on a held-out set, guardrails passing, cost and latency
-within budget, and a human-review sign-off for the launch cohort. This is how QA accepts a
-non-deterministic feature and how you know the pilot actually succeeded.
+## Measure real throughput, not output
 
-## Stage-gates: feasibility → pilot → production → scale
-
-Move the project through gates, each with explicit go/no-go criteria: a **feasibility spike**
-proves the model can hit the bar on real data; the **pilot** proves real users get value; 
-**production** makes it monitored and owned; **scale** extends it once value holds. At each
-gate the honest options are *proceed*, *narrow the scope*, or *kill* — never "we've spent too
-much to stop now."
+The most common mistake is celebrating **output** — lines of code, number of PRs, "AI
+adoption %." These are vanity: AI inflates them effortlessly. What matters is **real delivery**:
+cycle time, defect-escape rate, change-failure rate, and working value shipped. A team can 3×
+its code volume and ship no faster if review and rework become the new bottleneck.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Runs the feasibility spike on real data, builds the eval harness
-  that defines "good enough," and surfaces cost and quality numbers the gates depend on.
-- **Business Analyst:** Defines the success metric and threshold, and maps the data and
-  compliance dependencies that gate the work.
-- **PM/Product Owner:** Runs the pilot as a gated experiment, owns the AI risk register and
-  the scale-or-kill decision, and manages stakeholder expectations of a probabilistic feature.
-- **QA & Architect:** Sets eval-based acceptance criteria, validates the feature against them,
-  and designs the gates so a weak pilot is caught before production.
+- **Developer/Engineer:** Shifts from writing every line to specifying intent, reviewing and
+  verifying AI output, and owning correctness, security, and tests for what merges.
+- **Business Analyst:** Writes intent and acceptance clearly enough that AI-assisted work targets
+  the right outcome, and helps separate real delivery from output vanity.
+- **PM/Product Owner:** Estimates the review/integration/verification work (not just generation),
+  plans for the last-10% trap, and tracks cycle time and defect escape rather than raw output.
+- **QA & Architect:** Designs the quality gates (review, tests, security/type checks) and the
+  enforced patterns that keep AI-generated code correct, secure, and architecturally consistent.

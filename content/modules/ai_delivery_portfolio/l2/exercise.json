@@ -1,18 +1,18 @@
 {
   "type": "scenario",
-  "prompt_md": "You manage an AI portfolio with a **fixed quarterly budget** and five pilots competing for it. One is a flashy **insights dashboard** with an impressive demo but **no business value metric**. Two others — a sales-email drafter and a document extractor — both show **real, measured value** but are each **independently rebuilding the same eval harness, guardrails, and cost observability**. Budget is tight and you can't fully fund everything. **Pick the best portfolio decision and the correct reason.**",
+  "prompt_md": "You manage an **AI-driven engineering portfolio** with a **fixed quarterly budget** and several initiatives competing for it. One is an **\"AI velocity\" dashboard** that reports **2× lines of code generated** but shows **no change in cycle time, defect rate, or value**. Two other teams — mobile and web — are each **independently building the same setup**: assistant config, golden patterns, secure scanning of generated code, and review automation. Budget is tight. **Pick the best portfolio decision and the correct reason.**",
   "spec": {
     "decision_choices": [
-      "Fully fund the flashy insights dashboard because its demo impressed leadership, and cut the two value-proven pilots",
-      "Kill the no-value insights dashboard and redirect that budget into a shared eval/guardrails/observability platform the two proven pilots both adopt",
-      "Fund all five equally so no team feels singled out, even if each gets too little to succeed",
-      "Keep every pilot building its own plumbing so teams stay fully independent"
+      "Fully fund the AI velocity dashboard because 2× lines generated proves the teams are more productive, and cut the mobile and web work",
+      "Kill the vanity-metric dashboard and redirect that budget into a shared AI-workflow platform (golden patterns, secure scanning, review automation) both the mobile and web teams adopt",
+      "Fund every initiative equally so no team feels singled out, even if each gets too little to succeed",
+      "Let each team keep building its own AI workflow so they stay fully independent"
     ],
     "reason_choices": [
-      "Because killing a bet with no value metric frees budget, and funding the shared capability once stops paying twice for the same plumbing and makes every current and future pilot cheaper and more consistent",
-      "Because the most impressive demo is always the highest-value bet regardless of business metrics",
+      "Because lines generated is a vanity metric that hasn't moved real delivery, so killing it frees budget, and funding the shared AI workflow once stops paying twice and makes every current and future team faster, safer, and more consistent",
+      "Because the initiative that generates the most code is always the most productive regardless of cycle time or defects",
       "Because spreading a fixed budget evenly across all initiatives maximises the chance each one succeeds",
-      "Because duplicated plumbing across teams is a sign of a healthy, independent portfolio"
+      "Because every team building its own AI workflow and security scanning is a sign of a healthy, independent portfolio"
     ]
   },
   "answer_key": {

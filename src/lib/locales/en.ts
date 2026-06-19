@@ -281,8 +281,8 @@ const en = {
   'module.ai_risk_governance.desc': 'Data privacy, IP, compliance and responsible AI; the controls and gates that govern AI use.',
   'module.ai_value_scaling.title': 'AI Value & Scaling',
   'module.ai_value_scaling.desc': 'Building the business case and ROI; taking AI from pilot to production at scale.',
-  'module.ai_delivery_portfolio.title': 'AI Delivery & Portfolio Management',
-  'module.ai_delivery_portfolio.desc': 'Running an AI project as a gated experiment; prioritising, funding, and killing bets across an AI portfolio.',
+  'module.ai_delivery_portfolio.title': 'Delivery & Portfolio in an AI-Driven SDLC',
+  'module.ai_delivery_portfolio.desc': 'Managing software delivery and the project portfolio when development itself is AI-driven: estimation, quality gates, real-throughput metrics, and where to invest across teams.',
 
   // Vibe Coding module
   'module.vibe_coding.title': 'Vibe Coding',

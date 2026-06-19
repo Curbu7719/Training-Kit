@@ -1,52 +1,56 @@
-# Worked Example: Rebalancing a Six-Pilot AI Portfolio
+# Worked Example: Rebalancing an AI-Driven Engineering Portfolio
 
-You manage your organisation's AI portfolio. Budget for next quarter is fixed, and six
-initiatives are competing for it. Here's how you rebalance instead of just renewing whatever
-was funded last quarter.
+You manage the engineering portfolio. Every team now builds with AI coding assistants, budget
+for next quarter is fixed, and six initiatives compete for it. Here's how you rebalance instead
+of just renewing whatever was funded last quarter.
 
 ## The six bets on the table
 
-| Initiative | Stage | Value metric | Notes |
+| Initiative | Stage | Signal | Notes |
 |---|---|---|---|
-| Ticket-triage | Scaling | 91% routing, $0.008/ticket — proven | Real, sustained value |
-| Sales-email drafter | Pilot | Real: 20% faster first drafts | Rebuilding its own eval + guardrails |
-| Doc extractor | Pilot | Real: 30% less manual entry | Also rebuilding its own eval + guardrails |
-| "AI insights" dashboard | Pilot | None — "10,000 prompts run" | Impressive demo, no business metric |
-| Meeting summariser | Pilot | None defined | Built because a competitor has one |
-| Claims assistant | Blocked | Promising | Stuck behind a compliance/PII gate |
+| Payments refactor | Shipping | Cycle time down 40%, defect-escape flat — real | Sustained, measured improvement |
+| Mobile team's AI workflow | Active | Real: faster reviews | Built its own pattern + secure-scan setup |
+| Web team's AI workflow | Active | Real: faster reviews | Independently built the same setup |
+| "AI velocity" dashboard | Active | None — "2× lines generated" | Impressive number, no delivery improvement |
+| Greenfield internal tool | Active | None defined | Started because the assistant made it easy |
+| Compliance-gated service | Blocked | Promising | Generated code stuck behind a license/IP review |
 
 ## The decisions
 
-**Kill the two vanity pilots.** The "AI insights" dashboard and the meeting summariser have no
-value metric tied to money, time, risk, or quality — one reports prompt volume, the other was
-started out of FOMO. You **stop both**. That isn't a failure; it frees the quarter's largest
-chunk of budget. (Resisting "but we already built half of it" is the whole skill — that's the
-sunk-cost trap.)
+**Kill the vanity bet.** The "AI velocity" dashboard reports lines generated and adoption % — pure
+activity, with no movement in cycle time, defect rate, or value. You **stop it**. And the
+greenfield tool was started only *because the assistant made starting cheap*, with no value case —
+you stop that too. Cheap to build is not a reason to finish; resisting "but the AI already wrote
+most of it" is the whole skill (the sunk-cost trap in AI-driven clothing).
 
-**Invest the freed budget in shared capability.** The sales-email drafter and the doc extractor
-are *both* independently rebuilding the same plumbing: an eval harness, a PII/guardrail check,
-and cost observability. Instead of funding that twice, you fund it **once** as a shared
-platform. Both pilots adopt it, they ship faster, *and* every future initiative inherits it —
-lowering the cost and risk of the whole portfolio. This is build-vs-buy at the portfolio level.
+**Invest the freed budget in shared capability.** The mobile and web teams are *both*
+independently building the same plumbing: assistant config, golden patterns, secure scanning of
+generated code, and review automation. Instead of funding that twice, you fund it **once** as a
+shared platform both teams adopt. They ship faster *and* more consistently, and every future
+team inherits it — lowering the cost and risk of the whole portfolio. Build-vs-buy at the
+portfolio level.
 
-**Park, don't abandon, the blocked one.** The claims assistant is promising but stuck behind a
-compliance gate. You don't fund delivery work yet; you fund only the work to clear the gate, and
-keep it parked behind it. Prioritisation by *risk*, not just value.
+**Park, don't abandon, the blocked one.** The compliance-gated service is promising but stuck
+behind a license/IP review of its generated code. You don't fund delivery yet; you fund only the
+work to clear the gate, and keep it parked. Prioritisation by *risk*, not just value.
 
-**Fund the proven scaler.** Ticket-triage has sustained, measured value, so it gets the
-resources to extend to more categories — the bet that earned its next stage.
+**Fund the proven one.** The payments refactor has sustained, measured improvement in cycle time
+with defect-escape held flat, so it gets resources to extend — the bet that earned its next
+stage.
 
 ## Reporting upward
 
-At the steering committee you do **not** present "we ran 8 AI pilots." You present a portfolio
-view: value delivered against each initiative's agreed metric, total spend and trend, adoption,
-and the stage/risk mix. Two pilots killed is reported as a **positive** — budget recovered from
-learning what wouldn't work — alongside the proven value of the scaler and the new shared
-platform that makes the next pilots cheaper.
+At the steering committee you do **not** present "our teams generated 2× the code with AI." You
+present a portfolio view on **real delivery**: cycle time and lead time, change-failure and
+defect-escape rates, and value delivered against each initiative's agreed outcome. Two
+initiatives killed is reported as a **positive** — budget recovered from activity that wasn't
+moving outcomes — alongside the proven payments win and the new shared platform that makes every
+team faster and safer.
 
 ## The lesson
 
-No new model was trained and no clever prompt was written — yet the portfolio got materially
-healthier. The value came from **portfolio discipline**: killing vanity bets without sentiment,
-refusing to fund the same capability twice, gating on risk as well as value, and reporting real
-outcomes instead of activity. That's managing an AI portfolio.
+No new model was adopted and no clever prompt was written — yet the portfolio got materially
+healthier. The value came from **portfolio discipline in an AI-driven org**: killing vanity bets
+without sentiment, refusing to fund the same AI workflow twice, gating on risk as well as value,
+and reporting real throughput instead of generated-code activity. That's managing a portfolio
+when development is AI-driven.

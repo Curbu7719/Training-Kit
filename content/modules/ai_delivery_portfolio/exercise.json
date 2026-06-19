@@ -1,14 +1,14 @@
 {
   "type": "mcq",
-  "prompt_md": "You are the project manager for a proposed **AI ticket-triage** feature. The business wants it on the roadmap. You want to manage the inherent uncertainty of an AI feature instead of treating it like a normal fixed-scope build. **Select every option that is a sound way to run this as an AI project.**",
+  "prompt_md": "You lead a team building a **bulk receipt upload** feature in an **AI-driven SDLC**: coding assistants generate most of the code, draft tests, and propose refactors. You want to manage the delivery soundly instead of assuming AI simply makes it 3× faster. **Select every option that is a sound way to run delivery in an AI-driven SDLC.**",
   "spec": {
     "choices": [
-      "Agree a success metric and threshold up front (e.g. ≥85% correctly routed on a labelled sample) before any build",
-      "Run a short feasibility spike against real, messy data to measure quality before committing a launch date",
-      "Keep an AI risk register covering data, model-quality, cost-at-scale, and compliance risks, each with an owner",
-      "Define acceptance as eval scores over the threshold plus guardrails passing and cost within budget",
-      "Commit a fixed delivery date and scope before the spike, because the stakeholder needs certainty",
-      "Remove the kill option once the pilot is funded, since stopping would waste the money already spent"
+      "Estimate the review, integration, and verification work explicitly, budgeting for the last-10% edge cases — not just the fast generation",
+      "Make human review of generated code, automated tests, and security/type checks the definition of done before anything merges",
+      "Track real throughput (cycle time, defect-escape rate, value shipped) rather than output like lines generated or PR count",
+      "Keep a human accountable for reviewing, verifying, and owning correctness and security of whatever the AI generates",
+      "Treat code as done once it compiles and the happy-path demo works, skipping review to preserve velocity",
+      "Quote a delivery date 3× sooner up front because the assistant writes most of the code"
     ],
     "multi": true
   },
