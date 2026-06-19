@@ -34,3 +34,6 @@ supabase/.temp
 vite.config.js
 vite.config.d.ts
 *.tsbuildinfo
+
+# Temp UI-verification screenshots
+tmp-verify/
