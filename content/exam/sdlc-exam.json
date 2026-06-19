@@ -1,222 +1,222 @@
 [
   {
-    "prompt": "Your team needs to classify thousands of incoming support tickets by category every hour, on a tight budget. Quality bar is moderate and latency matters. Which model choice makes the most sense?",
+    "prompt": "Your team must classify thousands of support tickets per hour on a tight budget; quality needs are moderate and latency matters. Which model strategy fits best?",
     "choices": [
-      "Always use the largest, most capable frontier model for every ticket",
-      "Start with a small, fast, cheaper model and only escalate hard cases to a larger one",
-      "Fine-tune a giant model from scratch before processing any tickets",
-      "Pick a model at random per ticket to spread the load"
+      "Fine-tune a large model on your historical tickets before processing any new ones",
+      "Send every ticket to your most capable frontier model so accuracy is never a concern",
+      "Use a small, fast model for the bulk and escalate only the low-confidence cases to a larger model",
+      "Classify the first batch, then reuse those answers for all later tickets to avoid new calls"
     ],
-    "correct": 1,
-    "explanation": "Exactly right. Matching a small fast model to a high-volume, moderate-difficulty task and escalating only the hard cases is the classic way to control cost and latency without sacrificing quality where it matters. Sharp cost instincts!"
+    "correct": 2,
+    "explanation": "Right call. A small fast model for the routine bulk, escalating only uncertain cases to a bigger one, holds cost and latency down while protecting quality where it matters."
   },
   {
-    "prompt": "A developer notices their API bill is climbing fast even though request counts are flat. What is the most likely lever to investigate first?",
+    "prompt": "Your AI feature's API bill is climbing sharply even though request counts are flat. What should you investigate first?",
     "choices": [
-      "The color theme of the developer's IDE",
-      "The number of tokens per request — long prompts and large outputs drive cost",
-      "How many engineers are on the team",
-      "Whether the model runs on a GPU or CPU at the provider"
-    ],
-    "correct": 1,
-    "explanation": "Nice diagnosis. LLM cost is billed per token, so bloated prompts and verbose outputs quietly inflate the bill even at flat traffic — trimming context and capping output length is the fastest win. Great call!"
-  },
-  {
-    "prompt": "You are building an assistant that must reason over a 200-page contract, but the document exceeds the model's context window. What should you design?",
-    "choices": [
-      "Paste the whole document in and hope the model truncates the unimportant parts",
-      "Chunk the document and retrieve only the relevant sections per question (RAG)",
-      "Switch to a model with a smaller context window to force conciseness",
-      "Ask the user to summarize the contract themselves before each query"
-    ],
-    "correct": 1,
-    "explanation": "Spot on. When content exceeds the context window, chunking plus retrieval of only the relevant passages keeps you within limits and actually improves answer focus. Smart architecture thinking!"
-  },
-  {
-    "prompt": "You want an LLM to generate unit tests for an existing module. Which prompting approach is most likely to produce useful, correct tests?",
-    "choices": [
-      "Ask 'write some tests' with no other context",
-      "Provide the actual function code, expected behavior, and the testing framework you use",
-      "Tell it to invent functions that don't exist yet and test those",
-      "Ask only for the test names and fill in the bodies blindly"
-    ],
-    "correct": 1,
-    "explanation": "Exactly. Grounding the model in the real code, the expected behavior, and your framework is what produces tests that compile and actually assert the right things. Well reasoned!"
-  },
-  {
-    "prompt": "Product managers want the AI to turn vague feature ideas into user stories. How should you prompt it for the best results?",
-    "choices": [
-      "Give it the persona, the goal, and the acceptance-criteria format you expect, and ask for stories in that structure",
-      "Ask for a single paragraph and let the format be a surprise each time",
-      "Feed it only the feature title with no audience or outcome",
-      "Tell it to skip acceptance criteria to save tokens"
+      "Tokens per request — longer prompts and larger outputs raise cost even when traffic is constant",
+      "The number of concurrent users, since cost scales with users rather than tokens",
+      "Whether the provider quietly moved your requests from GPU to CPU hardware",
+      "The size of your vector-database index, which is what providers bill for"
     ],
     "correct": 0,
-    "explanation": "Great call. Specifying the persona, goal, and an explicit acceptance-criteria template gives the model the structure it needs to produce consistent, ready-to-use stories. Nicely structured!"
+    "explanation": "Good instinct. LLM usage is billed per token, so heavier prompts or more verbose outputs inflate the bill even at flat traffic — trim context and cap output length first."
   },
   {
-    "prompt": "Your customer-facing chatbot occasionally produces toxic or off-topic responses. What is the right design response?",
+    "prompt": "You're building an assistant that must reason over a 200-page contract that exceeds the model's context window. What's the right design?",
     "choices": [
-      "Remove all logging so the bad outputs aren't recorded",
-      "Add input and output guardrails that filter, validate, and constrain responses before they reach users",
-      "Ask users politely not to trigger bad answers",
-      "Switch the model every week and hope the problem disappears"
+      "Send the whole document and rely on the model to ignore the irrelevant parts",
+      "Chunk the document and retrieve only the passages relevant to each question (RAG)",
+      "Summarize the entire contract once and answer every future question only from that summary",
+      "Switch to a model with a smaller context window to force the answer to stay focused"
     ],
     "correct": 1,
-    "explanation": "Exactly right. Guardrails that validate and constrain both inputs and outputs are the systematic way to keep a public assistant safe and on-topic, rather than relying on luck. Solid safety thinking!"
+    "explanation": "Exactly the pattern. When content exceeds the window, chunk it and retrieve only the relevant passages per question — you stay within limits and the answer stays focused."
   },
   {
-    "prompt": "An employee wants to paste a spreadsheet of customer names, emails, and account numbers into a public AI tool to summarize it. What should the team's policy guide them to do?",
+    "prompt": "You want an LLM to generate unit tests for an existing function. Which prompt most reliably produces correct, useful tests?",
     "choices": [
-      "Go ahead — public AI tools never retain anything",
-      "Redact or avoid sending PII, and use an approved tool with a data-handling agreement instead",
-      "Paste it but add 'please keep this private' at the top of the prompt",
-      "Email the spreadsheet to the AI vendor's support team first"
+      "Describe the function from memory in plain English and ask for tests",
+      "Ask for the test names first, then have it fill in the bodies without seeing the code",
+      "Have it also rewrite the function from scratch so the tests match its own version",
+      "Provide the actual function code, the expected behavior, and the test framework you use"
+    ],
+    "correct": 3,
+    "explanation": "Yes. Grounding the model in the real code, the expected behavior, and your framework yields tests that compile and assert the right things; ungrounded prompts drift."
+  },
+  {
+    "prompt": "A PM wants the AI to turn vague feature ideas into user stories. How should you prompt for consistent, usable output?",
+    "choices": [
+      "Send only the feature title and let the model infer the audience and outcome",
+      "Give the persona, the goal, and an explicit acceptance-criteria template, and ask for stories in that structure",
+      "Ask for free-form prose so each story reads uniquely and naturally",
+      "Tell it to omit acceptance criteria to keep the stories short"
     ],
     "correct": 1,
-    "explanation": "Nice judgment. Sending PII to an unvetted public tool risks a data leak; redacting it and using an approved tool with proper data terms is the privacy-safe path. Great instinct for protecting customer data!"
+    "explanation": "Well structured. Persona, goal, and an explicit acceptance-criteria format give the model the scaffold for consistent, ready-to-use stories instead of a different shape each time."
   },
   {
-    "prompt": "Teams across your company are quietly adopting random AI tools without approval ('shadow AI'). What is the most effective governance response?",
+    "prompt": "Your customer-facing chatbot occasionally emits toxic or off-topic replies. What's the right design response?",
     "choices": [
-      "Ban all AI use and assume the ban will be followed",
-      "Provide sanctioned, well-supported AI tools plus clear usage guidelines so people don't need to go rogue",
-      "Ignore it since it isn't an official project",
-      "Publicly shame anyone caught using an unapproved tool"
+      "Lower the temperature so the model is less likely to wander off-topic",
+      "Add a disclaimer warning users that some answers may be inappropriate",
+      "Add input and output guardrails that validate, filter, and constrain responses before users see them",
+      "Retry each request several times and return the shortest reply"
+    ],
+    "correct": 2,
+    "explanation": "Solid. Guardrails that validate and constrain both inputs and outputs are the systematic fix — lowering temperature or adding a disclaimer doesn't actually stop unsafe content from reaching users."
+  },
+  {
+    "prompt": "An employee wants to paste a spreadsheet of customer names, emails, and account numbers into a public AI tool to summarize it. What should policy direct them to do?",
+    "choices": [
+      "Redact or avoid the PII, and use an approved tool covered by a data-handling agreement",
+      "Allow it as long as they delete the chat history afterward",
+      "Allow it but add a line to the prompt asking the tool not to store the data",
+      "Allow it if the spreadsheet is under a few hundred rows"
+    ],
+    "correct": 0,
+    "explanation": "Good judgment. The risk is the PII leaving your control; redact it and route the task to an approved tool with real data terms — deleting the chat or asking nicely in the prompt doesn't govern retention."
+  },
+  {
+    "prompt": "Teams across the company are quietly adopting unapproved AI tools ('shadow AI'). What's the most effective governance response?",
+    "choices": [
+      "Block all external AI tools at the network and consider the problem solved",
+      "Require a manager's email sign-off before anyone may use any AI tool",
+      "Wait for an incident, then write a restrictive policy in response",
+      "Provide sanctioned, well-supported tools plus clear usage guidelines so people don't need to go around IT"
+    ],
+    "correct": 3,
+    "explanation": "Mature thinking. Shadow AI grows when there's no good sanctioned option; offering approved tools with clear guidance channels demand safely, where blanket blocks just push it out of sight."
+  },
+  {
+    "prompt": "You want an assistant that can look up live order status, check inventory, and issue refunds. What capability does this require?",
+    "choices": [
+      "A larger context window so all order data fits in the prompt",
+      "Fine-tuning the model on last quarter's order history",
+      "A retrieval (RAG) index over past orders so it can read them",
+      "Tool use / function calling so the model can invoke your real APIs through a controlled interface"
+    ],
+    "correct": 3,
+    "explanation": "Sharp distinction. Acting on live systems — not just reading about them — requires tool use / function calling. RAG retrieves text; it can't actually issue a refund."
+  },
+  {
+    "prompt": "You're giving an autonomous agent the ability to run shell commands and edit files. What's the most important guardrail before going live?",
+    "choices": [
+      "Give it broad access so it never stalls on a permission error",
+      "Scope its permissions tightly and require human confirmation for irreversible or destructive actions",
+      "Let it run unattended but email you a summary of what it did afterward",
+      "Cap the model's output length so its commands stay short"
     ],
     "correct": 1,
-    "explanation": "Exactly. Shadow AI thrives when there's no sanctioned option; offering approved tools with clear guidance channels the demand safely instead of driving it underground. Mature governance thinking!"
+    "explanation": "Safety-first, exactly. Least-privilege scoping plus a human gate on destructive, hard-to-reverse actions keeps an agent from causing real damage — an after-the-fact summary is too late."
   },
   {
-    "prompt": "You want an AI assistant that can look up live order status, check inventory, and issue refunds. What capability does this require?",
+    "prompt": "Your coding assistant keeps inventing internal API methods that don't exist in your codebase. What design change fixes the root cause?",
     "choices": [
-      "A bigger context window and nothing else",
-      "Tool use / function calling so the model can invoke your real APIs in a controlled way",
-      "Fine-tuning the model on last year's orders",
-      "A faster GPU at the provider"
+      "Ground it in your actual repository via retrieval (RAG) so it answers from real code",
+      "Add a system instruction telling it to never invent methods",
+      "Raise the temperature so it explores more method options",
+      "Switch to a model with a more recent training cutoff"
     ],
-    "correct": 1,
-    "explanation": "Spot on. Acting on live systems requires tool use / function calling so the model can invoke your APIs through a controlled interface, rather than guessing from stale training data. Great architectural read!"
+    "correct": 0,
+    "explanation": "Right at the root. The model never saw your private code, so the durable fix is retrieval that puts real repository code in front of it — a 'don't invent' rule or a newer model can't supply knowledge it never had."
   },
   {
-    "prompt": "You give an autonomous agent the ability to run shell commands and delete files. What guardrail is most important before going live?",
+    "prompt": "Before shipping an AI feature that summarizes legal documents, how should you judge whether it's good enough?",
     "choices": [
-      "Let it run fully unattended to maximize speed",
-      "Scope its permissions tightly and require confirmation for irreversible or destructive actions",
-      "Give it admin rights so it never hits a permission error",
-      "Disable all logging to keep the runs clean"
+      "Rely on the model provider's published benchmark scores",
+      "Have one senior engineer read a couple of outputs and approve",
+      "Build a task-specific eval set of representative inputs with known-good outputs and measure against it",
+      "Ship to a small group and act only if complaints come in"
     ],
-    "correct": 1,
-    "explanation": "Exactly right. Least-privilege scoping plus human confirmation on destructive, hard-to-reverse actions is what keeps an autonomous agent from causing real damage. Excellent safety-first design!"
+    "correct": 2,
+    "explanation": "Rigorous. A task-specific eval set with representative inputs and expected outputs is the reliable pre-release signal — vendor benchmarks and a quick eyeball don't tell you how it does on your data."
   },
   {
-    "prompt": "Your coding assistant keeps inventing internal API methods that don't exist in your codebase. What design change best fixes this?",
-    "choices": [
-      "Tell users to just ignore the made-up methods",
-      "Ground the assistant in your actual repository via retrieval (RAG) so it answers from real code",
-      "Increase the temperature so it's more creative",
-      "Switch to a model with no knowledge cutoff"
-    ],
-    "correct": 1,
-    "explanation": "Exactly right. Grounding the assistant in your own repo with retrieval is what stops it from inventing APIs — it answers from code that actually exists. Sharp thinking!"
-  },
-  {
-    "prompt": "Before shipping an AI feature that summarizes legal documents, how should you evaluate its quality?",
-    "choices": [
-      "Ship it and wait for users to complain",
-      "Build an evaluation set of representative inputs with known good outputs and measure against it (evals)",
-      "Read one example output and call it done",
-      "Trust the model vendor's marketing benchmarks for your specific task"
-    ],
-    "correct": 1,
-    "explanation": "Great call. A task-specific eval set with representative inputs and expected outputs is the only reliable way to know your feature works on your data, not on a generic benchmark. Rigorous thinking!"
-  },
-  {
-    "prompt": "An interactive AI feature feels sluggish, hurting user experience. Which approach best improves perceived latency without changing the answer?",
+    "prompt": "An interactive AI feature feels sluggish, hurting UX. Which change best improves perceived latency without changing the answer?",
     "choices": [
       "Stream the response token-by-token so users see output immediately, and cache common results",
-      "Make every prompt longer to give the model more to work with",
-      "Always call the largest model so it 'thinks harder'",
-      "Remove the loading indicator so users don't notice the wait"
+      "Route every request to your largest model so it finishes thinking sooner",
+      "Batch several users' requests together before each call",
+      "Raise the max output tokens so the model never stops early"
     ],
     "correct": 0,
-    "explanation": "Nice. Streaming output as it's generated plus caching repeat results dramatically improves perceived speed without degrading the answer itself. Great UX-and-performance instinct!"
+    "explanation": "Good UX instinct. Streaming output as it's generated, plus caching repeats, makes the feature feel fast without touching answer quality; batching helps throughput but delays an interactive reply."
   },
   {
-    "prompt": "Leadership asks whether to build a custom in-house model or buy access to a hosted AI API for a new feature. What should drive the decision?",
+    "prompt": "Leadership asks whether to build a custom in-house model or use a hosted AI API for a new feature. What should drive the decision?",
     "choices": [
-      "Always build in-house because it sounds more impressive",
-      "Weigh your differentiation, data, talent, and total cost — buy/use an API unless the capability is truly core and you can sustain it",
-      "Always buy because building is never worth it",
-      "Flip a coin to avoid analysis paralysis"
+      "Always build in-house to avoid depending on any external vendor",
+      "Always buy, since training a model in-house is never worthwhile",
+      "Match whatever the largest competitor in your industry chose",
+      "Whether the capability is core to your differentiation and whether you have the data, talent, and budget to sustain it — otherwise buy"
+    ],
+    "correct": 3,
+    "explanation": "Sound strategy. Build-vs-buy turns on whether the capability is truly core and sustainable for you — most teams should buy/use an API unless it's strategic differentiation they can resource long-term."
+  },
+  {
+    "prompt": "You're scaling an AI feature from pilot to all users and must justify continued investment. What should you put in place to track ROI?",
+    "choices": [
+      "Track total monthly spend and keep it under a fixed cap",
+      "Assume ROI is positive because the pilot demo impressed everyone",
+      "Tie cost per request to a concrete value metric (tickets deflected, hours saved) and watch it as usage grows",
+      "Report the model's benchmark accuracy as the ROI figure"
+    ],
+    "correct": 2,
+    "explanation": "Good discipline. Pairing cost per request with a concrete value metric and tracking it as you scale is how you prove ROI and catch unit economics that quietly break at volume."
+  },
+  {
+    "prompt": "A long AI coding session is nearing the model's context limit but the task isn't done. How do you continue without losing what matters?",
+    "choices": [
+      "Keep going and let the oldest messages fall out of the window automatically",
+      "Summarize the key decisions and current state into a compact handoff, then continue from that",
+      "Paste the entire raw transcript into a fresh session and continue",
+      "Lower the temperature so the model retains more of the earlier history"
     ],
     "correct": 1,
-    "explanation": "Exactly. Build-vs-buy hinges on whether the capability is core to your differentiation and whether you have the data, talent, and budget to sustain it — most teams should buy unless it's truly strategic. Sound strategic judgment!"
+    "explanation": "Good context hygiene. A compact summary/handoff of the decisions and current state preserves what matters in far fewer tokens; re-pasting the raw transcript just hits the same limit again."
   },
   {
-    "prompt": "You are scaling an AI feature from a pilot to all users and need to justify continued investment. What should you put in place to track ROI?",
+    "prompt": "An AI PR-review bot handles ~800 PRs/month. Each call averages ~6,000 input tokens and ~1,000 output tokens, and output is priced higher than input. What most directly determines the monthly bill?",
     "choices": [
-      "Measure cost per request against a concrete value metric (tickets deflected, hours saved) and monitor it as you scale",
-      "Assume ROI is positive because the demo impressed everyone",
-      "Track only the total spend with no value side of the equation",
-      "Wait until the annual review to look at any numbers"
+      "Mainly the input tokens you send, since the bot's own comments aren't charged",
+      "Mainly the PR count; the size of each diff doesn't materially affect cost",
+      "Total tokens (input + output) across all calls, with output costed at its higher rate",
+      "The model's parameter count, which sets the price"
+    ],
+    "correct": 2,
+    "explanation": "That's the calculation. Cost is total tokens across all calls — input and output priced separately, output weighted higher — which lets you forecast and control the bill. Output is not free."
+  },
+  {
+    "prompt": "A downstream program must reliably parse your model's output. What's the most robust way to design this?",
+    "choices": [
+      "Let the model reply in natural language and parse it with regular expressions",
+      "Ask for output in a strict, specified JSON schema and validate it before use, repairing or rejecting on failure",
+      "Add 'please stay consistent' to the prompt and trust the format to hold",
+      "Set temperature to zero so the wording never varies"
+    ],
+    "correct": 1,
+    "explanation": "Robust by design. A defined JSON schema plus validation gives downstream code a contract to rely on; regexing free text or hoping for consistency breaks the first time the phrasing shifts."
+  },
+  {
+    "prompt": "You want an assistant to reach several internal systems (a wiki, a ticket tracker, a database) through one consistent, reusable interface instead of bespoke one-off integrations. What fits best?",
+    "choices": [
+      "Paste each system's full contents into the context window on every call",
+      "Fine-tune the model nightly on each system's data",
+      "Write a separate hard-coded integration inside the prompt for each system",
+      "Expose each system through a standard tool/context protocol (e.g. MCP) so the assistant connects uniformly and reusably"
+    ],
+    "correct": 3,
+    "explanation": "Clean and scalable. A standard protocol like MCP exposes tools and data sources through one consistent interface the assistant reuses — far better than brittle one-off integrations or stuffing everything into the prompt."
+  },
+  {
+    "prompt": "You tweak a production prompt to fix one bad case. How do you avoid silently breaking other cases you can't directly see?",
+    "choices": [
+      "Version the prompt and run it against a saved set of test cases (an eval/regression set) before rolling it out",
+      "Deploy it right away, since the case you just tested now works",
+      "Keep the prompt inline in the code and keep adjusting it in production as issues surface",
+      "Rely on remembering which earlier phrasings worked"
     ],
     "correct": 0,
-    "explanation": "Exactly right. Tying cost per request to a concrete value metric and watching it as usage grows is how you prove ROI and catch unit economics that break at scale. Great business discipline!"
-  },
-  {
-    "prompt": "An AI coding session has run long and is near the model's context limit, but the task isn't finished. What's the best way to continue without losing what matters?",
-    "choices": [
-      "Keep going and let the oldest messages silently fall out of the window",
-      "Summarize the key decisions and current state into a compact handoff, then continue from that summary",
-      "Start a brand-new session and re-paste the entire raw transcript",
-      "Lower the temperature so the model remembers more"
-    ],
-    "correct": 1,
-    "explanation": "Exactly — a concise summary/handoff of the decisions and current state preserves what matters in far fewer tokens, so work continues cleanly. Smart context hygiene!"
-  },
-  {
-    "prompt": "An AI PR-review bot processes about 800 pull requests a month. Each call averages ~6,000 input tokens and ~1,000 output tokens, and output tokens are priced higher than input. What most directly drives the monthly bill?",
-    "choices": [
-      "The number of files in the repository",
-      "The total tokens processed (input + output) across all calls, with output weighted by its higher price",
-      "How many developers are on the team",
-      "The model's parameter count"
-    ],
-    "correct": 1,
-    "explanation": "Right on — cost is driven by total tokens (input + output) across all calls, and since output is priced higher you weight it accordingly. That's the calculation that lets you forecast and control the bill!"
-  },
-  {
-    "prompt": "You're designing an AI agent that can run shell commands and edit files to fix failing tests. Which design choice best balances autonomy with safety?",
-    "choices": [
-      "Give it unrestricted shell access so it can fix anything quickly",
-      "Run it in a sandbox with a command allow-list and a human approval gate before changes are merged",
-      "Remove all guardrails but review the logs once a week",
-      "Let it loop indefinitely until all tests pass, with no step limit"
-    ],
-    "correct": 1,
-    "explanation": "Exactly — least-privilege sandboxing, an allow-list, and a human gate before merge let the agent be useful without letting a wrong action cause real damage. That's how you ship agents responsibly!"
-  },
-  {
-    "prompt": "Your team wants an AI assistant to reach several internal systems (a wiki, a ticket tracker, a database) through one consistent, reusable interface instead of bespoke one-off integrations. Which approach fits best?",
-    "choices": [
-      "Hard-code each integration separately inside the prompt",
-      "Expose each system through a standard tool/context protocol (e.g. MCP) so the assistant connects to them in a uniform, reusable way",
-      "Paste the full contents of every system into the context window on each call",
-      "Fine-tune the model on each system's data every night"
-    ],
-    "correct": 1,
-    "explanation": "Spot on — a standard protocol like MCP lets you expose tools and data sources through one consistent interface the assistant can reuse, instead of brittle one-off integrations. Clean, scalable design!"
-  },
-  {
-    "prompt": "Your AI assistant must answer questions using your company's internal documentation, which changes every week. What's the most appropriate way to keep its answers accurate and current?",
-    "choices": [
-      "Retrieve the relevant up-to-date documents at query time (RAG) and ground the answer in them",
-      "Fine-tune the model on the docs once and rely on that",
-      "Paste the entire documentation into every prompt",
-      "Raise the temperature so the model is more creative"
-    ],
-    "correct": 0,
-    "explanation": "Exactly — retrieval (RAG) pulls the current documents at query time and grounds the answer, so weekly changes show up immediately without retraining. The right fit for fast-changing knowledge. Great call!"
+    "explanation": "Treat prompts like code. Version them and run a saved regression/eval set before rollout, so a fix for one case can't quietly break ten others you didn't re-check."
   }
 ]
