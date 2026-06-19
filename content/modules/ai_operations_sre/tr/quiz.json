@@ -1,0 +1,62 @@
+[
+  {
+    "prompt": "Üretimdeki bir AI özelliği ara sıra yanlış yanıtlar döndürmeye başlıyor. Tek bir yanıt kötü göründüğü anda on-call mühendise page göndermek neden genellikle bir hatadır?",
+    "choices": [
+      "Çünkü model output'ları deterministik değildir, bu yüzden tek bir kötü örnek gürültüdür; bunun yerine birçok istek genelinde bir orana ya da trende alarm vermelisin",
+      "Çünkü bir LLM'den gelen yanlış yanıtlar asla araştırmaya değer gerçek bir sorun değildir",
+      "Çünkü on-call mühendisler model output'larını okuyamaz",
+      "Çünkü tek bir kötü yanıt her zaman tüm sağlayıcının çökmüş olduğu anlamına gelir"
+    ],
+    "correct": [0],
+    "points": 1,
+    "explanation": "LLM output'ları çalıştırmadan çalıştırmaya değişir, bu yüzden tek bir kötü yanıt beklenen gürültüdür, bir sinyal değil. Bir oranı izlersin — örneğin birçok istek genelinde dayanaklılık ya da thumbs-down — ve o trend kırıldığında alarm verirsin; bu da gerçek bir regresyonu normal varyanstan ayırır."
+  },
+  {
+    "prompt": "AI asistanın prompt'unu ve model seçimini bir feature flag'in arkasında yayına alıyor. Bir olayın ortasında bir prompt değişikliğinin yanıtları kötüleştirdiğini keşfediyorsun. Flag sana ne yapma imkânı verir?",
+    "choices": [
+      "Kötü prompt'u sürüm kontrolünden kalıcı olarak silmek",
+      "Bir config değerini çevirerek önceki prompt'a/modele rollback yapmak, acil bir yeniden dağıtım olmadan",
+      "Prompt'u otomatik olarak doğru olacak şekilde yeniden yazmak",
+      "Olayın maliyetini model sağlayıcısına faturalandırmak"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Prompt'u ve modeli bir flag'in arkasında yayına almak, rollback'i acil bir kod dağıtımı yerine saniyeler süren bir config değişikliğine dönüştürür — yanıtlar canlıda regresyona uğrarken tam da istediğin şey budur."
+  },
+  {
+    "prompt": "Aşağıdakilerden hangileri bir LLM özelliği için on-call panosuna koymaya değer 'altın sinyaller'dir? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "p95 time-to-first-token ve toplam latency",
+      "Sağlayıcı 429'ları dahil hata / timeout oranı",
+      "İstek başına maliyet, zaman içinde trendli",
+      "Model sağlayıcısının veri merkezindeki tam GPU sıcaklığı"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Latency, hata/timeout oranı ve istek başına maliyet, görebileceğin ve üzerine eyleme geçebileceğin sinyallerdir. Sağlayıcının dahili GPU sıcaklığı ne sana görünürdür ne de eyleme geçilebilir — senin operasyonel sinyalin değildir."
+  },
+  {
+    "prompt": "Birincil model sağlayıcısı timeout'lar ve 429'lar döndürmeye başlıyor ve hata oranın fırlıyor. Özelliğinin, bir provider abstraction arkasında bağlı bir ikincil sağlayıcısı var. Uygun operasyonel müdahale nedir?",
+    "choices": [
+      "Tüm AI özelliklerini kaldırmak için uygulamayı hemen yeniden yaz",
+      "Sağlayıcının toparlanmasını bekle ve hiçbir şey yapma",
+      "Flag aracılığıyla ikincil sağlayıcıya failover yap ve kısa örtüşme için zarif bir fallback sun",
+      "İstekler sonunda başarılı olsun diye retry sayısını sonsuza çıkar"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "İkincil sağlayıcıya önceden bağlanmış bir failover (yeniden dağıtım değil, bir config değişikliği) özelliği ayakta tutar ve zarif bir fallback örtüşmeyi kapatır. Sonsuz retry'lar yalnızca maliyet ve latency yığar, hiçbir şey yapmamak ise müşterileri hatalarla baş başa bırakır."
+  },
+  {
+    "prompt": "DENGE (TRADE-OFF): Bir AI özelliğinin günlük harcaması katı tavanını (hard cap) aştığında, ya istekleri sert bir şekilde başarısız kılabilirsin (bir hata döndür) ya da zarifçe azaltabilirsin (daha ucuz bir model veya önbellekteki bir yanıt sun). Bu iki seçenek arasındaki denge nedir?",
+    "choices": [
+      "Bir denge yoktur; en çok parayı kurtardığı için sert başarısızlık her zaman doğrudur",
+      "Sert başarısızlık maliyeti kesin olarak sınırlar ve en basitidir ama kullanıcı deneyimini bozar; zarif azaltma, biraz ek maliyet ve karmaşıklık karşılığında kullanılabilir (daha düşük kaliteli) bir yanıtı korur",
+      "Zarif azaltma her zaman ücretsizdir ve her zaman daha yüksek kalitelidir, bu yüzden hiçbir dezavantajı yoktur",
+      "Her iki seçenek de aynı kullanıcı deneyimini üretir, bu yüzden seçim yalnızca loglamayı etkiler"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Bu gerçek bir dengedir: sert başarısızlık en sıkı maliyet tavanını verir ve geliştirmesi son derece kolaydır ama kullanıcılara bir hata gösterir; zarif azaltma, biraz ek harcama ve eklenen karmaşıklık pahasına özelliği daha ucuz ya da önbellekteki bir yanıtla kullanılabilir tutar. Doğru seçim, özelliğin kullanıcı için ne kadar kritik olduğuna bağlıdır."
+  }
+]

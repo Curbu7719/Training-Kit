@@ -265,6 +265,9 @@ const en = {
   'module.ai_architecture.title': 'AI System Architecture',
   'module.ai_architecture.desc': 'Reading and drawing a full AI system architecture; identifying security and privacy risks.',
 
+  'module.ai_operations_sre.title': 'AI in Production — SRE & Ops',
+  'module.ai_operations_sre.desc': 'Operating a shipped AI feature: observability and SLOs, reliability and failover, cost governance, and incident response.',
+
   // Section headings
   'section.sdlc.title': 'AI in the SDLC',
   'section.strategy.title': 'AI Strategy Literacy',

@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "Your team runs a blameless postmortem after an AI feature shipped a batch of ungrounded answers in production. What is the AI-specific follow-up that makes the regression suite stronger?",
+    "choices": [
+      "Delete the trace data so the embarrassing outputs are not retained",
+      "Distill the production failure into a new offline eval case so the suite can catch that regression next time",
+      "Switch off online quality monitoring to reduce alert noise",
+      "Replace the model with a larger one for every request regardless of cost"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Unit tests can't catch non-deterministic regressions, so the operational loop is to turn every production failure into a new eval case. That's how the offline regression suite grows teeth and the same bug can't silently return."
+  },
+  {
+    "prompt": "Why add anomaly detection on AI spend when you already have a hard spend cap? (Select all that apply.)",
+    "choices": [
+      "Anomaly detection can catch a slow upward creep or an early spike well before the hard cap is reached",
+      "It alerts on deviation from the normal trend, not just a single fixed threshold",
+      "It eliminates the need to attribute cost to any feature or team",
+      "The hard cap and the anomaly alert cover different failure speeds — early warning versus catastrophe stop"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1,
+    "explanation": "The hard cap is a last-resort ceiling; anomaly detection gives early warning by flagging deviations from the trend, catching slow creeps and early spikes the fixed cap would miss. It does not remove the need for per-feature attribution, which is how you find the culprit."
+  },
+  {
+    "prompt": "At peak traffic your AI feature starts hitting the provider's requests-per-minute limit and receiving 429 responses. Which are sound operational responses? (Select all that apply.)",
+    "choices": [
+      "Retry 429s with exponential backoff and a bounded queue rather than hammering immediately",
+      "Shed or defer low-priority calls so critical requests still get through",
+      "Consider multi-provider or multi-region capacity if your availability SLO exceeds one provider's guarantee",
+      "Set retries to unlimited with no delay so every request eventually succeeds"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Backoff with a bounded queue, load-shedding of low-priority work, and multi-provider/region capacity all keep the feature within provider limits while protecting critical traffic. Unlimited no-delay retries amplify the overload and run up cost and latency."
+  },
+  {
+    "prompt": "You pin the exact model version your production assistant uses, rather than always calling the provider's 'latest'. From an operations standpoint, why?",
+    "choices": [
+      "Pinning makes the model run faster than 'latest'",
+      "Pinning prevents the model's behavior from changing silently underneath you, and lets you record which version produced which output for reproducibility",
+      "Pinning removes the need to ever migrate to a new version",
+      "Pinning is required to enable streaming responses"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Calling 'latest' means the provider can change behavior under you with no warning. Pinning a version keeps behavior stable and reproducible (you can log which version produced an output), though you still must migrate deliberately when that version is deprecated."
+  }
+]

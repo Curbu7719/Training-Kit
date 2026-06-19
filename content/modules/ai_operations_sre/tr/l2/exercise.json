@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Model sağlayıcın, üretimdeki AI asistanına güç veren **sabitlenmiş (pinned) model sürümünün** **30 gün içinde emekliye ayrılacağını** e-posta ile bildiriyor. Daha yeni sürüme migrate etmen gerekiyor, ama aynı prompt onda farklı davranabilir ve sessiz bir kalite düşüşü müşterilere zarar verir. Latency bütçesi ve maliyet önemli ve elinde bir çevrimdışı eval setiyle birlikte trafiği flag'leme imkânı var. **En iyi migration yaklaşımını ve doğru gerekçeyi seç.**",
+  "spec": {
+    "decision_choices": [
+      "Son tarih gününde tüm üretim trafiğini yeni model sürümüne geçir ve şikâyetleri izle",
+      "Yeni sürümü çevrimdışı eval setine ve üretim trafiğinin bir kopyasına karşı shadow yap, kaliteyi/maliyeti/latency'yi karşılaştır, ardından tam yayına almadan önce bir flag'in arkasında küçük bir kohort'a canary yap",
+      "Migrate etmeyi reddet ve çalışmayı durdurana kadar deprecate edilmiş sürümü çağırmaya devam et",
+      "Migration'dan tamamen kaçınmak için AI asistanını üründen kaldır"
+    ],
+    "reason_choices": [
+      "Çünkü shadow ve flag'li bir canary, kullanıcılar maruz kalmadan önce gerçek girdilerde bir kalite, maliyet ya da latency regresyonunu yakalamana izin verir ve yeni sürüm hatalı davranırsa tek-değişiklikli bir rollback'i hazır tutar",
+      "Çünkü her şeyi bir kerede değiştirmek, yeni sürümün çalışıp çalışmadığını bilmenin tek yoludur",
+      "Çünkü deprecate edilmiş bir model sürümü, bildirimi görmezden gelirsen süresiz çalışmaya devam eder",
+      "Çünkü çalışan bir özelliği kaldırmak, rutin bir sürüm yükseltmesine makul bir yanıttır"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

@@ -1,0 +1,17 @@
+{
+  "type": "mcq",
+  "prompt_md": "Yeni yayına alınmış bir **AI destek asistanını** nöbete (on-call) alıyor ve panosunu ve alarmlarını kuruyorsun. Sana özelliğin üretimde sağlıklı olup olmadığını gerçekten söyleyen sinyaller istiyorsun ve deterministik gürültüye page göndermeden gerçek sorunlara alarm vermek istiyorsun. **Bu AI özelliği için sağlam bir üretim-işletme pratiği olan her seçeneği seç.**",
+  "spec": {
+    "choices": [
+      "Her çağrı için input, getirilen context, output, token sayıları, latency ve guardrail sonuçlarını içeren bir trace yakala",
+      "Yalnızca ortalama latency'ye değil, p95 time-to-first-token'a ve hata/timeout oranına alarm ver",
+      "Günlük maliyet fırlarsa önbellekteki ya da fallback bir yanıta çeviren bir bütçe alarmı ve bir katı harcama tavanı (hard cap) ayarla",
+      "Kötü bir değişiklik flag çevrilerek geri alınabilsin diye prompt'u ve model seçimini bir feature flag'in arkasına koy",
+      "Tek bir yanıt dayanaksız ya da düşük kalitede geldiğinde her seferinde on-call mühendise page gönder",
+      "Token tasarrufu için üretimde tracing'i atla ve CI'da geçen birim testlerine güven"
+    ],
+    "multi": true
+  },
+  "answer_key": { "correct": [0, 1, 2, 3] },
+  "max_score": 10
+}

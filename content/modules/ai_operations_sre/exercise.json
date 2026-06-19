@@ -1,0 +1,17 @@
+{
+  "type": "mcq",
+  "prompt_md": "You are putting a freshly shipped **AI support assistant** on-call and building its dashboard and alerts. You want signals that actually tell you whether the feature is healthy in production, and you want to alert on real problems without paging on non-deterministic noise. **Select every option that is a sound production-operations practice for this AI feature.**",
+  "spec": {
+    "choices": [
+      "Capture a trace per call with input, retrieved context, output, token counts, latency, and guardrail results",
+      "Alert on p95 time-to-first-token and on the error/timeout rate, not just the average latency",
+      "Set a budget alarm and a hard spend cap that flips to a cached or fallback answer if daily cost spikes",
+      "Put the prompt and model choice behind a feature flag so a bad change can be rolled back by flipping the flag",
+      "Page the on-call engineer every time a single answer comes back ungrounded or low-quality",
+      "Skip tracing in production to save tokens, and rely on the unit tests that passed in CI"
+    ],
+    "multi": true
+  },
+  "answer_key": { "correct": [0, 1, 2, 3] },
+  "max_score": 10
+}

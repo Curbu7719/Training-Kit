@@ -1,0 +1,62 @@
+[
+  {
+    "prompt": "An AI feature in production starts returning occasional wrong answers. Why is it usually a mistake to page the on-call engineer the moment a single answer looks bad?",
+    "choices": [
+      "Because model outputs are non-deterministic, so one bad sample is noise; you should alert on a rate or trend across many requests instead",
+      "Because wrong answers from an LLM are never a real problem worth investigating",
+      "Because on-call engineers cannot read model outputs",
+      "Because a single bad answer always means the whole provider is down"
+    ],
+    "correct": [0],
+    "points": 1,
+    "explanation": "LLM outputs vary run to run, so one bad answer is expected noise, not a signal. You watch a rate — e.g. groundedness or thumbs-down across many requests — and alert when that trend breaks, which separates a real regression from normal variance."
+  },
+  {
+    "prompt": "Your AI assistant ships its prompt and model choice behind a feature flag. Mid-incident you discover a prompt change has degraded answers. What does the flag let you do?",
+    "choices": [
+      "Permanently delete the bad prompt from version control",
+      "Roll back to the previous prompt/model by flipping a config value, with no emergency redeploy",
+      "Automatically rewrite the prompt to be correct",
+      "Charge the cost of the incident to the model provider"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Shipping prompt and model behind a flag turns rollback into a config flip that takes seconds, instead of an emergency code deploy — exactly what you want when answers are regressing live."
+  },
+  {
+    "prompt": "Which of the following are 'golden signals' worth putting on the on-call dashboard for an LLM feature? (Select all that apply.)",
+    "choices": [
+      "p95 time-to-first-token and total latency",
+      "Error / timeout rate, including provider 429s",
+      "Cost per request, trended over time",
+      "The exact GPU temperature inside the model provider's data center"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Latency, error/timeout rate, and cost-per-request are signals you can see and act on. The provider's internal GPU temperature is neither visible to you nor actionable — it is not your operational signal."
+  },
+  {
+    "prompt": "The primary model provider starts returning timeouts and 429s, and your error rate spikes. Your feature has a secondary provider wired behind a provider abstraction. What is the appropriate operational response?",
+    "choices": [
+      "Immediately rewrite the application to remove all AI features",
+      "Wait for the provider to recover and take no action",
+      "Fail over to the secondary provider via the flag and serve a graceful fallback for the brief overlap",
+      "Increase the retry count to infinite so requests eventually succeed"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "A pre-wired failover to the secondary provider (a config flip, not a redeploy) keeps the feature up, and a graceful fallback covers the overlap. Infinite retries just pile on cost and latency, and doing nothing leaves customers with errors."
+  },
+  {
+    "prompt": "TRADE-OFF: When the daily spend on an AI feature crosses your hard cap, you can either hard-fail requests (return an error) or degrade gracefully (serve a cheaper-model or cached answer). What is the trade-off between these two choices?",
+    "choices": [
+      "There is no trade-off; hard-failing is always correct because it saves the most money",
+      "Hard-failing strictly bounds cost and is simplest, but breaks the user experience; graceful degradation preserves a usable (lower-quality) answer at some extra cost and complexity",
+      "Graceful degradation is always free and always higher quality, so it has no downside",
+      "Both options produce identical user experience, so the choice only affects logging"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "It is a real trade-off: hard-failing gives the tightest cost ceiling and is trivial to build but shows users an error; graceful degradation keeps the feature usable with a cheaper or cached answer, at the price of some extra spend and added complexity. The right pick depends on how critical the feature is to the user."
+  }
+]

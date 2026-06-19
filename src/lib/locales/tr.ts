@@ -265,6 +265,9 @@ const tr = {
   'module.ai_architecture.title': 'AI Sistem Mimarisi',
   'module.ai_architecture.desc': 'Tam bir AI sistem mimarisini okumak ve çizmek; güvenlik ve gizlilik risklerini belirlemek.',
 
+  'module.ai_operations_sre.title': 'Production\'da AI — SRE & Ops',
+  'module.ai_operations_sre.desc': 'Canlıya alınmış bir AI özelliğini işletmek: gözlemlenebilirlik ve SLO\'lar, güvenilirlik ve failover, maliyet yönetimi ve olay müdahalesi.',
+
   // Bölüm başlıkları
   'section.sdlc.title': 'SDLC\'de AI',
   'section.strategy.title': 'AI Strateji Okuryazarlığı',

@@ -31,6 +31,7 @@ const SDLC_CODES = [
   'evaluation',
   'cost_latency',
   'ai_architecture',
+  'ai_operations_sre',
 ] as const;
 
 const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scaling'] as const;
