@@ -1,64 +1,77 @@
-# Operating AI in Production (SRE & Ops)
+# Operating an Agent-Driven SDLC & Ops
 
-Building an AI feature gets it to "works in the demo." **Operating** it is everything that
-keeps it working at 2 a.m. when you're not watching — and an LLM feature fails in ways a
-normal service doesn't. The model is a **remote dependency you don't control** that can get
-slower, more expensive, or quietly *worse* without a single line of your code changing.
-This module is the on-call view: how you watch an AI feature, keep it reliable, keep its bill
-sane, and respond when it breaks.
+In an AI-driven SDLC the agents don't just *write* code — they increasingly **run** it. AI agents
+now take a growing share of operations and delivery-pipeline work: a coding agent opens PRs, a CI
+agent triages failing builds, an **on-call agent** receives an alert, investigates, and proposes —
+or applies — a fix. The crucial shift from a normal AI feature is that an agent is **not a tool you
+call and read the output of; it is an actor that takes actions in your systems**. This module is
+the on-call view of *that* world: how you direct, bound, observe, and stay accountable for agents
+that act on your software.
 
-**A running example.** Your team has shipped an **AI support assistant** — a
-retrieval-backed feature that answers customer questions inside your product, live, 24/7. It
-passed every test and demoed beautifully. Now it's *in production* and it's yours to operate.
-The same disciplines apply to any shipped AI feature (an in-product summarizer, an agent, a
-CI reviewer): once real traffic hits it, you operate it like a service.
+**A running example.** Your platform team has wired agents into the SDLC and ops: a CI agent that
+triages red builds, an infra agent that proposes scaling changes, and an **on-call agent** that
+picks up alerts, investigates with read tools, and remediates. Building those agents is done; now
+you operate a system where software increasingly acts on itself — and it fails in ways a script
+doesn't.
 
-## Four pillars of operating an AI feature
+## From tool to actor — the autonomy shift
 
-**1. Observability — you can't fix what you can't see.** A normal request logs a status code
-and a duration. An AI request needs more, because "200 OK" can still be a wrong, ungrounded,
-or unsafe answer. For every call, capture a **trace**: the input, the retrieved context, the
-final output, **token counts** (input + output), **latency**, and **guardrail results**. From
-those you watch the **golden signals of an LLM feature**:
+A called tool returns text and a human decides what to do with it. An **agent takes the action**:
+it restarts a service, pushes a config, scales a cluster, acks an alert, runs a command. So the
+blast radius is no longer "a wrong *answer*" — it's a wrong *action*, taken confidently, fast, at
+3 a.m. Operating reliably stops being about output quality and starts being about **bounding what
+the agent is allowed to do.**
 
-- **Latency** — especially **time-to-first-token (TTFT)** and **p95** total time, not just the average.
-- **Error / timeout rate** — provider 5xx, rate-limit (429), and your own timeouts.
-- **Cost per request** — tokens × price, trended over time.
-- **Refusal rate** — how often the model declines; a sudden jump signals a prompt or policy problem.
-- **Quality signals** — groundedness, user thumbs-down, edits — quality is a production metric, not just a pre-launch one.
+## Bound the blast radius — the core control
 
-**2. Reliability — design for the dependency failing.** Providers time out, rate-limit, and
-occasionally return garbage. Operating reliably means a **degraded mode** is already wired in:
-a **fallback** to a secondary provider or a cached answer, **timeouts** on every call, and
-**retries with backoff** (capped, because retries cost money and add latency). The goal is
-that a provider hiccup becomes a slightly worse answer, not an outage.
+Because an agent can act, the central discipline is limiting the damage a wrong action can cause:
 
-**3. Cost governance (FinOps) — the bill is a production signal.** LLM spend scales with
-traffic and can spike from one bad change. Operating means **budget alarms**, a **hard spend
-cap** or **kill-switch** for runaway cost, and **attribution** so you know *which* feature or
-team is spending. A cost graph that only your finance team sees a month later is not
-observability.
+- **Least privilege** — the agent gets the narrowest credentials for its job; **read-only by
+  default**, write access granted per action class, never a standing admin key.
+- **Environment scoping** — free to act in staging, but production actions are gated.
+- **Plan-then-apply / dry-run** — the agent proposes the concrete change and its expected effect
+  before anything executes.
+- **Approval gates** — anything destructive, irreversible, or production-facing requires a human
+  to click go. Low-risk, reversible actions can run autonomously.
 
-**4. Incident response — have a plan before you need it.** An "AI incident" looks different:
-a provider outage, a **quality regression** (answers got worse after a model or prompt change),
-a **cost runaway**, or a guardrail bypass in the wild. For each you want a **runbook** and,
-above all, a **fast rollback** — and because you ship prompts and model choices **behind feature
-flags**, rollback is a *config flip*, not an emergency redeploy.
+## Observe the agent, not just the app
 
-## Two things that make AI ops different
+App metrics tell you the service is up; they don't tell you the agent restarted the *wrong* one.
+You need an **action audit trail**: for every step, what the agent **did** (which tools it called),
+what it **observed**, and **why** it decided — a reasoning-plus-action trace, correlatable to the
+incident it touched. "200 OK" is not evidence the agent did the right thing.
 
-- **Non-determinism.** The same input can produce different output, so a single bad answer
-  isn't necessarily an incident — you alert on **rates and trends**, not one sample.
-- **Silent regressions.** A provider can change a model, or a prompt edit can pass CI and still
-  degrade real answers. Unit tests won't catch it; **online quality monitoring** does.
+## Human-in-the-loop and accountability
+
+Set the autonomy level **per action class**, by blast radius:
+
+- **Suggest-only** — agent proposes, a human applies (good for high-impact or new behaviour).
+- **Approve-then-act** — agent prepares the action, a human clicks go.
+- **Autonomous** — agent acts and notifies (only for low-risk, reversible classes).
+
+Wire a **kill-switch** that pauses *all* agent autonomy instantly, clear escalation paths, and the
+rule that a **human stays accountable** for every action. "The agent did it" is not an answer in a
+postmortem.
+
+## Agent-specific failure modes
+
+- **Looping** — the agent retries a failing action forever, burning cost or repeating damage.
+- **Confident-but-wrong remediation** — it acts decisively on a wrong diagnosis and makes the
+  incident *worse* (restarts a healthy service, masks the real fault).
+- **Cascading actions** — one automated fix trips another agent or alert, a chain no human chose.
+- **Prompt injection as an attack surface** — a crafted log line, ticket, or error message steers
+  the agent into running something dangerous. Now that the agent can *act*, injection is an ops
+  risk, not just a content risk.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Instruments tracing and the golden signals, wires timeouts, retries,
-  fallback, and a kill-switch, and puts prompt/model changes behind flags for instant rollback.
-- **Business Analyst:** Defines which quality and cost signals reflect business impact, and the
-  budget thresholds that should alarm.
-- **PM/Product Owner:** Owns the SLOs and the spend cap, and decides the acceptable degraded
-  experience when the provider fails.
-- **QA & Architect:** Designs the observability and alerting, the failover paths, and the
-  incident runbooks, and validates them under failure before they're needed in production.
+- **DevOps / SRE & Infrastructure Engineer:** Sets least-privilege, environment scoping, dry-run
+  and approval gates, builds the action audit trail and the kill-switch, and puts action-rate
+  limits in place to catch loops.
+- **Developer:** Defines the agent's tools and the blast-radius class of each action, and keeps
+  prompt/tool changes behind flags for instant rollback.
+- **Release / Project Manager:** Decides which action classes may run autonomously vs need
+  approval, and owns the escalation path when an agent stops and asks.
+- **QA, Governance & Security Engineer:** Designs the approval policy, the audit/accountability
+  trail, and the input-trust boundary, and validates the kill-switch and failure modes before an
+  agent acts in production.

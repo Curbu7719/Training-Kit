@@ -1,62 +1,62 @@
 [
   {
-    "prompt": "Üretimdeki bir AI özelliği ara sıra yanlış yanıtlar döndürmeye başlıyor. Tek bir yanıt kötü göründüğü anda on-call mühendise page göndermek neden genellikle bir hatadır?",
+    "prompt": "Bir AI, çağırdığın bir araç olmaktan çıkıp senin sistemlerinde aksiyon alan bir agent'a dönüştüğünde (servis restart, config push, komut çalıştırma) temelde ne değişir?",
     "choices": [
-      "Çünkü model output'ları deterministik değildir, bu yüzden tek bir kötü örnek gürültüdür; bunun yerine birçok istek genelinde bir orana ya da trende alarm vermelisin",
-      "Çünkü bir LLM'den gelen yanlış yanıtlar asla araştırmaya değer gerçek bir sorun değildir",
-      "Çünkü on-call mühendisler model output'larını okuyamaz",
-      "Çünkü tek bir kötü yanıt her zaman tüm sağlayıcının çökmüş olduğu anlamına gelir"
-    ],
-    "correct": [0],
-    "points": 1,
-    "explanation": "LLM output'ları çalıştırmadan çalıştırmaya değişir, bu yüzden tek bir kötü yanıt beklenen gürültüdür, bir sinyal değil. Bir oranı izlersin — örneğin birçok istek genelinde dayanaklılık ya da thumbs-down — ve o trend kırıldığında alarm verirsin; bu da gerçek bir regresyonu normal varyanstan ayırır."
-  },
-  {
-    "prompt": "AI asistanın prompt'unu ve model seçimini bir feature flag'in arkasında yayına alıyor. Bir olayın ortasında bir prompt değişikliğinin yanıtları kötüleştirdiğini keşfediyorsun. Flag sana ne yapma imkânı verir?",
-    "choices": [
-      "Kötü prompt'u sürüm kontrolünden kalıcı olarak silmek",
-      "Bir config değerini çevirerek önceki prompt'a/modele rollback yapmak, acil bir yeniden dağıtım olmadan",
-      "Prompt'u otomatik olarak doğru olacak şekilde yeniden yazmak",
-      "Olayın maliyetini model sağlayıcısına faturalandırmak"
+      "Hiçbir şey değişmez; onu tıpkı read-only bir chatbot gibi işletirsin",
+      "Blast radius yanlış bir yanıttan, production'da alınan yanlış bir aksiyona kayar; bu yüzden güvenilirlik, agent'ın yapmasına izin verilen şeyi sınırlamakla ilgili hale gelir",
+      "Agent araçlara sahip olduğu için artık hata yapamaz",
+      "Aksiyonlar bedava olduğu için maliyet önemini yitirir"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Prompt'u ve modeli bir flag'in arkasında yayına almak, rollback'i acil bir kod dağıtımı yerine saniyeler süren bir config değişikliğine dönüştürür — yanıtlar canlıda regresyona uğrarken tam da istediğin şey budur."
+    "explanation": "Çağrılan bir araç, bir insanın üzerine eyleme geçtiği metin döndürür; bir agent ise aksiyonu kendisi alır, dolayısıyla bir hata yalnızca yanlış bir yanıt değil production'da yanlış bir aksiyondur. Bu yüzden onu güvenilir işletmek; kendinden emin ama yanlış bir aksiyonun verebileceği zararı sınırlayan en az yetki, dry-run ve onay kapılarıyla ilgilidir."
   },
   {
-    "prompt": "Aşağıdakilerden hangileri bir LLM özelliği için on-call panosuna koymaya değer 'altın sinyaller'dir? (Geçerli olan hepsini seçin.)",
+    "prompt": "Neden normal uygulama panolarına güvenmek yerine bir action audit trail (agent ne yaptı, ne gözlemledi ve neden) enstrümante etmelisin?",
     "choices": [
-      "p95 time-to-first-token ve toplam latency",
-      "Sağlayıcı 429'ları dahil hata / timeout oranı",
-      "İstek başına maliyet, zaman içinde trendli",
-      "Model sağlayıcısının veri merkezindeki tam GPU sıcaklığı"
+      "Çünkü uygulama panoları her zaman yanlıştır",
+      "Çünkü yeşil bir app panosu sana agent'ın yanlış aksiyonu aldığını söylemez ve bir postmortem ile bir audit, bir insanı hesap verebilir tutmak için agent'ın aksiyonlarına ve muhakemesine ihtiyaç duyar",
+      "Çünkü audit trail agent'ı daha hızlı çalıştırır",
+      "Çünkü her türlü insan onayına olan ihtiyacı ortadan kaldırır"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "'200 OK' sana servisin ayakta olduğunu söyler, doğru olanı yeniden başlattığını değil. Çağırdığı araçların, gözlemlediklerinin, muhakemesinin ve alınan aksiyonun bir izine — olayla ilişkilendirilebilir biçimde — ihtiyacın var; böylece yanlış aksiyonlar görünür olur ve bir insan hesap verebilir kalır."
+  },
+  {
+    "prompt": "Aşağıdakilerden hangileri, AI sistemlerinde aksiyon alabildiğinde karşı işletmen gereken agent'a özgü failure modlarıdır? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Döngü (looping) — başarısız bir aksiyonu sonsuza dek deneyip maliyet yakmak ya da zararı tekrarlamak",
+      "Yanlış bir teşhis üzerine aksiyon alıp olayı daha kötü yapan, kendinden emin ama yanlış remediation",
+      "Agent'ın okuduğu özenle hazırlanmış bir log satırı, ticket ya da hata mesajıyla onu tehlikeli bir aksiyona yönlendiren prompt injection",
+      "İzleme panosunun karanlık modda yapılandırılmış olması"
     ],
     "correct": [0, 1, 2],
     "points": 1,
-    "explanation": "Latency, hata/timeout oranı ve istek başına maliyet, görebileceğin ve üzerine eyleme geçebileceğin sinyallerdir. Sağlayıcının dahili GPU sıcaklığı ne sana görünürdür ne de eyleme geçilebilir — senin operasyonel sinyalin değildir."
+    "explanation": "AI senin sistemlerinde aksiyon alabildiğinde döngüler, kendinden emin ama yanlış aksiyonlar ve agent'ın okuduğu güvenilmez metin üzerinden prompt injection'ın hepsi gerçek failure modlarıdır. Bir panonun renk teması ise hiçbir operasyonel etkiye sahip değildir ve bir failure modu değildir."
   },
   {
-    "prompt": "Birincil model sağlayıcısı timeout'lar ve 429'lar döndürmeye başlıyor ve hata oranın fırlıyor. Özelliğinin, bir provider abstraction arkasında bağlı bir ikincil sağlayıcısı var. Uygun operasyonel müdahale nedir?",
+    "prompt": "Bir ops agent'ının bir aksiyonu otonom olarak alabileceğine mi yoksa önce insan onayı alması gerektiğine nasıl karar vermelisin?",
     "choices": [
-      "Tüm AI özelliklerini kaldırmak için uygulamayı hemen yeniden yaz",
-      "Sağlayıcının toparlanmasını bekle ve hiçbir şey yapma",
-      "Flag aracılığıyla ikincil sağlayıcıya failover yap ve kısa örtüşme için zarif bir fallback sun",
-      "İstekler sonunda başarılı olsun diye retry sayısını sonsuza çıkar"
-    ],
-    "correct": [2],
-    "points": 1,
-    "explanation": "İkincil sağlayıcıya önceden bağlanmış bir failover (yeniden dağıtım değil, bir config değişikliği) özelliği ayakta tutar ve zarif bir fallback örtüşmeyi kapatır. Sonsuz retry'lar yalnızca maliyet ve latency yığar, hiçbir şey yapmamak ise müşterileri hatalarla baş başa bırakır."
-  },
-  {
-    "prompt": "DENGE (TRADE-OFF): Bir AI özelliğinin günlük harcaması katı tavanını (hard cap) aştığında, ya istekleri sert bir şekilde başarısız kılabilirsin (bir hata döndür) ya da zarifçe azaltabilirsin (daha ucuz bir model veya önbellekteki bir yanıt sun). Bu iki seçenek arasındaki denge nedir?",
-    "choices": [
-      "Bir denge yoktur; en çok parayı kurtardığı için sert başarısızlık her zaman doğrudur",
-      "Sert başarısızlık maliyeti kesin olarak sınırlar ve en basitidir ama kullanıcı deneyimini bozar; zarif azaltma, biraz ek maliyet ve karmaşıklık karşılığında kullanılabilir (daha düşük kaliteli) bir yanıtı korur",
-      "Zarif azaltma her zaman ücretsizdir ve her zaman daha yüksek kalitelidir, bu yüzden hiçbir dezavantajı yoktur",
-      "Her iki seçenek de aynı kullanıcı deneyimini üretir, bu yüzden seçim yalnızca loglamayı etkiler"
+      "Aksiyonun çalıştırılmasının ne kadar hızlı olduğuna göre",
+      "Blast radius ve geri alınabilirliğe göre: read-only ve düşük riskli geri-alınabilir aksiyonlar otonom olabilir; yıkıcı, geri-alınamaz ya da production'a dokunan aksiyonlar onay gerektirir — bir kill-switch ve hesap verebilir bir insanla desteklenir",
+      "Agent'ın kendi yetkilerine çalışma anında kendisinin karar vermesine izin vererek",
+      "Log okumak dahil her şey için her zaman onay isteyerek"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Bu gerçek bir dengedir: sert başarısızlık en sıkı maliyet tavanını verir ve geliştirmesi son derece kolaydır ama kullanıcılara bir hata gösterir; zarif azaltma, biraz ek harcama ve eklenen karmaşıklık pahasına özelliği daha ucuz ya da önbellekteki bir yanıtla kullanılabilir tutar. Doğru seçim, özelliğin kullanıcı için ne kadar kritik olduğuna bağlıdır."
+    "explanation": "Otonomi, aksiyon sınıfı bazında blast radius ve geri alınabilirliğe göre belirlenir. Log okumak ya da stateless bir servisi yeniden başlatmak otonom olabilir; veri silmek ya da prod'u değiştirmek bir insan kapısı gerektirir. Bir kill-switch ve net hesap verebilirlik tüm şemayı destekler — read-only aksiyonları bile kapıya tabi tutmak yalnızca gereksiz yük (toil) ekler."
+  },
+  {
+    "prompt": "DENGE (TRADE-OFF): On-call agent'a çoğu alarmda aksiyon alması için geniş otonomi verebilirsin (daha az insan yükü, daha hızlı çözüm) ya da aksiyonlarının çoğunda insan onayı isteyebilirsin (daha yavaş, ama bir insan her birini inceler). Denge nedir?",
+    "choices": [
+      "Bir denge yoktur; en hızlısı olduğu için tam otonomi her zaman doğrudur",
+      "Geniş otonomi yükü azaltır ve olayları daha hızlı çözer ama kendinden emin ama yanlış bir aksiyonun blast radius'unu genişletir; onay kapıları daha güvenlidir ama daha yavaştır ve insan yükünü geri getirir — doğru seviye her aksiyonun geri alınabilirliğine ve blast radius'una bağlıdır",
+      "Her şeyde onay her zaman zorunludur, bu yüzden otonomi asla kullanılamaz",
+      "İki seçenek de aynı şekilde davranır, bu yüzden yalnızca panonun görünüşünü etkiler"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Bu gerçek bir hız-güvenlik dengesidir. Otonomi yükü ve ortalama-çözüm-süresini azaltır ama yanlış bir aksiyonun incelenmeden prod'a çarpmasına izin verir; onay kapıları hız ve insan emeği pahasına güvenlik ekler. Bunu aksiyon sınıfı bazında ayarlarsın — geri-alınabilir düşük-blast aksiyonlar için otonom, yıkıcı ya da geri-alınamaz olanlar için kapılı."
   }
 ]

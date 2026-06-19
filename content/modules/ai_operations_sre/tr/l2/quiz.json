@@ -1,50 +1,50 @@
 [
   {
-    "prompt": "Bir AI özelliği üretimde bir grup dayanaksız yanıt yayınladıktan sonra ekibin suçlamasız bir postmortem yürütüyor. Regresyon paketini daha güçlü kılan, AI'a özgü takip eylemi nedir?",
+    "prompt": "Production'da yanlış bir aksiyon alan bir ops agent'ı için suçlamasız bir postmortem'in ardından, agent filosunu zaman içinde daha güvenli kılan, AI'a özgü takip eylemi nedir?",
     "choices": [
-      "Utanç verici output'lar saklanmasın diye trace verisini sil",
-      "Üretim başarısızlığını yeni bir çevrimdışı eval vakasına damıt, böylece paket o regresyonu bir sonraki sefere yakalayabilsin",
-      "Alarm gürültüsünü azaltmak için çevrimiçi kalite izlemeyi kapat",
-      "Maliyete bakmaksızın her istek için modeli daha büyük bir modelle değiştir"
+      "Hatanın saklanmaması için agent'ın karar izini sil",
+      "Misfire'ı, agent'ın politikasının geçmesi gereken yeni bir guardrail/politika ve çevrimdışı bir eval case'e dönüştür; böylece aynı yanlış aksiyon sessizce tekrarlayamaz",
+      "Gürültüyü azaltmak için action audit trail'i kapat",
+      "Bir dahaki sefere kendi hatalarını düzeltebilsin diye agent'a daha geniş yetkiler ver"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Birim testleri deterministik olmayan regresyonları yakalayamaz, bu yüzden operasyonel döngü her üretim başarısızlığını yeni bir eval vakasına dönüştürmektir. Çevrimdışı regresyon paketinin dişlenmesi ve aynı bug'ın sessizce geri dönememesi böyle sağlanır."
+    "explanation": "Bir birim testi deterministik olmayan bir yanlış aksiyonu yakalamaz, bu yüzden operasyonel döngü her misfire'ı bir guardrail/politika ve bir eval case'e çevirmektir. Filonun politikası böyle diş kazanır ve aynı yanlış aksiyon sessizce geri dönemez."
   },
   {
-    "prompt": "Zaten bir katı harcama tavanın (hard spend cap) varken neden AI harcamasına anomali tespiti eklemelisin? (Geçerli olan hepsini seçin.)",
+    "prompt": "Agent'lar production'da aksiyon aldığında neden agent bazında maliyet anomali tespiti ve action-rate tavanları ekle? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Anomali tespiti, katı tavana ulaşılmadan çok önce bir yavaş yukarı tırmanışı ya da erken bir sıçramayı yakalayabilir",
-      "Yalnızca tek bir sabit eşiğe değil, normal trendden sapmaya alarm verir",
-      "Herhangi bir özellik ya da ekibe maliyet atfetme ihtiyacını ortadan kaldırır",
-      "Katı tavan ve anomali alarmı farklı başarısızlık hızlarını kapsar — erken uyarı ile felaket durdurma"
+      "Her agent adımı bir LLM çağrısıdır ve kaynak başlatabilir, bu yüzden döngüye giren bir agent hızla para ve compute yakar",
+      "Anomali tespiti, yalnızca sabit bir eşikte değil, trendden sapmaya alarm vererek bir kaçağı erken yakalar",
+      "Maliyeti ya da aksiyonları belirli bir agent'a atfetme ihtiyacını ortadan kaldırır",
+      "Bir action-rate tavanı bir döngünün zararını sınırlar ve agent'ı durup eskalasyon yapmaya zorlayabilir"
     ],
     "correct": [0, 1, 3],
     "points": 1,
-    "explanation": "Katı tavan son çare bir tavandır; anomali tespiti, trendden sapmaları işaretleyerek erken uyarı verir ve sabit tavanın kaçıracağı yavaş tırmanışları ve erken sıçramaları yakalar. Suçluyu bulma şeklin olan özellik-başına atıf ihtiyacını ortadan kaldırmaz."
+    "explanation": "Agent aksiyonları maliyeti ve riski biriktirir, bu yüzden anomali tespiti bir kaçağı erken uyarır ve action-rate tavanı onu sınırlayıp eskalasyona zorlar. Hiçbiri agent bazında attribution ihtiyacını ortadan kaldırmaz — hangi agent'ı durduracağını tam da bununla bulursun."
   },
   {
-    "prompt": "Zirve trafiğinde AI özelliğin sağlayıcının dakika-başına-istek limitine çarpmaya ve 429 yanıtları almaya başlıyor. Hangileri sağlam operasyonel yanıtlardır? (Geçerli olan hepsini seçin.)",
+    "prompt": "Bir agent filosunu ölçekte ve saldırı altında güvenle işletmenin sağlam yolları hangileridir? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "429'ları hemen üst üste dövmek yerine üstel backoff ve sınırlı bir kuyrukla retry et",
-      "Kritik istekler yine de geçebilsin diye düşük öncelikli çağrıları at ya da ertele",
-      "Erişilebilirlik SLO'un bir sağlayıcının garantisini aşıyorsa multi-provider ya da multi-region kapasiteyi değerlendir",
-      "Her istek sonunda başarılı olsun diye retry'ları gecikmesiz, sınırsıza ayarla"
+      "Tüm agent otonomisini anında durduran bir kill-switch ve aksiyonun geri alınması",
+      "Yüksek-blast aksiyonlar için en az yetki kimlikleri ve onay kapıları, policy-as-code ile tek tip uygulanır",
+      "Agent'ın okuduğu logları, ticket'ları ve hata mesajlarını, yüksek-blast aksiyonlara yetki veremeyen güvenilmez girdi olarak ele al",
+      "Olaylar daha hızlı çözülsün diye her agent'a sürekli sınırsız production yazma erişimi ver"
     ],
     "correct": [0, 1, 2],
     "points": 1,
-    "explanation": "Sınırlı bir kuyrukla backoff, düşük öncelikli işin yük-atması ve multi-provider/region kapasite, kritik trafiği korurken özelliği sağlayıcı limitleri içinde tutar. Gecikmesiz sınırsız retry'lar aşırı yükü büyütür ve maliyeti ile latency'yi yukarı çeker."
+    "explanation": "Bir kill-switch, onay kapılı en az yetki policy-as-code ve dış metni güvenilmez girdi olarak ele almak; hepsi misfire eden ya da ele geçirilmiş bir agent'ın yapabileceğini sınırlar. Sürekli sınırsız prod yazma erişimi en az yetkinin tam tersidir ve tek bir kötü aksiyonu — ya da tek bir injection'ı — filo çapında bir felakete çevirir."
   },
   {
-    "prompt": "Her zaman sağlayıcının 'latest' (en son) sürümünü çağırmak yerine, üretim asistanının kullandığı tam model sürümünü sabitliyorsun (pin). Operasyonel açıdan, neden?",
+    "prompt": "Bir agent'ın tüm politikasını (prompt + araçlar + yetkiler + model) neden versiyonlar ve değişiklikleri canlıda düzenlemek yerine önce shadow sonra canary ile yayına alırsın?",
     "choices": [
-      "Sabitleme, modelin 'latest'ten daha hızlı çalışmasını sağlar",
-      "Sabitleme, modelin davranışının senin altında sessizce değişmesini önler ve yeniden üretilebilirlik için hangi sürümün hangi output'u ürettiğini kaydetmene izin verir",
-      "Sabitleme, yeni bir sürüme migrate etme ihtiyacını sonsuza dek ortadan kaldırır",
-      "Streaming yanıtları etkinleştirmek için sabitleme gereklidir"
+      "Çünkü versiyonlamak agent'ı daha hızlı çalıştırır",
+      "Çünkü agent dünya üzerinde aksiyon alır, dolayısıyla bir değişiklik hangi aksiyonları aldığını sessizce değiştirebilir; shadow, önerilen aksiyonları herhangi biri çalışmadan önce gerçek olaylarda karşılaştırır, canary blast radius'u sınırlar ve bir policy flag tek-çevirmelik rollback verir",
+      "Çünkü versiyonlanmış bir politikanın bir daha asla güncellenmesi gerekmez",
+      "Çünkü otonom aksiyonları etkinleştirmek için canlı düzenleme gerekir"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "'latest' çağırmak, sağlayıcının davranışı senin altında uyarısız değiştirebileceği anlamına gelir. Bir sürümü sabitlemek davranışı kararlı ve yeniden üretilebilir tutar (bir output'u hangi sürümün ürettiğini loglayabilirsin), gerçi o sürüm deprecate edildiğinde yine de bilinçli olarak migrate etmen gerekir."
+    "explanation": "Agent gerçek aksiyonlar aldığı için, bir politika ya da model değişikliği onun sessizce farklı davranmasına yol açabilir. Politikayı versiyonlanmış bir artefakt olarak ele alıp shadow (dry-run, insanlarla karşılaştır) → canary (küçük otonom dilim) → flag'li rollout ile yayına almak, yanlış aksiyonları prod'dan önce yakalamanı ve tek çevirmeyle geri almanı sağlar."
   }
 ]

@@ -1,63 +1,62 @@
-# Worked Example: Putting an AI Support Assistant On-Call
+# Worked Example: Putting an On-Call Agent Into Production
 
-Your **AI support assistant** is live. It answers customer questions in-product, grounded in
-your help-center articles (a RAG pipeline). Building it is done; now you have to **operate**
-it. Here's how a team stands it up for production and survives its first incident.
+Your team has built an **on-call agent**: it receives alerts, investigates with read-only tools
+(logs, metrics, traces), and can remediate. Building it is done; now you have to **operate** it
+safely. Here's how a team stands it up — and survives the first incident the agent itself causes.
 
-## Step 1 — Instrument the golden signals
+## Step 1 — Classify the agent's actions by blast radius
 
-Before anything else, every assistant call emits a **trace**: the user question, the retrieved
-articles, the final answer, input/output **tokens**, **TTFT** and total **latency**, and
-whether each **guardrail** passed. From those traces the team builds one on-call dashboard:
+Before granting any autonomy, the team sorts every action the agent can take and sets a
+human-in-the-loop level for each class:
 
-| Signal | What they watch | Why |
+| Action class | Example | Autonomy level |
 |---|---|---|
-| p95 TTFT | < 1.5 s | The wait the user actually feels |
-| Error / timeout rate | < 1% | Provider 5xx, 429s, own timeouts |
-| Cost per answer | ~$0.004, trended | Catches a runaway before the invoice |
-| Refusal rate | stable baseline | A jump means a prompt/policy break |
-| Groundedness (sampled) | > 0.9 | Catches silent quality drift |
+| Read-only | Read logs, metrics, traces | Autonomous |
+| Reversible, low-blast | Restart a stateless service, scale up a replica | Autonomous (with rate limit) |
+| Production-facing, risky | Roll back a deploy, change a DB connection | Approve-then-act |
+| Destructive / irreversible | Delete data, drop a resource, run arbitrary shell | Suggest-only |
 
-## Step 2 — Turn signals into SLOs and alerts
+## Step 2 — Bound it: least privilege, dry-run, approval gates
 
-A dashboard nobody watches is useless, so the team sets **SLOs** and alerts on *breaches of
-trends*, not single events:
+The agent gets **read-only** credentials by default; write scopes are granted **per class**, and
+it has no production action without passing a gate. Every write is **plan-then-apply** — the agent
+states the exact change and expected effect first. A **kill-switch** can pause all autonomy in one
+click, and an **action-rate limit** caps how many actions it may take in a window.
 
-- **Availability SLO:** 99.5% of answers return without error → page on-call if the error rate
-  exceeds 2% for 5 minutes.
-- **Latency SLO:** p95 TTFT < 1.5 s → warn if breached for 10 minutes.
-- **Cost guardrail:** a **budget alarm** at 1.5× the daily baseline, and a **hard cap** that
-  flips the feature to a cached/fallback answer if daily spend hits 3×.
+## Step 3 — Instrument the action audit trail
 
-Crucially they do **not** page on one ungrounded answer — outputs are non-deterministic, so a
-single bad sample is noise. They alert when the *groundedness rate* drops across many requests.
+Every step the agent takes emits a record: the alert it picked up, the tools it called, what it
+observed, the decision and **why**, and the action taken (or proposed). This trail is correlatable
+to the incident — so a human can later see exactly what the agent did and on what reasoning. App
+dashboards stay green either way; the audit trail is how you know the agent acted *correctly*.
 
-## Step 3 — The first incident
+## Step 4 — The first incident is the agent's own
 
-Three weeks in, at 9 p.m., the on-call phone buzzes: **error rate jumped to 14%, p95 TTFT to
-9 s.** The dashboard shows the provider is returning 429s and timeouts — a provider-side
-slowdown, not their code.
+Two weeks in, a "high memory" alert fires on a stateless service. The agent is allowed autonomous
+restarts for that reversible class, so it restarts the service. Memory climbs again; it restarts
+again. A real **memory leak** is the cause — but the agent is treating the symptom, **confident and
+wrong**, and slides into a **restart loop** that masks the leak.
 
-The **runbook** for "provider degraded" is already written:
+What saves it is the bounding from Step 2:
 
-1. **Confirm scope** — it's the primary provider; the secondary is healthy.
-2. **Fail over** — flip the `assistant_provider` feature flag to the secondary provider. Because
-   the model sits behind a **provider abstraction**, no redeploy is needed; traffic shifts in
-   seconds.
-3. **Degrade gracefully** — for the few seconds of overlap, requests that error fall back to a
-   "I'm having trouble — here are the top help articles" response instead of a hard error.
-4. **Communicate** — post on the status channel; note start time for the postmortem.
+1. **The action-rate limit trips** — "5 restart actions on one service in 10 minutes" → the agent
+   stops and **escalates** to a human instead of restarting a sixth time.
+2. **The on-call human hits the kill-switch** for that agent's autonomy.
+3. **The audit trail** shows the repeated identical remediation, so the human sees instantly the
+   agent was symptom-fighting, finds the leak, and ships a real fix.
 
-Error rate falls back under 1% within two minutes. No customer saw an error page; a small slice
-saw a slightly slower or fallback answer.
+No data was lost and no destructive action ran — because a restart was reversible *and* rate-limited,
+not because the agent was right.
 
-## Step 4 — Close the loop
+## Step 5 — Close the loop
 
-The next morning, a **blameless postmortem**: the trigger (primary provider regional slowdown),
-what worked (alert fired, failover flag worked), and one improvement (add an automatic failover
-when error rate > 10% for 2 minutes, instead of waiting for a human). They file it and move on.
+A **blameless postmortem**: the trigger (memory leak), what worked (rate limit + kill-switch +
+audit trail), and two improvements — add a guard so "same remediation N times → stop and escalate"
+is built in, and move "repeated restart" out of the autonomous class. That guard becomes a
+permanent part of the agent's policy.
 
-**The lesson.** None of this was about a smarter model. The feature stayed up because it was
-**observed** (the alert fired on a real signal), **reliable** (failover was pre-wired behind a
-flag), **cost-guarded** (a cap stood ready), and **operated** (a runbook turned a 2 a.m. scramble
-into a two-minute flag flip). That's the difference between building an AI feature and running one.
+**The lesson.** None of this was about a smarter agent. The system stayed safe because the agent
+was **bounded** (least privilege, reversible-only autonomy), **rate-limited and kill-switchable**
+(the loop was caught), **observed** (the audit trail explained the misfire), and **operated** (a
+human stayed accountable and closed the loop). That's the difference between building an agent and
+running one in production.

@@ -2,37 +2,40 @@
 
 **Alternative phrasings of the core idea**
 
-- "Building an AI feature gets it working in a demo; operating it keeps it working in
-  production, where the model is a remote dependency that can get slower, pricier, or quietly
-  worse on its own."
-- "You operate an AI feature on four pillars: observability (trace and watch the golden
-  signals), reliability (timeouts, retries, fallback, degraded mode), cost governance (budget
-  alarms and a hard cap), and incident response (runbooks plus fast rollback behind flags)."
-- "Because outputs are non-deterministic, you alert on rates and trends — not on a single bad
-  answer — and you catch silent regressions with online quality monitoring, not unit tests."
+- "An ops agent is not a tool you call and read — it's an actor that takes actions in your systems,
+  so the blast radius is a wrong *action*, not a wrong answer, and reliability means bounding what
+  it's allowed to do."
+- "Bound the agent: least privilege (read-only by default), environment scoping, plan-then-apply
+  dry-runs, and approval gates for destructive/irreversible/production actions — with a kill-switch
+  to pause all autonomy and rate limits to catch loops."
+- "Observe the agent, not just the app: an action audit trail of what it did, what it observed, and
+  why, because a green dashboard won't tell you it restarted the wrong service, and a human stays
+  accountable for every action."
 
 **Hint stack**
 
-- **H1 (nudge):** Separate *building* from *running*. The question is usually about the second:
-  once real traffic hits the feature, what do you watch, and what happens when the provider
-  fails or the bill spikes?
-- **H2 (structure):** Walk the four pillars. Observability: what's on the dashboard? Reliability:
-  what's the degraded mode? Cost: where's the cap? Incident: what's the runbook and how do you
-  roll back?
-- **H3 (worked path):** A provider slowdown is a reliability + incident event: alert fires on
-  error/latency rate → runbook says fail over to the secondary provider via a feature flag (no
-  redeploy, because the model is behind an abstraction) → degrade gracefully → postmortem.
+- **H1 (nudge):** Ask what's different once the AI can *act* instead of just answer. A wrong answer
+  is noise; a wrong action changes prod. The whole plan exists to limit what a confident-but-wrong
+  action can break.
+- **H2 (structure):** Walk the controls. Permissions: least privilege, env scoping. Pre-execution:
+  dry-run + approval gate by blast radius. Runtime: rate limits + kill-switch. After: action audit
+  trail + a human accountable.
+- **H3 (worked path):** A memory alert → the agent autonomously restarts a service → leak persists →
+  it loops. Don't rely on the agent being right: the action-rate limit trips and escalates, the
+  human kill-switches autonomy, the audit trail shows the repeated remediation, and the real fix
+  ships.
 
 **Short FAQ**
 
-- **Why not just page on any wrong answer?** Outputs are non-deterministic, so one bad sample is
-  noise. Page on a *rate* — e.g. groundedness dropping across many requests — not a single output.
-- **Why is rollback a flag flip and not a redeploy?** Because you ship the prompt and model choice
-  behind a **feature flag**, reverting to the previous version is a config change that takes
-  seconds, which is what you want mid-incident.
-- **What's the single most valuable thing to instrument first?** End-to-end traces with tokens and
-  latency. Almost every other signal (cost, p95, refusal rate, groundedness) is derived from
-  having that trace data.
-- **Is cost really an SRE concern?** Yes. LLM spend scales with traffic and can spike from one bad
-  change, so a **budget alarm** and a **hard cap / kill-switch** are reliability controls, not just
-  finance reports.
+- **Why is an ops agent riskier than a normal AI feature?** Because it doesn't just produce an
+  answer — it takes actions with real effects. A wrong action (restart, config push, delete) hits
+  production directly, so you bound its permissions and gate its high-blast actions.
+- **What decides whether an action runs autonomously or needs approval?** Blast radius and
+  reversibility. Read-only and low-risk reversible actions can be autonomous; destructive,
+  irreversible, or production-facing actions need a human to approve.
+- **Why log the agent's reasoning, not just its actions?** Because a postmortem and an audit need to
+  know *why* it acted, not just what it did — that's how you catch a confident-but-wrong diagnosis
+  and hold a human accountable for it.
+- **Is prompt injection really an ops concern here?** Yes. A crafted log line, ticket, or error
+  message can steer an action-taking agent into running something dangerous, so external text the
+  agent reads is untrusted input and high-blast actions still need a gate.

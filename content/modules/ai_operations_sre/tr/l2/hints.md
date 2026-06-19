@@ -2,42 +2,44 @@
 
 **Temel fikrin alternatif ifadeleri**
 
-- "Ölçekte olayları doğaçlamayı bırakır ve sınıflandırırsın — sağlayıcı kesintisi, kalite
-  regresyonu, maliyet kaçağı, güvenlik atlatması — her biri bir runbook'la, ve her üretim
-  başarısızlığı, çevrimdışı paketin bir sonraki sefere yakalaması için yeni bir eval vakası olur."
-- "Model kontrol etmediğin bir bağımlılıktır: deprecate edilir ve davranışı değişir, bu yüzden
-  sürümleri sabitlersin, prompt'ları sürümlenmiş artefakt olarak ele alırsın ve shadow → canary →
-  flag'li yayına alma ile, rollback hazırken migrate edersin."
-- "Ölçekte FinOps; maliyeti özellik ve tenant bazında atfetmek, yalnızca sabit eşiklere değil
-  anomalilere (trendden sapma) alarm vermek ve bir tavanı aşmanın azaltma mı yoksa sert başarısızlık
-  mı olması gerektiğine her özellik için karar vermek demektir."
+- "Filo ölçeğinde erişimi bir konsolda agent agent vermezsin — her agent'ın kendi kimliği ve en az
+  yetki kapsamları policy-as-code olarak ifade edilir; change window'lar ve yüksek-blast aksiyonlar
+  için tek tip onayla birlikte."
+- "Agent'lar hem müdahale eden hem sebep olan taraf, bu yüzden olaylar agent-misfire, kaçak döngü,
+  injection ile ele geçirilme ve yetki arızasına ayrılır — evrensel kontrol otonomiyi durdurmak
+  (kill-switch) ve aksiyonu geri almaktır ve her misfire yeni bir guardrail ve eval case olur."
+- "Bir agent'ın davranışı onun politikasıdır = prompt + araçlar + yetkiler + model; kod gibi
+  versiyonlanır ve shadow (dry-run, önerilen aksiyonları insanlarla karşılaştır) → canary (küçük bir
+  dilimde aksiyon al) → policy rollback hazır flag'li rollout ile yayına alınır."
 
 **İpucu yığını**
 
-- **H1 (dürtme):** *Zaman içinde ve hacimde* neyin değiştiğini düşün: model deprecate edilir,
-  harcama ekipler arasına yayılır ve her trace'i tutamazsın. Cevap genellikle tek seferlik bir
-  düzeltme değil, bilinçli bir süreçtir.
-- **H2 (yapı):** Bir model değişikliği için güvenli yol her zaman shadow (çevrimdışı + trafik
-  kopyasını karşılaştır) → canary (küçük kohort, çevrimiçi monitörleri izle) → flag-değişikliği
-  rollback'i ile tam yayına almadır. Maliyet için, atfı (kim harcadı) kontrolden (yumuşak vs katı
-  tavan) ayır.
-- **H3 (işlenmiş yol):** Zorunlu bir deprecation: yeni sürümün uyacağını umma — onu eval setine ve
-  gerçek trafiğe karşı shadow yap, kaliteyi/maliyeti/latency'yi karşılaştır, regresyonları düzelt
-  (örneğin daha laf kalabalığı bir output'u sınırla), %5'te canary yap, ardından geri çevirebileceğin
-  bir flag'in arkasında yayına al.
+- **H1 (dürtme):** *Zaman içinde ve bir filo genelinde* neyin değiştiğini düşün: yetkiler çoğalır,
+  model deprecate edilir ve döngüye giren tek bir agent hızla harcayabilir. Cevap genelde tek
+  seferlik bir düzeltme değil, kasıtlı bir politika ve süreçtir.
+- **H2 (yapı):** Bir davranış değişikliği için güvenli yol shadow (dry-run, önerilen aksiyonları
+  insanların yaptığıyla karşılaştır) → canary (küçük bir dilimde otonom) → policy rollback'li flag'li
+  rollout'tur. Maliyet için attribution'ı (hangi agent harcadı) kontrolden (action-rate ve harcama
+  tavanları) ayır. Olaylar için sınıflandır ve kill-switch'le.
+- **H3 (işlenmiş yol):** Enjekte edilen bir log satırının sürdüğü, hızının 6 katında aksiyon alan
+  kaçak bir agent: yıkıcı-aksiyon kapısı tehlikeli komutu engeller, action-rate tavanı kısıp
+  eskalasyon yapar, agent bazında attribution suçluyu hızla bulur ve postmortem onu bir girdi-güven
+  korumasına ve bir eval case'e dönüştürür.
 
 **Kısa SSS**
 
-- **Neden modeli yalnızca değiştirmek yerine shadow yapıyoruz?** Aynı prompt yeni bir sürümde farklı
-  davranabilir ve bir kalite düşüşü sessizdir. Shadow, herhangi bir kullanıcı görmeden önce yeni
-  sürümü gerçek girdilerde karşılaştırır, böylece umutla değil kanıtla migrate edersin.
-- **Zaten bir katı tavanım varsa neden anomali tespiti?** Tavan felaketi durdurur; anomali alarmı,
-  düzeltmesi ucuzken — tavandan çok önce — bir *yavaş tırmanışı* ya da erken bir sıçramayı yakalar.
-  Farklı başarısızlık hızlarını kapsarlar.
-- **Her olay neden bir eval vakası olur?** Çünkü bir birim testi deterministik olmayan bir
-  regresyonu yakalamaz. Her üretim başarısızlığını bir çevrimdışı eval vakasına dönüştürmek,
-  regresyon paketinin dişlenmesini ve aynı bug'ın sessizce geri dönememesini sağlar.
-- **Tavanda azalt mı yoksa sert başarısızlık mı — hangisi doğru?** Özelliğe bağlıdır. Kritik,
-  kullanıcıya dönük bir asistan kullanılabilir kalmak için azaltmalıdır (daha ucuz model ya da
-  önbellek); kritik olmayan bir arka plan işi, maliyeti kesin olarak sınırlamak için sert başarısız
-  olabilir.
+- **Neden modeli değiştirmek yerine bir agent'ı shadow'la?** Çünkü agent *aksiyon alır*: yeni bir
+  model onu sessizce aksiyon almaya daha çok ya da daha az istekli kılabilir. Shadow, önerdiği
+  aksiyonları herhangi biri çalışmadan önce gerçek olaylarda karşılaştırır, böylece umutla değil
+  kanıtla yayına alırsın.
+- **Neden agent bazında maliyet anomali tespiti ve action-rate tavanları?** Her agent adımı bir LLM
+  çağrısıdır ve kaynak başlatabilir, bu yüzden bir döngü hızla harcar. Anomali tespiti sapmayı
+  erken yakalar, rate tavanı zararı sınırlar ve agent bazında attribution hangisini durduracağını
+  söyler.
+- **Neden her agent misfire'ı bir eval case olur?** Çünkü bir birim testi deterministik olmayan bir
+  yanlış aksiyonu yakalamaz. Her misfire'ı bir guardrail ve bir çevrimdışı eval case'e dönüştürmek,
+  filonun politikasının diş kazanmasını ve aynı yanlış aksiyonun sessizce geri dönememesini sağlar.
+- **Neden logları ve ticket'ları güvenilmez girdi olarak ele al?** Çünkü onları okuyan, aksiyon alan
+  bir agent enjekte edilmiş metinle zararlı bir aksiyona yönlendirilebilir. Dış metin güvenilmez
+  girdidir ve yüksek-blast aksiyonlar, bir logun ne 'önerdiğine' bakılmaksızın yine de bir onay
+  kapısından geçer.

@@ -1,76 +1,86 @@
-# Üretimde AI İşletmek (SRE ve Ops)
+# Agent Güdümlü SDLC ve Ops İşletmek
 
-Bir AI özelliği geliştirmek onu "demoda çalışır" hale getirir. Onu **işletmek** ise, siz
-izlemezken sabahın 2'sinde çalışmaya devam etmesini sağlayan her şeydir — ve bir LLM
-özelliği, normal bir servisin başarısız olmadığı şekillerde başarısız olur. Model,
-**kontrol etmediğiniz uzak bir bağımlılıktır** ve sizin tek bir satır kodunuz bile
-değişmeden yavaşlayabilir, pahalanabilir ya da sessizce *kötüleşebilir*. Bu modül,
-on-call (nöbet) bakış açısıdır: bir AI özelliğini nasıl izlersiniz, güvenilir tutarsınız,
-faturasını makul tutarsınız ve bozulduğunda nasıl müdahale edersiniz.
+AI güdümlü (AI-driven) bir SDLC'de agent'lar yalnızca kod *yazmaz* — giderek onu **çalıştırır**
+da. AI agent'ları operasyon ve teslim hattı işinin giderek büyüyen bir kısmını üstleniyor: bir
+kodlama agent'ı PR açar, bir CI agent'ı kırık build'leri triage eder, bir **on-call (nöbet)
+agent'ı** bir alarm alır, araştırır ve bir düzeltmeyi önerir — ya da uygular. Normal bir AI
+özelliğinden en kritik fark şudur: bir agent **çağırıp output'unu okuduğun bir araç değil; senin
+sistemlerinde aksiyon alan bir aktördür.** Bu modül, *bu* dünyanın on-call bakış açısıdır:
+yazılımın üzerinde aksiyon alan agent'ları nasıl yönlendirir, sınırlar, gözlemler ve onların
+sorumluluğunu nasıl taşırsınız.
 
-**Çalışan bir örnek.** Ekibiniz bir **AI destek asistanı** yayına aldı — ürününüzün
-içinde, canlı, 7/24, müşteri sorularını yanıtlayan, retrieval destekli (getirme tabanlı)
-bir özellik. Her testi geçti ve demoda kusursuz görünüyordu. Şimdi *üretimde* ve işletmesi
-sizin sorumluluğunuzda. Aynı disiplinler yayına alınmış herhangi bir AI özelliği için
-geçerlidir (ürün içi bir özetleyici, bir agent, bir CI inceleyici): gerçek trafik ona
-çarptığı anda, onu bir servis gibi işletirsiniz.
+**Çalışan bir örnek.** Platform ekibiniz agent'ları SDLC ve ops'a bağladı: kırmızı build'leri
+triage eden bir CI agent'ı, ölçekleme değişiklikleri öneren bir infra agent'ı ve alarmları alıp
+okuma araçlarıyla araştıran ve remediation (düzeltme) yapan bir **on-call agent'ı**. Bu agent'ları
+geliştirmek bitti; şimdi yazılımın giderek kendi üzerinde aksiyon aldığı bir sistemi işletiyorsunuz
+— ve bu sistem, bir script'in başarısız olmadığı şekillerde başarısız olur.
 
-## Bir AI özelliğini işletmenin dört temel direği
+## Araçtan aktöre — otonomi kayması
 
-**1. Gözlemlenebilirlik (observability) — göremediğinizi düzeltemezsiniz.** Normal bir istek
-bir durum kodu ve bir süre loglar. Bir AI isteği daha fazlasına ihtiyaç duyar, çünkü
-"200 OK" yine de yanlış, dayanaksız (ungrounded) ya da güvensiz bir yanıt olabilir. Her
-çağrı için bir **trace** (iz) yakalayın: girdi, getirilen context, son output, **token
-sayıları** (input + output), **latency** (gecikme) ve **guardrail (koruma) sonuçları**.
-Bunlardan bir **LLM özelliğinin altın sinyallerini (golden signals)** izlersiniz:
+Çağrılan bir araç metin döndürür ve onunla ne yapılacağına bir insan karar verir. Bir **agent ise
+aksiyonu alır**: bir servisi yeniden başlatır, bir config push'lar, bir cluster'ı ölçekler, bir
+alarmı ack'ler, bir komut çalıştırır. Yani **blast radius (etki yarıçapı)** artık "yanlış bir
+*yanıt*" değil — sabahın 3'ünde, kendinden emin ve hızlı alınmış yanlış bir *aksiyon*. Güvenilir
+işletmek artık output kalitesiyle ilgili olmaktan çıkıp **agent'ın yapmasına izin verilen şeyi
+sınırlamakla** ilgili hale gelir.
 
-- **Latency** — özellikle **time-to-first-token (TTFT, ilk token'a kadar geçen süre)** ve toplam sürenin **p95**'i, yalnızca ortalama değil.
-- **Hata / timeout oranı** — sağlayıcı 5xx, rate-limit (429) ve kendi timeout'larınız.
-- **İstek başına maliyet** — token × fiyat, zaman içinde trend olarak.
-- **Reddetme (refusal) oranı** — modelin ne sıklıkta yanıt vermeyi reddettiği; ani bir sıçrama bir prompt veya politika sorununa işaret eder.
-- **Kalite sinyalleri** — dayanaklılık (groundedness), kullanıcı thumbs-down (beğenmeme), düzenlemeler — kalite bir üretim metriğidir, yalnızca yayın öncesi bir metrik değil.
+## Blast radius'u sınırla — temel kontrol
 
-**2. Güvenilirlik (reliability) — bağımlılığın başarısız olacağına göre tasarlayın.**
-Sağlayıcılar timeout verir, rate-limit uygular ve zaman zaman çöp döndürür. Güvenilir
-işletmek, bir **degraded mode (azaltılmış/bozulmuş mod)** zaten devrede demektir: ikincil
-bir sağlayıcıya ya da önbellekteki bir yanıta **fallback (geri çekilme)**, her çağrıda
-**timeout'lar** ve **backoff'lu retry'lar (geri çekilmeli yeniden denemeler)** (sınırlı,
-çünkü retry'lar para ve latency ekler). Amaç, bir sağlayıcı aksaklığının bir kesinti değil,
-biraz daha kötü bir yanıt haline gelmesidir.
+Bir agent aksiyon alabildiği için, merkezi disiplin yanlış bir aksiyonun verebileceği zararı
+sınırlamaktır:
 
-**3. Maliyet yönetişimi (FinOps) — fatura bir üretim sinyalidir.** LLM harcaması trafikle
-ölçeklenir ve tek bir kötü değişiklikten fırlayabilir. İşletmek; **bütçe alarmları**,
-kaçak maliyet için bir **katı harcama tavanı (hard spend cap)** ya da **kill-switch**, ve
-*hangi* özelliğin veya ekibin harcadığını bilmenizi sağlayan **atıf (attribution)** demektir.
-Yalnızca finans ekibinizin bir ay sonra gördüğü bir maliyet grafiği, gözlemlenebilirlik
+- **En az yetki (least privilege)** — agent işine yetecek en dar yetkiyi alır; **varsayılan olarak
+  read-only (salt-okunur)**, yazma erişimi aksiyon sınıfı bazında verilir, asla sürekli duran bir
+  admin anahtarı değil.
+- **Ortam kapsamı (environment scoping)** — staging'de serbestçe aksiyon alır, ama production
+  aksiyonları kapıdan geçer.
+- **Plan-sonra-uygula / dry-run** — agent, herhangi bir şey çalışmadan önce somut değişikliği ve
+  beklenen etkisini önerir.
+- **Onay kapıları (approval gates)** — yıkıcı, geri alınamaz ya da production'a dokunan her şey bir
+  insanın onay vermesini gerektirir. Düşük riskli, geri alınabilir aksiyonlar otonom çalışabilir.
+
+## App'i değil, agent'ı gözlemle
+
+App metrikleri sana servisin ayakta olduğunu söyler; agent'ın *yanlış* servisi yeniden
+başlattığını söylemez. Bir **action audit trail'e (aksiyon denetim izi)** ihtiyacın var: her adımda
+agent'ın ne **yaptığı** (hangi araçları çağırdığı), ne **gözlemlediği** ve **neden** karar verdiği
+— muhakeme-artı-aksiyon izi, dokunduğu olayla ilişkilendirilebilir. "200 OK", agent'ın doğru şeyi
+yaptığının kanıtı değildir.
+
+## İnsan-döngüde (human-in-the-loop) ve hesap verebilirlik
+
+Otonomi seviyesini **aksiyon sınıfı bazında**, blast radius'a göre belirle:
+
+- **Suggest-only (yalnızca öner)** — agent önerir, bir insan uygular (yüksek etkili ya da yeni
+  davranış için iyidir).
+- **Approve-then-act (onayla-sonra-uygula)** — agent aksiyonu hazırlar, bir insan "git" der.
+- **Otonom** — agent aksiyon alır ve bildirir (yalnızca düşük riskli, geri alınabilir sınıflar için).
+
+*Tüm* agent otonomisini anında durduran bir **kill-switch**, net eskalasyon yolları ve **her aksiyon
+için bir insanın hesap verebilir kaldığı** kuralını bağla. "Agent yaptı" bir postmortem'de bir cevap
 değildir.
 
-**4. Olay müdahalesi (incident response) — ihtiyaç duymadan önce bir planınız olsun.**
-Bir "AI olayı" farklı görünür: bir sağlayıcı kesintisi, bir **kalite regresyonu** (bir model
-veya prompt değişikliğinden sonra yanıtlar kötüleşti), bir **maliyet kaçağı (cost runaway)**,
-ya da vahşi ortamda bir guardrail atlatması. Her biri için bir **runbook** istersiniz ve her
-şeyden önce **hızlı bir rollback (geri alma)** — ve prompt'ları ve model seçimlerini **feature
-flag'lerin arkasında** yayına aldığınız için, rollback acil bir yeniden dağıtım (redeploy)
-değil, bir *config değişikliğidir*.
+## Agent'a özgü failure modları
 
-## AI ops'unu farklı kılan iki şey
-
-- **Determinizm yokluğu (non-determinism).** Aynı girdi farklı output üretebilir, bu yüzden
-  tek bir kötü yanıt mutlaka bir olay değildir — tek bir örneğe değil, **oranlara ve
-  trendlere** alarm verirsiniz.
-- **Sessiz regresyonlar.** Bir sağlayıcı bir modeli değiştirebilir, ya da bir prompt düzenlemesi
-  CI'yı geçebilir ama yine de gerçek yanıtları kötüleştirebilir. Birim testleri bunu yakalamaz;
-  **çevrimiçi (online) kalite izleme** yakalar.
+- **Döngü (looping)** — agent başarısız bir aksiyonu sonsuza dek dener, maliyet yakar ya da zararı
+  tekrarlar.
+- **Kendinden emin ama yanlış remediation** — yanlış bir teşhis üzerine kararlıca aksiyon alır ve
+  olayı *daha kötü* yapar (sağlıklı bir servisi yeniden başlatır, gerçek arızayı maskeler).
+- **Zincirleme aksiyonlar (cascading actions)** — bir otomatik düzeltme başka bir agent'ı ya da
+  alarmı tetikler; hiçbir insanın seçmediği bir zincir.
+- **Bir saldırı yüzeyi olarak prompt injection** — özenle hazırlanmış bir log satırı, ticket ya da
+  hata mesajı agent'ı tehlikeli bir şey çalıştırmaya yönlendirir. Agent artık *aksiyon* alabildiğine
+  göre, injection sadece bir içerik riski değil bir ops riskidir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** Tracing ve altın sinyalleri enstrümante eder, timeout'ları, retry'ları,
-  fallback'i ve bir kill-switch'i bağlar ve anlık rollback için prompt/model değişikliklerini
-  flag'lerin arkasına koyar.
-- **İş Analisti:** Hangi kalite ve maliyet sinyallerinin iş etkisini yansıttığını ve hangi bütçe
-  eşiklerinin alarm vermesi gerektiğini tanımlar.
-- **PM/Ürün Sahibi:** SLO'lara ve harcama tavanına sahip çıkar ve sağlayıcı başarısız olduğunda
-  kabul edilebilir azaltılmış (degraded) deneyime karar verir.
-- **QA ve Mimar:** Gözlemlenebilirliği ve alarmları, failover (yük devretme) yollarını ve olay
-  runbook'larını tasarlar ve bunları üretimde ihtiyaç duyulmadan önce başarısızlık altında
-  doğrular.
+- **DevOps / SRE ve Infrastructure Engineer:** En az yetkiyi, ortam kapsamını, dry-run ve onay
+  kapılarını kurar, action audit trail'i ve kill-switch'i inşa eder ve döngüleri yakalamak için
+  action-rate (aksiyon hızı) limitleri koyar.
+- **Developer:** Agent'ın araçlarını ve her aksiyonun blast-radius sınıfını tanımlar ve anlık
+  rollback için prompt/araç değişikliklerini flag'lerin arkasında tutar.
+- **Release / Project Manager:** Hangi aksiyon sınıflarının otonom çalışabileceğine, hangilerinin
+  onay gerektirdiğine karar verir ve bir agent durup sorduğunda eskalasyon yoluna sahip çıkar.
+- **QA, Governance ve Security Engineer:** Onay politikasını, audit/hesap verebilirlik izini ve
+  girdi-güven sınırını tasarlar ve bir agent production'da aksiyon almadan önce kill-switch'i ve
+  failure modlarını doğrular.

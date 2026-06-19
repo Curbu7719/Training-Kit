@@ -1,14 +1,14 @@
 {
   "type": "mcq",
-  "prompt_md": "You are putting a freshly shipped **AI support assistant** on-call and building its dashboard and alerts. You want signals that actually tell you whether the feature is healthy in production, and you want to alert on real problems without paging on non-deterministic noise. **Select every option that is a sound production-operations practice for this AI feature.**",
+  "prompt_md": "You are putting an **on-call agent** into production — it receives alerts, investigates, and can take actions in your systems (restart services, scale infra, roll back deploys). You want the speed of automated ops without letting a confident-but-wrong action cause real damage. **Select every option that is a sound practice for operating an action-taking agent.**",
   "spec": {
     "choices": [
-      "Capture a trace per call with input, retrieved context, output, token counts, latency, and guardrail results",
-      "Alert on p95 time-to-first-token and on the error/timeout rate, not just the average latency",
-      "Set a budget alarm and a hard spend cap that flips to a cached or fallback answer if daily cost spikes",
-      "Put the prompt and model choice behind a feature flag so a bad change can be rolled back by flipping the flag",
-      "Page the on-call engineer every time a single answer comes back ungrounded or low-quality",
-      "Skip tracing in production to save tokens, and rely on the unit tests that passed in CI"
+      "Classify the agent's actions by blast radius and require human approval for destructive, irreversible, or production-facing actions",
+      "Give the agent least-privilege, environment-scoped credentials — read-only by default, write access granted per action class",
+      "Keep an action audit trail recording the tools it called, what it observed, its reasoning, and the action taken, correlatable to the incident",
+      "Provide a kill-switch to pause all agent autonomy instantly, plus action-rate limits to catch loops and runaway remediation",
+      "Let the agent act autonomously on everything to maximise speed, since it is usually right",
+      "Treat 'the agent did it' as a sufficient explanation, with no human accountable for the action"
     ],
     "multi": true
   },

@@ -1,18 +1,18 @@
 {
   "type": "scenario",
-  "prompt_md": "Your model provider emails that the **pinned model version** powering your production AI assistant will be **retired in 30 days**. You must migrate to the newer version, but the same prompt can behave differently on it and a silent quality drop would hurt customers. Latency budget and cost matter, and you have an offline eval set plus the ability to flag traffic. **Pick the best migration approach and the correct reason.**",
+  "prompt_md": "Your model provider is **deprecating the model** that powers your **fleet of ops agents** (on-call, CI, infra) — agents that take real actions in production. The same policy can make an agent more or less eager to act on the new version, and a silent behaviour shift means wrong actions in prod. You have an offline eval set of past incidents, real event traffic, and the ability to flag agent policy. **Pick the best rollout approach and the correct reason.**",
   "spec": {
     "decision_choices": [
-      "Switch all production traffic to the new model version on the deadline day and watch for complaints",
-      "Shadow the new version against the offline eval set and a copy of production traffic, compare quality/cost/latency, then canary to a small cohort behind a flag before full rollout",
-      "Refuse to migrate and keep calling the deprecated version until it stops working",
-      "Remove the AI assistant from the product to avoid the migration entirely"
+      "Switch the whole fleet to the new model on the deadline day and watch for misfires in production",
+      "Shadow the new version in observe/dry-run against real events and the eval set, compare its proposed actions to what humans did, then canary it autonomously on a small slice behind a policy flag before full rollout",
+      "Refuse to migrate and keep calling the deprecated model until it stops working",
+      "Remove all the agents from ops to avoid the migration entirely"
     ],
     "reason_choices": [
-      "Because shadowing and a flagged canary let you catch a quality, cost, or latency regression on real inputs before users are exposed, and keep a one-flip rollback if the new version misbehaves",
-      "Because switching everything at once is the only way to know if the new version works",
-      "Because a deprecated model version will keep running indefinitely if you ignore the notice",
-      "Because removing a working feature is a reasonable response to a routine version upgrade"
+      "Because shadowing compares the new version's proposed actions on real inputs before any of them execute, a flagged canary limits the blast radius while you watch the misfire rate, and the policy flag gives a one-flip rollback if it acts wrongly",
+      "Because switching the whole fleet at once is the only way to find out if the new model works",
+      "Because a deprecated model will keep running forever if you ignore the notice",
+      "Because removing working automation is a reasonable response to a routine model upgrade"
     ]
   },
   "answer_key": {

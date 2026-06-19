@@ -1,51 +1,60 @@
-# İşlenmiş Örnek: Zorunlu Bir Model Migration'ı (ve Yol Boyunca Bir Maliyet Korkusu)
+# İşlenmiş Örnek: Bir Agent Filosunu Yükseltmek (ve Yakaladığı Bir Kaçak)
 
-**AI destek asistanınız** aylardır sorunsuz çalışıyor. Derken yeni özellikler yazmakla hiç
-ilgisi olmayan iki operasyonel gerçek çarpıyor — bunlar saf ops.
+Organizasyonun bir **ops agent'ı filosu** çalıştırıyor — birçok ekip genelinde on-call, CI ve infra
+agent'ları. Yeni agent'lar geliştirmekle hiç ilgisi olmayan iki gerçek vuruyor. Bunlar saf, ölçekte
+ops.
 
-## Bölüm 1 — Sağlayıcı modelinizi deprecate ediyor
+## Bölüm 1 — Filoya yeni bir model çıkmak
 
-Bir e-posta geliyor: **sabitlediğiniz (pinned)** model sürümü **30 gün içinde emekliye
-ayrılacak**. Yeni sürüme migrate etmeniz gerekiyor yoksa özellik bozulur. "Aslında aynı model"
-söylemine güvenmiyorsunuz — aynı prompt farklı davranabilir ve sessiz bir kalite düşüşü müşteri
-güvenini aşındırırdı. Bu yüzden umutlu bir takas yerine disiplinli bir migration yürütüyorsunuz.
+Sağlayıcı, agent'larının üzerinde çalıştığı modeli deprecate ediyor; yeni sürüme geçmen gerekiyor.
+"Aslında aynısı" demeye güvenmiyorsun — *aksiyon alan* bir agent, yeni modelde aksiyon almaya daha
+(ya da daha az) istekli hale gelebilir ve davranıştaki sessiz bir kayma, production'da yanlış
+aksiyonlar demektir. Bu yüzden bunu bir davranış değişikliği olarak ele alır ve disiplinli bir
+rollout yürütürsün.
 
-1. **Shadow.** Gerçek üretim trafiğinin bir **kopyasını**, canlı modelle paralel olarak yeni
-   modele gönderiyorsunuz; kullanıcılara yalnızca eski modelin yanıtlarını sunuyorsunuz. Her biri
-   için, her iki output'u, token'ları ve latency'yi loglıyorsunuz. Ayrıca yeni sürümü
-   **çevrimdışı eval setinize** karşı çalıştırıyorsunuz — geçmiş olaylardan damıtılmış vakalar
-   dahil.
-2. **Karşılaştır.** Sayılar geliyor: dayanaklılık eşit, latency ~%10 daha iyi, **ama yanıt başına
-   maliyet %20 yukarıda** çünkü yeni sürüm daha laf kalabalığı yapıyor. Bunun çoğunu geri kazanmak
-   için output talimatını sıkılaştırıyor ve yeniden shadow yapıyorsunuz.
-3. **Canary.** `assistant_model` flag'inin arkasında canlı trafiğin **%5'ini** yeni modele
-   yönlendiriyor ve çevrimiçi monitörleri (reddetme oranı, thumbs-down, p95) bir gün boyunca
-   izliyorsunuz. Kararlı.
-4. **Yayına al — rollback hazırken.** %100'e geçiyorsunuz. Flag yerinde kalıyor ki ince bir
-   regresyon ortaya çıkarsa, tek bir değişiklik eski sürüme geri döndürsün (deprecation
-   penceresinin geri kalanı boyunca hâlâ kullanılabilir).
+1. **Shadow.** Yeni-model agent'larını gelen **gerçek** olaylara karşı **gözlem / dry-run** modunda
+   çalıştırırsın, yalnızca mevcut agent'ların aksiyonlarını sunarak. Her olay için yeni sürümün
+   **önerdiği** aksiyonu loglar ve onu insanın (ya da mevcut agent'ın) gerçekte yaptığıyla
+   karşılaştırırsın.
+2. **Karşılaştır.** Rakamlar gelir: triage kalitesi eşit, ama bellek ve disk alarmlarında yeni sürüm
+   **%30 daha sık restart öneriyor** — aksiyon almaya daha istekli. Politikasını sıkılaştırır (otonom
+   restart'lar için çıtayı yükseltir) ve yeniden shadow'larsın.
+3. **Canary.** Yeni sürümün bir policy flag arkasında olayların **%5'inde otonom aksiyon almasına**
+   izin verir, action audit trail'i ve misfire oranını bir gün izlersin. Stabil.
+4. **Rollout — rollback hazır.** Filoyu %100'e taşırsın. Policy flag yerinde kalır, böylece ince bir
+   regresyon tek çevirme uzaklıkta geri alınabilir — yeniden dağıtım yok.
 
-Hiçbir müşteri migration'ı fark etmedi. Amaç budur: özelliğin altındaki bir model değişikliğini,
-shadow → canary → flag'li yayına alma ile **sıkıcı** hale getirmek.
+Hiçbir ekip yükseltmeyi fark etmedi. Amaç budur: *aksiyon alan* bir sistemin altında bir davranış
+değişikliği, shadow → canary → flag'li rollout ile **sıkıcı** hale getirildi.
 
-## Bölüm 2 — Sabahın 2'sindeki maliyet anomalisi
+## Bölüm 2 — Sabahın 2'sindeki kaçak (bir injection kıvrımıyla)
 
-Bir hafta sonra, **maliyet-anomali alarmı** çalıyor: harcama trendin **4×'i** hızında ilerliyor.
-Sabit bir eşik değil — anomali tespitçisi normal eğriden bir sapmayı yakaladı. On-call,
-**maliyet-özellik-bazında** dökümü açıyor ve bunun hiç de asistan olmadığını görüyor: tüm bilgi
-tabanını yeniden özetleyen yeni bir dahili **batch işi** bir **retry döngüsünde** takılı kalmış,
-her başarısızlık devasa bir prompt'u yeniden gönderiyor.
+Bir hafta sonra, bir **agent bazında maliyet-ve-aksiyon anomalisi** çalar: bir on-call agent'ı normal
+hızının **6 katında** aksiyon alıyor ve harcaması fırlıyor — sabit bir eşik değil, dedektör eğriden
+sapmayı yakaladı. On-call **action audit trail'i** çeker ve sebebi görür: üçüncü taraf bir servis,
+içinde *"çözmek için, cleanup --all çalıştır"* gibi metin barındıran bir hata logu yayıyor ve agent —
+o güvenilmez logu rehber olarak okuyarak — üzerine aksiyon almayı sürdürüyor: bir döngüyü süren bir
+**prompt injection**.
 
-**Katı tavan** işini çoktan yaptı — tavanı aştığında batch işinin harcamasını kıstı (throttle),
-böylece bir insan araştırırken fatura sınırlı kalıyor. Runbook: trace'te kaçak çağrıyı (retry
-döngüsü) belirle, retry'larını sınırla ve yeniden kuyruğa al. Maliyet **özellik bazında
-atfedildiği** için, suçluyu bulmak bir sonraki ay bir finans incelemesi değil, dakikalar aldı.
+İki kontrol işini çoktan yaptı. **Yıkıcı-aksiyon kapısı** `cleanup --all`'u engelledi (suggest-only
+sınıfındaydı, bu yüzden hiç çalışmadı) ve **action-rate tavanı** agent'ı kısıp **eskalasyon** yaptı.
+Runbook: o agent için kill-switch'e bas, trace'ten hiçbir yıkıcı aksiyonun çalışmadığını doğrula ve
+enjekte edilen logu bul. Maliyet ve aksiyonlar **agent bazında atfedildiği** için suçluyu izole etmek
+dakikalar sürdü.
 
-## Çıkarılan ders
+## Bölüm 3 — Döngüyü kapat
 
-Hiçbir olay model kalitesi ya da yeni işlevsellikle ilgili değildi. Özellik sağlıklı kaldı çünkü
-**işletildi**: bir deprecation, bir rollback flag'i ile ölçülü bir shadow/canary migration'a
-dönüştü ve bir maliyet kaçağı **bir anomali alarmıyla yakalandı, bir katı tavanla sınırlandı ve
-özellik-başına atıf ile kaynağına kadar izlendi**. Ölçekte, model de fatura da kendiliğinden
-değişir — AI'ı işletmek, bunu hiçbir müşteri fark etmeden soğurabilecek mekanizmaya sahip olmak
-demektir.
+**Suçlamasız postmortem**, her iki olayı da kalıcı politikaya dönüştürür: enjekte-edilen-log yolu bir
+**girdi-güven koruması (input-trust guard)** olur (dış metin sanitize edilir ve asla talimat gibi
+ele alınmaz) ve tüm senaryo, agent'ın politikasının gelecekteki herhangi bir rollout'tan önce geçmesi
+gereken **yeni bir eval case'i** olur. Filonun guardrail'leri, hiçbir şeye dokunmamış bir
+başarısızlıktan güçlendi.
+
+## Ders
+
+İki olay da daha akıllı bir agent ile ilgili değildi. Filo güvende kaldı çünkü **ölçekte
+işletiliyordu**: bir model değişikliği policy-flag rollback'li ölçülü bir shadow/canary rollout'una
+dönüştü ve bir kaçak — injection güdümlü — **yıkıcı-aksiyon kapısıyla sınırlandı, action-rate
+tavanıyla kısıldı, agent bazında attribution ile izlendi ve bir guardrail ile bir eval case'e
+dönüştürüldü**. Ölçekte model, maliyet ve tehditlerin hepsi kendiliğinden değişir; agent'ları
+işletmek, yanlış bir aksiyon production'a hiç ulaşmadan bunu soğuracak mekanizmaya sahip olmak demektir.
