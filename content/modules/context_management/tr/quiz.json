@@ -7,7 +7,9 @@
       "Modelin geçmiş tüm refactor'lara dair kalıcı uzun süreli belleğini",
       "Dakika başına izin verilen ayrı API çağrısı sayısının üst sınırını"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,9 @@
       "Çünkü sağlayıcı eski mesajları bir dakika sonra siler",
       "Sağlamaz — model daha önceki tüm dosyaları ve düzenlemeleri otomatik olarak hatırlar"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -29,7 +33,11 @@
       "Yalnızca son N turu tutmak (kayan pencere)",
       "Temperature ayarını artırmak"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Modelin eğitimi bittiği için öğrenmeyi durdurdu",
       "Retrieval her zaman düzenleme geçmişini bozar"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Modelin, tam ayrıntıların önemli olduğu ve dosyaların birbirine atıf yaptığı büyük bir kod tabanında çalışması gerekiyor. Özetle-sonra-çalış mı, ilgili-parçaları-getir mi — hangi *trade-off*?",
+    "choices": [
+      "Tüm kod tabanını bir kez özetle ve özetten çalış — en kompakt olan bu",
+      "Soru başına ilgili belirli parçaları getir — özet, ihtiyacın olan tam ayrıntıları kaybeder",
+      "Hiçbir şey kaçmasın diye her çağrıda tüm kod tabanını yapıştır",
+      "Model daha çoğunu akılda tutsun diye temperature'ı düşür"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

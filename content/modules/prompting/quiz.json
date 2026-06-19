@@ -7,7 +7,9 @@
       "The model reads your repository and CI config automatically",
       "Wording only affects tone, never which framework or cases the model chooses"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "The user message takes priority over the system message",
       "Safety policy and persona are best placed in the system message"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "To force the model to use a higher temperature",
       "To translate the code into another language automatically"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Ask the model to be 'a bit more structured' without giving a template",
       "Re-send the request repeatedly until a well-formatted story appears"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Few-shot examples improve format adherence but add tokens to every call. For a simple, unambiguous extraction task run millions of times a day, which *trade-off* is better?",
+    "choices": [
+      "Add several few-shot examples to every call for maximum reliability",
+      "Add one long, elaborate example so the model never misformats",
+      "Switch to a larger model instead of giving any examples",
+      "Go zero-shot with a crisp instruction — the task is simple, so few-shot's per-call token cost isn't worth it at this scale"
+    ],
+    "correct": [
+      3
+    ],
     "points": 1
   }
 ]

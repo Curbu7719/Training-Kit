@@ -7,7 +7,9 @@
       "Tool, o tur için modelin tamamen yerine geçer",
       "Uygulama modelden, geliştiricinin elle çalıştıracağı bir shell script yazmasını ister"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Dönen sonucu gözlemle (traceback veya geçti/kaldı)",
       "Modeli test çıktısı üzerinde kalıcı olarak yeniden eğit"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "İstek başına maliyeti olabildiğince azaltmak",
       "Bir log satırı için her seferinde tek bir deterministik etiket üretmek"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Bir test hatasının erken yanlış okunması sonraki düzenlemeler boyunca birikerek büyüyebilir",
       "Daha fazla tool eklemek kontrolsüz döngü riskini her zaman ortadan kaldırır"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Planlayıp tool çağıran bir agent güçlüdür ama gecikme, maliyet ve yeni hata modları ekler. Sabit, iyi bilinen 2-adımlı bir dizi için hangi tasarım *trade-off*'u daha iyi?",
+    "choices": [
+      "Tam otonom bir agent döngüsü; çünkü agent'lar modern yaklaşımdır",
+      "Basit scriptli bir pipeline (veya tek çağrı) — deterministik 2-adımlı görev açık-uçlu otonomi gerektirmez",
+      "Takılmasın diye agent'a sınırsız adım ver",
+      "Seçeneği olsun diye üç tool daha ekle"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

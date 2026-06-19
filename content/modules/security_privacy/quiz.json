@@ -7,7 +7,9 @@
       "Because pasting a long stack trace uses too many tokens and slows the model",
       "Because stack traces are copyrighted and cannot be shared"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Developers pasting code into unsanctioned consumer chatbots (shadow AI)",
       "Asking the model to format a code snippet that contains no sensitive data, using an approved zero-retention tool"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,11 @@
       "Educate developers on the risks instead of relying only on a blanket ban",
       "Block all AI tools at the firewall and assume the problem is solved"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -40,7 +50,22 @@
       "Increase the model's temperature so the answer is more creative",
       "Send the full trace quickly so the on-call rotation isn't delayed"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Self-hosting keeps data in-house but costs more and lags on model quality; a hosted API under a no-retention agreement is cheaper and stronger but data leaves your network. For moderately-sensitive internal docs covered by a vendor DPA, which *trade-off* is reasonable?",
+    "choices": [
+      "Always self-host; sensitive data must never leave the building under any terms",
+      "Paste it into any public tool — a DPA makes everything safe",
+      "Use the hosted API under the no-retention/DPA terms — proportionate for moderate sensitivity; self-hosting would be overkill here",
+      "Email the vendor and ask them to delete it later"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

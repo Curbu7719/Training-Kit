@@ -7,7 +7,9 @@
       "AI özellikleri için latency veya maliyeti ölçmek imkansızdır",
       "Deterministik fonksiyonlar hiç test edilemez"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "İnsan incelemesi",
       "LLM-as-judge"
     ],
-    "correct": [0, 2, 3],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Çağrı başına maliyet",
       "Relevance"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Değişikliği, iki veya üç elle seçilmiş demo'da ne kadar iyi göründüğüyle değerlendir",
       "Bir kalite kazanımının bir hız veya maliyet regresyonunu gizlememesi için latency ve maliyeti kaliteyle birlikte izle"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "İnsan incelemesi en güvenilir eval ama yavaş ve pahalı; LLM judge hızlı ve ucuz ama yanlı. *Her* pull request'te çalışması gereken bir kapı için hangi *trade-off* uygun — hangi güvenceyle?",
+    "choices": [
+      "Hız için LLM-as-judge, skorlarına güvenmek için bir insan-etiket örneğine karşı doğrulanmış",
+      "Her PR'da tam insan incelemesi; kalite asla otomatikleştirilmemeli",
+      "CI'da değerlendirmeyi atla ve production şikayetlerine güven",
+      "LLM judge'ın ham skorlarına, insanla hiç kıyaslamadan güven"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

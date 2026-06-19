@@ -7,7 +7,9 @@
       "Diffs are always counted as a single token",
       "Prose is billed per word while code is billed per line"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "One source-code line always equals exactly one token",
       "A model's context window limit is measured in tokens, not lines"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Output tokens were exhausted, so lower the price per token",
       "The diff had too few tokens, so pad it with whitespace"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Cost input and output tokens separately at their own rates, then multiply each by 1,500 PRs",
       "Ignore token counts and estimate purely from the number of PRs"
     ],
-    "correct": [2],
+    "correct": [
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Trimming the prompt lowers token cost but risks dropping context the model needs. For a high-stakes legal-summary feature where a missed clause is costly, which *trade-off* is right?",
+    "choices": [
+      "Trim as aggressively as possible to minimize cost on every call",
+      "Always send the entire document so nothing is ever omitted",
+      "Keep the context the task genuinely needs even at higher token cost; trim only clearly-irrelevant text",
+      "Switch to the cheapest model so token price stops mattering"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

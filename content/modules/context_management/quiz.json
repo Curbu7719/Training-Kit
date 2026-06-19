@@ -7,7 +7,9 @@
       "The model's permanent long-term memory of all past refactors",
       "The maximum number of separate API calls allowed per minute"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,9 @@
       "Because the provider deletes old messages after one minute",
       "It doesn't — the model automatically remembers all earlier files and edits"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -29,7 +33,11 @@
       "Keeping only the most recent N turns (sliding window)",
       "Increasing the temperature setting"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "The model's training finished, so it stopped learning",
       "Retrieval always corrupts the edit history"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "You need a model to work across a large codebase where exact details matter and files cross-reference each other. Summarize-then-work vs retrieve-relevant-chunks — which *trade-off* fits?",
+    "choices": [
+      "Summarize the whole codebase once and work from the summary — it's the most compact",
+      "Retrieve the specific relevant chunks per question — a summary would lose the exact details you need",
+      "Paste the entire codebase every call so nothing is ever missed",
+      "Lower the temperature so the model holds more of it in mind"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

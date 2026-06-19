@@ -7,7 +7,9 @@
       "500 serbest metinli müşteri yorumundaki temaları özetleme",
       "Bir destek talep'ini kesin bir öncelik arama tablosuyla yönlendirme"
     ],
-    "correct": [2],
+    "correct": [
+      2
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Non-deterministik'tir, bu da kesin kurallar için arzu edilir",
       "Davranışı öngörülebilirdir, dolayısıyla sonuç doğrudan doğrulanabilir"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Hemen bir modeli fine-tune et, çünkü fine-tune asla etiketli veri gerektirmez",
       "Mevcut en tescilli SaaS'i satın al, çünkü lock-in switching cost'ları azaltır"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Sağlayıcı üzerindeki bir soyutlama katmanı switching cost'ları düşük tutmaya yardımcı olur",
       "En düşük çağrı başına fiyat her zaman en düşük total cost of ownership anlamına gelir"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Bir yetenek bir miktar önemli ama çekirdek farklılaşman değil, sağlam bir hosted seçenek var ve ekibin küçük. Hangi yap-satın al *trade-off*'u uygun?",
+    "choices": [
+      "İn-house geliştir; çünkü stack'in daha çoğuna sahip olmak her zaman daha iyidir",
+      "Geliştir; çünkü bir vendor'a güvenmek asla alınmaması gereken bir risktir",
+      "Geliştirmeye gücün yetene kadar bekle ve hiçbir şey yapma",
+      "Hosted seçeneği şimdi satın al/entegre et; ancak ileride kaynak ayırabileceğin gerçek bir farklılaşmaya dönüşürse geliştirmeyi yeniden değerlendir"
+    ],
+    "correct": [
+      3
+    ],
     "points": 1
   }
 ]

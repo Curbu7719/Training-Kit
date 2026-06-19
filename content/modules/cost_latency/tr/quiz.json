@@ -7,7 +7,9 @@
       "Yaklaşık 0,123$",
       "Yaklaşık 0,005$"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Model yanıt vermeden önce ek kaynak dosyalar getirmek",
       "Yorumları üretildikçe geliştiriciye stream etmek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,11 @@
       "Küçük diff'leri daha küçük bir modele yönlendirmek hem maliyeti hem latency'yi kısabilir",
       "Output token'ları (inceleme yorumları) genellikle input token'larından daha yüksek fiyatlandırılır"
     ],
-    "correct": [0, 2, 3],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1
   },
   {
@@ -40,7 +50,22 @@
       "Pipeline'ı basitleştirmek için prefix caching'i kaldırmak",
       "Maksimum inceleme uzunluğunu artırmak"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Yanıtları cache'lemek maliyeti ve gecikmeyi düşürür ama bayat cevap sunabilir. Her saat değişen veriler üzerinde soru cevaplayan bir özellikte hangi cache *trade-off*'u uygun?",
+    "choices": [
+      "Her yanıtı olabildiğince uzun süre agresif cache'le",
+      "Kısa bir TTL kullan (veya yalnızca sabit kısımları cache'le) ki cevaplar saatlik-değişen veri için yeterince taze kalsın",
+      "Güvende olmak için hiçbir yerde hiçbir şeyi cache'leme",
+      "Sorguya göre değil kullanıcıya göre cache'le ki herkes kendi bayat kopyasını alsın"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

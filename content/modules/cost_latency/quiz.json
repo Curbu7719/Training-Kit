@@ -7,7 +7,9 @@
       "About $0.123",
       "About $0.005"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Fetching extra source files before the model answers",
       "Streaming the comments to the developer as they are generated"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,11 @@
       "Routing tiny diffs to a smaller model can cut both cost and latency",
       "Output tokens (the review comments) are usually priced higher than input tokens"
     ],
-    "correct": [0, 2, 3],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1
   },
   {
@@ -40,7 +50,22 @@
       "Remove prefix caching to simplify the pipeline",
       "Raise the maximum review length"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Caching responses cuts cost and latency but can serve stale answers. For a feature answering questions over data that changes every hour, which caching *trade-off* is appropriate?",
+    "choices": [
+      "Aggressively cache every response for as long as possible",
+      "Use a short TTL (or cache only the stable parts) so answers stay fresh enough for hourly-changing data",
+      "Never cache anything anywhere, to be safe",
+      "Cache by user rather than by query so everyone gets their own stale copy"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

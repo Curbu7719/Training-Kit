@@ -7,7 +7,9 @@
       "Diff'i program kodu olarak çalıştırır",
       "En iyi eşleşen mesaj için canlı interneti arar"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Belirsizlik — aynı prompt çalıştırmadan çalıştırmaya farklı çıktı verebilir",
       "Tek satırdan uzun hiçbir çıktı üretemez"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "İkisi aynı sürecin iki adıdır",
       "Çıkarım, her yeni soruyla modelin bilgisini kalıcı olarak günceller"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Commit mesajları için büyük/yetenekli model; mimari inceleme için küçük/ucuz model",
       "Göreve bakılmaksızın maliyeti en aza indirmek için her ikisinde de en küçük model"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Bir görev basit ama çok yüksek hacimli ve gecikmeye duyarlı; küçük bir hata oranını aşağı-akışta ucuza yakalayabiliyorsun. Burada hangi model seçimi daha iyi *trade-off*?",
+    "choices": [
+      "Küçük, hızlı, ucuz model — hacim ve gecikme, marjinal doğruluk kazancından ağır basar",
+      "En büyük frontier model; çünkü daha fazla yetenek her zaman daha güvenlidir",
+      "Başlatmadan önce orta boy bir modeli göreve fine-tune et",
+      "Hataları ortalamak için her istekte farklı rastgele bir model"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

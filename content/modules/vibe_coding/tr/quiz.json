@@ -7,7 +7,9 @@
       "AI'ın bütün özelliği tek seferde üretmesi için mümkün olan en büyük prompt'u yazmak",
       "Zaman kazanmak için AI'ın kendi değişikliklerini commit ve merge etmesine izin vermek"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Sır'ları ve hassas veriyi prompt'lardan uzak tutmak",
       "Derlendiği sürece tam olarak anlamadığınız kodu göndermek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Kütüphane bozuk; sonradan bir düzeltmeyi zorlamak için üretilen kodu commit edin",
       "Hiçbir sorun yok; editörünüzde derleniyorsa doğru olmalı"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Uygulama çökmeden başladığı için onu onaylamak",
       "Onaylamadan önce diff'i gömülü sır'lar ve eksik yetki kontrolleri için review etmek"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Vibe coding sırasında AI bir düzeltmenin ~%80'ine geldi ama son %20'de döngüye girip varyantlar öneriyor. Devam etmek ile müdahale etmek arasında hangi *trade-off* doğru?",
+    "choices": [
+      "Prompt'lamaya devam et; yeterli denemeyle model her zaman yakınsar",
+      "%80'lik sürümü kabul et ve devam et; çoğu zaten çalışıyor",
+      "Direksiyona geç ve zor %20'yi kendin bitir — döngü maliyeti artık onu yazmaktan fazla",
+      "'Modunu' sıfırlamak için tüm görevi boş bir prompt'tan yeniden başlat"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

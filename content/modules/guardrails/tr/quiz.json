@@ -7,7 +7,9 @@
       "Token sayılarını azaltarak agent'ın kodu daha hızlı yazmasını sağlarlar",
       "Agent'ı tamamen scriptli hata düzeltmeleriyle değiştirirler"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Bir AI değişikliği birleştirilmeden önce bir insan inceleme/onay geçidi",
       "Daha fazla kod okuyabilmesi için daha büyük context window'lu bir model seçmek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Bir token-bütçe saldırısı; ilk olarak diff'i parçalayarak yakalanır",
       "Bir donanım arızası; ilk olarak daha büyük bir context window ile yakalanır"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Daha fazla katman kullanmak agent'ın asla hata yapamayacağını garanti eder",
       "Bir kontrol başarısız olursa (örn. kaçırılan bir injection), bir diğeri (sandbox, reddetme listesi, secret tarama, insan geçidi) yine de zararı engelleyebilir"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Daha katı bir çıktı filtresi daha çok kötü içeriği engeller ama bazı meşru cevapları da reddeder (false positive). Yalnızca güvenilir mühendislerin kullandığı bir iç araçta hangi *trade-off* uygun?",
+    "choices": [
+      "Daha hafif guardrail'ler — güvenilir iç kullanıcılarda false positive'ler, nadir kötü çıktıdan daha çok üretkenliği baltalar",
+      "Kitleden bağımsız, güvende olmak için maksimum katılık",
+      "Hiç guardrail yok; mühendisler her şeyle başa çıkar",
+      "Her ihtimale karşı kod içeren her yanıtı engelle"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

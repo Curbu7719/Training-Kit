@@ -7,7 +7,9 @@
       "Model deponuzu ve CI yapılandırmanızı otomatik olarak okur",
       "İfade yalnızca tonu etkiler, modelin seçtiği framework'ü veya durumları asla etkilemez"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "User mesajı system mesajına göre öncelik kazanır",
       "Güvenlik politikası ve kişilik en iyi system mesajına yerleştirilir"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Modeli daha yüksek bir sıcaklık (temperature) kullanmaya zorlamak için",
       "Kodu otomatik olarak başka bir dile çevirmek için"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Modelden bir şablon vermeden 'biraz daha yapılandırılmış' olmasını isteyin",
       "İyi biçimlendirilmiş bir hikaye çıkana kadar isteği tekrar tekrar gönderin"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Few-shot örnekleri format uyumunu artırır ama her çağrıya token ekler. Günde milyonlarca kez çalışan basit, net bir çıkarım görevinde hangi *trade-off* daha iyi?",
+    "choices": [
+      "Maksimum güvenilirlik için her çağrıya birkaç few-shot örnek ekle",
+      "Model asla yanlış formatlamasın diye uzun, ayrıntılı tek bir örnek ekle",
+      "Örnek vermek yerine daha büyük bir modele geç",
+      "Net bir talimatla zero-shot git — görev basit, few-shot'ın çağrı-başına token maliyeti bu ölçekte değmez"
+    ],
+    "correct": [
+      3
+    ],
     "points": 1
   }
 ]

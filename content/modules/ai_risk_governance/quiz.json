@@ -7,7 +7,9 @@
       "It is purely a technical task handled entirely by engineers",
       "It replaces the need for any human review of AI output"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Audit logging of prompts, outputs, and decisions for accountability",
       "Choosing whichever AI vendor has the lowest price regardless of its data terms"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,10 @@
       "The risk that the model's context window is too small, answered by a larger model",
       "Hardware failure risk, answered by buying faster servers"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +49,22 @@
       "Approving the final go-live decision for the whole product",
       "Designing the model's neural network architecture"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Heavy approval gates and audits reduce risk but slow delivery. For a low-risk, internal-only AI helper, which governance *trade-off* is appropriate?",
+    "choices": [
+      "Lightweight governance proportional to the low risk — don't gate an internal helper like a customer-facing, regulated system",
+      "The same full approval board and audit trail you'd use for a public financial product",
+      "No governance at all, since it's internal",
+      "Block the project until a company-wide AI policy is finished"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

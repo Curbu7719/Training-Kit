@@ -7,7 +7,9 @@
       "Summarizing the themes across 500 free-text customer reviews",
       "Routing a support ticket by an exact priority lookup table"
     ],
-    "correct": [2],
+    "correct": [
+      2
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "It is non-deterministic, which is desirable for exact rules",
       "Its behavior is predictable, so the result can be verified directly"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Fine-tune a model immediately, because fine-tuning never requires labeled data",
       "Buy the most proprietary SaaS available, because lock-in reduces switching costs"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "An abstraction layer over the provider helps keep switching costs low",
       "The cheapest per-call price always means the lowest total cost of ownership"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "A capability is somewhat important but not your core differentiation, a solid hosted option exists, and your team is small. Which build-vs-buy *trade-off* fits?",
+    "choices": [
+      "Build it in-house because owning more of the stack is always better",
+      "Build it because relying on a vendor is a risk you should never take",
+      "Wait and do nothing until you can afford to build it",
+      "Buy/integrate the hosted option now, and revisit building only if it later becomes true differentiation you can resource"
+    ],
+    "correct": [
+      3
+    ],
     "points": 1
   }
 ]

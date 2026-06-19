@@ -7,7 +7,9 @@
       "Diff'ler her zaman tek bir token olarak sayılır",
       "Düz metin kelime başına, kod ise satır başına faturalandırılır"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Bir kaynak kod satırı her zaman tam olarak bir token'a eşittir",
       "Bir modelin context window sınırı satırla değil, token cinsinden ölçülür"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Çıktı token'ları tükendi, bu yüzden token başına fiyatı düşürün",
       "Diff'in çok az token'ı vardı, bu yüzden onu boşlukla doldurun"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Girdi ve çıktı token'larını kendi oranlarında ayrı ayrı hesaplayın, ardından her birini 1.500 PR ile çarpın",
       "Token sayılarını yok sayıp tahmini yalnızca PR sayısından yapın"
     ],
-    "correct": [2],
+    "correct": [
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Prompt'u kısaltmak token maliyetini düşürür ama modelin ihtiyaç duyduğu context'i atma riski taşır. Bir maddenin kaçması pahalıya patlayan, yüksek-riskli hukuki-özet özelliğinde hangi *trade-off* doğru?",
+    "choices": [
+      "Her çağrıda maliyeti minimize etmek için olabildiğince agresif kısalt",
+      "Hiçbir şey atlanmasın diye her zaman tüm belgeyi gönder",
+      "Görevin gerçekten ihtiyaç duyduğu context'i daha yüksek token maliyetine rağmen koru; yalnızca açıkça-alakasız metni kırp",
+      "Token fiyatı önemini yitirsin diye en ucuz modele geç"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

@@ -7,7 +7,9 @@
       "A real value metric is anything reported in a dashboard; a vanity metric is anything reported in a slide",
       "There is no difference; both measure how often the model is called"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "The cost to run it at higher volume exceeds the benefit it delivers",
       "The pilot cleared its value threshold and agents keep using it without being told to"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Production, then scale, then pilot",
       "Scale, then production, then pilot"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Report 'available to all agents' as the success metric and consider the rollout complete",
       "Increase the model's accuracy, since accuracy is the only thing that drives value"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "A pilot shows modest but real value, yet the unit economics look shaky at full scale. Which scaling *trade-off* is the disciplined choice?",
+    "choices": [
+      "Roll out to everyone immediately — it works, so scale is the obvious next step",
+      "Fix the unit economics first (or scale a narrow high-value slice) before a full rollout",
+      "Kill it outright; modest value is never worth pursuing",
+      "Keep it in pilot forever to avoid the decision"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

@@ -7,7 +7,9 @@
       "It is impossible to measure latency or cost for AI features",
       "Deterministic functions cannot be tested at all"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Human review",
       "LLM-as-judge"
     ],
-    "correct": [0, 2, 3],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Cost per call",
       "Relevance"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Judge the change by how good it looks on two or three hand-picked demos",
       "Track latency and cost alongside quality so a quality gain isn't hiding a speed or cost regression"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Human review is the most trustworthy eval but slow and costly; an LLM judge is fast and cheap but biased. For a gate that must run on *every* pull request, which *trade-off* fits — with what safeguard?",
+    "choices": [
+      "LLM-as-judge for speed, validated against a sample of human labels so you trust its scores",
+      "Full human review on every PR; quality must never be automated",
+      "Skip evaluation in CI and rely on production complaints",
+      "Trust the LLM judge's raw scores without ever checking them against humans"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

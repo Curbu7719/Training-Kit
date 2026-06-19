@@ -7,7 +7,9 @@
       "Write the largest possible prompt so the AI produces the whole feature in one go",
       "Let the AI commit and merge its own changes to save time"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Keep secrets and sensitive data out of prompts",
       "Ship code you don't fully understand as long as it compiles"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "The library is broken; commit the generated code to force a fix later",
       "Nothing is wrong; if it compiles in your editor it must be correct"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Approve it because the app starts up without crashing",
       "Review the diff for hard-coded secrets and missing auth checks before approving"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "While vibe coding, the AI is about 80% of the way to a fix but keeps looping on the last 20%, re-suggesting variants. Which *trade-off* between continuing and intervening is right?",
+    "choices": [
+      "Keep prompting; with enough tries the model always converges",
+      "Accept the 80% version and move on, since most of it works",
+      "Take the wheel and finish the hard 20% yourself — the looping cost now exceeds just writing it",
+      "Restart the whole task from a blank prompt to reset its 'mood'"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

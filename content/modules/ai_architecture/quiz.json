@@ -7,7 +7,9 @@
       "The vector store",
       "The model provider"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Reliability and fallbacks when the provider fails",
       "Choosing the exact wording of one specific prompt"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Encrypting the client's network traffic",
       "Billing users per token automatically"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "It centralizes a single place to add a fallback when the provider fails",
       "It removes the need for any guardrails or output checks"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Coding straight to one provider's SDK ships fastest; a provider-abstraction layer adds work but enables switching later. For an early MVP racing to validate the idea, which *trade-off* is reasonable?",
+    "choices": [
+      "Build a full multi-provider abstraction layer up front so you're never locked in",
+      "Hard-code the provider everywhere and never plan for change",
+      "Ship directly to one provider now, keeping a thin seam — don't over-engineer abstraction before product-market fit",
+      "Support three providers from day one to be safe"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

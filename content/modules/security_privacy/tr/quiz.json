@@ -7,7 +7,9 @@
       "Çünkü uzun bir stack trace yapıştırmak çok fazla token kullanır ve modeli yavaşlatır",
       "Çünkü stack trace'ler telif hakkıyla korunur ve paylaşılamaz"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Geliştiricilerin kodu onaylanmamış tüketici chatbot'larına yapıştırması (shadow AI)",
       "Onaylı bir zero-retention aracı kullanarak, hassas veri içermeyen bir kod parçacığını biçimlendirmesini istemek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,11 @@
       "Yalnızca topyekûn bir yasağa güvenmek yerine geliştiricileri riskler konusunda eğitmek",
       "Tüm AI araçlarını güvenlik duvarında engellemek ve sorunun çözüldüğünü varsaymak"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -40,7 +50,22 @@
       "Cevabın daha yaratıcı olması için modelin sıcaklığını artırmak",
       "Nöbet rotasyonu gecikmesin diye tüm trace'i hızlıca göndermek"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Self-host veriyi içeride tutar ama daha pahalı ve model kalitesinde geride; no-retention anlaşmalı hosted API daha ucuz ve güçlü ama veri ağından çıkar. Vendor DPA kapsamındaki orta-hassasiyette iç belgeler için hangi *trade-off* makul?",
+    "choices": [
+      "Her zaman self-host; hassas veri hiçbir şartla binadan çıkmamalı",
+      "Herhangi bir public araca yapıştır — DPA her şeyi güvenli kılar",
+      "No-retention/DPA şartlarıyla hosted API'yi kullan — orta hassasiyet için orantılı; self-host burada aşırı olur",
+      "Vendor'a e-posta atıp sonradan silmesini iste"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]

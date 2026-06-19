@@ -7,7 +7,9 @@
       "Tamamen mühendisler tarafından ele alınan salt teknik bir görevdir",
       "AI çıktısının herhangi bir insan incelemesine olan ihtiyacı ortadan kaldırır"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Hesap verebilirlik için prompt'ların, çıktıların ve kararların audit günlüklemesi",
       "Veri koşullarına bakılmaksızın en düşük fiyatlı AI satıcısını seçmek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,10 @@
       "Modelin context window'unun çok küçük olması riski; daha büyük bir modelle yanıtlanır",
       "Donanım arızası riski; daha hızlı sunucular alarak yanıtlanır"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +49,22 @@
       "Tüm ürün için nihai canlıya-geçiş kararını onaylamak",
       "Modelin sinir ağı mimarisini tasarlamak"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Ağır onay kapıları ve denetimler riski azaltır ama teslimi yavaşlatır. Düşük-riskli, yalnızca-iç bir AI yardımcısı için hangi yönetişim *trade-off*'u uygun?",
+    "choices": [
+      "Düşük riske orantılı hafif yönetişim — bir iç yardımcıyı müşteriye-dönük, regüle bir sistem gibi kapılama",
+      "Public bir finansal ürün için kullanacağın tam onay kurulu ve denetim izinin aynısı",
+      "İç olduğu için hiç yönetişim yok",
+      "Şirket-geneli bir AI politikası bitene kadar projeyi durdur"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

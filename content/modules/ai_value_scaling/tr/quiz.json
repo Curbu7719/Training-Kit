@@ -7,7 +7,9 @@
       "Gerçek bir değer metriği bir dashboard'da raporlanan herhangi bir şeydir; bir vanity metriği bir slaytta raporlanan herhangi bir şeydir",
       "Fark yoktur; ikisi de modelin ne sıklıkta çağrıldığını ölçer"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Daha yüksek hacimde çalıştırma maliyeti, sağladığı faydayı aşıyor",
       "Pilot değer eşiğini geçti ve temsilciler söylenmeden kullanmaya devam ediyor"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Production, sonra ölçeklendirme, sonra pilot",
       "Ölçeklendirme, sonra production, sonra pilot"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "'Tüm temsilcilere erişilebilir'i başarı metriği olarak raporlayın ve dağıtımı tamamlanmış sayın",
       "Modelin doğruluğunu artırın, çünkü değeri yönlendiren tek şey doğruluktur"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Bir pilot mütevazı ama gerçek bir değer gösteriyor, ancak birim ekonomi tam ölçekte sallantılı görünüyor. Hangi ölçekleme *trade-off*'u disiplinli seçim?",
+    "choices": [
+      "Hemen herkese yay — çalışıyor, o yüzden ölçeklemek bariz sonraki adım",
+      "Tam yayılımdan önce birim ekonomiyi düzelt (veya dar, yüksek-değerli bir dilimi ölçekle)",
+      "Direkt kapat; mütevazı değer asla peşinden gidilmeye değmez",
+      "Kararı ertelemek için sonsuza dek pilotta tut"
+    ],
+    "correct": [
+      1
+    ],
     "points": 1
   }
 ]

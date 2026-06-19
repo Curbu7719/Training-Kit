@@ -7,7 +7,9 @@
       "Executes the diff as program code",
       "Searches the live internet for the best matching message"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Non-determinism — the same prompt may yield different output run to run",
       "It cannot produce any output longer than a single line"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "They are two names for the same process",
       "Inference permanently updates the model's knowledge with each new question"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,22 @@
       "Large/capable model for commit messages; small/cheap model for the architecture review",
       "Smallest model for both, to minimize cost regardless of task"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "A task is simple but extremely high-volume and latency-sensitive, and a small error rate is cheap to catch downstream. Which model choice is the better *trade-off* here?",
+    "choices": [
+      "A small, fast, cheap model — the volume and latency outweigh a marginal accuracy gain",
+      "The largest frontier model, since more capability is always safer",
+      "Fine-tune a mid-size model on the task before launching",
+      "A different random model per request to average out errors"
+    ],
+    "correct": [
+      0
+    ],
     "points": 1
   }
 ]

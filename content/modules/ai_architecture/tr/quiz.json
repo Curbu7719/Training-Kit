@@ -7,7 +7,9 @@
       "Vector store",
       "Model sağlayıcı"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1
   },
   {
@@ -18,7 +20,11 @@
       "Sağlayıcı başarısız olduğunda güvenilirlik ve fallback'ler",
       "Tek bir belirli prompt'un kesin ifadesini seçmek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1
   },
   {
@@ -29,7 +35,9 @@
       "Client'ın ağ trafiğini şifrelemek",
       "Kullanıcıları otomatik olarak token başına faturalandırmak"
     ],
-    "correct": [0],
+    "correct": [
+      0
+    ],
     "points": 1
   },
   {
@@ -40,7 +48,24 @@
       "Sağlayıcı başarısız olduğunda bir fallback eklemek için tek bir yeri merkezileştirir",
       "Herhangi bir guardrail veya output kontrolüne olan ihtiyacı ortadan kaldırır"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "points": 1
+  },
+  {
+    "prompt": "Doğrudan tek sağlayıcının SDK'sine kodlamak en hızlı yayınlar; sağlayıcı-soyutlama katmanı iş ekler ama sonradan geçişi mümkün kılar. Fikri doğrulamaya koşan erken bir MVP için hangi *trade-off* makul?",
+    "choices": [
+      "Asla kilitlenmemek için baştan tam çok-sağlayıcılı bir soyutlama katmanı kur",
+      "Sağlayıcıyı her yere hard-code et ve değişimi hiç planlama",
+      "Şimdi tek sağlayıcıya doğrudan yayınla, ince bir seam bırak — PMF öncesi soyutlamayı aşırı mühendisleme",
+      "Güvende olmak için ilk günden üç sağlayıcıyı destekle"
+    ],
+    "correct": [
+      2
+    ],
     "points": 1
   }
 ]
