@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "RAG var çünkü model eğitim sırasında özel depoyu veya wiki'yi hiç görmedi, bu yüzden ilgili bağlam soru anında retrieve edilip sağlanmalıdır. Diğer seçenekler sorunu yanlış ifade eder: mesele eksik bilgi, hız, depolama veya dilbilgisi değil."
   },
   {
     "prompt": "Bir kod tabanı Soru-Cevap asistanı için bir depo ve wiki indexlenirken, hangi adımlar herhangi bir geliştirici soru sormadan ÖNCE gerçekleşir? (Geçerli olanların tümünü seçin.)",
@@ -25,7 +26,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Chunk'lama, chunk'ları embed etmek ve onları index'te saklamak, hepsi önceden yapılan offline indexleme adımlarıdır. Soruyu embed etmek ve top-k retrieve etmek, bir geliştirici gerçekten bir şey sorduğunda, sorgu anında gerçekleşir."
   },
   {
     "prompt": "Asistan, 'Başarısız bir işi nasıl yeniden denerim?' sorusu için, hiçbir anahtar kelime paylaşmasalar bile 'Backoff ve yeniden kuyruğa alma politikası' başlıklı bir wiki sayfasını neden retrieve edebilir?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Embedding'ler anlamı yakalar, böylece 'başarısız bir işi yeniden dene' ortak kelime olmadan bile 'backoff ve yeniden kuyruğa alma'nın yakınına düşer, ki bu tam da keyword aramasının yapamadığı şeydir. Diğer seçenekler fine-tuning, keyword hileleri veya elle etiketlemeyi tarif eder, burada hiçbiri olmuyor."
   },
   {
     "prompt": "Bir QA mühendisi, ekip benimsemeden önce RAG tabanlı bir kod tabanı asistanını test ediyor. Hangi kontroller, yanıtların gerçek koda ve dokümanlara düzgünce grounded olduğunu en doğrudan doğrular?",
@@ -53,7 +56,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Grounding, yanıtların iddiayı içeren gerçek bir kaynağa atıf yapması, ilgili hiçbir şey retrieve edilmediğinde çekimser kalması ve bağlamda olmayan API'leri asla öne sürmemesi demektir. Karakteri karakterine tekrarlanabilirlik yanlış bir testtir, çünkü yararlı bir generative yanıt her çalıştırmada farklı ifade edilebilir."
   },
   {
     "prompt": "Daha büyük retrieval parçaları daha çok çevresel context verir ama alakayı seyreltir ve prompt alanını harcar; küçük parçalar isabetlidir ama bir düşünceyi bölebilir. Kısa, kendi-içinde-bütün config parçacıkları getirmek için hangi *trade-off* daha iyi?",
@@ -66,6 +70,7 @@
     "correct": [
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Config parçacıkları kısa ve kendi-içinde-bütündür, bu yüzden küçük isabetli parçalar alakayı seyreltmeden doğru olanı retrieve eder. En büyük parçalar, dosya başına tek parça veya tüm belgeleri embed etmek, bu tür ayrık içerik için sıralamaya zarar veren gürültü ekler."
   }
 ]

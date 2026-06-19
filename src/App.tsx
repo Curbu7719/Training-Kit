@@ -10,6 +10,8 @@ import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { AdminRoute } from '@/components/auth/AdminRoute';
 import { ExamPage } from '@/pages/ExamPage';
+import { GlossaryPage } from '@/pages/GlossaryPage';
+import { IntroPage } from '@/pages/IntroPage';
 
 // ---------------------------------------------------------------------------
 // App — wraps everything in AuthProvider, declares all routes.
@@ -74,6 +76,24 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ExamPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* AI basics primer + glossary */}
+          <Route
+            path="/start"
+            element={
+              <ProtectedRoute>
+                <IntroPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/glossary"
+            element={
+              <ProtectedRoute>
+                <GlossaryPage />
               </ProtectedRoute>
             }
           />

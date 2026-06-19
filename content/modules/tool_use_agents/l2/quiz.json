@@ -8,7 +8,8 @@
       "Raw errors are fine because the max-iteration cap will handle everything"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "A raw 500 is ambiguous, so the model may confuse an outage with missing data; a typed, retryable result lets it choose the right next action. The last option is wrong: an iteration cap only stops runaway loops, it does not tell the model how to interpret an error."
   },
   {
     "prompt": "A refund agent's only safeguard against large erroneous refunds is a prompt instruction saying 'only refund valid orders,' yet it still issued a wrong $5,000 refund. What is the correct architectural fix?",
@@ -19,7 +20,8 @@
       "Increase the model temperature to make it more cautious"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "A prompt instruction is a suggestion the model can ignore; high-impact actions need a hard gate enforced in application code. Rewording the prompt, adding iterations, or changing temperature all leave the unsafe action reachable without real authorization."
   },
   {
     "prompt": "A max-iteration cap is in place, yet an agent still wastes ten model calls when a service is down before giving up. Which improvements address this more gracefully? Select all that apply.",
@@ -30,6 +32,7 @@
       "Remove the iteration cap entirely so the agent can keep trying"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Detecting non-progress, classifying transient vs permanent failures, and logging each step let the agent stop early and be debugged. Removing the cap does the opposite, letting it loop forever, which is the failure you are trying to avoid."
   }
 ]

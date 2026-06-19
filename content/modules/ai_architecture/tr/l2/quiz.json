@@ -8,7 +8,8 @@
       "Yeni modeli hemen kullanıcıların %100'üne dağıtmak ve şikayetleri izlemek"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Çevrimdışı eval'ler, shadowing ve hızlı rollback'li kademeli feature flag yayını; regresyonları kullanıcı maruziyetini sınırlayarak veya önceden yakalar. Hemen %100'e dağıtmak ise her kullanıcıyı tek seferde ve güvenlik ağı olmadan bir regresyona maruz bırakır ki kaçınılmak istenen risk tam olarak budur."
   },
   {
     "prompt": "Bir sağlayıcının API'si aralıklı olarak zaman aşımına uğruyor ve zaman zaman hatalı biçimlendirilmiş output döndürüyor. Hangi güvenilirlik desenleri bu başarısızlık modlarını doğrudan ele alır? (Geçerli olan hepsini seçin.)",
@@ -19,7 +20,8 @@
       "Hatalı biçimlendirilmiş output'un doğrudan geçmesi için output guardrail'ini kaldırmak"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Timeout'lar, backoff'lu sınırlı retry'lar ve degraded mod'lu bir circuit breaker; yavaş ve geçici sağlayıcı hatalarını doğrudan sınırlar. Output guardrail'ini kaldırmak ise tam tersini yapar — hatalı output'u yakalamak yerine kullanıcılara ulaşmasına izin verir."
   },
   {
     "prompt": "Bir mimar, sağlayıcı soyutlamasının yalnızca daha temiz kod değil, birkaç başka yeteneğin de ön koşulu olduğunu söylüyor. İyi tasarlanmış bir model soyutlaması hangi yetenekleri doğrudan mümkün kılar? (Geçerli olan hepsini seçin.)",
@@ -30,6 +32,7 @@
       "Modelin asla halüsinasyon görmemesini garanti etmek"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir model soyutlaması; failover'ı, zorluğa göre routing'i ve fallback ile güvenilirlik mantığının çağrıyı sardığı merkezi bir yeri doğrudan mümkün kılar. Modelin asla halüsinasyon görmemesini garanti edemez — bu, soyutlamanın üzerinde hiçbir kontrolü olmayan içsel bir model davranışıdır."
   }
 ]

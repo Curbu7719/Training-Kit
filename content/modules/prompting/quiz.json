@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "The model only sees what you put in the prompt, so without the actual code and framework it has to invent a signature and guess the tests. It does not read your repository or CI on its own, and wording affects far more than tone."
   },
   {
     "prompt": "Which statements about the system (developer) message versus the user message are correct? Select all that apply.",
@@ -25,7 +26,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Durable rules (framework, standards, safety policy, persona) belong in the system message and persist across turns, while the specific request goes in the user message. The system message takes priority over the user message, so the claim that the user message wins is wrong."
   },
   {
     "prompt": "When prompting a model to refactor a function, why wrap the existing code in delimiters such as triple backticks or XML-style tags?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Delimiters clearly separate your instructions from the code the model should process, so an in-code comment isn't mistaken for an instruction. They don't shorten the prompt, change temperature, or translate the code."
   },
   {
     "prompt": "A Business Analyst prompts a model to turn a stakeholder request into a user story, but the output keeps coming back as a loose paragraph with no acceptance criteria, breaking the team's backlog template. Which prompt change most directly fixes this?",
@@ -51,7 +54,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Specifying the exact output template and showing one example in that format directly steers the model to the structure you need. Vague asks ('be more structured') and raising temperature don't reliably produce the template, and re-sending the same prompt just repeats the problem."
   },
   {
     "prompt": "Few-shot examples improve format adherence but add tokens to every call. For a simple, unambiguous extraction task run millions of times a day, which *trade-off* is better?",
@@ -64,6 +68,7 @@
     "correct": [
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "For a simple, unambiguous task run at massive scale, a crisp zero-shot instruction avoids paying few-shot's per-call token cost millions of times. Adding examples to every call inflates cost for little gain, and switching to a larger model is a heavier, more expensive fix than the task needs."
   }
 ]

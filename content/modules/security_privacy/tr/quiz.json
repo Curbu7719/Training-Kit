@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Cevabın doğru olması önemsizdir: PII ve canlı anahtar sınırınızın dışına çıktığında saklanabilir, log'lanabilir, eğitimde kullanılabilir veya bölgeler arasında taşınabilir; hepsi kontrolünüz dışında. Diğer seçenekler gizlilik ifşasıyla değil, kalite veya token maliyetiyle ilgilidir."
   },
   {
     "prompt": "SDLC'de AI kullanırken aşağıdakilerden gerçek güvenlik veya gizlilik riski olan TÜM seçenekleri işaretleyin.",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "İlk üçü retention, injection veya yönetilmeyen shadow-AI kullanımı yoluyla hassas veriyi sızdırır veya ifşa eder. Sonuncusu güvenlidir çünkü hassas veri göndermez ve onaylı bir zero-retention aracı kullanır, bu yüzden risk değildir."
   },
   {
     "prompt": "Ekibiniz, geliştiricilerin kodu sessizce rastgele chatbot'lara yapıştırmasını (shadow AI) durdurmak istiyor. Hangi yaklaşım bunu en iyi gün ışığına çıkarır? Geçerli olan TÜM seçenekleri seçin.",
@@ -40,7 +42,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Güvenli onaylı bir araç, net bir politika ve eğitim sağlamak talebi yönetilebileceği açıklığa çıkarır. Yalnızca güvenlik duvarı yasağı geliştiricileri kişisel cihazlara iter, böylece shadow kullanım göz önünden uzakta devam eder."
   },
   {
     "prompt": "Onaylı bir AI aracına bir hata ayıklama prompt'u göndermeden önce, hangi tek uygulama prompt'un gizlilik riskini en doğrudan azaltır?",
@@ -53,7 +56,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "PII ve secret'ları redact etmek veri minimizasyonu uygular, böylece onaylı bir araç bile yalnızca ihtiyaç duyduğunu görür. Daha büyük context window veya daha yüksek sıcaklık yeteneği ya da stili değiştirir, ifşayı değil; tüm trace'i göndermek ise riski azaltmak yerine artırır."
   },
   {
     "prompt": "Self-host veriyi içeride tutar ama daha pahalı ve model kalitesinde geride; no-retention anlaşmalı hosted API daha ucuz ve güçlü ama veri ağından çıkar. Vendor DPA kapsamındaki orta-hassasiyette iç belgeler için hangi *trade-off* makul?",
@@ -66,6 +70,7 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Zaten bir DPA kapsamındaki orta hassasiyet için hosted no-retention API orantılı bir kontroldür ve self-host maliyetli bir aşırılık olur. Topyekûn self-host kuralı sözleşmeyi yok sayar, DPA public araçları güvenli kılmaz ve sonradan silme talepleri ilk ifşayı önlemez."
   }
 ]

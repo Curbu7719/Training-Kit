@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "AI çıktısı deterministik değildir ve nadiren tek bir tam doğru string vardır, bu yüzden sabit bir değer üzerindeki assertEquals, cevap iyi olsa bile başarısız olur. Diğer seçenekler yanlıştır: AI hata üretir, latency ve maliyet ölçülebilir ve deterministik fonksiyonlar test edilebilir."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, metriklerin aksine, değerlendirme YAKLAŞIMLARIDIR (yargı toplama yolları)? (Geçerli olanların tümünü seçin.)",
@@ -25,7 +26,8 @@
       2,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Golden veri kümeleri, insan incelemesi ve LLM-as-judge, hepsi yargı toplama yollarıdır, bu yüzden yaklaşımlardır. Faithfulness/groundedness bir metriktir, yani ölçülen şeydir, yargıyı toplama yolu değil."
   },
   {
     "prompt": "Bir AI özetleyici, bazen sürüm notuna hiçbir merge edilmiş PR'da görünmeyen bir özellik ekliyor. Hangi metrik bu sorunu en doğrudan yakalar?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Hiçbir PR'da bulunmayan bir özellik uydurmak, desteksiz bir iddiadır, ki bu tam da faithfulness/groundedness'in ölçtüğü şeydir. Latency ve maliyet performans metrikleridir ve relevance içeriğin konuyla ilgili olup olmadığını sorar, gerçekten kaynak tarafından desteklenip desteklenmediğini değil."
   },
   {
     "prompt": "Bir PM ve QA test uzmanı, kaliteyi sessizce düşürmeden bir AI özelliğine bir prompt değişikliği ship etmek istiyor. Hangi pratikler güvenli, kanıt-temelli iterasyonu destekler? (Geçerli olanların tümünü seçin.)",
@@ -53,7 +56,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir golden paketi yeniden çalıştırmak, onu CI'da geçit yapmak ve latency ile maliyeti izlemek, tüm dağılım boyunca ölçülmüş, tekrarlanabilir kanıt verir. Birkaç elle seçilmiş demo seçmecidir ve bakmadığınız durumlardaki regresyonları gizleyebilir."
   },
   {
     "prompt": "İnsan incelemesi en güvenilir eval ama yavaş ve pahalı; LLM judge hızlı ve ucuz ama yanlı. *Her* pull request'te çalışması gereken bir kapı için hangi *trade-off* uygun — hangi güvenceyle?",
@@ -66,6 +70,7 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "PR başına bir kapı, bir LLM judge'ın hızına ihtiyaç duyar ve onu bir insan-etiket örneğine karşı kalibre etmek skorlarını güvenilir tutar. Her PR'da insan incelemesi ölçeklenmez, değerlendirmeyi atlamak kapıyı işlevsiz kılar ve ham judge skorlarına güvenmek onun bilinen önyargılarını yok sayar."
   }
 ]

@@ -8,7 +8,8 @@
       "Temperature ayarı çok yüksek"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "Yanıt alıntıladığı kaynağı sadık şekilde kullandı, yani generation çalıştı; hata, retrieval'ın yanlış servisin chunk'ını yüzeye çıkarmasıdır. Bu bir generation başarısızlığı değil (model kendisine verileni kullandı) ve temperature veya yeniden eğitim, yanlış-ama-gerçek bir alıntıyı açıklamaz."
   },
   {
     "prompt": "Hangi teknikler, bir kod tabanı asistanının (generation prompt'undan ziyade) özellikle RETRIEVAL aşamasını iyileştirir? (Geçerli olanların tümünü seçin.)",
@@ -19,7 +20,8 @@
       "Modeli yalnızca sağlanan koddan yanıt vermeye yönlendirmek"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Hybrid search, metadata filtreleme ve re-ranking, hangi chunk'ların seçildiğini değiştirir, bu yüzden retrieval'ı iyileştirir. Modeli yalnızca sağlanan koddan yanıt vermeye yönlendirmek bir generation tarafı korkuluğudur ve neyin retrieve edildiğini etkilemez."
   },
   {
     "prompt": "İki chunk anlamca neredeyse aynı ve yalnızca bir servis adı gibi ayırt edici bir token'da farklılaşıyor ve saf anlamsal arama sürekli yanlış olanı retrieve ediyor. Hangi kombinasyon bunu en iyi çözer VE neden?",
@@ -30,6 +32,7 @@
       "Model temperature'ını yükseltin, çünkü daha fazla rastgelelik doğru dosyayı seçmesine yardımcı olur"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "Sorun, anlamsal benzerliğin tek ayırt edici token'ı yok saymasıdır, bu yüzden metadata filtreleme artı hybrid search hem yanlış servisi eler hem de tam token'ı ağırlıklandırır. Top-k'yı yükseltmek gürültü ekler, overlap neden değildir ve temperature yalnızca generation'ı etkiler, hangi chunk'ın retrieve edildiğini değil."
   }
 ]

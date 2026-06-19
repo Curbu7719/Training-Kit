@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A tool call is just a structured request the model emits; the application is what actually executes the test command and feeds the result back. The model cannot run anything inside its weights, and the tool augments rather than replaces the model."
   },
   {
     "prompt": "Which steps make up one iteration of the agent loop while it fixes a failing test? Select all that apply.",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "One iteration of the loop is plan, act, observe, repeated until done. Retraining the model is not part of the loop; the model's weights are fixed at inference time and only the prompt context changes."
   },
   {
     "prompt": "A PM is deciding between a single model call and a full agent for a new dev-tooling feature. Which situation most justifies an agent?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "An agent earns its overhead when the task is multi-step and each step depends on the result of the last, like fixing a bug and re-running tests. A one-shot summary or a single deterministic label needs no loop, and minimizing cost argues against an agent's extra calls."
   },
   {
     "prompt": "Which of these are real failure modes of giving a coding agent autonomy, and the guardrails that address them? Select all correct statements.",
@@ -53,7 +56,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Iteration caps, approval gates for destructive actions, and the risk of compounding early errors are all real concerns with matching guardrails. The last is false: adding tools widens what the agent can do but does nothing to stop runaway loops, and can make them worse."
   },
   {
     "prompt": "An agent that plans and calls tools is powerful but adds latency, cost, and new failure modes. For a fixed, well-known 2-step sequence, which design *trade-off* is better?",
@@ -66,6 +70,7 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "When the steps are fixed and known, a scripted pipeline is cheaper, faster, and more predictable than open-ended agency. Choosing an agent just because it is modern, removing the iteration cap, or piling on tools all add cost and failure surface without benefit here."
   }
 ]

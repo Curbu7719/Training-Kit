@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir tool çağrısı yalnızca modelin yayınladığı yapılandırılmış bir istektir; test komutunu gerçekten çalıştıran ve sonucu geri besleyen şey uygulamadır. Model weights'inin içinde hiçbir şey çalıştıramaz ve tool, modelin yerini almaz, onu genişletir."
   },
   {
     "prompt": "Bir agent başarısız bir testi düzeltirken, agent döngüsünün bir iterasyonunu hangi adımlar oluşturur? Uygun olanların tümünü seçin.",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Döngünün bir iterasyonu, bitene kadar tekrarlanan planla, eyle, gözlemle adımlarıdır. Modeli yeniden eğitmek döngünün parçası değildir; modelin weights'i çıkarım anında sabittir ve yalnızca prompt bağlamı değişir."
   },
   {
     "prompt": "Bir PM, yeni bir geliştirme-araçları özelliği için tek bir model çağrısı ile tam bir agent arasında karar veriyor. Hangi durum bir agent'ı en çok haklı çıkarır?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir agent, görev çok adımlı olduğunda ve her adım bir öncekinin sonucuna bağlı olduğunda (bir hatayı düzeltip testleri yeniden çalıştırmak gibi) ek yükünü hak eder. Tek seferlik bir özet veya tek bir deterministik etiket döngü gerektirmez ve maliyeti en aza indirmek bir agent'ın ekstra çağrılarına karşı bir argümandır."
   },
   {
     "prompt": "Bunlardan hangileri bir kodlama agent'ına otonomi vermenin gerçek başarısızlık biçimleri ve bunları ele alan korkuluklardır? Doğru ifadelerin tümünü seçin.",
@@ -53,7 +56,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "İterasyon sınırları, yıkıcı eylemler için onay kapıları ve erken hataların birikme riski, eşleşen korkuluklarıyla birlikte gerçek endişelerdir. Sonuncusu yanlıştır: tool eklemek agent'ın yapabileceklerini genişletir ama kontrolsüz döngüleri durdurmaya hiçbir katkısı olmaz ve onları kötüleştirebilir."
   },
   {
     "prompt": "Planlayıp tool çağıran bir agent güçlüdür ama gecikme, maliyet ve yeni hata modları ekler. Sabit, iyi bilinen 2-adımlı bir dizi için hangi tasarım *trade-off*'u daha iyi?",
@@ -66,6 +70,7 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Adımlar sabit ve bilindiğinde, scriptli bir pipeline açık-uçlu otonomiden daha ucuz, daha hızlı ve daha öngörülebilirdir. Sırf modern diye agent seçmek, iterasyon sınırını kaldırmak veya tool yığmak burada fayda sağlamadan maliyet ve hata yüzeyi ekler."
   }
 ]

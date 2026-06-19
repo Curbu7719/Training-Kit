@@ -8,7 +8,8 @@
       "Redacting the typed prompt is sufficient because all other surfaces inherit that redaction"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "PII leaks because the vector store and the logs are separate data flows that never inherited the prompt redaction, so privacy must be enforced at each surface. The last option is false: redaction is local to where it is applied and does not propagate to retrieval or logging."
   },
   {
     "prompt": "Your team assumed an AI provider offered zero-retention and no-train. Before sending confidential source code, what must you actually verify? Select ALL that apply.",
@@ -19,7 +20,8 @@
       "Nothing — the free and enterprise tiers of a product always share the same terms"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "You must confirm the actual contract and config, the processing region, and any abuse-monitoring retention or sub-processor access, because each can expose confidential code. The last option is wrong: free and enterprise tiers routinely differ on exactly these retention and training terms."
   },
   {
     "prompt": "Why is binding AI usage rules to a data-classification scheme (public / confidential / regulated) stronger than telling developers to 'be careful'? Select ALL that apply.",
@@ -30,6 +32,7 @@
       "Classification guarantees that prompt injection and log leaks can never occur"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Classification makes the rule explicit, lets each tier carry concrete requirements, and enables automatic per-tier controls, which 'be careful' cannot do. The last option overstates it: classification governs what data goes where but does not by itself eliminate injection or logging leaks."
   }
 ]

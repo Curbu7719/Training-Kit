@@ -77,6 +77,7 @@ async function seedLevel(moduleId, code, level, lang, baseDir) {
       choices: q.choices,
       correct: q.correct,
       points: q.points ?? 1,
+      explanation: q.explanation ?? null,
     }));
     if (questions.length) {
       const { error } = await supabase.from('quiz_questions').insert(questions);

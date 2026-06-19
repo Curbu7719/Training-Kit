@@ -8,7 +8,8 @@
       "Yazılan prompt'u redact etmek yeterlidir çünkü diğer tüm yüzeyler o redaction'ı devralır"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "PII sızar çünkü vector store ve log'lar, prompt redaction'ını hiç devralmamış ayrı veri akışlarıdır, bu yüzden gizlilik her yüzeyde uygulanmalıdır. Son seçenek yanlıştır: redaction uygulandığı yere özeldir ve retrieval'a veya logging'e yayılmaz."
   },
   {
     "prompt": "Ekibiniz bir AI sağlayıcısının zero-retention ve no-train sunduğunu varsaydı. Confidential kaynak kodu göndermeden önce gerçekte neyi doğrulamalısınız? Geçerli olan TÜM seçenekleri seçin.",
@@ -19,7 +20,8 @@
       "Hiçbir şey — bir ürünün ücretsiz ve kurumsal katmanları her zaman aynı şartları paylaşır"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Gerçek sözleşmeyi ve config'i, işleme bölgesini ve her türlü kötüye kullanım izleme retention'ını veya alt işleyici erişimini doğrulamalısınız, çünkü her biri confidential kodu ifşa edebilir. Son seçenek yanlıştır: ücretsiz ve kurumsal katmanlar tam da bu retention ve eğitim şartlarında rutin olarak farklılaşır."
   },
   {
     "prompt": "AI kullanım kurallarını bir veri sınıflandırma şemasına (public / confidential / regüle) bağlamak, geliştiricilere 'dikkatli ol' demekten neden daha güçlüdür? Geçerli olan TÜM seçenekleri seçin.",
@@ -30,6 +32,7 @@
       "Sınıflandırma, prompt injection ve log sızıntılarının asla olamayacağını garanti eder"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Sınıflandırma kuralı açık hale getirir, her katmanın somut gereksinimler taşımasını sağlar ve katman başına otomatik kontrolleri mümkün kılar; 'dikkatli ol' bunu yapamaz. Son seçenek abartılıdır: sınıflandırma hangi verinin nereye gideceğini yönetir ama tek başına injection veya logging sızıntılarını ortadan kaldırmaz."
   }
 ]

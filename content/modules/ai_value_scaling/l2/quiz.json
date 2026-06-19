@@ -8,7 +8,8 @@
       "Oversight cost is irrelevant; only the gross hours saved belong in the business case"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Real value is the benefit minus the full cost to deliver it, so the 8 hours of review must be netted against the 10 hours saved, leaving a much thinner case. Treating oversight cost as irrelevant inflates the headline and hides the true ROI."
   },
   {
     "prompt": "Why does a mature AI program tie its scale-or-kill gate to leading indicators (e.g. adoption depth, draft acceptance rate, time-to-first-value) rather than waiting for lagging outcomes alone? Select ALL that apply.",
@@ -19,7 +20,8 @@
       "Leading indicators are guaranteed to equal the final business outcome, so lagging metrics are never needed"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Leading indicators arrive early enough to predict the lagging outcome and let you intervene while training or workflow fit can still be fixed, which lagging metrics like quarterly cost are too slow to allow. They guide the decision but do not guarantee the final outcome, so lagging metrics are still needed to confirm value."
   },
   {
     "prompt": "A QA & Architect is asked to sign off on scaling a pilot whose per-request inference cost, support load, and edge-case handling all rise with volume. Which response best reflects how this role should apply value-and-scaling thinking?",
@@ -30,6 +32,7 @@
       "Reject all scaling, because AI costs always grow faster than any possible benefit"
     ],
     "correct": [1],
-    "points": 1
+    "points": 1,
+    "explanation": "Because costs that rise with volume can make unit economics invert at scale, the role should model cost per unit of value at the target volume and confirm it stays below the benefit before approving. Small-scale costs or raw usage growth do not prove the economics hold once volume increases."
   }
 ]

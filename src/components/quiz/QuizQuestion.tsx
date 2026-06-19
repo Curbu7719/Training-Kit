@@ -147,6 +147,13 @@ export function QuizQuestion({
         </div>
       )}
 
+      {result?.explanation && (
+        <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm leading-relaxed">
+          <span className="mr-1 font-semibold text-foreground">{t('quiz.why')}</span>
+          <span className="text-muted-foreground">{result.explanation}</span>
+        </div>
+      )}
+
       <div className="flex justify-end">
         {!result ? (
           <Button onClick={handleSubmit} disabled={selected.length === 0 || submitting} data-testid="quiz-submit-btn">

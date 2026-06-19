@@ -62,7 +62,7 @@ Deno.serve(async (req: Request) => {
   // 3. Load the quiz question (service role — reads `correct` column)
   const { data: question, error: qErr } = await client
     .from('quiz_questions')
-    .select('id, lesson_id, correct, points')
+    .select('id, lesson_id, correct, points, explanation')
     .eq('id', quiz_question_id)
     .single();
 
@@ -119,9 +119,10 @@ Deno.serve(async (req: Request) => {
   // 7. Respond — correct indexes are revealed post-attempt for learning feedback
   return new Response(
     JSON.stringify({
-      is_correct: isCorrect,
-      correct:    correctIndexes,
-      points:     isCorrect ? (question.points ?? 1) : 0,
+      is_correct:  isCorrect,
+      correct:     correctIndexes,
+      points:      isCorrect ? (question.points ?? 1) : 0,
+      explanation: question.explanation ?? null,
     }),
     { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
   );

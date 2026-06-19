@@ -10,7 +10,8 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Summarizing themes across unstructured free text is fuzzy, open-ended work where AI excels. The other options follow exact, known rules that deterministic code handles more cheaply and reliably."
   },
   {
     "prompt": "Select ALL reasons that deterministic code is often preferable to an AI model when the rule is exact and known.",
@@ -25,7 +26,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "For exact rules you want repeatable, cheap, verifiable behavior, which deterministic code provides. Non-determinism is the opposite of what an exact rule needs, so that option is wrong."
   },
   {
     "prompt": "A PM/Product Owner is deciding how to source an AI feature that is NOT the product's differentiator, where the team has no labeled data and needs to ship quickly. Which sourcing choice best fits, and why?",
@@ -38,7 +40,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "For a non-differentiating feature with no data and tight timelines, a hosted API behind an abstraction layer ships fast and keeps options open. Building or fine-tuning needs data and time, and maximizing lock-in raises switching costs rather than lowering them."
   },
   {
     "prompt": "Select ALL statements that correctly describe total cost of ownership (TCO) and vendor lock-in when sourcing an AI feature.",
@@ -53,7 +56,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "TCO spans integration, evaluation, monitoring, and maintenance, and an abstraction layer limits lock-in. The cheapest per-call price can still carry high TCO once those other costs are counted, so that option is wrong."
   },
   {
     "prompt": "A capability is somewhat important but not your core differentiation, a solid hosted option exists, and your team is small. Which build-vs-buy *trade-off* fits?",
@@ -66,6 +70,7 @@
     "correct": [
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "When a capability is not your differentiator and a solid hosted option exists, buying now and revisiting later is the pragmatic trade-off for a small team. Building everything or doing nothing wastes scarce resources on non-core work."
   }
 ]

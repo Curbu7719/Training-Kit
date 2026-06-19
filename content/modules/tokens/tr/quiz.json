@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Tokenizer'lar koddaki noktalama, girinti ve tanımlayıcıları birçok küçük parçaya böler, bu yüzden kod aynı uzunluktaki düz metinden daha fazla token kullanma eğilimindedir. Kod tokenizasyondan muaf değildir ve faturalandırma kelime ya da satır başına değil, token başınadır."
   },
   {
     "prompt": "Token'lar ve hattaki bir AI özelliğinin maliyeti hakkında doğru olan TÜM ifadeleri seçin.",
@@ -25,7 +26,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Faturalandırma token başınadır, girdi ve çıktı genellikle ayrı fiyatlandırılır ve context window token cinsinden ölçülür. Bir kaynak kod satırı HER ZAMAN bir token'a eşit DEĞİLDİR — bir satır birçok token olabilir ya da nadiren tek bir token'ın parçası olabilir."
   },
   {
     "prompt": "Bir geliştiricinin, 20.000 satırlık tek bir otomatik üretilmiş dosyayı incelemesi için bir AI aracına ihtiyacı var, ancak çağrı model yanıt vermeden başarısız oluyor. Token kavramlarını kullanarak, en olası neden ve çözüm nedir?",
@@ -38,7 +40,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "20.000 satırlık bir dosya neredeyse kesinlikle context window'un tutabileceğinden daha fazla girdi token'ıdır, bu yüzden model yanıt veremeden çağrı başarısız olur; çözüm dosyayı parçalamak ya da atlamaktır. Sorun çıktı sınırları ya da fiyatlandırma değil, çok fazla girdi token'ıdır."
   },
   {
     "prompt": "Bir PM bir AI inceleyici bütçeliyor. Bir geliştirici, her PR'nin ortalama yaklaşık 9.300 girdi token'ı ve 550 çıktı token'ı olduğunu, ekibin ayda 1.500 PR birleştirdiğini ve sağlayıcının girdi ile çıktı için farklı oranlar uyguladığını bildiriyor. PM doğru bir aylık tahmin üretmek için ne yapmalı?",
@@ -51,7 +54,8 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Girdi ve çıktı farklı oranlarda fiyatlandırıldığı için, bunları ayrı ayrı hesaplayıp ardından PR hacmiyle çarpmalısınız. Hepsini tek bir fiyatta toplamak, çıktıyı yok saymak ya da yalnızca PR sayısından tahmin etmek hatalı bir rakam verir."
   },
   {
     "prompt": "Prompt'u kısaltmak token maliyetini düşürür ama modelin ihtiyaç duyduğu context'i atma riski taşır. Bir maddenin kaçması pahalıya patlayan, yüksek-riskli hukuki-özet özelliğinde hangi *trade-off* doğru?",
@@ -64,6 +68,7 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir maddenin kaçması pahalıya patladığında, görevin gerçekten ihtiyaç duyduğu context'i koruyun ve yalnızca açıkça-alakasız metni kırpın — burada doğruluk, token tasarrufundan ağır basar. Aşırı kırpma kritik bir maddeyi düşürme riski taşır ve her seferinde tüm belgeyi göndermek gereksiz yere token harcar."
   }
 ]

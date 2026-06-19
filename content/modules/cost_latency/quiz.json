@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Input is 6,000 / 1,000,000 * $5 = $0.030 and output is 200 / 1,000,000 * $15 = $0.003, for $0.033 total. The wrong answers come from mispricing the tokens or ignoring the input/output split."
   },
   {
     "prompt": "Which of the following typically INCREASE the latency of an AI check running in CI on each pull request? (Select all that apply.)",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A larger model, a longer output, and extra pre-answer fetches each add real wall-clock time. Streaming does not change total generation time; it only makes the first tokens appear sooner, improving perceived speed."
   },
   {
     "prompt": "A team is optimizing an AI assistant that runs in their pipeline. Which statements about its cost and latency are correct? (Select all that apply.)",
@@ -40,7 +42,8 @@
       2,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Prefix caching reuses the processed style guide, small-model routing cuts cost and latency for trivial diffs, and output tokens are typically priced higher than input. Streaming changes only when tokens arrive, not how many are generated, so it does not reduce the token count."
   },
   {
     "prompt": "A PM is told the AI merge-gate check feels slow to developers even though its total time is acceptable for CI, and the tooling budget is tight. Which change best improves PERCEIVED speed WITHOUT increasing cost?",
@@ -53,7 +56,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Streaming surfaces the first comments immediately, improving how fast it feels without adding any tokens or cost. A larger model and a longer review raise cost, and dropping prefix caching makes it both slower and more expensive."
   },
   {
     "prompt": "Caching responses cuts cost and latency but can serve stale answers. For a feature answering questions over data that changes every hour, which caching *trade-off* is appropriate?",
@@ -66,6 +70,7 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A short TTL keeps answers fresh enough for hourly-changing data while still capturing some cache savings. Caching aggressively serves stale answers, never caching wastes the savings entirely, and keying by user just multiplies stale copies."
   }
 ]

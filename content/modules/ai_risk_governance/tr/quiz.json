@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Governance riski ortadan kaldırmakla değil yönetmekle ilgilidir: her AI riskini görünür kılar ve her birine bir sahip ile bir kontrol atar. Bir modelin asla hata yapmayacağını garanti edemez ve yalnızca mühendislerin işi değil, paylaşılan bir iş-ve-teknik sorumluluğudur."
   },
   {
     "prompt": "Aşağıdakilerden meşru AI governance kontrolü olan TÜM seçenekleri işaretleyin.",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Kabul edilebilir kullanım politikaları, bir kullanım kaydı ve audit günlükleme; hepsi AI kullanımını görünür ve hesap verebilir kılan kontrollerdir. Bir satıcıyı yalnızca fiyata göre seçip data koşullarını yok saymak ise riski kontrol etmek yerine risk yaratır."
   },
   {
     "prompt": "Bir ekip, müşteri adlarını ve sipariş geçmişini harici bir AI sağlayıcısına göndermeyi planlıyor. En doğrudan hangi İKİ risk doğar ve onları hangi kontroller yanıtlar? Geçerli olan TÜM seçenekleri seçin.",
@@ -39,7 +41,8 @@
       0,
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Müşteri PII'sini harici bir sağlayıcıya göndermek doğrudan gizlilik ve IP/çıktı-sahipliği risklerini doğurur; bunlar redaksiyon, politika, eğitim-yok maddeleri ve sözleşme incelemesiyle yanıtlanır. Context window boyutu ve donanım arızası ise bu senaryonun doğurduğu governance riskleri değil, performans/altyapı meseleleridir."
   },
   {
     "prompt": "Bir İş Analistinden, yeni bir işe-alım-eleme aracı için AI governance'ı desteklemesi isteniyor. Bu rol için EN uygun görev hangisidir?",
@@ -52,7 +55,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir İş Analistinin güçlü yanı, AI kullanımlarını ilgili veriye ve düzenlemelere eşlemek ve kullanım kaydı ile risk katmanlamayı beslemektir. Redaksiyon kodu yazmak veya ağı tasarlamak mühendislik işidir ve nihai canlıya-geçiş onayı analistin değil, hesap verebilir bir sahibin kararıdır."
   },
   {
     "prompt": "Ağır onay kapıları ve denetimler riski azaltır ama teslimi yavaşlatır. Düşük-riskli, yalnızca-iç bir AI yardımcısı için hangi yönetişim *trade-off*'u uygun?",
@@ -65,6 +69,7 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Governance riskle orantılı olmalıdır; bu yüzden düşük-riskli bir iç yardımcı, regüle bir public ürünün tam mekanizması yerine hafif kontrolleri hak eder. Governance'ı tamamen kaldırmak ya da şirket-geneli bir politika gelene kadar projeyi durdurmak, ikisi de aşırı düzeltmedir."
   }
 ]

@@ -8,6 +8,7 @@ export interface QuizSubmitResponse {
   is_correct: boolean;
   correct: number[];
   points: number;
+  explanation: string | null;
 }
 
 export interface ExerciseSubmitResponse {

@@ -8,7 +8,8 @@
       "Saldırı, girdi doğrulamanın önemi olan tek katman olduğunu kanıtlar"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Bu, getirilen bir dosyada taşınan dolaylı prompt injection'dır ve yalnızca issue başlığını/gövdesini tarayan doğrulama buna kördür — ama en az ayrıcalıklı sandboxing ve eylem sonrası secret tarama zararı yine de kontrol altına alabilir. Bu, girdi doğrulamanın önemli olan tek katman olduğunu kanıtlamaz; tam tersine neden birden fazlasına ihtiyacınız olduğunu gösterir."
   },
   {
     "prompt": "Bir ekip, neredeyse hiçbir riskli şey çalışamayana kadar agent'ın komut reddetme listesini sıkılaştırmaya devam eder, ancak geliştiriciler agent'ın artık rutin, güvenli işlemleri reddettiğinden şikayet eder ve bazıları onu kullanmayı bıraktı. Ödünleşim açısından ne oldu? Geçerli olan TÜM seçenekleri seçin.",
@@ -19,7 +20,8 @@
       "Hiçbir yıkıcı şey asla çalışmadığı sürece yanlış pozitiflerin hiçbir dezavantajı yoktur"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Aşırı engelleme güvenlik uğruna geliştirici hızını feda eder ve false positive'leri artırır, bu yüzden ekip bunu ayarlamak için engellenen eylemleri günlüklemeli; denetlenmeyen aşırı engelleme ise insanlar guardrail'i devre dışı bırakana dek güveni aşındırır. False positive'lerin hiçbir dezavantajı olmadığı iddiası, tam da bu güven ve benimseme erozyonunu yok sayar."
   },
   {
     "prompt": "Her guardrail'i tek bir aşamaya (örn. hepsini issue metni üzerinde eylem öncesi) yerleştirmek, neden bağımsız kontrolleri agent'ın hattı boyunca dağıtmaktan daha zayıf bir tasarımdır? Geçerli olan TÜM seçenekleri seçin.",
@@ -30,6 +32,7 @@
       "Tüm kontrolleri issue metni üzerinde yığmak, dolaylı prompt injection'ın asla başarılı olamayacağını garanti eder"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir kontrol yalnızca görebildiğini engelleyebilir, bu yüzden yalnızca diff'te beliren sızdırılmış bir sır eylem öncesi aşamadan sonra yakalanmalıdır; bağımsız katmanları dağıtmak ayrıca tek bir hata noktasından kaçınır ve her kontrolün bağlamının en zengin olduğu yerde çalışmasını sağlar. Her şeyi issue metni üzerinde yığmak, sonradan getirilen bir dosyada gelen dolaylı injection'ı durduramaz."
   }
 ]

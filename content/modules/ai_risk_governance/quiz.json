@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Governance is about managing risk, not eliminating it: it surfaces each AI risk and assigns an owner and a control. It cannot guarantee a model never errs, and it is a shared business-and-technical responsibility rather than an engineers-only task."
   },
   {
     "prompt": "Select ALL of the following that are legitimate AI governance controls.",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Acceptable-use policies, a use register, and audit logging are all controls that make AI use visible and accountable. Picking a vendor on price alone while ignoring its data terms creates risk rather than controlling it."
   },
   {
     "prompt": "A team plans to send customer names and order history to an external AI provider. Which TWO risks are most directly raised, and which controls answer them? Select ALL that apply.",
@@ -39,7 +41,8 @@
       0,
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Sending customer PII to an external provider directly raises privacy and IP/output-ownership risks, answered by redaction, policy, no-training clauses, and contract review. Context-window size and hardware failure are performance/infrastructure concerns, not the governance risks this scenario raises."
   },
   {
     "prompt": "A Business Analyst is asked to support AI governance for a new hiring-screening tool. Which task is the BEST fit for that role?",
@@ -52,7 +55,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A Business Analyst's strength is mapping AI uses to the data and regulations involved and feeding the use register and risk tiering. Writing redaction code or designing the network is engineering work, and final go-live sign-off is an accountable owner's decision, not the analyst's."
   },
   {
     "prompt": "Heavy approval gates and audits reduce risk but slow delivery. For a low-risk, internal-only AI helper, which governance *trade-off* is appropriate?",
@@ -65,6 +69,7 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Governance should be proportional to risk, so a low-risk internal helper warrants lightweight controls rather than the full apparatus of a regulated public product. Dropping governance entirely or blocking the project until a company-wide policy lands are both over-corrections."
   }
 ]

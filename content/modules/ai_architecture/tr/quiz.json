@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Prompt'ların kurulduğu, model routing kararlarının verildiği ve kuralların uygulandığı yer uygulama/orkestrasyon katmanıdır; client ve model sağlayıcı bilinçli olarak ince ve basit tutulur. Vector store yalnızca embedding'leri saklayıp getirir, bu yüzden bu mantığa sahip olamaz."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, tek bir bileşene değil, tüm AI sistemine uygulanan kesişen kaygılardır? (Geçerli olan hepsini seçin.)",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Secret yönetimi, gizlilik/governance ve güvenilirlik her bileşene ve isteğe yayılır, bu yüzden gerçek kesişen kaygılardır. Tek bir belirli prompt'un ifadesini seçmek ise sistem geneli bir kaygı değil, yerel ve tek bir bileşene ait bir görevdir."
   },
   {
     "prompt": "Bir vector store, birçok mimariye öncelikle hangi yeteneği mümkün kılmak için dahil edilir?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir vector store, modelin yanıtlarını gerçek verilere temellendirmek için ilgili belgeleri getirerek RAG'i mümkün kılar. Model ağırlıklarını tutmaz (bunlar sağlayıcıda bulunur), trafiği şifrelemez veya faturalandırma yapmaz."
   },
   {
     "prompt": "Bir mimar, ekibin LLM'i kod tabanı boyunca doğrudan sağlayıcının SDK'sini çağırmak yerine dahili bir arayüz üzerinden çağırması konusunda ısrar ediyor. Bu sağlayıcı-soyutlaması yaklaşımı hangi faydaları sağlar? (Geçerli olan hepsini seçin.)",
@@ -53,7 +56,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir sağlayıcı soyutlaması, model takasını bir config değişikliği haline getirir, routing eklemek için tek bir yer verir ve bir fallback'in çağrıyı sardığı yeri merkezileştirir. Guardrail veya output kontrollerine olan ihtiyacı ortadan kaldırmaz — bunlar sağlayıcıdan bağımsız olarak hâlâ geçerli olan ayrı bir güvenlik kaygısıdır."
   },
   {
     "prompt": "Doğrudan tek sağlayıcının SDK'sine kodlamak en hızlı yayınlar; sağlayıcı-soyutlama katmanı iş ekler ama sonradan geçişi mümkün kılar. Fikri doğrulamaya koşan erken bir MVP için hangi *trade-off* makul?",
@@ -66,6 +70,7 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Erken bir MVP için, tek sağlayıcıya yayın yaparken ince bir seam bırakmak, aşırı mühendislik yapmadan hızı gelecekteki esneklikle dengeler. Baştan tam çok-sağlayıcılı bir katman kurmak veya üç sağlayıcıyı desteklemek PMF öncesi emek israfıdır; her yere hard-code etmek ise sonradan bir çıkış kapısı bırakmaz."
   }
 ]

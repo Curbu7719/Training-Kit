@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Gerçek bir değer metriği; tasarruf edilen zaman, kazanılan para, azalan risk veya iyileşen kalite gibi bir iş sonucuna bağlanır; bir vanity metriği (örn. çağrı sayısı) ise herhangi bir sonucu kanıtlamadan etkileyici görünebilir. Bir metriği gerçek değer yapan şey büyüklüğü veya nerede raporlandığı değil, sonuçla olan bağıdır."
   },
   {
     "prompt": "Aşağıdakilerden bir AI pilot'unu ölçeklendirmek yerine DURDURMA (sonlandırma) zamanının geldiğine işaret eden TÜM seçenekleri seçin.",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Değer eşiğini geçememek, sürekli düşük adoption ve ölçekte faydayı aşan maliyetlerin hepsi bir pilot'un durdurulması gerektiğine işaret eder. Son seçenek ise eşiği geçmiş ve güçlü organik adoption gösteren bir pilot'u tarif eder; bu durdurma değil, scaling sinyalidir."
   },
   {
     "prompt": "Bir AI yeteneğini fikirden geniş kullanıma götürmenin aşamalarını doğru sıraya koyun.",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Değeri kanıtlamak için pilot yaparsınız, güvenilir hale getirmek için production'a geçersiniz, sonra geniş kullanım için scaling yaparsınız. Değeri kanıtlamadan veya stabil bir production kurulumu olmadan scaling yapmak, çalışmayan ya da desteklenemeyen bir aracı yaymak riskini taşır."
   },
   {
     "prompt": "Bir PM/Ürün Sahibi, bir AI taslak hazırlama aracının teknik olarak çalıştığını ve '40 temsilcinin tamamına erişilebilir' olduğunu, ancak gerçekleşmiş değerin sıfıra yakın olduğunu raporluyor. Bu rolün AI değeri ve ölçeklendirme düşüncesini nasıl kullanması gerektiğini en iyi hangi yanıt yansıtır?",
@@ -51,7 +54,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Erişilebilirlik adoption demek değildir; değer ancak insanlar aracı gerçekten kullandığında ortaya çıkar, bu yüzden PM değişim yönetimini yürütmeli ve aktif ile tekrar eden kullanıcıları ölçmelidir. Aracı kapatmak veya sadece doğruluğu artırmak, asıl neden olan adoption boşluğunu göz ardı eder."
   },
   {
     "prompt": "Bir pilot mütevazı ama gerçek bir değer gösteriyor, ancak birim ekonomi tam ölçekte sallantılı görünüyor. Hangi ölçekleme *trade-off*'u disiplinli seçim?",
@@ -64,6 +68,7 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Birim ekonomi sallantılıyken tam yayılım zararları katlayabilir, bu yüzden disiplinli hamle önce ekonomiyi düzeltmek veya yalnızca dar, yüksek-değerli bir dilimi ölçeklemektir. Hemen herkese yaymak maliyet riskini göz ardı eder; gerçek değeri kapatmak ya da pilotta takılı kalmak ise gerçek bir fırsatı boşa harcar."
   }
 ]

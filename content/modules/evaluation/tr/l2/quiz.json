@@ -8,7 +8,8 @@
       "Offline değerlendirme işe yaramaz ve tamamen terk edilmeli"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "Tek bir %92 ortalama, berbat performans gösteren bir kategorinin üzerinden ortalama alabilir, bu yüzden kategoriye göre dilimlemek başarısız alt grubu ortaya çıkarır. Toplu puana güvenmek şikayetleri yok sayar ve temperature değişiklikleri veya offline eval'i terk etmek, gizli bir kategori-bazlı başarısızlığı ele almaz."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, puanlarının güvenilir olması için hafifletilmesi gereken bilinen LLM-as-judge önyargılarıdır? (Geçerli olanların tümünü seçin.)",
@@ -19,7 +20,8 @@
       "Latency bias (daha hızlı yanıtları daha accurate olarak derecelendirme)"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Position, verbosity ve self-preference, puanları çarpıtan belgelenmiş LLM-judge önyargılarıdır. 'Latency bias' gerçek bir judge önyargısı değildir, çünkü judge metin içeriğini puanlar ve bir yanıtın ne kadar hızlı üretildiğini asla görmez."
   },
   {
     "prompt": "Bir ekip, prompt'unu tek bir proxy metriğe karşı metrik neredeyse-mükemmel olana kadar sıkıca optimize ediyor, ama gerçek kullanıcı memnuniyeti iyileşmiyor. Hangi ilke bunu açıklar ve sağlam pratik nedir?",
@@ -30,6 +32,7 @@
       "Knowledge cutoff: metrik bayat çünkü modelin eğitim verisi eski"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "Tek bir proxy'yi, artık gerçek kaliteyi yansıtmayana kadar aşırı optimize etmek Goodhart yasasıdır, bu yüzden gerçek-dünya sinyallerine ve birkaç metriğe karşı doğrularsınız. Aynı metriği yeniden çalıştırmak, veriyi yeniden sıralamak veya knowledge cutoff'u suçlamak, proxy ile gerçek memnuniyet arasındaki boşluğu ele almaz."
   }
 ]

@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "An LLM generates text by repeatedly predicting the next most likely token given everything so far — it isn't looking up answers in a database, running code, or browsing the live web."
   },
   {
     "prompt": "Which of the following are genuine limitations you must design around when using an LLM in a software workflow? (Select all that apply.)",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Hallucination, knowledge cutoff, and non-determinism are all real constraints you must design around. The claim that an LLM can't output more than a single line is false — models routinely produce long, multi-line responses."
   },
   {
     "prompt": "What is the difference between training and inference?",
@@ -38,7 +40,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Training is the one-time, expensive process that learns the model's weights; inference is every run afterward, which uses those frozen weights to answer a prompt. Inference does not update the model's knowledge."
   },
   {
     "prompt": "A team is choosing models for the coding phase: (a) generating commit messages on every push, and (b) reviewing an architecture proposal for hidden coupling. Which pairing of model choices is most appropriate?",
@@ -51,7 +54,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Match the model to the task: a cheap, fast model handles high-volume, low-stakes commit messages well, while a capable model is worth the cost for nuanced architecture review. Using the largest model for everything wastes money, and the smallest for everything sacrifices quality where it matters."
   },
   {
     "prompt": "A task is simple but extremely high-volume and latency-sensitive, and a small error rate is cheap to catch downstream. Which model choice is the better *trade-off* here?",
@@ -64,6 +68,7 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "When the task is simple and errors are cheap to catch, the small/fast/cheap model wins on the trade-off because volume and latency dominate. A frontier model adds cost and latency for a marginal accuracy gain you don't need here."
   }
 ]

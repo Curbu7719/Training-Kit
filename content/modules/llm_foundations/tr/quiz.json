@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir LLM metni, o ana kadarki her şeye dayanarak tekrar tekrar bir sonraki en olası token'ı tahmin ederek üretir — bir veritabanından yanıt aramaz, kod çalıştırmaz veya canlı interneti taramaz."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, bir yazılım iş akışında LLM kullanırken hesaba katmanız gereken gerçek sınırlamalardır? (Uygun olanların hepsini seçin.)",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Halüsinasyon, bilgi kesim tarihi ve belirsizlik (non-determinism) tasarımda hesaba katmanız gereken gerçek kısıtlardır. Bir LLM'in tek satırdan uzun çıktı üretemeyeceği iddiası yanlıştır — modeller rutin olarak uzun, çok satırlı yanıtlar üretir."
   },
   {
     "prompt": "Eğitim (training) ile çıkarım (inference) arasındaki fark nedir?",
@@ -38,7 +40,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Eğitim, modelin ağırlıklarını öğrenen tek seferlik, pahalı süreçtir; çıkarım ise sonraki her çalıştırmadır ve bir prompt'a yanıt vermek için bu donmuş ağırlıkları kullanır. Çıkarım modelin bilgisini güncellemez."
   },
   {
     "prompt": "Bir ekip kodlama aşaması için modeller seçiyor: (a) her push'ta commit mesajları üretmek ve (b) bir mimari öneriyi gizli bağımlılık açısından incelemek. Model seçimlerinin hangi eşleştirmesi en uygundur?",
@@ -51,7 +54,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Modeli göreve göre eşleştirin: ucuz, hızlı bir model yüksek hacimli, düşük-riskli commit mesajlarını iyi karşılar; yetenekli bir model ise nüanslı mimari incelemenin maliyetine değer. Her şey için en büyük modeli kullanmak parayı boşa harcar, her şey için en küçüğünü kullanmak da önemli olan yerde kaliteyi feda eder."
   },
   {
     "prompt": "Bir görev basit ama çok yüksek hacimli ve gecikmeye duyarlı; küçük bir hata oranını aşağı-akışta ucuza yakalayabiliyorsun. Burada hangi model seçimi daha iyi *trade-off*?",
@@ -64,6 +68,7 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Görev basit ve hatalar ucuza yakalanabiliyorsa, hacim ve gecikme baskın olduğu için küçük/hızlı/ucuz model trade-off'u kazanır. Bir frontier model, burada ihtiyaç duymadığınız marjinal bir doğruluk kazancı için maliyet ve gecikme ekler."
   }
 ]

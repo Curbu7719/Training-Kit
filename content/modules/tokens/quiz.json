@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Tokenizers split code's punctuation, indentation, and identifiers into many small pieces, so code tends to use more tokens than the same length of prose. Code is not exempt from tokenization, and billing is per token, not per word or line."
   },
   {
     "prompt": "Select ALL statements that are true about tokens and the cost of an AI feature in the pipeline.",
@@ -25,7 +26,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Billing is per token, input and output are usually priced separately, and the context window is measured in tokens. One source-code line does NOT always equal one token — a line can be many tokens or, rarely, part of one."
   },
   {
     "prompt": "A developer needs an AI tool to review a single auto-generated file of 20,000 lines, but the call fails before the model responds. Using token concepts, what is the most likely cause and fix?",
@@ -38,7 +40,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A 20,000-line file is almost certainly more input tokens than the context window can hold, so the call fails before the model can respond; the fix is to chunk the file or skip it. The problem is too many input tokens, not output limits or pricing."
   },
   {
     "prompt": "A PM is budgeting an AI reviewer. A developer reports each PR averages about 9,300 input tokens and 550 output tokens, the team merges 1,500 PRs a month, and the provider charges different rates for input and output. What should the PM do to produce an accurate monthly estimate?",
@@ -51,7 +54,8 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Because input and output are priced at different rates, you must cost them separately and then multiply by the PR volume. Lumping them under one price, ignoring output, or estimating from PR count alone all give an inaccurate figure."
   },
   {
     "prompt": "Trimming the prompt lowers token cost but risks dropping context the model needs. For a high-stakes legal-summary feature where a missed clause is costly, which *trade-off* is right?",
@@ -64,6 +68,7 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "When a missed clause is costly, keep the context the task genuinely needs and trim only clearly-irrelevant text — accuracy outweighs the token savings here. Over-trimming risks dropping a critical clause, and sending the whole document every time wastes tokens unnecessarily."
   }
 ]

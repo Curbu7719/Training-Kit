@@ -8,7 +8,8 @@
       "Ham hatalar sorun değil çünkü maksimum-iterasyon sınırı her şeyi halleder"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Ham bir 500 belirsizdir, bu yüzden model bir kesintiyi eksik veriyle karıştırabilir; tipli, yeniden denenebilir bir sonuç doğru bir sonraki eylemi seçmesini sağlar. Son seçenek yanlıştır: iterasyon sınırı yalnızca kontrolsüz döngüleri durdurur, modele bir hatayı nasıl yorumlayacağını söylemez."
   },
   {
     "prompt": "Bir iade agent'ının büyük hatalı iadelere karşı tek koruması 'yalnızca geçerli siparişleri iade et' diyen bir prompt talimatıdır, yine de yanlış bir 5.000 $ iade yaptı. Doğru mimari düzeltme nedir?",
@@ -19,7 +20,8 @@
       "Modeli daha temkinli yapmak için model sıcaklığını (temperature) artırın"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir prompt talimatı modelin görmezden gelebileceği bir öneridir; yüksek etkili eylemler uygulama kodunda uygulanan sert bir kapı gerektirir. Prompt'u yeniden ifade etmek, iterasyon eklemek veya temperature'ı değiştirmek, güvensiz eylemi gerçek yetkilendirme olmadan erişilebilir bırakır."
   },
   {
     "prompt": "Bir maksimum-iterasyon sınırı yerinde, yine de bir servis kapalı olduğunda agent pes etmeden önce on model çağrısı israf ediyor. Hangi iyileştirmeler bunu daha zarif şekilde ele alır? Uygun olanların tümünü seçin.",
@@ -30,6 +32,7 @@
       "Agent denemeye devam edebilsin diye iterasyon sınırını tamamen kaldırın"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "İlerleme olmamasını algılamak, geçici ile kalıcı başarısızlıkları sınıflandırmak ve her adımı loglamak, agent'ın erken durmasını ve hata ayıklanmasını sağlar. Sınırı kaldırmak tam tersini yapar, sonsuza dek döngüde kalmasına izin verir, ki bu kaçınmaya çalıştığınız başarısızlıktır."
   }
 ]

@@ -8,7 +8,8 @@
       "Teknoloji tek tip kalsın diye her iki adım da modele gönderilmelidir"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Çeşitli düzenleri okumak gerçekten belirsizdir ve AI'ya uyar; aritmetiği yeniden kontrol etmek ise kesindir ve deterministik koda aittir; AI yüzeyini daraltmak maliyeti düşürür ve test edilebilirliği artırır. Yalnızca tek tip kalmak için her iki adımı modele göndermek, kesin kodun güvenilirliğini boşa harcar."
   },
   {
     "prompt": "Bir ekibin barındırılan-API çıkarma özelliği ayda 2.000'den 900.000 çağrıya büyüdü, doğruluk ihtiyaçları yükseldi ve şimdi bir yıllık etiketli veriye sahipler. Fine-tune edilmiş bir modele doğru yeniden temin etmek neden haklı olabilir? Geçerli olan TÜM seçenekleri seçin.",
@@ -19,7 +20,8 @@
       "Daha büyük bir çağrı başına fiyat her zaman tercih edilir çünkü daha yüksek kaliteyi işaret eder"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Yüksek hacim, çağrı başına fiyatı büyük bir TCO etkenine dönüştürür; biriken etiketli veri fine-tune'u artık uygulanabilir kılar; ve koşullar değiştikçe temin etme yeniden ele alınmalıdır. Daha yüksek çağrı başına fiyat kaliteyi işaret etmez, bu yüzden o seçenek yanlıştır."
   },
   {
     "prompt": "Bir mimar, build-vs-buy kararının geri alınabilir ve lock-in'in düşük kalmasını istiyor. Hangi tasarım seçimleri bu hedefi destekler? Geçerli olan TÜM seçenekleri seçin.",
@@ -30,6 +32,7 @@
       "Switching cost'ları maksimize etmek için mevcut en tescilli vendor biçimini benimseyin"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Bir soyutlama katmanı, taşınabilir prompt'lar ve eval'ler ve gerçek bir çıkış planı; kararı geri alınabilir ve lock-in'i düşük tutar. En tescilli biçimi benimsemek switching cost'ları maksimize eder ki bu hedefin tam tersidir."
   }
 ]

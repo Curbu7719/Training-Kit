@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "RAG exists because the model never saw the private repo or wiki during training, so the relevant context must be retrieved and supplied at question time. The other options misstate the problem: it is about missing knowledge, not speed, storage, or grammar."
   },
   {
     "prompt": "When indexing a repository and wiki for a codebase Q&A assistant, which steps happen BEFORE any developer asks a question? (Select all that apply.)",
@@ -25,7 +26,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Chunking, embedding the chunks, and storing them in the index are all offline indexing steps done ahead of time. Embedding the question and retrieving top-k happens at query time, once a developer actually asks something."
   },
   {
     "prompt": "Why can the assistant retrieve a wiki page titled 'Backoff and re-queue policy' for the question 'How do I retry a failed job?' even though they share no keywords?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Embeddings capture meaning, so 'retry a failed job' lands near 'backoff and re-queue' even with no shared words, which is exactly what keyword search cannot do. The other options describe fine-tuning, keyword tricks, or manual tagging, none of which are happening here."
   },
   {
     "prompt": "A QA engineer is testing a RAG-based codebase assistant before the team adopts it. Which checks most directly verify that answers are properly grounded in the real code and docs?",
@@ -53,7 +56,8 @@
       1,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Grounding means answers cite a real source containing the claim, abstain when nothing relevant is retrieved, and never assert APIs missing from the context. Character-for-character reproducibility is the wrong test, since a useful generative answer can be worded differently each run."
   },
   {
     "prompt": "Larger retrieval chunks give more surrounding context but dilute relevance and waste prompt space; smaller chunks are precise but can split a thought. For retrieving short, self-contained config snippets, which *trade-off* is better?",
@@ -66,6 +70,7 @@
     "correct": [
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Config snippets are short and self-contained, so small precise chunks retrieve the right one without diluting relevance. Maximally large chunks, whole-file chunks, or embedding entire documents all add noise that hurts ranking for this kind of discrete content."
   }
 ]

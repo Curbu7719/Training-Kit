@@ -8,7 +8,8 @@
       "The temperature setting is too high"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "The answer faithfully used its cited source, so generation worked; the fault is that retrieval surfaced the wrong service's chunk. It is not a generation failure (the model used what it was given), and temperature or retraining do not explain a wrong-but-real citation."
   },
   {
     "prompt": "Which techniques specifically improve the RETRIEVAL stage of a codebase assistant (rather than the generation prompt)? (Select all that apply.)",
@@ -19,7 +20,8 @@
       "Instructing the model to answer only from the provided code"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Hybrid search, metadata filtering, and re-ranking all change which chunks get selected, so they improve retrieval. Instructing the model to answer only from the provided code is a generation-side guardrail and does not affect what was retrieved."
   },
   {
     "prompt": "Two chunks are nearly identical in meaning and differ only by a distinguishing token like a service name, and pure semantic search keeps retrieving the wrong one. Which combination best resolves this AND why?",
@@ -30,6 +32,7 @@
       "Raise the model temperature, because more randomness helps it pick the right file"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "The problem is that semantic similarity ignores the one distinguishing token, so metadata filtering plus hybrid search both eliminate the wrong service and weight the exact token. Raising top-k adds noise, overlap is not the cause, and temperature only affects generation, not which chunk is retrieved."
   }
 ]

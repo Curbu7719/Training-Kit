@@ -11,6 +11,8 @@ const en = {
   'nav.signOut': 'Sign out',
   'nav.dashboard': 'Dashboard',
   'nav.backToDashboard': 'Back to dashboard',
+  'nav.basics': 'AI basics',
+  'nav.glossary': 'Glossary',
 
   // ---------------------------------------------------------------------------
   // Language switcher
@@ -43,6 +45,15 @@ const en = {
   'dashboard.summary': '10 modules · two levels each · complete L1 to unlock L2',
   'dashboard.badges': 'Your badges',
   'dashboard.loadingProgress': 'Loading progress…',
+  'dashboard.newToAi': 'New to AI? Read “AI in 5 minutes” first',
+
+  // AI basics + glossary
+  'glossary.title': 'Glossary',
+  'glossary.subtitle': 'Plain-language definitions for every AI term used in the course.',
+  'glossary.search': 'Search terms…',
+  'glossary.empty': 'No terms match your search.',
+  'intro.cta.glossary': 'Open the glossary',
+  'intro.cta.start': 'Go to the modules',
 
   // Module CTA labels
   'dashboard.cta.review': 'Review',
@@ -118,6 +129,7 @@ const en = {
   'quiz.incorrectSingle': 'Incorrect — correct answer is highlighted above',
   'quiz.incorrectPlural': 'Incorrect — correct answers are highlighted above',
   'quiz.submissionFailed': 'Submission failed.',
+  'quiz.why': 'Why:',
   'quiz.complete.title': 'Quiz complete!',
   'quiz.complete.score': '{correct}/{total} correct — {score}/{max} points ({pct}%)',
 

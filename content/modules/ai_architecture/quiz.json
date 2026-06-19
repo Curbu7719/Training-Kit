@@ -10,7 +10,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "The app/orchestration layer is where prompts are assembled, model routing decisions are made, and rules are enforced; the client and model provider are deliberately kept thin and dumb. The vector store only stores and retrieves embeddings, so it can't own that logic."
   },
   {
     "prompt": "Which of the following are cross-cutting concerns that apply across the whole AI system rather than to a single component? (Select all that apply.)",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Secrets management, privacy/governance, and reliability span every component and request, so they are true cross-cutting concerns. Wording one specific prompt is a local, single-component task, not a system-wide concern."
   },
   {
     "prompt": "A vector store is included in many architectures primarily to enable which capability?",
@@ -38,7 +40,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A vector store enables RAG by retrieving relevant documents to ground the model's answers in real data. It does not hold model weights (those live with the provider), encrypt traffic, or handle billing."
   },
   {
     "prompt": "An architect insists the team call the LLM through an internal interface rather than calling the provider's SDK directly throughout the codebase. Which benefits does this provider-abstraction approach provide? (Select all that apply.)",
@@ -53,7 +56,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "A provider abstraction makes swapping models a config change, gives one place to add routing, and centralizes where a fallback wraps the call. It does not remove the need for guardrails or output checks — those are a separate safety concern that still applies regardless of provider."
   },
   {
     "prompt": "Coding straight to one provider's SDK ships fastest; a provider-abstraction layer adds work but enables switching later. For an early MVP racing to validate the idea, which *trade-off* is reasonable?",
@@ -66,6 +70,7 @@
     "correct": [
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "For an early MVP, shipping to one provider while leaving a thin seam balances speed against future flexibility without over-engineering. Building a full multi-provider layer or supporting three providers up front wastes effort before product-market fit, while hard-coding everywhere leaves no escape hatch later."
   }
 ]

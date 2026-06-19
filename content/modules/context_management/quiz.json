@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "The context window is the total number of tokens the model can attend to at once, and it covers both the input you send and the output it generates. It is not just input, and it isn't permanent memory or a rate limit."
   },
   {
     "prompt": "During a long multi-file refactor, why must the AI tool re-supply the prior context on every call?",
@@ -23,7 +24,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Each API call is stateless — the model keeps no memory between calls, so the tool must resend the prior context every time for the model to 'see' it. Re-sending isn't about speed, and the model does not automatically remember earlier files."
   },
   {
     "prompt": "Which of the following are valid strategies for staying within the context window while working across a large codebase or a long requirements thread? (Select all that apply.)",
@@ -38,7 +40,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Summarizing, retrieving only relevant files, and keeping a sliding window of recent turns all reduce how many tokens you must fit in the window. Temperature controls randomness of output, not context size, so it doesn't help here."
   },
   {
     "prompt": "An AI assistant doing a 30-file refactor starts ignoring a 'keep the old column name' rule it was given at the start. Which fact best explains the root cause to the team?",
@@ -51,7 +54,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "As the transcript grew past the window limit, the earliest content — including the rule stated at the start — fell out of context, so the model can no longer see it. Temperature and training are unrelated to this dropout."
   },
   {
     "prompt": "You need a model to work across a large codebase where exact details matter and files cross-reference each other. Summarize-then-work vs retrieve-relevant-chunks — which *trade-off* fits?",
@@ -64,6 +68,7 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "When exact details matter and files cross-reference each other, retrieving the specific relevant chunks preserves precision, whereas a single summary would blur the exact details you need. Pasting the whole codebase every call usually won't fit, and temperature has no effect on memory capacity."
   }
 ]

@@ -8,7 +8,8 @@
       "The launch approval automatically covers any later model or data change, so no re-review was ever needed"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Governance must be continuous: a one-time tiering let new bias-prone fields and a changed model go un-assessed, while audit logging still let the bank trace each decision. The claim that a launch approval automatically covers later changes is exactly the failure here, not a valid defence."
   },
   {
     "prompt": "A company makes its AI approval process so heavy that staff quietly use unsanctioned tools off the books. In trade-off terms, what has happened and how should it be addressed? Select ALL that apply.",
@@ -19,7 +20,8 @@
       "Shadow AI is harmless because staff are still getting work done"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Over-weighting risk reduction against adoption speed drives shadow AI, which leaves the use register stale and hides real exposure; making the sanctioned path easier than the workaround pulls usage back under governance. Calling shadow AI harmless ignores precisely that hidden, unmanaged exposure."
   },
   {
     "prompt": "Why are audit logging and a human-in-the-loop record described as non-optional for high-tier, regulated AI uses? Select ALL that apply.",
@@ -30,6 +32,7 @@
       "Logging the model version and inputs lets you reconstruct how a specific decision was reached"
     ],
     "correct": [0, 1, 3],
-    "points": 1
+    "points": 1,
+    "explanation": "For high-tier regulated uses, audit logs and a human-in-the-loop record let you show who decided and why, defend the decision to a regulator, and reconstruct how it was reached. A rubber-stamp review records no real scrutiny, so it provides the appearance of oversight rather than genuine accountability."
   }
 ]

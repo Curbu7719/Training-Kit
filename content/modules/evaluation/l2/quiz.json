@@ -8,7 +8,8 @@
       "Offline evaluation is useless and should be abandoned entirely"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "A single 92% average can average over a category that performs terribly, so slicing by category exposes the failing subgroup. Trusting the aggregate ignores the complaints, and temperature changes or abandoning offline eval do not address a hidden per-category failure."
   },
   {
     "prompt": "Which of the following are known biases of an LLM-as-judge that must be mitigated for its scores to be trustworthy? (Select all that apply.)",
@@ -19,7 +20,8 @@
       "Latency bias (rating faster responses as more accurate)"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Position, verbosity, and self-preference are documented LLM-judge biases that distort scores. 'Latency bias' is not a real judge bias, since the judge scores text content and never sees how fast a response was generated."
   },
   {
     "prompt": "A team optimizes their prompt hard against a single proxy metric until the metric is near-perfect, yet real user satisfaction does not improve. Which principle explains this, and what is the sound practice?",
@@ -30,6 +32,7 @@
       "Knowledge cutoff: the metric is stale because the model's training data is old"
     ],
     "correct": [0],
-    "points": 1
+    "points": 1,
+    "explanation": "Over-optimizing one proxy until it no longer reflects real quality is Goodhart's law, so you validate against real-world signals and several metrics. Rerunning the same metric, reordering data, or blaming the knowledge cutoff do not address the gap between the proxy and actual satisfaction."
   }
 ]

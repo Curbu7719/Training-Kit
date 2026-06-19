@@ -12,6 +12,8 @@ const tr = {
   'nav.signOut': 'Çıkış yap',
   'nav.dashboard': 'Ana sayfa',
   'nav.backToDashboard': 'Ana sayfaya dön',
+  'nav.basics': 'AI temelleri',
+  'nav.glossary': 'Sözlük',
 
   // ---------------------------------------------------------------------------
   // Language switcher
@@ -44,6 +46,15 @@ const tr = {
   'dashboard.summary': '10 modül · her biri iki seviye · L2\'yi açmak için L1\'i tamamlayın',
   'dashboard.badges': 'Rozetleriniz',
   'dashboard.loadingProgress': 'İlerleme yükleniyor…',
+  'dashboard.newToAi': 'AI\'a yeni misin? Önce "5 dakikada AI"yı oku',
+
+  // AI temelleri + sözlük
+  'glossary.title': 'Sözlük',
+  'glossary.subtitle': 'Eğitimde geçen her AI terimi için sade dille tanımlar.',
+  'glossary.search': 'Terim ara…',
+  'glossary.empty': 'Aramanla eşleşen terim yok.',
+  'intro.cta.glossary': 'Sözlüğü aç',
+  'intro.cta.start': 'Modüllere git',
 
   // Module CTA labels
   'dashboard.cta.review': 'Tekrar et',
@@ -119,6 +130,7 @@ const tr = {
   'quiz.incorrectSingle': 'Yanlış — doğru cevap yukarıda vurgulanmıştır',
   'quiz.incorrectPlural': 'Yanlış — doğru cevaplar yukarıda vurgulanmıştır',
   'quiz.submissionFailed': 'Gönderim başarısız oldu.',
+  'quiz.why': 'Neden:',
   'quiz.complete.title': 'Quiz tamamlandı!',
   'quiz.complete.score': '{correct}/{total} doğru — {score}/{max} puan (%{pct})',
 

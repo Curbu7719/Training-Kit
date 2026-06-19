@@ -8,7 +8,8 @@
       "Retrieval çok fazla dosya döndürdü"
     ],
     "correct": [1],
-    "points": 1
+    "points": 1,
+    "explanation": "Özetlerin özetleri kayıplıdır: her sıkıştırma geçişi birinci-gün kuralını düşürebilir, bu yüzden son turlar düzgün görünse bile kural artık bağlamda değildir. Temperature, bilgi kesim tarihi ve retrieval hacmi, bir kuralın bu şekilde kaybolmasını açıklamaz."
   },
   {
     "prompt": "Gerçek bir refactor'da context stratejisi dengeleri hakkında hangi ifadeler doğrudur? (Uygun olanların hepsini seçin.)",
@@ -19,7 +20,8 @@
       "Çıktı token bütçesini paylaşır, bu yüzden yapıştırılmış dosyaların neredeyse dolu bir girdisi üretilen kodu kesebilir"
     ],
     "correct": [0, 1, 3],
-    "points": 1
+    "points": 1,
+    "explanation": "Kayan pencere tasarım gereği unutkandır, retrieval yalnızca sığdırma sorununu bir retrieval-kalitesi sorunuyla değiştirir ve çıktı token bütçesi için girdiyle yarışır. Daha büyük bir pencere yardımcı olur ama konum etkilerini ya da strateji ihtiyacını ortadan kaldırmaz."
   },
   {
     "prompt": "Bir mimar, AI oturumu ne kadar uzun çalışırsa çalışsın birkaç pazarlık konusu olmayan kuralı (bir geriye dönük uyumluluk kısıtı ve migration'ın kapsamı) bağlamda mevcut tutmalıdır. Hangi yaklaşım en uygundur?",
@@ -30,6 +32,7 @@
       "Kuralları retrieval'a taşıyın ve retriever'ın onları her çağrıda döndürmesini umun"
     ],
     "correct": [1],
-    "points": 1
+    "points": 1,
+    "explanation": "Pazarlık konusu olmayan kuralları kelimesi kelimesine taşınan korumalı içerik olarak sabitlemek, gerisini özetlerken ya da kaydırırken bunların her turda hayatta kalmasını garanti eder. Daha büyük bir pencere sonunda yine de bunları düşürebilir, temperature'ı yükseltmek içeriği korumaz ve retrieval belirli bir çağrıda bunları döndürmeyebilir."
   }
 ]

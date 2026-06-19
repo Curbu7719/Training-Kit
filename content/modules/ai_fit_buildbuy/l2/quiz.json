@@ -8,7 +8,8 @@
       "Both steps should be sent to the model so the technology stays uniform"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "Reading varied layouts is genuinely fuzzy and fits AI, while re-checking arithmetic is exact and belongs in deterministic code; narrowing the AI surface lowers cost and improves testability. Sending both steps to the model just to stay uniform wastes the reliability of exact code."
   },
   {
     "prompt": "A team's hosted-API extraction feature has grown from 2,000 to 900,000 calls per month, accuracy needs have risen, and they now hold a year of labeled data. Why might re-sourcing toward a fine-tuned model be justified? Select ALL that apply.",
@@ -19,7 +20,8 @@
       "A larger per-call price is always preferable because it signals higher quality"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "High volume turns per-call price into a major TCO driver, accumulated labeled data now makes fine-tuning viable, and sourcing should be revisited as conditions change. A higher per-call price does not signal quality, so that option is wrong."
   },
   {
     "prompt": "An architect wants the build-vs-buy decision to stay reversible and lock-in low. Which design choices support that goal? Select ALL that apply.",
@@ -30,6 +32,7 @@
       "Adopt the most proprietary vendor format available to maximize switching costs"
     ],
     "correct": [0, 1, 2],
-    "points": 1
+    "points": 1,
+    "explanation": "An abstraction layer, portable prompts and evals, and a real exit plan all keep the decision reversible and lock-in low. Adopting the most proprietary format maximizes switching costs, which is the opposite of the goal."
   }
 ]

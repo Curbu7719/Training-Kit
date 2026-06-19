@@ -215,6 +215,12 @@ export function DashboardPage() {
             {profile?.display_name && (
               <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
             )}
+            <Button variant="ghost" size="sm" onClick={() => navigate('/start')}>
+              {t('nav.basics')}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/glossary')}>
+              {t('nav.glossary')}
+            </Button>
             <Button variant="ghost" size="sm" onClick={() => navigate('/leaderboard')}>
               {t('nav.leaderboard')}
             </Button>
@@ -233,6 +239,16 @@ export function DashboardPage() {
 
       {/* Body */}
       <main className="mx-auto max-w-4xl px-6 py-8 space-y-8">
+        {/* New-to-AI on-ramp */}
+        <button
+          type="button"
+          onClick={() => navigate('/start')}
+          className="flex w-full items-center justify-between rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-left text-sm transition-colors hover:bg-primary/10"
+        >
+          <span className="font-medium text-primary">{t('dashboard.newToAi')}</span>
+          <span className="text-primary">→</span>
+        </button>
+
         <section>
           <div className="mb-2 flex items-center justify-between">
             <h1 className="text-2xl font-bold">{t('dashboard.learningPath')}</h1>

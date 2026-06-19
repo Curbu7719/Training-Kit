@@ -10,7 +10,8 @@
     "correct": [
       0
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Input 6.000 / 1.000.000 * 5$ = 0,030$ ve output 200 / 1.000.000 * 15$ = 0,003$, toplam 0,033$ eder. Yanlış cevaplar, token'ları yanlış fiyatlandırmaktan veya input/output ayrımını göz ardı etmekten gelir."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, her pull request'te CI'da çalışan bir AI kontrolünün latency'sini tipik olarak ARTIRIR? (Geçerli olan hepsini seçin.)",
@@ -25,7 +26,8 @@
       1,
       2
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Daha büyük bir model, daha uzun bir output ve yanıt öncesi ek dosya getirmeleri, her biri gerçek duvar-saati süresi ekler. Streaming toplam üretim süresini değiştirmez; yalnızca ilk token'ların daha erken görünmesini sağlar, algılanan hızı iyileştirir."
   },
   {
     "prompt": "Bir ekip, pipeline'larında çalışan bir AI asistanını optimize ediyor. Onun maliyeti ve latency'si hakkında hangi ifadeler doğrudur? (Geçerli olan hepsini seçin.)",
@@ -40,7 +42,8 @@
       2,
       3
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Prefix caching işlenmiş stil kılavuzunu yeniden kullanır, küçük-model yönlendirmesi önemsiz diff'ler için maliyeti ve latency'yi keser ve output token'ları tipik olarak input'tan daha yüksek fiyatlandırılır. Streaming yalnızca token'ların ne zaman geldiğini değiştirir, kaç tane üretildiğini değil, bu yüzden token sayısını azaltmaz."
   },
   {
     "prompt": "Bir PM'e, AI merge-kapısı kontrolünün toplam süresi CI için kabul edilebilir olmasına rağmen geliştiricilere yavaş hissettirdiği ve araç gereci bütçesinin kısıtlı olduğu söyleniyor. Hangi değişiklik, maliyeti ARTIRMADAN ALGILANAN hızı en iyi şekilde iyileştirir?",
@@ -53,7 +56,8 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Streaming ilk yorumları hemen yüzeye çıkarır, hiç token veya maliyet eklemeden ne kadar hızlı hissettirdiğini iyileştirir. Daha büyük bir model ve daha uzun bir inceleme maliyeti artırır ve prefix caching'i kaldırmak onu hem daha yavaş hem daha pahalı yapar."
   },
   {
     "prompt": "Yanıtları cache'lemek maliyeti ve gecikmeyi düşürür ama bayat cevap sunabilir. Her saat değişen veriler üzerinde soru cevaplayan bir özellikte hangi cache *trade-off*'u uygun?",
@@ -66,6 +70,7 @@
     "correct": [
       1
     ],
-    "points": 1
+    "points": 1,
+    "explanation": "Kısa bir TTL, biraz cache tasarrufu yakalarken cevapları saatlik-değişen veri için yeterince taze tutar. Agresif cache'lemek bayat cevaplar sunar, hiç cache'lememek tasarrufu tamamen harcar ve kullanıcıya göre anahtarlamak yalnızca bayat kopyaları çoğaltır."
   }
 ]
