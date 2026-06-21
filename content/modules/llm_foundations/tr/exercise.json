@@ -5,16 +5,16 @@
     "left": [
       "Her push'ta tek satırlık bir commit mesajı üretmek (yüksek hacim, basit)",
       "Bir mimari öneriyi gizli bağımlılık ve hata modları açısından incelemek",
-      "Aynı girdinin aynı sonucu vermesi gereken yapılandırılmış çıktı üretmek",
+      "Sonraki adımdaki bir aracın ayrıştırması gereken yapılandırılmış çıktı üretmek",
       "Artık var olmayan bir framework metodunu öneren bir model",
       "Bir ayrıştırma fonksiyonu için çeşitli uç durum girdileri üretmek"
     ],
     "right": [
       "Ölçekte çağrı başına maliyeti ve gecikmeyi düşük tutmak için küçük, hızlı, ucuz bir model seçin",
       "Bu zorlu, açık uçlu akıl yürütme görevi için en büyük, en yetenekli modeli saklayın",
-      "Odaklı, tekrarlanabilir çıktı için düşük bir temperature ayarlayın",
+      "Katı bir biçim (örn. JSON) iste ve doğrula, çünkü çıktı her çalıştırmada birebir aynı değildir",
       "Bir insan doğrulama adımı ekleyin, çünkü model kendinden emin biçimde halüsinasyon görebilir",
-      "Önerilerin tekrarlayıcı değil çeşitli olması için biraz daha yüksek bir temperature ayarlayın"
+      "Bariz olanları tekrarlatmak yerine çeşitli durumlar için açıkça prompt yazın"
     ]
   },
   "answer_key": {

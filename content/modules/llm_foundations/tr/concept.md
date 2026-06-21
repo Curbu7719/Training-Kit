@@ -12,7 +12,7 @@ Temel **yetenekler**: kod yazmak ve açıklamak, gereksinimleri özetlemek, test
 
 - **Halüsinasyon** — yanlış şeyleri kendinden emin biçimde söyleyebilir (var olmayan bir API gibi), çünkü doğrulanmış gerçekliği değil, akla yatkın metni tahmin eder.
 - **Bilgi kesim tarihi (knowledge cutoff)** — yalnızca eğitim tarihine kadarki veriyi bilir, dolayısıyla yeni yayınlanan bir framework sürümünü kaçırabilir.
-- **Belirsizlik (non-determinism)** — aynı prompt farklı yanıtlar verebilir. Bir **sıcaklık (temperature)**/örnekleme ayarı bunu kontrol eder: düşük = odaklı ve tekrarlanabilir, yüksek = çeşitli ve yaratıcı.
+- **Belirsizlik (non-determinism)** — aynı prompt farklı yanıtlar verebilir, çünkü model tek bir sabit cevabı getirmek yerine akla yatkın metni tahmin eder. Buna göre tasarla: her çalıştırmada birebir aynı çıktıyı bekleme ve tam metne göre doğrulama yapma.
 
 **Model seçimi**, **yetenek, maliyet ve gecikme (latency)** arasında bir denge kurmaktır: yaşam döngüsü görevini güvenilir biçimde yapan en küçük modeli kullanın ve en büyüğü tasarım ya da karmaşık refactor gibi gerçekten zor işler için saklayın.
 

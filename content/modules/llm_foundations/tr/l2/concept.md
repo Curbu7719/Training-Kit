@@ -23,22 +23,20 @@ düşün" yardımcısı. Dördünü de aynı model gibi ele almak; yavaş, pahal
   ortamında çalışabilir (veri ikametgâhı denetimi); çok kipli modeller girdi olarak görsel de (ekran
   görüntüsü, diyagram) alır.
 
-## Üretim ayarları — çıktıyı şekillendirmek
+## Çıktı denetimleri — yanıtı şekillendirmek
 
-Aynı model, örnekleme ayarlarına göre çok farklı davranır:
+Modelin kendisinin ötesinde, birkaç ayar gelen çıktıyı şekillendirir:
 
-- **Temperature / top-p** — düşük = odaklı ve tekrarlanabilir (kod, bilgi çıkarımı); yüksek = çeşitli
-  ve yaratıcı (beyin fırtınası). Çoğu SDLC işi için düşük istersin.
 - **Maksimum çıktı uzunluğu (max output token)** — uzunluğu ve maliyeti sınırlar; varsayılana
   bırakma, bilinçli ayarla.
 - **Durdurma dizileri (stop sequence)** — modele nerede duracağını söyler (örn. bir kod bloğunun sonu).
-- **Seed** (destekleniyorsa) — testlerde tekrarlanabilirliği artırır, gerçi tam garanti değildir.
 
-## Belirlilik bir ayardır, varsayılan değil
+## Belirsizlik varsayılandır
 
-Temperature 0'da bile çıktının çalıştırmadan çalıştırmaya birebir aynı olacağı garanti değildir.
-Sonraki adımdaki kodu ve testleri **değişime dayanacak** biçimde tasarla — tam metni değil,
-özellikleri puanla. Bu doğrudan Değerlendirme (Evaluation) modülüne bağlanır.
+Aynı girdi, çalıştırmadan çalıştırmaya birebir aynı çıktıyı üretmeyi garanti etmez. Sonraki adımdaki
+kodu ve testleri **değişime dayanacak** biçimde tasarla — tam metni değil, özellikleri puanla; bir
+araç sonucu ayrıştıracaksa katı bir biçim iste. Bu doğrudan Değerlendirme (Evaluation) modülüne
+bağlanır.
 
 ## Modeli göreve eşle — ve yönlendir
 
@@ -54,11 +52,11 @@ strateji değildir; yeteneği ihtiyaca eşlemek stratejidir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Görev başına temperature / maksimum uzunluk / durdurma ayarlar; tamamlama
-  için küçük bir model, zor hata ayıklama için akıl yürüten bir model seçer ve yönlendirmeyi kurar.
-- **İş Analisti:** Hangi işlerin değişime dayandığını (beyin fırtınası), hangilerinin düşük
-  temperature'lı tekrarlanabilirlik istediğini (bilgi çıkarımı) bilir ve gereksinimleri buna göre
-  şekillendirir.
+- **Geliştirici/Mühendis:** Görev başına maksimum çıktı uzunluğu ve durdurma dizilerini ayarlar;
+  tamamlama için küçük bir model, zor hata ayıklama için akıl yürüten bir model seçer ve
+  yönlendirmeyi kurar.
+- **İş Analisti:** Hangi işlerin çeşitli çıktıya dayandığını (beyin fırtınası), hangilerinin katı ve
+  tekrarlanabilir bir biçim istediğini (bilgi çıkarımı) bilir ve gereksinimleri buna göre şekillendirir.
 - **PM/Ürün Sahibi:** Özellik başına yetenek, maliyet ve gecikmeyi tartar; her yere tek pahalı model
   yerine yönlendirmeye bütçe ayırır.
 - **QA/Test Uzmanı ve Mimar:** Belirsizlik altında test eder, model seçimini bir değerlendirme setine

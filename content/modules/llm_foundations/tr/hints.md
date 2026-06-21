@@ -9,16 +9,16 @@
 ## Kademeli ipucu yığını
 
 - **H1:** Modeli "cevapları bilen" biri gibi düşünmeyin. Metni sürdüren bir şey olarak düşünün. Sorun: bu prompt'tan — bu diff'ten, bu gereksinimden, bu test taslağından — sonra gelmesi en olası şey nedir?
-- **H2:** Özelliği gerçek dünyadaki sonucuyla eşleştirin. Bir özellik *modelin emin olamayacağı şey* hakkındaysa (yeni bir framework sürümü, olgusal gerçeklik), çıkarım *risk ve doğrulama* hakkındadır. Bir özellik *çıktının nasıl değiştiği* hakkındaysa, çıkarım *tekrarlanabilirlik ve temperature* hakkındadır.
-- **H3:** Model seçimi sorularında, her SDLC gereksinimini bir ayara eşleyin: "yüksek hacimde ucuz" (commit mesajları) → daha küçük model; "her çalıştırmada aynı" (yapılandırılmış çıktı) → düşük temperature; "zorlu çok adımlı akıl yürütme" (mimari inceleme, çetrefilli refactor) → daha büyük model. Gereksinimi karşılayan en hafif seçeneği seçin.
+- **H2:** Özelliği gerçek dünyadaki sonucuyla eşleştirin. Bir özellik *modelin emin olamayacağı şey* hakkındaysa (yeni bir framework sürümü, olgusal gerçeklik), çıkarım *risk ve doğrulama* hakkındadır. Bir özellik *çıktının nasıl değiştiği* hakkındaysa, çıkarım *tekrarlanabilirlik* hakkındadır — katı bir biçim iste ve tam dize eşleşmesine güvenme.
+- **H3:** Model seçimi sorularında, her SDLC gereksinimini bir ayara eşleyin: "yüksek hacimde ucuz" (commit mesajları) → daha küçük model; "her çalıştırmada aynı" (yapılandırılmış çıktı) → katı bir biçim iste ve ifade değişimine tolerans göster; "zorlu çok adımlı akıl yürütme" (mimari inceleme, çetrefilli refactor) → daha büyük model. Gereksinimi karşılayan en hafif seçeneği seçin.
 
 ## SSS
 
-**S: Daha yüksek bir temperature modeli kod incelemesinde daha mı iyi yapar?**
-C: Hayır. Temperature yalnızca örneklemenin ne kadar çeşitli ya da odaklı olduğunu kontrol eder. Düşük temperature daha tekrarlanabilir; yüksek daha çeşitlidir. Hiçbiri bilgi ya da akıl yürütme yeteneği eklemez — zorlu inceleme için daha sıcak değil, daha yetenekli bir model seçin.
+**S: En büyük model her zaman daha mı güvenli bir seçimdir?**
+C: Hayır. Daha büyük bir model daha pahalı ve daha yavaştır, üstelik yine halüsinasyon görür. İşi güvenilir biçimde yapan en küçük modeli kullanın ve en büyüğü tasarım incelemesi ya da karmaşık refactor gibi gerçekten zor işler için saklayın.
 
 **S: Eğitim zaten gerçekleştiyse, model neden güncel olmayan bir API öneriyor?**
 C: Bilgi kesim tarihi yüzünden. Donmuş ağırlıklar yalnızca eğitim tarihine kadarki veriyi yansıtır. Daha yeni bir framework sürümü kullanmak için, o bilgiyi (dokümanlar, sürüm) prompt'ta sağlayın — model bunu kendi başına bilmez.
 
 **S: Aynı prompt CI işime neden iki farklı commit mesajı verebilir?**
-C: LLM'ler varsayılan olarak belirsizdir; örnekleme varyasyon getirir. Temperature'ı düşürmek bunu azaltır, ama gerçekten kararlı bir davranış için, tam dize eşleşmesine bağlı olmayan adımlar ve testler de tasarlayın.
+C: LLM'ler varsayılan olarak belirsizdir, dolayısıyla çıktı çalıştırmadan çalıştırmaya değişebilir. Tam dize eşleşmesine bel bağlamayın — ifade farklarına tolerans gösteren adımlar ve testler tasarlayın.
