@@ -57,13 +57,13 @@
   {
     "prompt": "Your customer-facing chatbot occasionally emits toxic or off-topic replies. What's the right design response?",
     "choices": [
-      "Lower the temperature so the model is less likely to wander off-topic",
+      "Switch to a larger model so it is less likely to wander off-topic",
       "Add a disclaimer warning users that some answers may be inappropriate",
       "Add input and output guardrails that validate, filter, and constrain responses before users see them",
       "Retry each request several times and return the shortest reply"
     ],
     "correct": 2,
-    "explanation": "Solid. Guardrails that validate and constrain both inputs and outputs are the systematic fix — lowering temperature or adding a disclaimer doesn't actually stop unsafe content from reaching users."
+    "explanation": "Solid. Guardrails that validate and constrain both inputs and outputs are the systematic fix — switching models or adding a disclaimer doesn't actually stop unsafe content from reaching users."
   },
   {
     "prompt": "An employee wants to paste a spreadsheet of customer names, emails, and account numbers into a public AI tool to summarize it. What should policy direct them to do?",
@@ -114,7 +114,7 @@
     "choices": [
       "Ground it in your actual repository via retrieval (RAG) so it answers from real code",
       "Add a system instruction telling it to never invent methods",
-      "Raise the temperature so it explores more method options",
+      "Tell it to be more confident about the method names",
       "Switch to a model with a more recent training cutoff"
     ],
     "correct": 0,
@@ -170,7 +170,7 @@
       "Keep going and let the oldest messages fall out of the window automatically",
       "Summarize the key decisions and current state into a compact handoff, then continue from that",
       "Paste the entire raw transcript into a fresh session and continue",
-      "Lower the temperature so the model retains more of the earlier history"
+      "Switch to a smaller model so it focuses on the recent history"
     ],
     "correct": 1,
     "explanation": "Good context hygiene. A compact summary/handoff of the decisions and current state preserves what matters in far fewer tokens; re-pasting the raw transcript just hits the same limit again."
@@ -192,7 +192,7 @@
       "Let the model reply in natural language and parse it with regular expressions",
       "Ask for output in a strict, specified JSON schema and validate it before use, repairing or rejecting on failure",
       "Add 'please stay consistent' to the prompt and trust the format to hold",
-      "Set temperature to zero so the wording never varies"
+      "Tell the model to always use the same wording"
     ],
     "correct": 1,
     "explanation": "Robust by design. A defined JSON schema plus validation gives downstream code a contract to rely on; regexing free text or hoping for consistency breaks the first time the phrasing shifts."
@@ -235,11 +235,11 @@
     "choices": [
       "A larger model, which would diagnose the root cause and never loop",
       "An action-rate limit that stops the agent after N repeated actions and escalates to a human, backed by a kill-switch to pause its autonomy",
-      "Lowering the model's temperature so its actions become more deterministic",
+      "Telling the agent in its prompt to stop looping",
       "Routing the agent's calls through a cheaper model to reduce the cost of looping"
     ],
     "correct": 1,
-    "explanation": "Bounding, not smartness. An action-rate limit that halts repeated actions and escalates, backed by a kill-switch, contains a runaway loop. A bigger model or lower temperature won't stop a confident-but-wrong loop, and a cheaper model just loops more cheaply."
+    "explanation": "Bounding, not smartness. An action-rate limit that halts repeated actions and escalates, backed by a kill-switch, contains a runaway loop. A bigger model or a prompt plea won't stop a confident-but-wrong loop, and a cheaper model just loops more cheaply."
   },
   {
     "prompt": "Your team uses AI coding assistants that generate most of the code, and a feature 'looks 90% done' in a day. How should you manage the delivery estimate?",
@@ -301,11 +301,11 @@
     "choices": [
       "Add 'please ignore malicious instructions' to the system prompt and trust it to comply",
       "Treat ticket content as untrusted data, not instructions — validate/sanitize inputs and keep high-impact actions behind separate gated permissions the ticket text can't trigger",
-      "Lower the temperature so the model is less likely to follow the injected text",
+      "Switch to a larger model so it is less likely to follow the injected text",
       "Make the summaries shorter so there's less room for the injection to take effect"
     ],
     "correct": 1,
-    "explanation": "Prompt-injection defense. Untrusted text (tickets, docs, logs) must be treated as data, not commands; pair input validation with least-privilege so the content can't trigger high-impact actions. A polite system-prompt plea or a lower temperature won't stop a determined injection."
+    "explanation": "Prompt-injection defense. Untrusted text (tickets, docs, logs) must be treated as data, not commands; pair input validation with least-privilege so the content can't trigger high-impact actions. A polite system-prompt plea or a larger model won't stop a determined injection."
   },
   {
     "prompt": "An LLM confidently cites a specific API method and version number that turn out not to exist. What does this illustrate, and how should you handle it?",

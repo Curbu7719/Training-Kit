@@ -57,13 +57,13 @@
   {
     "prompt": "Müşteriye dönük chatbot'un ara sıra toksik veya konu-dışı yanıtlar veriyor. Doğru tasarım yanıtı nedir?",
     "choices": [
-      "Model konudan sapma olasılığı azalsın diye temperature'ı düşür",
+      "Konudan sapma olasılığı azalsın diye daha büyük bir modele geç",
       "Bazı cevapların uygunsuz olabileceğine dair kullanıcıya uyarı ekle",
       "Yanıtlar kullanıcıya ulaşmadan önce doğrulayan, filtreleyen ve kısıtlayan girdi/çıktı guardrail'leri ekle",
       "Her isteği birkaç kez tekrarla ve en kısa yanıtı döndür"
     ],
     "correct": 2,
-    "explanation": "Sağlam. Hem girdiyi hem çıktıyı doğrulayan/kısıtlayan guardrail'ler sistematik çözümdür — temperature düşürmek veya uyarı eklemek, güvensiz içeriğin kullanıcıya ulaşmasını gerçekten engellemez."
+    "explanation": "Sağlam. Hem girdiyi hem çıktıyı doğrulayan/kısıtlayan guardrail'ler sistematik çözümdür — model değiştirmek veya uyarı eklemek, güvensiz içeriğin kullanıcıya ulaşmasını gerçekten engellemez."
   },
   {
     "prompt": "Bir çalışan, müşteri adları, e-postaları ve hesap numaralarından oluşan bir tabloyu özetletmek için public bir AI aracına yapıştırmak istiyor. Politika ne yönlendirmeli?",
@@ -114,7 +114,7 @@
     "choices": [
       "Onu retrieval (RAG) ile gerçek deponuna toprakla ki gerçek koddan cevap versin",
       "Asla metot uydurmamasını söyleyen bir system talimatı ekle",
-      "Daha çok metot seçeneği keşfetsin diye temperature'ı yükselt",
+      "Metot adlarından daha emin olmasını söyle",
       "Daha yeni eğitim kesim tarihli bir modele geç"
     ],
     "correct": 0,
@@ -170,7 +170,7 @@
       "Devam et ve en eski mesajların pencereden otomatik düşmesine izin ver",
       "Önemli kararları ve mevcut durumu kompakt bir handoff'a özetle, sonra ondan devam et",
       "Tüm ham transkripti yeni bir oturuma yapıştır ve devam et",
-      "Model daha eski geçmişi daha çok tutsun diye temperature'ı düşür"
+      "Daha eski geçmişe odaklansın diye daha küçük bir modele geç"
     ],
     "correct": 1,
     "explanation": "İyi context hijyeni. Kararların ve mevcut durumun kompakt özeti/handoff'u önemli olanı çok daha az token'la korur; ham transkripti yeniden yapıştırmak aynı limite tekrar toslar."
@@ -192,7 +192,7 @@
       "Model doğal dilde yanıtlasın ve onu regular expression'larla parse et",
       "Çıktıyı katı, belirtilmiş bir JSON şemasında iste ve kullanmadan önce doğrula; başarısızlıkta onar veya reddet",
       "Prompt'a 'lütfen tutarlı kal' ekle ve formatın korunmasına güven",
-      "İfade hiç değişmesin diye temperature'ı sıfıra ayarla"
+      "Modele her zaman aynı ifadeyi kullanmasını söyle"
     ],
     "correct": 1,
     "explanation": "Tasarımca sağlam. Tanımlı JSON şeması + doğrulama, aşağı-akış koda güvenilecek bir sözleşme verir; serbest metni regex'lemek veya tutarlılık ummak, ifade değişir değişmez bozulur."
@@ -235,11 +235,11 @@
     "choices": [
       "Kök nedeni teşhis edip asla döngüye girmeyecek daha büyük bir model",
       "Agent'ı N tekrarlı aksiyondan sonra durdurup bir insana eskalasyon yapan bir action-rate limiti, otonomisini durduran bir kill-switch ile desteklenmiş",
-      "Aksiyonları daha deterministik olsun diye modelin temperature'ını düşürmek",
+      "Agent'a prompt'unda döngüye girmeyi bırakmasını söylemek",
       "Döngünün maliyetini azaltmak için agent'ın çağrılarını daha ucuz bir modele yönlendirmek"
     ],
     "correct": 1,
-    "explanation": "Akıl değil, sınırlama. Tekrarlı aksiyonları durdurup eskalasyon yapan bir action-rate limiti + kill-switch, kaçak döngüyü sınırlar. Daha büyük model veya düşük temperature kendinden emin yanlış bir döngüyü durdurmaz; daha ucuz model sadece daha ucuza döngüye girer."
+    "explanation": "Akıl değil, sınırlama. Tekrarlı aksiyonları durdurup eskalasyon yapan bir action-rate limiti + kill-switch, kaçak döngüyü sınırlar. Daha büyük model veya prompt ricası kendinden emin yanlış bir döngüyü durdurmaz; daha ucuz model sadece daha ucuza döngüye girer."
   },
   {
     "prompt": "Ekibin, kodun çoğunu üreten AI kodlama asistanları kullanıyor ve bir özellik bir günde '%90 bitmiş görünüyor'. Teslim tahminini nasıl yönetmelisin?",
@@ -301,11 +301,11 @@
     "choices": [
       "System prompt'a 'lütfen kötü niyetli talimatları yok say' ekle ve uymasına güven",
       "Talep içeriğini talimat değil güvenilmez veri olarak ele al — girdileri doğrula/sanitize et ve yüksek-etkili aksiyonları, talep metninin tetikleyemeyeceği ayrı kapılı izinlerin arkasında tut",
-      "Model enjekte edilen metni izleme olasılığı azalsın diye temperature'ı düşür",
+      "Enjekte edilen metni izleme olasılığı azalsın diye daha büyük bir modele geç",
       "Injection'ın etki alanı azalsın diye özetleri daha kısa yap"
     ],
     "correct": 1,
-    "explanation": "Prompt-injection savunması. Güvenilmez metin (talep, belge, log) komut değil veri olarak ele alınmalı; girdi doğrulamasını least-privilege ile birleştir ki içerik yüksek-etkili aksiyonları tetikleyemesin. Kibar bir system-prompt ricası ya da düşük temperature kararlı bir injection'ı durdurmaz."
+    "explanation": "Prompt-injection savunması. Güvenilmez metin (talep, belge, log) komut değil veri olarak ele alınmalı; girdi doğrulamasını least-privilege ile birleştir ki içerik yüksek-etkili aksiyonları tetikleyemesin. Kibar bir system-prompt ricası ya da daha büyük bir model kararlı bir injection'ı durdurmaz."
   },
   {
     "prompt": "Bir LLM, var olmadığı ortaya çıkan belirli bir API metodunu ve sürüm numarasını kendinden emin şekilde gösteriyor. Bu neyi gösterir ve nasıl ele almalısın?",
