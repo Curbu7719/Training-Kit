@@ -5,16 +5,16 @@
     "left": [
       "Generating a one-line commit message on every push (high volume, simple)",
       "Reviewing an architecture proposal for hidden coupling and failure modes",
-      "Producing structured output where the same input must give the same result",
+      "Producing structured output a downstream tool must parse",
       "A model recommending a framework method that no longer exists",
       "Generating varied edge-case test inputs for a parsing function"
     ],
     "right": [
       "Pick a small, fast, cheap model to keep per-call cost and latency low at scale",
       "Reserve the largest, most capable model for this hard, open-ended reasoning task",
-      "Set a low temperature for focused, repeatable output",
+      "Ask for a strict format (e.g. JSON) and validate it, since output isn't identical every run",
       "Add a human verification step, because the model can hallucinate confidently",
-      "Set a slightly higher temperature so suggestions are diverse rather than repetitive"
+      "Prompt explicitly for diverse cases rather than letting it repeat the obvious ones"
     ]
   },
   "answer_key": {

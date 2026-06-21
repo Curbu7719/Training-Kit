@@ -1,17 +1,17 @@
 {
   "type": "scenario",
-  "prompt_md": "You own the AI calls across a dev toolchain: **inline code completion** (very high volume), an **automated PR reviewer** (every PR), and a rare **\"reason hard about this design\"** helper. Cost and latency matter, code output must be repeatable, and only some tasks are genuinely hard. **Pick the best model strategy and the correct reason.**",
+  "prompt_md": "You own the AI calls across a dev toolchain: **inline code completion** (very high volume), an **automated PR reviewer** (every PR), and a rare **\"reason hard about this design\"** helper. Cost and latency matter, and only some tasks are genuinely hard. **Pick the best model strategy and the correct reason.**",
   "spec": {
     "decision_choices": [
       "Use your largest, most capable model for every call site so quality is never a concern",
-      "Use a small fast model for completion and routine PR review, route only hard design/debug cases to a reasoning model, and keep temperature low for code tasks",
-      "Use one mid-size model everywhere at a high temperature so the output feels creative",
+      "Use a small fast model for completion and routine PR review, and route only hard design/debug cases to a reasoning model",
+      "Use one mid-size model everywhere regardless of how routine or hard each task is",
       "Always pick whichever model is newest and use its default settings at every call site"
     ],
     "reason_choices": [
-      "Because matching model capability, cost, and latency to each task — and routing only the hard cases to a stronger model — controls spend and speed while keeping quality where it matters, and low temperature keeps code output repeatable",
+      "Because matching model capability, cost, and latency to each task — and routing only the hard cases to a stronger model — controls spend and speed while keeping quality where it matters",
       "Because the largest model is always the right default regardless of task or volume",
-      "Because a single high-temperature model guarantees consistent, repeatable code output",
+      "Because a single mid-size model removes any need to match a model to its task",
       "Because newer models no longer hallucinate and need no per-task configuration"
     ]
   },

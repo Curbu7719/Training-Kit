@@ -2,7 +2,7 @@
 
 L1 explained what an LLM is — a next-token predictor. L2 is the working knowledge to pick the
 *right* model for each job and to control how it generates. In an AI-driven SDLC you don't use
-"the AI"; you use a **fleet of models** with different strengths, speeds, prices, and controls,
+"the AI"; you use a **fleet of models** with different strengths, speeds, prices, and settings,
 and matching them to tasks is an engineering decision.
 
 **A running example.** Your dev toolchain calls models in several places: inline code-completion
@@ -22,21 +22,18 @@ expensive, and inconsistent.
 - **Open vs proprietary, and multimodal.** Open-weight models can run in your own environment
   (data-residency control); multimodal models also accept images (a screenshot, a diagram) as input.
 
-## Decoding controls — shaping the output
+## Output controls — shaping the response
 
-The same model behaves very differently depending on its sampling settings:
+Beyond the model itself, a couple of settings shape what comes back:
 
-- **Temperature / top-p** — low = focused and repeatable (code, extraction); high = varied and
-  creative (brainstorming). For most SDLC tasks you want it low.
 - **Max output tokens** — caps length and cost; set it deliberately, not by default.
 - **Stop sequences** — tell the model where to stop (e.g. the end of a code block).
-- **Seed** (where supported) — improves repeatability for testing, though never a full guarantee.
 
-## Determinism is a setting, not a default
+## Non-determinism is the default
 
-Even at temperature 0, output isn't guaranteed identical run-to-run. Design downstream code and
-tests to **tolerate variation** — score properties, not exact strings. This connects directly to
-the Evaluation module.
+The same input isn't guaranteed to produce identical output run to run. Design downstream code and
+tests to **tolerate variation** — score properties, not exact strings, and ask for a strict format
+when a tool must parse the result. This connects directly to the Evaluation module.
 
 ## Matching model to task — and routing
 
@@ -52,10 +49,10 @@ capability to need is.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Sets temperature / max-tokens / stop per task, picks a small model for
-  completion and a reasoning model for hard debugging, and wires the routing.
-- **Business Analyst:** Knows which tasks tolerate variability (brainstorming) vs need
-  low-temperature repeatability (extraction), and shapes requirements accordingly.
+- **Developer/Engineer:** Sets max output length and stop sequences per task, picks a small model
+  for completion and a reasoning model for hard debugging, and wires the routing.
+- **Business Analyst:** Knows which tasks tolerate varied output (brainstorming) vs need a strict,
+  repeatable format (extraction), and shapes requirements accordingly.
 - **PM/Product Owner:** Weighs capability vs cost vs latency per feature and budgets for routing
   instead of one expensive model everywhere.
 - **QA/Tester & Architect:** Tests under non-determinism, validates model choice against an eval

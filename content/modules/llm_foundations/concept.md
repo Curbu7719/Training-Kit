@@ -12,7 +12,7 @@ Key **capabilities**: writing and explaining code, summarizing requirements, dra
 
 - **Hallucination** — it can state false things confidently (an API that doesn't exist), because it predicts plausible text, not verified truth.
 - **Knowledge cutoff** — it only knows data up to its training date, so it may miss a newly released framework version.
-- **Non-determinism** — the same prompt can give different answers. A **temperature**/sampling setting controls this: low = focused and repeatable, high = varied and creative.
+- **Non-determinism** — the same prompt can give different answers, because it predicts plausible text rather than retrieving one fixed answer. Design around it: don't expect identical output every run, and don't assert against an exact string.
 
 **Choosing a model** is a trade-off between **capability, cost, and latency**: use the smallest model that reliably does the lifecycle task, and reserve the largest for genuinely hard work like design or complex refactors.
 
