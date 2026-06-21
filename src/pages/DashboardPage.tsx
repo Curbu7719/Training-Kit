@@ -42,6 +42,28 @@ const MODULE_CODES = [...SDLC_CODES, ...STRATEGY_CODES, ...VIBE_CODES] as const;
 
 type ModuleCode = (typeof MODULE_CODES)[number];
 
+// Draft estimated minutes per level (L1 = foundations, L2 = deep dive).
+// Language-agnostic; rendered with a localized "~N min" suffix.
+const MODULE_MINUTES: Record<ModuleCode, { l1: number; l2: number }> = {
+  llm_foundations:      { l1: 15, l2: 15 },
+  tokens:               { l1: 12, l2: 15 },
+  context_management:   { l1: 15, l2: 15 },
+  prompting:            { l1: 18, l2: 18 },
+  guardrails:           { l1: 18, l2: 18 },
+  security_privacy:     { l1: 18, l2: 18 },
+  tool_use_agents:      { l1: 20, l2: 25 },
+  rag:                  { l1: 20, l2: 25 },
+  evaluation:           { l1: 18, l2: 20 },
+  cost_latency:         { l1: 18, l2: 20 },
+  ai_architecture:      { l1: 20, l2: 25 },
+  ai_operations_sre:    { l1: 20, l2: 25 },
+  ai_fit_buildbuy:      { l1: 15, l2: 15 },
+  ai_risk_governance:   { l1: 15, l2: 18 },
+  ai_value_scaling:     { l1: 15, l2: 15 },
+  ai_delivery_portfolio:{ l1: 18, l2: 18 },
+  vibe_coding:          { l1: 18, l2: 18 },
+};
+
 const SECTIONS = [
   { titleKey: 'section.sdlc.title', codes: SDLC_CODES },
   { titleKey: 'section.strategy.title', codes: STRATEGY_CODES },
@@ -95,6 +117,7 @@ interface ModuleCardProps {
 
 function ModuleCard({ code, index, l1Status, l2Status, onOpen }: ModuleCardProps) {
   const { t } = useLanguage();
+  const minutes = MODULE_MINUTES[code];
 
   const ctaLabel =
     l1Status === 'passed' && l2Status === 'passed'
@@ -127,6 +150,7 @@ function ModuleCard({ code, index, l1Status, l2Status, onOpen }: ModuleCardProps
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">L1</span>
             <span className="text-sm">{t('dashboard.level.foundations')}</span>
+            <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l1 })}</span>
           </div>
           <StatusBadge status={l1Status} />
         </div>
@@ -141,6 +165,7 @@ function ModuleCard({ code, index, l1Status, l2Status, onOpen }: ModuleCardProps
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">L2</span>
             <span className="text-sm">{t('dashboard.level.deepDive')}</span>
+            <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l2 })}</span>
           </div>
           <StatusBadge status={l2Status} />
         </div>
@@ -240,6 +265,12 @@ export function DashboardPage() {
 
       {/* Body */}
       <main className="mx-auto max-w-4xl px-6 py-8 space-y-8">
+        {/* Positioning — what this training is and how to use it */}
+        <section className="rounded-lg border border-border bg-card px-5 py-4">
+          <h2 className="text-sm font-semibold">{t('dashboard.about.title')}</h2>
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t('dashboard.about.body')}</p>
+        </section>
+
         {/* New-to-AI on-ramp */}
         <button
           type="button"

@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "Aşağı-akış bir servis, AI özelliğinin çıktısını parse etmeli. En güvenilir prompting yaklaşımı hangisi?",
+    "choices": [
+      "Doğal-dil çıktı iste ve alanları regular expression'larla çıkar",
+      "Katı bir JSON şeması belirt, modele yalnızca onu döndürmesini söyle ve kullanmadan önce çıktıyı doğrula",
+      "Prompt'a 'lütfen formatı tutarlı tut' ekle ve korunmasına güven",
+      "Temperature'ı sıfıra ayarla ki ifade, dolayısıyla format, asla değişmesin"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Tanımlı bir JSON şeması artı doğrulama, aşağı-akış koda güvenebileceği bir sözleşme verir; bozuk yanıtları onarır ya da reddeder. Prose'u regex'lemek ya da kibar bir ricaya ve düşük temperature'a güvenmek, ifade savrulduğu an kırılır."
+  },
+  {
+    "prompt": "Edge case'leri kaçırıp duran bir prompt'a few-shot örnekleri ekliyorsun. Örnekleri etkili kılan nedir?",
+    "choices": [
+      "Model tek bir stile kilitlensin diye üç neredeyse-aynı happy-path örneği",
+      "İstediğin formatla tutarlı, zor ve edge case'leri içeren temsili ve çeşitli örnekler",
+      "Ne kadar benzer olduklarına bakılmaksızın mümkün olduğunca çok örnek",
+      "Çeşitlilik olsun diye gerçekte istediğin çıktıdan farklı bir formatta yazılmış örnekler"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Few-shot örnekleri spec'tir: edge case'leri kapsayan çeşitli olanlar eksiksizliği öğretir ve istenen formatla birebir eşleşmelidir. Neredeyse-aynı happy-path örnekleri edge case öğretmez, tutarsız örnekler ise tutarsızlığı öğretir."
+  },
+  {
+    "prompt": "Modele verdiğin spec bazen eksik oluyor. Prompt eksik bilgiyi nasıl ele almalı?",
+    "choices": [
+      "Modelin makul görünen gereksinimleri çıkarıp doldurmasına izin ver",
+      "Bir gereksinim uydurmak yerine boşluğu işaretlemesini (örn. bir varsayım işaretle) talimatla",
+      "Tam belirtilmemiş her şeyi atlamasını ve o kısımlar için hiçbir şey üretmemesini söyle",
+      "Olası gereksinimleri daha çok keşfetsin diye temperature'ı yükselt"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Modele eksik bilgiyi görünür bir bayrak ya da varsayım olarak yüzeye çıkarmasını söylemek, belirsizliği bir insanın yakalayabileceği bir şeye çevirir — kendinden emin bir uydurma yerine. Gereksinim çıkarmak kural uydurur; sessizce atlamak boşlukları gizler; temperature yalnızca varyans ekler."
+  },
+  {
+    "prompt": "Bir production prompt'unu neden versiyonlanmış bir artefakt olarak ele alıp bir eval setine karşı iterasyon yaparsın? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Bir vakayı düzelten bir değişiklik, yayınlanmadan önce birçok başka vakaya karşı kontrol edilebilsin diye",
+      "Prompt değişiklikleri herhangi bir kod değişikliği gibi incelenip geri alınabilsin diye",
+      "Hiçbir şey ölçmeden prompt'u yalnızca izlenimle ayarlayabilesin diye",
+      "Bir değişikliğin kaliteyi koruduğuna ya da iyileştirdiğine dair kanıt tutasın diye, 'daha iyi hissettirdi' değil"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1,
+    "explanation": "Versiyonlama prompt değişikliklerini incelenebilir ve geri alınabilir kılar, bir eval seti ise bir düzeltmenin diğer vakaları sessizce bozmadığını doğrulamanı ve kalitenin korunduğuna/iyileştiğine dair kanıt vermeni sağlar. Yalnızca izlenimle ayarlamak, eval setinin tam da yerine geçtiği şeydir."
+  }
+]

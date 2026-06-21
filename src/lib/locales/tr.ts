@@ -43,10 +43,13 @@ const tr = {
   // ---------------------------------------------------------------------------
   'dashboard.learningPath': 'Öğrenme yolunuz',
   'dashboard.modulesPassed': '{passed}/{total} modül tamamlandı',
-  'dashboard.summary': '10 modül · her biri iki seviye · L2\'yi açmak için L1\'i tamamlayın',
+  'dashboard.summary': '17 modül · her biri iki seviye · L2\'yi açmak için L1\'i tamamlayın',
   'dashboard.badges': 'Rozetleriniz',
   'dashboard.loadingProgress': 'İlerleme yükleniyor…',
   'dashboard.newToAi': 'AI\'a yeni misin? Önce "5 dakikada AI"yı oku',
+  'dashboard.about.title': 'Başlamadan önce',
+  'dashboard.about.body': 'Yazılım yaşam döngüsü boyunca AI benimseyen ekipler için bir "SDLC\'de AI" okuryazarlık programı — hem AI özellikleri inşa etmeyi hem de AI güdümlü bir SDLC\'de çalışmayı kapsar. Uygulamalı lab becerisi değil, ortak bir anlayış kazandırır. Modülleri istediğin sırayla al; her L2\'yi açmak için L1\'i tamamla, sonra sertifikanı kazanmak için sınava gir. Seviye başına gösterilen süreler kabaca taslaktır.',
+  'dashboard.minutes': '~{min} dk',
 
   // AI temelleri + sözlük
   'glossary.title': 'Sözlük',

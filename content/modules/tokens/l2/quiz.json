@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "Why does a 400-line code diff usually cost many more tokens than a 400-line prose document?",
+    "choices": [
+      "Because code is always sent to a more expensive model than prose",
+      "Because punctuation, whitespace, operators, and long identifiers in code each split into tokens that prose doesn't have",
+      "Because the tokenizer counts each line as a fixed number of tokens",
+      "Because prose is compressed before sending but code is not"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Tokenizers split on sub-word units, and code is dense with braces, indentation, operators, and compound identifiers that each cost tokens. That's why source tokenizes heavier than prose of the same line count — not the model choice or any per-line rule."
+  },
+  {
+    "prompt": "Your feature processes a lot of Turkish text. What should you assume about its token cost relative to the English rule of thumb?",
+    "choices": [
+      "It will be identical, since tokens are language-independent",
+      "It will usually be higher, because tokenizers tuned for English split many non-English words into more sub-word tokens",
+      "It will be lower, because non-English text uses fewer words",
+      "It cannot be measured until after the bill arrives"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Tokenizers are generally optimized for English, so the same content in Turkish tends to break into more sub-word tokens and cost more. Budget for that overhead instead of applying the English 100-tokens-≈-75-words rule directly — and you can measure it up front with the tokenizer."
+  },
+  {
+    "prompt": "You need a defensible monthly cost forecast for an AI feature. Which inputs does the estimate require? (Select all that apply.)",
+    "choices": [
+      "Requests per month",
+      "Average input and output tokens per request, counted with the chosen model's tokenizer",
+      "Separate input and output per-token prices (output usually higher)",
+      "The model provider's data-center electricity cost"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Cost ≈ requests × (input tokens × input price + output tokens × output price), so you need volume, exact token counts per request, and the separate input/output prices. The provider's internal electricity cost isn't billed to you or knowable, so it plays no part in the forecast."
+  },
+  {
+    "prompt": "A model has a 128k-token context window. Why is it a mistake to fill ~127k of it with input?",
+    "choices": [
+      "Because the window only counts input, so this wastes nothing",
+      "Because the window holds input and output together, so leaving almost no room starves the model of tokens to produce its answer",
+      "Because inputs over 100k tokens are always rejected regardless of the window size",
+      "Because large inputs automatically switch you to a cheaper model"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "The context window is a shared space for input plus output. If input consumes nearly all of it, there's no reserve left for the response, so the answer gets truncated or the call fails. Allocate the window deliberately and keep an output reserve."
+  }
+]

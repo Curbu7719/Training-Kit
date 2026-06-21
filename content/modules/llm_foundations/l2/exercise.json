@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "You own the AI calls across a dev toolchain: **inline code completion** (very high volume), an **automated PR reviewer** (every PR), and a rare **\"reason hard about this design\"** helper. Cost and latency matter, code output must be repeatable, and only some tasks are genuinely hard. **Pick the best model strategy and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Use your largest, most capable model for every call site so quality is never a concern",
+      "Use a small fast model for completion and routine PR review, route only hard design/debug cases to a reasoning model, and keep temperature low for code tasks",
+      "Use one mid-size model everywhere at a high temperature so the output feels creative",
+      "Always pick whichever model is newest and use its default settings at every call site"
+    ],
+    "reason_choices": [
+      "Because matching model capability, cost, and latency to each task — and routing only the hard cases to a stronger model — controls spend and speed while keeping quality where it matters, and low temperature keeps code output repeatable",
+      "Because the largest model is always the right default regardless of task or volume",
+      "Because a single high-temperature model guarantees consistent, repeatable code output",
+      "Because newer models no longer hallucinate and need no per-task configuration"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "For high-volume inline code completion in an IDE, which model choice is usually the best fit?",
+    "choices": [
+      "A reasoning model at every keystroke, so completions are as smart as possible",
+      "A small, fast model with low temperature, reserving stronger models for genuinely hard tasks",
+      "The largest available model, since bigger is always better",
+      "A base (non-instruction-tuned) model, because it just continues text"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Completion is routine and extremely high-volume, so a small fast model at low temperature gives quick, repeatable suggestions cheaply. A reasoning or largest model adds latency and cost with no real benefit here; a base model isn't tuned to follow instructions."
+  },
+  {
+    "prompt": "You want an extraction task to return the same structured result as repeatably as possible. Which decoding setting helps most?",
+    "choices": [
+      "A high temperature, so the model explores more options",
+      "A low temperature (and seed where supported), so sampling stays focused and repeatable",
+      "A larger max-output-tokens, so the answer is never cut off",
+      "Removing the stop sequence so the model decides when to end"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Low temperature makes sampling focused and repeatable — what you want for extraction or code. High temperature adds variety you don't want; max-tokens and stop sequences control length, not run-to-run consistency."
+  },
+  {
+    "prompt": "When does choosing a reasoning model (one that 'thinks' longer before answering) actually pay off? (Select all that apply.)",
+    "choices": [
+      "Diagnosing a subtle, multi-step bug where shallow answers keep missing the cause",
+      "Weighing a complex architecture or design trade-off",
+      "Generating thousands of routine inline completions per day",
+      "Lowercasing a string or formatting a simple field"
+    ],
+    "correct": [0, 1],
+    "points": 1,
+    "explanation": "Reasoning models earn their extra latency and cost on genuinely hard, multi-step problems like tricky debugging and design trade-offs. For high-volume routine completions or trivial formatting they're pure overhead — a small fast model is the right call."
+  },
+  {
+    "prompt": "Across a toolchain, what single design choice most controls cost and latency without sacrificing quality on the hard cases?",
+    "choices": [
+      "Routing — run a small cheap model on the routine path and escalate only hard or low-confidence cases to a stronger model",
+      "Always calling the newest model with its default settings everywhere",
+      "Raising temperature globally so answers come back faster",
+      "Sending the largest possible context on every call to be safe"
+    ],
+    "correct": [0],
+    "points": 1,
+    "explanation": "Routing matches each request to the cheapest model that can handle it and escalates only the hard cases, which is the biggest lever on cost and latency across a toolchain. Defaulting to the newest/biggest model or padding context just inflates cost and latency; temperature doesn't control speed."
+  }
+]

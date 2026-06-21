@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir geliştirme toolchain'indeki AI çağrılarının sahibisin: **satır-içi kod tamamlama** (çok yüksek hacim), **otomatik PR inceleyici** (her PR) ve nadir bir **\"bu tasarımı iyi düşün\"** yardımcısı. Maliyet ve gecikme önemli, kod çıktısı tekrarlanabilir olmalı ve yalnızca bazı görevler gerçekten zor. **En iyi model stratejisini ve doğru gerekçeyi seç.**",
+  "spec": {
+    "decision_choices": [
+      "Kalite asla sorun olmasın diye her çağrı noktasında en büyük, en yetenekli modelini kullan",
+      "Tamamlama ve rutin PR incelemesi için küçük hızlı bir model kullan, yalnızca zor tasarım/debug vakalarını bir reasoning modele route et ve kod görevleri için temperature'ı düşük tut",
+      "Çıktı yaratıcı hissettirsin diye her yerde yüksek temperature'lı tek bir orta model kullan",
+      "Her zaman en yeni modeli seç ve her çağrı noktasında varsayılan ayarlarını kullan"
+    ],
+    "reason_choices": [
+      "Çünkü model yeteneğini, maliyetini ve gecikmesini her göreve eşlemek — ve yalnızca zor vakaları daha güçlü bir modele route etmek — harcamayı ve hızı kontrol ederken kaliteyi önemli yerde korur, ve düşük temperature kod çıktısını tekrarlanabilir tutar",
+      "Çünkü göreve ya da hacme bakılmaksızın en büyük model her zaman doğru varsayılandır",
+      "Çünkü yüksek temperature'lı tek bir model tutarlı, tekrarlanabilir kod çıktısı garanti eder",
+      "Çünkü yeni modeller artık halüsinasyon görmez ve görev-başına yapılandırma gerektirmez"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

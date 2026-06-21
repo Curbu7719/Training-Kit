@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir **AI PR-review botunun** aylık maliyetini öngörmen ve her incelemenin modelin context window'una sığdığından emin olman gerekiyor. Input ve output ayrı fiyatlı (output daha pahalı), kod ağır tokenize oluyor ve içeriğin bir kısmı Türkçe. **En iyi yaklaşımı ve doğru gerekçeyi seç.**",
+  "spec": {
+    "decision_choices": [
+      "İngilizce metinde 100-token-≈-75-kelime kuralıyla tahmin et ve faturanın bu olduğunu varsay",
+      "Temsili diff'leri seçtiğin modelin tokenizer'ıyla say, maliyeti istek hacmi × (input + output) token'dan output daha ağır ağırlıkla öngör, İngilizce-dışı ek yükü ekle ve output rezervini korumak için aşırı büyük PR'ları chunk'la",
+      "Sadece sabit bir aylık harcama tavanı koy ve token öngörmekle uğraşma",
+      "Maliyetin yalnızca PR sayısına göre ölçeklendiğini varsay, çünkü diff boyutu pek önemli değil"
+    ],
+    "reason_choices": [
+      "Çünkü maliyet token × fiyattır, input ve output ayrı faturalanır, kod ve Türkçe kabaca bir kuralın öngördüğünden daha ağır tokenize olur ve pencere input artı output'u tutar — bu yüzden kesin sayım, output-ağırlıklı bir tahmin ve büyük diff'leri chunk'lamak hem savunulabilir bir bütçe verir hem context window'a sığar",
+      "Çünkü 100-token-≈-75-kelime kuralı her bütçe ve dil için yeterince kesindir",
+      "Çünkü sabit bir harcama tavanı, maliyeti neyin sürüklediğini anlama ihtiyacını ortadan kaldırır",
+      "Çünkü PR sayısı hem maliyeti hem context kullanımını etkileyen tek şeydir"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

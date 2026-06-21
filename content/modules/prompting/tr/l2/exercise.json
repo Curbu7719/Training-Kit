@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir production AI özelliği, spec'leri **aşağı-akış araçların parse ettiği yapılandırılmış bir test planına** çeviriyor. Mevcut prompt bazen prose, bazen tablo döndürüyor, edge case'leri atlıyor ve ara sıra gereksinim uyduruyor — pipeline'ı kırıyor. **Onu sağlamlaştırmanın en iyi yolunu ve doğru gerekçeyi seç.**",
+  "spec": {
+    "decision_choices": [
+      "Prompt'a 'lütfen tutarlı ol ve bir şey uydurma' ekle ve yeniden deploy et",
+      "Doğrulamalı katı bir JSON-şeması çıktı sözleşmesi belirt, çeşitli few-shot örnekleri (edge case'ler dahil) ekle, eksik bilgiyi uydurmak yerine işaretlemesini söyle ve prompt'u bir eval-set kapısının arkasında versiyonla",
+      "Temperature'ı sıfıra indir ve çıktının artık her zaman geçerli ve eksiksiz olacağını varsay",
+      "Mevcut en büyük modele geç ve aynı gelişigüzel prompt'u koru"
+    ],
+    "reason_choices": [
+      "Çünkü şema-bağlı, doğrulanmış bir çıktı aşağı-akış koda güvenilecek bir sözleşme verir, çeşitli few-shot eksiksizliği öğretir, açık bir eksik-bilgi kuralı uydurmayı önler ve eval-kapılı versiyonlanmış bir prompt, bir vakayı düzeltmenin diğerlerini sessizce bozmasını engeller",
+      "Çünkü modelden kibarca tutarlı olmasını istemek parse edilebilir bir formatı garanti etmeye yeter",
+      "Çünkü temperature sıfır çıktıyı hem mükemmel geçerli hem eksiksiz yapar, doğrulama ihtiyacını ortadan kaldırır",
+      "Çünkü daha büyük bir model çıktı formatını belirtme ya da eksik bilgiyi ele alma ihtiyacını ortadan kaldırır"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

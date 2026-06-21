@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "IDE'de yüksek-hacimli satır-içi kod tamamlama için hangi model seçimi genellikle en uygunudur?",
+    "choices": [
+      "Tamamlamalar olabildiğince akıllı olsun diye her tuş vuruşunda bir reasoning model",
+      "Düşük temperature'lı küçük, hızlı bir model; daha güçlü modelleri gerçekten zor görevlere sakla",
+      "Mevcut en büyük model, çünkü büyük her zaman daha iyidir",
+      "Bir base (instruction-tuned olmayan) model, çünkü o sadece metni sürdürür"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Tamamlama rutin ve aşırı yüksek-hacimlidir, bu yüzden düşük temperature'lı küçük hızlı bir model ucuza hızlı, tekrarlanabilir öneriler verir. Reasoning ya da en büyük model burada gerçek fayda olmadan gecikme ve maliyet ekler; base model ise talimat izlemek için ayarlı değildir."
+  },
+  {
+    "prompt": "Bir çıkarım görevinin olabildiğince tekrarlanabilir şekilde aynı yapılandırılmış sonucu döndürmesini istiyorsun. Hangi decoding ayarı en çok yardımcı olur?",
+    "choices": [
+      "Yüksek temperature, ki model daha çok seçenek keşfetsin",
+      "Düşük temperature (ve destekleniyorsa seed), ki sampling odaklı ve tekrarlanabilir kalsın",
+      "Daha büyük max-output-token, ki cevap asla kesilmesin",
+      "Stop sequence'i kaldır, ki nerede biteceğine model karar versin"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Düşük temperature sampling'i odaklı ve tekrarlanabilir yapar — çıkarım ya da kod için istediğin budur. Yüksek temperature istemediğin çeşitlilik ekler; max-token ve stop sequence uzunluğu kontrol eder, çalıştırmadan çalıştırmaya tutarlılığı değil."
+  },
+  {
+    "prompt": "Bir reasoning model (cevaptan önce daha uzun 'düşünen') seçmek ne zaman gerçekten işe yarar? (Geçerli olan hepsini seçin.)",
+    "choices": [
+      "Yüzeysel cevapların nedeni kaçırmaya devam ettiği ince, çok-adımlı bir bug'ı teşhis etmek",
+      "Karmaşık bir mimari ya da tasarım dengesini tartmak",
+      "Günde binlerce rutin satır-içi tamamlama üretmek",
+      "Bir string'i küçük harfe çevirmek ya da basit bir alanı biçimlendirmek"
+    ],
+    "correct": [0, 1],
+    "points": 1,
+    "explanation": "Reasoning modeller fazladan gecikme ve maliyetlerini gerçekten zor, çok-adımlı problemlerde — çetrefilli debugging ve tasarım dengeleri — hak eder. Yüksek-hacimli rutin tamamlamalar veya basit biçimlendirme için saf yüktür; doğru seçim küçük hızlı bir modeldir."
+  },
+  {
+    "prompt": "Bir toolchain genelinde, zor vakalarda kaliteden ödün vermeden maliyet ve gecikmeyi en çok hangi tasarım seçimi kontrol eder?",
+    "choices": [
+      "Route — rutin yolda küçük ucuz bir model çalıştır, yalnızca zor veya düşük-güvenli vakaları daha güçlü bir modele yükselt",
+      "Her yerde en yeni modeli varsayılan ayarlarıyla çağırmak",
+      "Cevaplar daha hızlı gelsin diye temperature'ı global yükseltmek",
+      "Garanti olsun diye her çağrıda mümkün olan en büyük context'i göndermek"
+    ],
+    "correct": [0],
+    "points": 1,
+    "explanation": "Route, her isteği halledebilecek en ucuz modele eşler ve yalnızca zor vakaları yükseltir; bu, bir toolchain genelinde maliyet ve gecikme üzerindeki en büyük kaldıraçtır. En yeni/büyük modele varsayılan vermek ya da context'i şişirmek sadece maliyet ve gecikme artırır; temperature hızı kontrol etmez."
+  }
+]

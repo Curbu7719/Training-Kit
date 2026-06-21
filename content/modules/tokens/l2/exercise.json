@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "You must forecast the monthly cost of an **AI PR-review bot** and make sure each review fits the model's context window. Input and output are priced separately (output dearer), code tokenizes heavily, and some content is in Turkish. **Pick the best approach and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Estimate with the 100-tokens-≈-75-words rule on the English text and assume that's the bill",
+      "Count representative diffs with the chosen model's own tokenizer, forecast cost from request volume × (input + output) tokens with output weighted higher, add the non-English overhead, and chunk oversized PRs to protect the output reserve",
+      "Just set a fixed monthly spend cap and don't bother forecasting tokens",
+      "Assume cost scales with the number of PRs only, since diff size doesn't really matter"
+    ],
+    "reason_choices": [
+      "Because cost is tokens × price with input and output billed separately, code and Turkish tokenize heavier than a rough rule predicts, and the window holds input plus output — so exact counting, an output-weighted forecast, and chunking large diffs give a defensible budget that also fits the context window",
+      "Because the 100-tokens-≈-75-words rule is exact enough for any budget and language",
+      "Because a fixed spend cap removes any need to understand what drives the cost",
+      "Because the number of PRs is the only thing that affects both cost and context usage"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

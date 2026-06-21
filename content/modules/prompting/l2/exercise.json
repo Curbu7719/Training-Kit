@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A production AI feature turns specs into a **structured test plan that downstream tooling parses**. The current prompt sometimes returns prose, sometimes a table, skips edge cases, and occasionally invents requirements — breaking the pipeline. **Pick the best way to harden it and the correct reason.**",
+  "spec": {
+    "decision_choices": [
+      "Add 'please be consistent and don't make things up' to the prompt and redeploy",
+      "Specify a strict JSON-schema output contract with validation, add diverse few-shot examples (including edge cases), tell it to flag missing info instead of inventing, and version the prompt behind an eval-set gate",
+      "Lower the temperature to zero and assume the output will now always be valid and complete",
+      "Switch to the largest available model and keep the same casual prompt"
+    ],
+    "reason_choices": [
+      "Because a schema-bound, validated output gives downstream code a contract to rely on, diverse few-shot teaches completeness, an explicit missing-info rule prevents fabrication, and an eval-gated versioned prompt stops a fix for one case from silently breaking others",
+      "Because politely asking the model to be consistent is sufficient to guarantee a parseable format",
+      "Because temperature zero makes output both perfectly valid and complete, removing the need for validation",
+      "Because a larger model removes the need to specify the output format or handle missing information"
+    ]
+  },
+  "answer_key": {
+    "decision": 1,
+    "reason": 0
+  },
+  "max_score": 10
+}

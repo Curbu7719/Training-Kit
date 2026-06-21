@@ -42,10 +42,13 @@ const en = {
   // ---------------------------------------------------------------------------
   'dashboard.learningPath': 'Your learning path',
   'dashboard.modulesPassed': '{passed}/{total} modules passed',
-  'dashboard.summary': '10 modules · two levels each · complete L1 to unlock L2',
+  'dashboard.summary': '17 modules · two levels each · complete L1 to unlock L2',
   'dashboard.badges': 'Your badges',
   'dashboard.loadingProgress': 'Loading progress…',
   'dashboard.newToAi': 'New to AI? Read “AI in 5 minutes” first',
+  'dashboard.about.title': 'Before you start',
+  'dashboard.about.body': 'An AI-in-the-SDLC literacy program for teams adopting AI across the software lifecycle — covering both building AI features and working in an AI-driven SDLC. It builds shared understanding, not hands-on lab skills. Take the modules in any order; finish L1 to unlock each L2, then sit the exam to earn your certificate. Times shown per level are rough drafts.',
+  'dashboard.minutes': '~{min} min',
 
   // AI basics + glossary
   'glossary.title': 'Glossary',
