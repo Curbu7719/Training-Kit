@@ -324,7 +324,7 @@ const en = {
   // Exam
   // ---------------------------------------------------------------------------
   'exam.pageTitle': 'Case-Based Assessment',
-  'exam.instructions': 'Work through the case-based questions and submit to see your score. You need 75 or above to pass.',
+  'exam.instructions': 'A general assessment covering all modules — independent of your role. Work through the case-based questions and submit to see your score. You need 75 or above to pass.',
   'exam.questionLabel': 'Question {n} of {total}',
   'exam.answeredOf': '{answered} of {total} answered',
   'exam.allAnswered': 'All answered — ready to submit',
@@ -348,7 +348,7 @@ const en = {
   'exam.headline.keepGoing': 'Keep going — every attempt builds knowledge!',
 
   // Exam CTA on dashboard
-  'exam.cta.blurb': 'Measure what you’ve learned with case-based scenario questions, and earn your certificate.',
+  'exam.cta.blurb': 'A general assessment across all modules (independent of your role). Measure what you’ve learned with case-based scenario questions, and earn your certificate.',
   'exam.cta.button': 'Start',
 } as const;
 

@@ -324,7 +324,7 @@ const tr = {
   // Sınav
   // ---------------------------------------------------------------------------
   'exam.pageTitle': 'Vaka Bazlı Değerlendirme',
-  'exam.instructions': 'Vaka bazlı soruları çözüp puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
+  'exam.instructions': 'Tüm modülleri kapsayan, rolünüzden bağımsız genel bir değerlendirme. Vaka bazlı soruları çözüp puanınızı görmek için gönderin. Geçmek için 75 veya üzeri almanız gerekir.',
   'exam.questionLabel': 'Soru {n} / {total}',
   'exam.answeredOf': '{total} sorudan {answered} tanesi cevaplandı',
   'exam.allAnswered': 'Tümü cevaplandı — göndermeye hazır',
@@ -348,7 +348,7 @@ const tr = {
   'exam.headline.keepGoing': 'Devam edin — her deneme bilginizi artırır!',
 
   // Sınav CTA (ana sayfa)
-  'exam.cta.blurb': 'Öğrendiklerini vaka bazlı senaryo sorularıyla ölç ve sertifikanı kazan.',
+  'exam.cta.blurb': 'Tüm modülleri kapsayan (rolünden bağımsız) genel bir değerlendirme. Öğrendiklerini vaka bazlı senaryo sorularıyla ölç ve sertifikanı kazan.',
   'exam.cta.button': 'Başla',
 } as const;
 
