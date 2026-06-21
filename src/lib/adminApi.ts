@@ -182,6 +182,10 @@ export interface LeaderboardEntry {
   total_score: number;
   badges: number;
   modules_passed: number;
+  /** The user's chosen SDLC role (ROLE_PATHS key), or null. */
+  role?: string | null;
+  /** True when all of the role's core modules are passed at the required level. */
+  certified?: boolean;
 }
 
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {

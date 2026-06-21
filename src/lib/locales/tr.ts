@@ -216,6 +216,7 @@ const tr = {
   'leaderboard.col.score': 'Puan',
   'leaderboard.col.badges': 'Rozet',
   'leaderboard.col.modules': 'Tamamlanan modüller',
+  'leaderboard.col.role': 'Rol',
   'leaderboard.you': '(siz)',
   'leaderboard.empty': 'Henüz sıralama girişi yok.',
 

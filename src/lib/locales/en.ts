@@ -215,6 +215,7 @@ const en = {
   'leaderboard.col.score': 'Score',
   'leaderboard.col.badges': 'Badges',
   'leaderboard.col.modules': 'Modules passed',
+  'leaderboard.col.role': 'Role',
   'leaderboard.you': '(you)',
   'leaderboard.empty': 'No leaderboard entries yet.',
 

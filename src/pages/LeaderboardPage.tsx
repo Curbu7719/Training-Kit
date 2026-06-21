@@ -6,6 +6,7 @@ import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+import type { TranslationKey } from '@/lib/locales/en';
 
 // ---------------------------------------------------------------------------
 // LeaderboardPage — ranked table, accessible to any authenticated user.
@@ -69,6 +70,7 @@ export function LeaderboardPage() {
                 <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
                   <th className="pb-2 pr-4 w-12">{t('leaderboard.col.rank')}</th>
                   <th className="pb-2 pr-4">{t('leaderboard.col.name')}</th>
+                  <th className="pb-2 pr-4">{t('leaderboard.col.role')}</th>
                   <th className="pb-2 pr-4 text-right">{t('leaderboard.col.score')}</th>
                   <th className="pb-2 pr-4 text-right">{t('leaderboard.col.badges')}</th>
                   <th className="pb-2 text-right">{t('leaderboard.col.modules')}</th>
@@ -94,6 +96,18 @@ export function LeaderboardPage() {
                           <span className="ml-2 text-xs text-primary font-normal">{t('leaderboard.you')}</span>
                         )}
                       </td>
+                      <td className="py-2.5 pr-4">
+                        {entry.role ? (
+                          <span className="inline-flex items-center gap-1">
+                            <span>{t(`role.${entry.role}` as TranslationKey)}</span>
+                            {entry.certified && (
+                              <span className="text-success" title={t('role.panel.certified')} aria-label={t('role.panel.certified')}>✓</span>
+                            )}
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </td>
                       <td className="py-2.5 pr-4 text-right tabular-nums">{entry.total_score}</td>
                       <td className="py-2.5 pr-4 text-right tabular-nums">{entry.badges}</td>
                       <td className="py-2.5 text-right tabular-nums">{entry.modules_passed}</td>
@@ -102,7 +116,7 @@ export function LeaderboardPage() {
                 })}
                 {entries.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="py-6 text-center text-muted-foreground">
+                    <td colSpan={6} className="py-6 text-center text-muted-foreground">
                       {t('leaderboard.empty')}
                     </td>
                   </tr>
