@@ -205,3 +205,57 @@ Deno.test('gradeExercise scenario — reason correct but decision wrong → zero
   );
   assertEquals(result, { score: 0, passed: false });
 });
+
+// ---------------------------------------------------------------------------
+// Prompt-repair exercise (Tier 1 hands-on lab — deterministic, no LLM)
+// ---------------------------------------------------------------------------
+
+const REPAIR_KEY = {
+  checks: [
+    { id: 'framework', anyOf: ['pytest', 'jest', 'junit', 'unittest', 'vitest'] },
+    { id: 'edge_cases', anyOf: ['edge case', 'empty', 'boundary', 'null', 'invalid'] },
+    { id: 'output_format', anyOf: ['diff', 'single file', 'one test file', 'json'] },
+    { id: 'delimiters', regex: '```|<code>' },
+  ],
+};
+
+Deno.test('gradeExercise prompt_repair — all requirements met → full marks', () => {
+  const text =
+    'Generate unit tests using pytest. Cover edge cases including the empty-list case. ' +
+    'Return a single file. Wrap the code in ```python fences```.';
+  const result = gradeExercise('prompt_repair', { text }, REPAIR_KEY, 10);
+  assertEquals(result.score, 10);
+  assertEquals(result.passed, true);
+  assertEquals(result.details, [
+    { id: 'framework', met: true },
+    { id: 'edge_cases', met: true },
+    { id: 'output_format', met: true },
+    { id: 'delimiters', met: true },
+  ]);
+});
+
+Deno.test('gradeExercise prompt_repair — partial credit, below pass threshold', () => {
+  // Only the framework requirement is satisfied → 1/4 → 3/10, not passing.
+  const result = gradeExercise('prompt_repair', { text: 'Write tests with jest.' }, REPAIR_KEY, 10);
+  assertEquals(result.score, 3);
+  assertEquals(result.passed, false);
+  assertEquals(result.details?.filter((d) => d.met).map((d) => d.id), ['framework']);
+});
+
+Deno.test('gradeExercise prompt_repair — 3 of 4 met clears the 70% bar', () => {
+  const text = 'Use pytest, cover the empty and boundary cases, and return a diff.';
+  const result = gradeExercise('prompt_repair', { text }, REPAIR_KEY, 10);
+  assertEquals(result.score, 8); // round(3/4 * 10)
+  assertEquals(result.passed, true);
+});
+
+Deno.test('gradeExercise prompt_repair — keyword match is case-insensitive', () => {
+  const result = gradeExercise('prompt_repair', { text: 'PYTEST please' }, REPAIR_KEY, 10);
+  assertEquals(result.details?.[0], { id: 'framework', met: true });
+});
+
+Deno.test('gradeExercise prompt_repair — the unchanged weak starter scores zero', () => {
+  const result = gradeExercise('prompt_repair', { text: 'Write tests for this function.' }, REPAIR_KEY, 10);
+  assertEquals(result.score, 0);
+  assertEquals(result.passed, false);
+});

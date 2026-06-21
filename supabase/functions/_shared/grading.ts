@@ -13,21 +13,23 @@
 // Types
 // ---------------------------------------------------------------------------
 
-export type ExerciseType = 'mcq' | 'order' | 'match' | 'fill' | 'scenario';
+export type ExerciseType = 'mcq' | 'order' | 'match' | 'fill' | 'scenario' | 'prompt_repair';
 
 /** Client answer shapes (per CONTENT-GUIDE.md) */
-export type McqAnswer      = { selected: number[] };
-export type OrderAnswer    = { order: number[] };
-export type MatchAnswer    = { pairs: [number, number][] };
-export type FillAnswer     = { values: string[] };
-export type ScenarioAnswer = { decision: number; reason: number };
+export type McqAnswer          = { selected: number[] };
+export type OrderAnswer        = { order: number[] };
+export type MatchAnswer        = { pairs: [number, number][] };
+export type FillAnswer         = { values: string[] };
+export type ScenarioAnswer     = { decision: number; reason: number };
+export type PromptRepairAnswer = { text: string };
 
 export type ExerciseAnswer =
   | McqAnswer
   | OrderAnswer
   | MatchAnswer
   | FillAnswer
-  | ScenarioAnswer;
+  | ScenarioAnswer
+  | PromptRepairAnswer;
 
 /** Answer key shapes (stored in exercises.answer_key, never sent to client) */
 export type McqKey      = { correct: number[] };
@@ -36,16 +38,29 @@ export type MatchKey    = { pairs: [number, number][] };
 export type FillKey     = { accept: string[][] };
 export type ScenarioKey = { decision: number; reason: number };
 
+/**
+ * Prompt-repair key: each check detects one required element in the learner's
+ * edited prompt by keyword (anyOf, case-insensitive substring) or a regex.
+ * A check passes if anyOf OR regex matches. `pass_ratio` defaults to 0.7.
+ * The detection rules live here (hidden); only per-requirement met/not-met is
+ * ever returned to the client.
+ */
+export type PromptRepairCheck = { id: string; anyOf?: string[]; regex?: string };
+export type PromptRepairKey   = { checks: PromptRepairCheck[]; pass_ratio?: number };
+
 export type AnswerKey =
   | McqKey
   | OrderKey
   | MatchKey
   | FillKey
-  | ScenarioKey;
+  | ScenarioKey
+  | PromptRepairKey;
 
 export interface GradeResult {
   score: number;
   passed: boolean;
+  /** Optional per-requirement breakdown (prompt_repair) for learner feedback. */
+  details?: { id: string; met: boolean }[];
 }
 
 // ---------------------------------------------------------------------------
@@ -160,6 +175,46 @@ function gradeScenario(answer: ScenarioAnswer, key: ScenarioKey, maxScore: numbe
   return { score, passed: score >= Math.round(0.7 * maxScore) };
 }
 
+/**
+ * Prompt-repair: the learner edits a starter prompt to include required
+ * elements. Each check is satisfied if any of its keywords appears
+ * (case-insensitive substring) or its regex matches. Score is the fraction of
+ * checks met × maxScore, rounded. Deterministic — no model is called.
+ * Returns per-requirement `details` so the UI can show what's still missing.
+ */
+function gradePromptRepair(
+  answer: PromptRepairAnswer,
+  key: PromptRepairKey,
+  maxScore: number,
+): GradeResult {
+  const checks = key.checks ?? [];
+  const total = checks.length;
+  if (total === 0) return { score: 0, passed: false, details: [] };
+
+  const text = answer.text ?? '';
+  const lower = text.toLowerCase();
+
+  const details = checks.map((c) => {
+    let met = false;
+    if (Array.isArray(c.anyOf) && c.anyOf.some((kw) => lower.includes(kw.toLowerCase()))) {
+      met = true;
+    }
+    if (!met && typeof c.regex === 'string') {
+      try {
+        met = new RegExp(c.regex, 'i').test(text);
+      } catch {
+        met = false; // a malformed rule never silently passes
+      }
+    }
+    return { id: c.id, met };
+  });
+
+  const metCount = details.filter((d) => d.met).length;
+  const score = Math.round((metCount / total) * maxScore);
+  const ratio = typeof key.pass_ratio === 'number' ? key.pass_ratio : 0.7;
+  return { score, passed: score >= Math.round(ratio * maxScore), details };
+}
+
 // ---------------------------------------------------------------------------
 // Dispatcher
 // ---------------------------------------------------------------------------
@@ -190,6 +245,8 @@ export function gradeExercise(
       return gradeFill(answer as FillAnswer, answerKey as FillKey, maxScore);
     case 'scenario':
       return gradeScenario(answer as ScenarioAnswer, answerKey as ScenarioKey, maxScore);
+    case 'prompt_repair':
+      return gradePromptRepair(answer as PromptRepairAnswer, answerKey as PromptRepairKey, maxScore);
     default: {
       // Exhaustiveness guard — TypeScript will warn if a new type is added without a case
       const _exhaustive: never = type;

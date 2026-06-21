@@ -141,6 +141,8 @@ Deno.serve(async (req: Request) => {
       score:     result.score,
       max_score: exercise.max_score ?? 10,
       passed:    result.passed,
+      // Per-requirement breakdown (prompt_repair); omitted for other types.
+      ...(result.details ? { details: result.details } : {}),
     }),
     { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
   );

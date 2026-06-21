@@ -178,6 +178,12 @@ const tr = {
   'exercise.scenario.bothCorrect': 'İkisi de doğru — {score}/{max} puan',
   'exercise.scenario.partialCorrect': 'Karar doğru, gerekçe yanlış — {score}/{max} puan',
 
+  // Prompt-repair egzersizi (hands-on lab)
+  'exercise.promptRepair.instruction': 'Aşağıdaki prompt\'u her gereksinimi karşılayacak şekilde düzenle, sonra gönder.',
+  'exercise.promptRepair.editorLabel': 'Düzenlenebilir prompt',
+  'exercise.promptRepair.requirements': 'Prompt\'un şunları içermeli:',
+  'exercise.promptRepair.result': '{score}/{max} puan — {total} gereksinimden {met} tanesi karşılandı',
+
   // ---------------------------------------------------------------------------
   // Leaderboard
   // ---------------------------------------------------------------------------

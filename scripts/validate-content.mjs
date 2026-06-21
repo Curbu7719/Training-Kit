@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const MODULES_DIR = join(ROOT, 'content', 'modules');
-const EX_TYPES = ['mcq', 'order', 'match', 'fill', 'scenario'];
+const EX_TYPES = ['mcq', 'order', 'match', 'fill', 'scenario', 'prompt_repair'];
 
 let errors = 0;
 let warns = 0;
@@ -87,6 +87,30 @@ function validateExercise(path) {
       if (d < 2 || r < 2) err(`${at}: decision_choices/reason_choices need >=2`);
       if (!inRange(key.decision, d)) err(`${at}: answer_key.decision out of range`);
       if (!inRange(key.reason, r)) err(`${at}: answer_key.reason out of range`);
+      break;
+    }
+    case 'prompt_repair': {
+      if (typeof spec.starter !== 'string' || !spec.starter.trim()) err(`${at}: spec.starter missing`);
+      const reqs = spec.requirements || [];
+      if (!Array.isArray(reqs) || reqs.length < 1) err(`${at}: spec.requirements non-empty`);
+      const checks = key.checks || [];
+      if (!Array.isArray(checks) || checks.length < 1) err(`${at}: answer_key.checks non-empty`);
+      const reqIds = new Set(reqs.map((r) => r && r.id));
+      const checkIds = new Set(checks.map((c) => c && c.id));
+      reqs.forEach((r, i) => {
+        if (!r || typeof r.id !== 'string' || typeof r.label !== 'string')
+          err(`${at}: requirements[${i}] needs {id, label}`);
+        else if (!checkIds.has(r.id)) err(`${at}: requirement "${r.id}" has no matching check`);
+      });
+      checks.forEach((c, i) => {
+        if (!c || typeof c.id !== 'string') err(`${at}: checks[${i}] needs an id`);
+        else {
+          if (!reqIds.has(c.id)) err(`${at}: check "${c.id}" has no matching requirement`);
+          const hasAnyOf = Array.isArray(c.anyOf) && c.anyOf.length > 0;
+          const hasRegex = typeof c.regex === 'string' && c.regex.length > 0;
+          if (!hasAnyOf && !hasRegex) err(`${at}: check "${c.id}" needs anyOf[] or regex`);
+        }
+      });
       break;
     }
   }

@@ -18,6 +18,7 @@ import { OrderExercise, type OrderSpec } from '@/components/exercise/OrderExerci
 import { MatchExercise, type MatchSpec } from '@/components/exercise/MatchExercise';
 import { FillExercise, type FillSpec } from '@/components/exercise/FillExercise';
 import { ScenarioExercise, type ScenarioSpec } from '@/components/exercise/ScenarioExercise';
+import { PromptRepairExercise, type PromptRepairSpec } from '@/components/exercise/PromptRepairExercise';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/utils';
 
@@ -46,7 +47,7 @@ interface QuizQuestionDbRow {
 interface ExerciseDbRow {
   id: string;
   lesson_id: string;
-  type: 'mcq' | 'order' | 'match' | 'fill' | 'scenario';
+  type: 'mcq' | 'order' | 'match' | 'fill' | 'scenario' | 'prompt_repair';
   prompt_md: string;
   spec: Record<string, unknown>;
   max_score: number;
@@ -125,6 +126,13 @@ function ExerciseWidget({
         <ScenarioExercise
           exerciseId={exercise.id}
           spec={exercise.spec as unknown as ScenarioSpec}
+          onSubmit={handleSubmit}
+        />
+      )}
+      {exercise.type === 'prompt_repair' && (
+        <PromptRepairExercise
+          exerciseId={exercise.id}
+          spec={exercise.spec as unknown as PromptRepairSpec}
           onSubmit={handleSubmit}
         />
       )}

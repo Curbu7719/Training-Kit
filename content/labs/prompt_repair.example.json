@@ -1,0 +1,23 @@
+{
+  "type": "prompt_repair",
+  "prompt_md": "**Hands-on lab.** The starter prompt below is too vague to produce good unit tests. Edit it so it satisfies every requirement, then submit. Grading is automatic and deterministic — each requirement is checked by rule, no model is run.",
+  "spec": {
+    "starter": "Write tests for this function.",
+    "requirements": [
+      { "id": "framework", "label": "Name the test framework to use (e.g. pytest, jest)" },
+      { "id": "edge_cases", "label": "Ask for edge cases (empty, boundary, null, invalid input)" },
+      { "id": "output_format", "label": "Specify the output format (a diff, or a single test file)" },
+      { "id": "delimiters", "label": "Wrap the function's code in delimiters (e.g. triple backticks)" }
+    ]
+  },
+  "answer_key": {
+    "checks": [
+      { "id": "framework", "anyOf": ["pytest", "jest", "junit", "unittest", "vitest", "mocha", "framework"] },
+      { "id": "edge_cases", "anyOf": ["edge case", "empty", "boundary", "null", "invalid", "error"] },
+      { "id": "output_format", "anyOf": ["diff", "single file", "one file", "test file", "json", "format"] },
+      { "id": "delimiters", "regex": "```|<code>|~~~" }
+    ],
+    "pass_ratio": 0.7
+  },
+  "max_score": 10
+}

@@ -15,6 +15,8 @@ export interface ExerciseSubmitResponse {
   score: number;
   max_score: number;
   passed: boolean;
+  /** Per-requirement breakdown — present for prompt_repair exercises only. */
+  details?: { id: string; met: boolean }[];
 }
 
 export interface ProgressEntry {
@@ -38,13 +40,15 @@ export type OrderAnswer = { order: number[] };
 export type MatchAnswer = { pairs: [number, number][] };
 export type FillAnswer = { values: string[] };
 export type ScenarioAnswer = { decision: number; reason: number };
+export type PromptRepairAnswer = { text: string };
 
 export type ExerciseAnswer =
   | McqAnswer
   | OrderAnswer
   | MatchAnswer
   | FillAnswer
-  | ScenarioAnswer;
+  | ScenarioAnswer
+  | PromptRepairAnswer;
 
 // ---------------------------------------------------------------------------
 // Typed wrappers around supabase.functions.invoke

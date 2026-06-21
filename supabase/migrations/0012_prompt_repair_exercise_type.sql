@@ -1,0 +1,21 @@
+-- ============================================================
+-- TrainingKit — 'prompt_repair' exercise type (Tier 1 hands-on lab)
+-- Migration: 0012_prompt_repair_exercise_type.sql
+--
+-- Adds a new value to the exercises.type enum for the first interactive,
+-- hands-on lab type: the learner edits a weak starter prompt and is graded
+-- DETERMINISTICALLY — each required element is detected by keyword/regex rules
+-- stored in answer_key (which stays hidden from the client). No runtime LLM is
+-- involved, preserving the platform's deterministic-grading principle.
+--
+-- spec (sent to client):      { starter, requirements: [{id, label}] }
+-- answer_key (server-only):   { checks: [{id, anyOf?[], regex?}], pass_ratio? }
+-- answer (client → server):   { text }
+-- response adds:              details: [{id, met}]  (per-requirement feedback)
+--
+-- NOTE: ALTER TYPE ... ADD VALUE is DDL and must be applied via the Supabase
+-- Management API query endpoint (apply-remote-sql.mjs), not the service-role
+-- REST client. Run AFTER 0011.
+-- ============================================================
+
+alter type public.exercise_type add value if not exists 'prompt_repair';

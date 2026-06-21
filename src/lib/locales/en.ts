@@ -177,6 +177,12 @@ const en = {
   'exercise.scenario.bothCorrect': 'Both correct — {score}/{max} points',
   'exercise.scenario.partialCorrect': 'Decision correct, reason incorrect — {score}/{max} points',
 
+  // Prompt-repair exercise (hands-on lab)
+  'exercise.promptRepair.instruction': 'Edit the prompt below so it satisfies every requirement, then submit.',
+  'exercise.promptRepair.editorLabel': 'Editable prompt',
+  'exercise.promptRepair.requirements': 'Your prompt should:',
+  'exercise.promptRepair.result': '{score}/{max} points — {met}/{total} requirements met',
+
   // ---------------------------------------------------------------------------
   // Leaderboard
   // ---------------------------------------------------------------------------
