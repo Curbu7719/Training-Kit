@@ -2,14 +2,14 @@
   {
     "prompt": "During a multi-day AI-assisted migration that uses summaries-of-summaries, the assistant breaks a backward-compatibility rule stated clearly on day one, even though recent turns look fine. What is the most likely cause?",
     "choices": [
-      "The temperature was set too high",
+      "The model was switched to a faster variant",
       "The rule was compressed away by repeated lossy summarization and is no longer in the context",
       "The model's knowledge cutoff excluded the rule",
       "Retrieval returned too many files"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Summaries-of-summaries are lossy: each compression pass can drop the day-one rule, so it's no longer in the context even when recent turns look fine. Temperature, knowledge cutoff, and retrieval volume don't explain a rule disappearing this way."
+    "explanation": "Summaries-of-summaries are lossy: each compression pass can drop the day-one rule, so it's no longer in the context even when recent turns look fine. A faster model, the knowledge cutoff, and retrieval volume don't explain a rule disappearing this way."
   },
   {
     "prompt": "Which statements about context strategy trade-offs in a real refactor are accurate? (Select all that apply.)",
@@ -28,11 +28,11 @@
     "choices": [
       "Rely on a larger context window alone and re-send the full transcript every time",
       "Pin those rules as protected content carried verbatim, while summarizing or sliding the rest",
-      "Raise the temperature so the model emphasizes important rules",
+      "Switch to a larger model so it remembers everything",
       "Move the rules into retrieval and hope the retriever returns them each call"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Pinning the non-negotiable rules as protected content carried verbatim guarantees they survive every turn, while you summarize or slide the rest. A bigger window can still drop them eventually, raising temperature doesn't preserve content, and retrieval might not return them on a given call."
+    "explanation": "Pinning the non-negotiable rules as protected content carried verbatim guarantees they survive every turn, while you summarize or slide the rest. A bigger window can still drop them eventually, and retrieval might not return them on a given call."
   }
 ]

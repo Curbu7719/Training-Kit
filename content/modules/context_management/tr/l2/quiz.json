@@ -2,14 +2,14 @@
   {
     "prompt": "Özetlerin özetlerini kullanan, çok günlü, AI destekli bir migration sırasında, son turlar düzgün görünse de, asistan birinci günde açıkça belirtilen bir geriye dönük uyumluluk kuralını bozar. En olası neden nedir?",
     "choices": [
-      "Temperature çok yüksek ayarlandı",
+      "Model daha hızlı bir varyanta geçirildi",
       "Kural, tekrarlanan kayıplı özetlemeyle sıkıştırılarak yok edildi ve artık bağlamda değil",
       "Modelin bilgi kesim tarihi kuralı dışladı",
       "Retrieval çok fazla dosya döndürdü"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Özetlerin özetleri kayıplıdır: her sıkıştırma geçişi birinci-gün kuralını düşürebilir, bu yüzden son turlar düzgün görünse bile kural artık bağlamda değildir. Temperature, bilgi kesim tarihi ve retrieval hacmi, bir kuralın bu şekilde kaybolmasını açıklamaz."
+    "explanation": "Özetlerin özetleri kayıplıdır: her sıkıştırma geçişi birinci-gün kuralını düşürebilir, bu yüzden son turlar düzgün görünse bile kural artık bağlamda değildir. Daha hızlı bir model, bilgi kesim tarihi ve retrieval hacmi, bir kuralın bu şekilde kaybolmasını açıklamaz."
   },
   {
     "prompt": "Gerçek bir refactor'da context stratejisi dengeleri hakkında hangi ifadeler doğrudur? (Uygun olanların hepsini seçin.)",
@@ -28,11 +28,11 @@
     "choices": [
       "Yalnızca daha büyük bir context window'a güvenip her seferinde tüm transkripti yeniden gönderin",
       "O kuralları her çağrıda kelimesi kelimesine taşınan korumalı içerik olarak sabitleyin, gerisini özetleyin ya da kaydırın",
-      "Modelin önemli kuralları vurgulaması için temperature'ı yükseltin",
+      "Her şeyi hatırlasın diye daha büyük bir modele geçin",
       "Kuralları retrieval'a taşıyın ve retriever'ın onları her çağrıda döndürmesini umun"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Pazarlık konusu olmayan kuralları kelimesi kelimesine taşınan korumalı içerik olarak sabitlemek, gerisini özetlerken ya da kaydırırken bunların her turda hayatta kalmasını garanti eder. Daha büyük bir pencere sonunda yine de bunları düşürebilir, temperature'ı yükseltmek içeriği korumaz ve retrieval belirli bir çağrıda bunları döndürmeyebilir."
+    "explanation": "Pazarlık konusu olmayan kuralları kelimesi kelimesine taşınan korumalı içerik olarak sabitlemek, gerisini özetlerken ya da kaydırırken bunların her turda hayatta kalmasını garanti eder. Daha büyük bir pencere sonunda yine de bunları düşürebilir ve retrieval belirli bir çağrıda bunları döndürmeyebilir."
   }
 ]

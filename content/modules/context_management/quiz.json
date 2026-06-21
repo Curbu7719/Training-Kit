@@ -33,7 +33,7 @@
       "Summarizing an earlier interview or transcript into a short recap",
       "Retrieving only the few files relevant to the current edit",
       "Keeping only the most recent N turns (sliding window)",
-      "Increasing the temperature setting"
+      "Switching to a faster model"
     ],
     "correct": [
       0,
@@ -41,12 +41,12 @@
       2
     ],
     "points": 1,
-    "explanation": "Summarizing, retrieving only relevant files, and keeping a sliding window of recent turns all reduce how many tokens you must fit in the window. Temperature controls randomness of output, not context size, so it doesn't help here."
+    "explanation": "Summarizing, retrieving only relevant files, and keeping a sliding window of recent turns all reduce how many tokens you must fit in the window. A faster model doesn't change how many tokens your content needs, so it doesn't help here."
   },
   {
     "prompt": "An AI assistant doing a 30-file refactor starts ignoring a 'keep the old column name' rule it was given at the start. Which fact best explains the root cause to the team?",
     "choices": [
-      "The model's temperature is set too low",
+      "The model was swapped for a smaller version",
       "As the transcript grew past the window limit, the early rule was dropped and is no longer seen by the model",
       "The model's training finished, so it stopped learning",
       "Retrieval always corrupts the edit history"
@@ -55,7 +55,7 @@
       1
     ],
     "points": 1,
-    "explanation": "As the transcript grew past the window limit, the earliest content — including the rule stated at the start — fell out of context, so the model can no longer see it. Temperature and training are unrelated to this dropout."
+    "explanation": "As the transcript grew past the window limit, the earliest content — including the rule stated at the start — fell out of context, so the model can no longer see it. Model size and training are unrelated to this dropout."
   },
   {
     "prompt": "You need a model to work across a large codebase where exact details matter and files cross-reference each other. Summarize-then-work vs retrieve-relevant-chunks — which *trade-off* fits?",
@@ -63,12 +63,12 @@
       "Summarize the whole codebase once and work from the summary — it's the most compact",
       "Retrieve the specific relevant chunks per question — a summary would lose the exact details you need",
       "Paste the entire codebase every call so nothing is ever missed",
-      "Lower the temperature so the model holds more of it in mind"
+      "Switch to a smaller, faster model so it concentrates better"
     ],
     "correct": [
       1
     ],
     "points": 1,
-    "explanation": "When exact details matter and files cross-reference each other, retrieving the specific relevant chunks preserves precision, whereas a single summary would blur the exact details you need. Pasting the whole codebase every call usually won't fit, and temperature has no effect on memory capacity."
+    "explanation": "When exact details matter and files cross-reference each other, retrieving the specific relevant chunks preserves precision, whereas a single summary would blur the exact details you need. Pasting the whole codebase every call usually won't fit, and model size has no effect on the window's capacity."
   }
 ]

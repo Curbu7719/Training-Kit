@@ -33,7 +33,7 @@
       "Daha önceki bir görüşmeyi ya da transkripti kısa bir özete sıkıştırmak",
       "Yalnızca mevcut düzenlemeyle ilgili birkaç dosyayı getirmek",
       "Yalnızca son N turu tutmak (kayan pencere)",
-      "Temperature ayarını artırmak"
+      "Daha hızlı bir modele geçmek"
     ],
     "correct": [
       0,
@@ -41,12 +41,12 @@
       2
     ],
     "points": 1,
-    "explanation": "Özetlemek, yalnızca ilgili dosyaları getirmek ve son turların kayan bir penceresini tutmak; pencereye sığdırmanız gereken token sayısını azaltır. Temperature, bağlam boyutunu değil çıktının rastgeleliğini kontrol eder, bu yüzden burada yardımcı olmaz."
+    "explanation": "Özetlemek, yalnızca ilgili dosyaları getirmek ve son turların kayan bir penceresini tutmak; pencereye sığdırmanız gereken token sayısını azaltır. Daha hızlı bir model, içeriğinizin kaç token gerektirdiğini değiştirmez, bu yüzden burada yardımcı olmaz."
   },
   {
     "prompt": "30 dosyalık bir refactor yapan bir AI asistanı, başlangıçta kendisine verilen 'eski kolon adını koru' kuralını yok saymaya başlar. Hangi gerçek, ekibe kök nedeni en iyi açıklar?",
     "choices": [
-      "Modelin temperature ayarı çok düşük",
+      "Model daha küçük bir sürümle değiştirildi",
       "Transkript pencere sınırını aştıkça, erken kural atıldı ve artık model tarafından görülmüyor",
       "Modelin eğitimi bittiği için öğrenmeyi durdurdu",
       "Retrieval her zaman düzenleme geçmişini bozar"
@@ -55,7 +55,7 @@
       1
     ],
     "points": 1,
-    "explanation": "Transkript pencere sınırını aştıkça, en eski içerik — başlangıçta belirtilen kural dahil — bağlamın dışına düştü, bu yüzden model artık onu göremiyor. Temperature ve eğitim bu düşüşle ilgisizdir."
+    "explanation": "Transkript pencere sınırını aştıkça, en eski içerik — başlangıçta belirtilen kural dahil — bağlamın dışına düştü, bu yüzden model artık onu göremiyor. Model boyutu ve eğitim bu düşüşle ilgisizdir."
   },
   {
     "prompt": "Modelin, tam ayrıntıların önemli olduğu ve dosyaların birbirine atıf yaptığı büyük bir kod tabanında çalışması gerekiyor. Özetle-sonra-çalış mı, ilgili-parçaları-getir mi — hangi *trade-off*?",
@@ -63,12 +63,12 @@
       "Tüm kod tabanını bir kez özetle ve özetten çalış — en kompakt olan bu",
       "Soru başına ilgili belirli parçaları getir — özet, ihtiyacın olan tam ayrıntıları kaybeder",
       "Hiçbir şey kaçmasın diye her çağrıda tüm kod tabanını yapıştır",
-      "Model daha çoğunu akılda tutsun diye temperature'ı düşür"
+      "Daha küçük, daha hızlı bir modele geç ki daha iyi odaklansın"
     ],
     "correct": [
       1
     ],
     "points": 1,
-    "explanation": "Tam ayrıntılar önemli olduğunda ve dosyalar birbirine atıf yaptığında, ilgili belirli parçaları getirmek kesinliği korur; tek bir özet ise ihtiyacınız olan tam ayrıntıları bulanıklaştırır. Her çağrıda tüm kod tabanını yapıştırmak genelde sığmaz ve temperature'ın bellek kapasitesine etkisi yoktur."
+    "explanation": "Tam ayrıntılar önemli olduğunda ve dosyalar birbirine atıf yaptığında, ilgili belirli parçaları getirmek kesinliği korur; tek bir özet ise ihtiyacınız olan tam ayrıntıları bulanıklaştırır. Her çağrıda tüm kod tabanını yapıştırmak genelde sığmaz ve model boyutunun pencerenin kapasitesine etkisi yoktur."
   }
 ]
