@@ -2,42 +2,42 @@
 
 **Temel fikrin alternatif ifadeleri**
 
-- "Bir ops agent'ı çağırıp okuduğun bir araç değildir — senin sistemlerinde aksiyon alan bir
-  aktördür, bu yüzden blast radius yanlış bir yanıt değil yanlış bir *aksiyondur* ve güvenilirlik,
-  onun yapmasına izin verilen şeyi sınırlamak demektir."
-- "Agent'ı sınırla: en az yetki (varsayılan read-only), ortam kapsamı, plan-sonra-uygula dry-run'lar
-  ve yıkıcı/geri-alınamaz/production aksiyonları için onay kapıları — tüm otonomiyi durduran bir
-  kill-switch ve döngüleri yakalayan rate limit'lerle birlikte."
-- "App'i değil agent'ı gözlemle: ne yaptığının, ne gözlemlediğinin ve nedeninin action audit trail'i,
-  çünkü yeşil bir pano sana yanlış servisi yeniden başlattığını söylemez ve her aksiyon için bir
-  insan hesap verebilir kalır."
+- "Bir operasyon agent'ı, çağırıp okuduğunuz bir araç değildir — sistemlerinizde eylem alan bir
+  aktördür; bu yüzden hatanın etki alanı yanlış bir yanıt değil yanlış bir *eylemdir* ve
+  güvenilirlik, onun yapmasına izin verilen şeyi sınırlamak demektir."
+- "Agent'ı sınırlayın: en az yetki (varsayılan salt-okunur), ortam ayrımı, 'önce planla' adımı ve
+  yıkıcı / geri-alınamaz / üretim eylemleri için onay kapıları — tüm otonomiyi durduran bir acil
+  durdurma ve döngüleri yakalayan eylem hızı sınırlarıyla birlikte."
+- "Uygulamayı değil agent'ı izleyin: ne yaptığını, ne gözlemlediğini ve nedenini içeren bir eylem
+  günlüğü tutun; çünkü yeşil bir pano size yanlış servisi yeniden başlattığını söylemez ve her
+  eylemin sorumluluğunu bir insan taşır."
 
 **İpucu yığını**
 
-- **H1 (dürtme):** AI yalnızca yanıtlamak yerine *aksiyon* alabildiğinde neyin değiştiğini sor.
-  Yanlış bir yanıt gürültüdür; yanlış bir aksiyon production'ı değiştirir. Tüm plan, kendinden emin
-  ama yanlış bir aksiyonun neyi bozabileceğini sınırlamak için vardır.
-- **H2 (yapı):** Kontrolleri gez. Yetkiler: en az yetki, ortam kapsamı. Çalıştırma öncesi: blast
-  radius'a göre dry-run + onay kapısı. Çalışma anı: rate limit + kill-switch. Sonrasında: action
-  audit trail + hesap verebilir bir insan.
-- **H3 (işlenmiş yol):** Bir bellek alarmı → agent otonom olarak bir servisi yeniden başlatır →
-  sızıntı sürer → döngüye girer. Agent'ın haklı olmasına güvenme: action-rate limiti devreye girip
-  eskalasyon yapar, insan otonomiyi kill-switch'ler, audit trail tekrarlanan remediation'ı gösterir
-  ve gerçek düzeltme gönderilir.
+- **H1 (dürtme):** AI yalnızca yanıt vermek yerine *eylem* alabildiğinde neyin değiştiğini sorun.
+  Yanlış bir yanıt gürültüdür; yanlış bir eylem üretimi değiştirir. Tüm plan, kendinden emin ama
+  yanlış bir eylemin neyi bozabileceğini sınırlamak için vardır.
+- **H2 (yapı):** Kontrolleri gezin. Yetkiler: en az yetki, ortam ayrımı. Çalıştırma öncesi: etki
+  alanına göre önce-planla + onay kapısı. Çalışma anında: eylem hızı sınırı + acil durdurma.
+  Sonrasında: eylem günlüğü + sorumlu bir insan.
+- **H3 (işlenmiş yol):** Bir bellek alarmı → agent bir servisi otonom yeniden başlatır → sızıntı
+  sürer → döngüye girer. Agent'ın haklı olmasına güvenmeyin: eylem hızı sınırı devreye girip
+  yükseltir, insan otonomiyi durdurur, eylem günlüğü tekrarlanan müdahaleyi gösterir ve gerçek
+  düzeltme gönderilir.
 
 **Kısa SSS**
 
-- **Bir ops agent'ı normal bir AI özelliğinden neden daha riskli?** Çünkü yalnızca bir yanıt
-  üretmez — gerçek etkileri olan aksiyonlar alır. Yanlış bir aksiyon (restart, config push, silme)
-  doğrudan production'a çarpar, bu yüzden yetkilerini sınırlar ve yüksek-blast aksiyonlarını
-  kapıdan geçirirsin.
-- **Bir aksiyonun otonom mu çalışacağına yoksa onay mı gerekeceğine ne karar verir?** Blast radius
-  ve geri alınabilirlik. Read-only ve düşük riskli geri-alınabilir aksiyonlar otonom olabilir;
-  yıkıcı, geri-alınamaz ya da production'a dokunan aksiyonlar bir insanın onayını gerektirir.
-- **Neden yalnızca aksiyonları değil agent'ın muhakemesini de logla?** Çünkü bir postmortem ve bir
-  audit, yalnızca ne yaptığını değil *neden* aksiyon aldığını bilmek zorundadır — kendinden emin
-  ama yanlış bir teşhisi böyle yakalar ve onun için bir insanı hesap verebilir tutarsın.
-- **Prompt injection burada gerçekten bir ops sorunu mu?** Evet. Özenle hazırlanmış bir log satırı,
-  ticket ya da hata mesajı, aksiyon alan bir agent'ı tehlikeli bir şey çalıştırmaya yönlendirebilir,
-  bu yüzden agent'ın okuduğu dış metin güvenilmez girdidir ve yüksek-blast aksiyonlar yine de bir
-  kapıdan geçer.
+- **Bir operasyon agent'ı neden normal bir AI özelliğinden daha riskli?** Çünkü yalnızca yanıt
+  üretmez — gerçek etkileri olan eylemler alır. Yanlış bir eylem (yeniden başlatma, yapılandırma
+  gönderme, silme) doğrudan üretimi etkiler; bu yüzden yetkilerini sınırlar ve yüksek etkili
+  eylemleri onaydan geçirirsiniz.
+- **Bir eylemin otonom mu çalışacağına yoksa onay mı gerekeceğine ne karar verir?** Etki alanı ve
+  geri alınabilirlik. Salt-okunur ve düşük riskli geri-alınabilir eylemler otonom olabilir; yıkıcı,
+  geri-alınamaz ya da üretime dokunan eylemler bir insanın onayını gerektirir.
+- **Neden yalnızca eylemleri değil agent'ın gerekçesini de kaydetmeli?** Çünkü bir olay sonrası
+  inceleme ve bir denetim, yalnızca ne yaptığını değil *neden* eylem aldığını bilmek zorundadır —
+  kendinden emin ama yanlış bir teşhisi böyle yakalar ve bunun sorumluluğunu bir insana bağlarsınız.
+- **Prompt injection burada gerçekten bir operasyon sorunu mu?** Evet. Özenle hazırlanmış bir günlük
+  satırı, talep kaydı ya da hata mesajı, eylem alan bir agent'ı tehlikeli bir şey çalıştırmaya
+  yönlendirebilir; bu yüzden agent'ın okuduğu dış metin güvenilmez girdidir ve yüksek etkili eylemler
+  yine de bir kapıdan geçer.

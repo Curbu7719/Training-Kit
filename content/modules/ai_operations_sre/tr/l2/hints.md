@@ -2,44 +2,45 @@
 
 **Temel fikrin alternatif ifadeleri**
 
-- "Filo ölçeğinde erişimi bir konsolda agent agent vermezsin — her agent'ın kendi kimliği ve en az
-  yetki kapsamları policy-as-code olarak ifade edilir; change window'lar ve yüksek-blast aksiyonlar
-  için tek tip onayla birlikte."
-- "Agent'lar hem müdahale eden hem sebep olan taraf, bu yüzden olaylar agent-misfire, kaçak döngü,
-  injection ile ele geçirilme ve yetki arızasına ayrılır — evrensel kontrol otonomiyi durdurmak
-  (kill-switch) ve aksiyonu geri almaktır ve her misfire yeni bir guardrail ve eval case olur."
-- "Bir agent'ın davranışı onun politikasıdır = prompt + araçlar + yetkiler + model; kod gibi
-  versiyonlanır ve shadow (dry-run, önerilen aksiyonları insanlarla karşılaştır) → canary (küçük bir
-  dilimde aksiyon al) → policy rollback hazır flag'li rollout ile yayına alınır."
+- "Filo ölçeğinde erişimi konsoldan agent agent vermezsiniz — her agent'ın kendi kimliği ve en az
+  yetki kapsamı kod olarak politika biçiminde yazılır; değişiklik pencereleri ve yüksek etkili
+  eylemler için tek tip onayla birlikte."
+- "Agent'lar hem müdahale eden hem soruna yol açan taraftır; bu yüzden olaylar hatalı eylem, kaçak
+  döngü, injection ile ele geçirilme ve yetki aşımına ayrılır — evrensel kontrol otonomiyi durdurmak
+  (acil durdurma) ve eylemi geri almaktır, ve her hatalı eylem yeni bir guardrail ve eval senaryosu
+  doğurur."
+- "Bir agent'ın davranışı onun politikasıdır = istem + araçlar + yetkiler + model; kod gibi
+  versiyonlanır ve shadow (dry-run, önerilen eylemleri insanlarla karşılaştır) → canary (küçük bir
+  dilimde eylem al) → politika geri alması hazır bayraklı yayına alma ile çıkar."
 
 **İpucu yığını**
 
-- **H1 (dürtme):** *Zaman içinde ve bir filo genelinde* neyin değiştiğini düşün: yetkiler çoğalır,
-  model deprecate edilir ve döngüye giren tek bir agent hızla harcayabilir. Cevap genelde tek
+- **H1 (dürtme):** *Zaman içinde ve bir filo genelinde* neyin değiştiğini düşünün: yetkiler çoğalır,
+  model kullanımdan kalkar ve döngüye giren tek bir agent hızla harcayabilir. Cevap genelde tek
   seferlik bir düzeltme değil, kasıtlı bir politika ve süreçtir.
-- **H2 (yapı):** Bir davranış değişikliği için güvenli yol shadow (dry-run, önerilen aksiyonları
-  insanların yaptığıyla karşılaştır) → canary (küçük bir dilimde otonom) → policy rollback'li flag'li
-  rollout'tur. Maliyet için attribution'ı (hangi agent harcadı) kontrolden (action-rate ve harcama
-  tavanları) ayır. Olaylar için sınıflandır ve kill-switch'le.
-- **H3 (işlenmiş yol):** Enjekte edilen bir log satırının sürdüğü, hızının 6 katında aksiyon alan
-  kaçak bir agent: yıkıcı-aksiyon kapısı tehlikeli komutu engeller, action-rate tavanı kısıp
-  eskalasyon yapar, agent bazında attribution suçluyu hızla bulur ve postmortem onu bir girdi-güven
-  korumasına ve bir eval case'e dönüştürür.
+- **H2 (yapı):** Bir davranış değişikliği için güvenli yol shadow (dry-run, önerilen eylemleri
+  insanların yaptığıyla karşılaştır) → canary (küçük bir dilimde otonom) → politika geri almalı
+  bayraklı yayına almadır. Maliyet için atfı (hangi agent harcadı) kontrolden (eylem hızı ve harcama
+  tavanları) ayırın. Olaylar için sınıflandırın ve acil durdurmayı kullanın.
+- **H3 (işlenmiş yol):** Enjekte edilen bir günlük satırının beslediği, hızının 6 katında eylem alan
+  kaçak bir agent: yıkıcı-eylem kapısı tehlikeli komutu engeller, eylem hızı tavanı kısıp yükseltir,
+  agent bazında atıf suçluyu hızla bulur ve olay incelemesi bunu bir girdiye-güven korumasına ve bir
+  eval senaryosuna çevirir.
 
 **Kısa SSS**
 
-- **Neden modeli değiştirmek yerine bir agent'ı shadow'la?** Çünkü agent *aksiyon alır*: yeni bir
-  model onu sessizce aksiyon almaya daha çok ya da daha az istekli kılabilir. Shadow, önerdiği
-  aksiyonları herhangi biri çalışmadan önce gerçek olaylarda karşılaştırır, böylece umutla değil
-  kanıtla yayına alırsın.
-- **Neden agent bazında maliyet anomali tespiti ve action-rate tavanları?** Her agent adımı bir LLM
-  çağrısıdır ve kaynak başlatabilir, bu yüzden bir döngü hızla harcar. Anomali tespiti sapmayı
-  erken yakalar, rate tavanı zararı sınırlar ve agent bazında attribution hangisini durduracağını
-  söyler.
-- **Neden her agent misfire'ı bir eval case olur?** Çünkü bir birim testi deterministik olmayan bir
-  yanlış aksiyonu yakalamaz. Her misfire'ı bir guardrail ve bir çevrimdışı eval case'e dönüştürmek,
-  filonun politikasının diş kazanmasını ve aynı yanlış aksiyonun sessizce geri dönememesini sağlar.
-- **Neden logları ve ticket'ları güvenilmez girdi olarak ele al?** Çünkü onları okuyan, aksiyon alan
-  bir agent enjekte edilmiş metinle zararlı bir aksiyona yönlendirilebilir. Dış metin güvenilmez
-  girdidir ve yüksek-blast aksiyonlar, bir logun ne 'önerdiğine' bakılmaksızın yine de bir onay
-  kapısından geçer.
+- **Neden modeli değiştirmek yerine bir agent'ı gölgele (shadow)?** Çünkü agent *eylem alır*: yeni
+  bir model onu sessizce eylem almaya daha çok ya da daha az istekli kılabilir. Shadow, önerdiği
+  eylemleri herhangi biri çalışmadan önce gerçek olaylarda karşılaştırır; böylece umutla değil
+  kanıtla çıkarsın.
+- **Neden agent bazında maliyet anomali tespiti ve eylem hızı tavanları?** Her agent adımı bir LLM
+  çağrısıdır ve kaynak başlatabilir, bu yüzden bir döngü hızla harcar. Anomali tespiti sapmayı erken
+  yakalar, hız tavanı zararı sınırlar ve agent bazında atıf hangisini durduracağını söyler.
+- **Neden her hatalı eylem bir eval senaryosu olur?** Çünkü bir birim testi, deterministik olmayan
+  yanlış bir eylemi yakalamaz. Her hatalı eylemi bir guardrail ve bir çevrimdışı eval senaryosuna
+  çevirmek, filonun politikasının güçlenmesini ve aynı yanlış eylemin sessizce geri dönememesini
+  sağlar.
+- **Neden günlükleri ve talep kayıtlarını güvenilmez girdi say?** Çünkü onları okuyan, eylem alan bir
+  agent enjekte edilmiş metinle zararlı bir eyleme yönlendirilebilir. Dış metin güvenilmez girdidir;
+  yüksek etkili eylemler, bir günlüğün ne "önerdiğine" bakılmaksızın yine de bir onay kapısından
+  geçer.

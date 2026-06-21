@@ -1,14 +1,14 @@
 {
   "type": "mcq",
-  "prompt_md": "Bir **on-call (nöbet) agent'ını** üretime alıyorsun — alarmları alır, araştırır ve senin sistemlerinde aksiyon alabilir (servis restart, infra ölçekleme, deploy rollback). Kendinden emin ama yanlış bir aksiyonun gerçek zarar vermesine izin vermeden otomatik ops'un hızını istiyorsun. **Aksiyon alan bir agent'ı işletmek için sağlam bir pratik olan her seçeneği seç.**",
+  "prompt_md": "Bir **nöbet (on-call) agent'ını** üretime alıyorsun — alarmları alır, inceler ve senin sistemlerinde eylem alabilir (servis yeniden başlatma, altyapı ölçekleme, dağıtım geri alma). Kendinden emin ama yanlış bir eylemin gerçek zarar vermesine izin vermeden otomatik operasyonun hızını istiyorsun. **Eylem alan bir agent'ı işletmek için sağlam bir uygulama olan her seçeneği seç.**",
   "spec": {
     "choices": [
-      "Agent'ın aksiyonlarını blast radius'a göre sınıflandır ve yıkıcı, geri alınamaz ya da production'a dokunan aksiyonlar için insan onayı iste",
-      "Agent'a en az yetki, ortam-kapsamlı yetkiler ver — varsayılan read-only, yazma erişimi aksiyon sınıfı bazında",
-      "Çağırdığı araçları, gözlemlediğini, muhakemesini ve alınan aksiyonu kaydeden, olayla ilişkilendirilebilir bir action audit trail tut",
-      "Tüm agent otonomisini anında durduran bir kill-switch ve döngüleri, kaçak remediation'ı yakalamak için action-rate limitleri sağla",
-      "Hızı en üst düzeye çıkarmak için agent'ın her şeyde otonom aksiyon almasına izin ver, çünkü genelde haklıdır",
-      "Aksiyondan hiçbir insanın hesap verebilir olmadığı şekilde, 'agent yaptı' açıklamasını yeterli say"
+      "Agent'ın eylemlerini etki alanına göre sınıflandır ve yıkıcı, geri alınamaz ya da üretime dokunan eylemler için insan onayı iste",
+      "Agent'a en az yetki ve ortama göre kapsamlı izinler ver — varsayılan salt-okunur, yazma erişimi eylem türü bazında",
+      "Çağırdığı araçları, gözlemini, gerekçesini ve aldığı eylemi kaydeden, olaya bağlanabilir bir eylem günlüğü tut",
+      "Tüm agent otonomisini anında durduran bir acil durdurma ve döngüleri, kaçak müdahaleyi yakalamak için eylem hızı sınırları sağla",
+      "Hızı en üst düzeye çıkarmak için agent'ın her şeyde otonom eylem almasına izin ver, çünkü genelde haklıdır",
+      "Hiçbir insanın sorumlu olmadığı şekilde 'agent yaptı' açıklamasını yeterli say"
     ],
     "multi": true
   },

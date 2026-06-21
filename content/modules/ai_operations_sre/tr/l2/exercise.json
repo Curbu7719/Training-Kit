@@ -1,18 +1,18 @@
 {
   "type": "scenario",
-  "prompt_md": "Model sağlayıcın, **ops agent'ı filona** (on-call, CI, infra) güç veren **modeli deprecate ediyor** — production'da gerçek aksiyonlar alan agent'lar. Aynı politika, yeni sürümde bir agent'ı aksiyon almaya daha çok ya da daha az istekli kılabilir ve sessiz bir davranış kayması prod'da yanlış aksiyonlar demektir. Elinde geçmiş olaylardan bir çevrimdışı eval seti, gerçek olay trafiği ve agent politikasını flag'leme imkânı var. **En iyi rollout yaklaşımını ve doğru gerekçeyi seç.**",
+  "prompt_md": "Model sağlayıcın, **operasyon agent'ı filona** (nöbet, CI, altyapı) güç veren **modeli kullanımdan kaldırıyor** — üretimde gerçek eylemler alan agent'lar. Aynı politika, yeni sürümde bir agent'ı eylem almaya daha çok ya da daha az istekli kılabilir; sessiz bir davranış kayması üretimde yanlış eylemler demektir. Elinde geçmiş olaylardan bir çevrimdışı eval seti, gerçek olay trafiği ve agent politikasını bayraklama imkânı var. **En iyi yayına alma yaklaşımını ve doğru gerekçeyi seç.**",
   "spec": {
     "decision_choices": [
-      "Tüm filoyu son tarih günü yeni modele geçir ve production'da misfire'ları izle",
-      "Yeni sürümü gerçek olaylara ve eval setine karşı gözlem/dry-run modunda shadow'la, önerdiği aksiyonları insanların yaptığıyla karşılaştır, sonra tam rollout öncesi bir policy flag arkasında küçük bir dilimde otonom canary yap",
-      "Migrate etmeyi reddet ve deprecate edilmiş modeli o çalışmayı bırakana kadar çağırmaya devam et",
-      "Migration'dan tamamen kaçınmak için tüm agent'ları ops'tan kaldır"
+      "Tüm filoyu son tarih günü yeni modele geçir ve üretimde hatalı eylemleri izle",
+      "Yeni sürümü gerçek olaylara ve eval setine karşı gözlem/dry-run modunda gölgele, önerdiği eylemleri insanların yaptığıyla karşılaştır, sonra tam yayına almadan önce bir politika bayrağı arkasında küçük bir dilimde otonom canary yap",
+      "Geçişi reddet ve kullanımdan kalkan modeli çalışmayı bırakana kadar çağırmaya devam et",
+      "Geçişten tamamen kaçınmak için tüm agent'ları operasyondan kaldır"
     ],
     "reason_choices": [
-      "Çünkü shadow, yeni sürümün önerdiği aksiyonları herhangi biri çalışmadan önce gerçek girdilerde karşılaştırır, flag'li bir canary izlerken blast radius'u sınırlar ve policy flag yanlış aksiyon alırsa tek-çevirmelik bir rollback verir",
+      "Çünkü gölgeleme, yeni sürümün önerdiği eylemleri herhangi biri çalışmadan önce gerçek girdilerde karşılaştırır, bayraklı bir canary izlerken etki alanını sınırlar ve politika bayrağı yanlış eylem alırsa tek hamlede geri alma verir",
       "Çünkü tüm filoyu bir kerede geçirmek, yeni modelin çalışıp çalışmadığını öğrenmenin tek yoludur",
-      "Çünkü deprecate edilmiş bir model, bildirimi görmezden gelirsen sonsuza dek çalışmaya devam eder",
-      "Çünkü çalışan otomasyonu kaldırmak, rutin bir model yükseltmesine makul bir yanıttır"
+      "Çünkü kullanımdan kalkan bir model, bildirimi yok sayarsan sonsuza dek çalışmaya devam eder",
+      "Çünkü çalışan bir otomasyonu kaldırmak, rutin bir model yükseltmesine makul bir yanıttır"
     ]
   },
   "answer_key": {

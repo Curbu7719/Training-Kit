@@ -1,50 +1,50 @@
 [
   {
-    "prompt": "Production'da yanlış bir aksiyon alan bir ops agent'ı için suçlamasız bir postmortem'in ardından, agent filosunu zaman içinde daha güvenli kılan, AI'a özgü takip eylemi nedir?",
+    "prompt": "Üretimde yanlış bir eylem alan bir operasyon agent'ı için suçlamasız bir olay incelemesinin ardından, agent filosunu zaman içinde daha güvenli kılan, AI'a özgü takip eylemi nedir?",
     "choices": [
-      "Hatanın saklanmaması için agent'ın karar izini sil",
-      "Misfire'ı, agent'ın politikasının geçmesi gereken yeni bir guardrail/politika ve çevrimdışı bir eval case'e dönüştür; böylece aynı yanlış aksiyon sessizce tekrarlayamaz",
-      "Gürültüyü azaltmak için action audit trail'i kapat",
+      "Hata saklanmasın diye agent'ın karar izini sil",
+      "Hatalı eylemi, agent'ın politikasının geçmesi gereken yeni bir guardrail/politika ve çevrimdışı bir eval senaryosuna dönüştür; böylece aynı yanlış eylem sessizce tekrarlayamaz",
+      "Gürültüyü azaltmak için eylem günlüğünü kapat",
       "Bir dahaki sefere kendi hatalarını düzeltebilsin diye agent'a daha geniş yetkiler ver"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Bir birim testi deterministik olmayan bir yanlış aksiyonu yakalamaz, bu yüzden operasyonel döngü her misfire'ı bir guardrail/politika ve bir eval case'e çevirmektir. Filonun politikası böyle diş kazanır ve aynı yanlış aksiyon sessizce geri dönemez."
+    "explanation": "Bir birim testi, deterministik olmayan yanlış bir eylemi yakalamaz; bu yüzden operasyonel döngü her hatalı eylemi bir guardrail/politika ve bir eval senaryosuna çevirmektir. Filonun politikası böyle güçlenir ve aynı yanlış eylem sessizce geri dönemez."
   },
   {
-    "prompt": "Agent'lar production'da aksiyon aldığında neden agent bazında maliyet anomali tespiti ve action-rate tavanları ekle? (Geçerli olan hepsini seçin.)",
+    "prompt": "Agent'lar üretimde eylem aldığında neden agent bazında maliyet anomali tespiti ve eylem hızı tavanları ekle? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Her agent adımı bir LLM çağrısıdır ve kaynak başlatabilir, bu yüzden döngüye giren bir agent hızla para ve compute yakar",
-      "Anomali tespiti, yalnızca sabit bir eşikte değil, trendden sapmaya alarm vererek bir kaçağı erken yakalar",
-      "Maliyeti ya da aksiyonları belirli bir agent'a atfetme ihtiyacını ortadan kaldırır",
-      "Bir action-rate tavanı bir döngünün zararını sınırlar ve agent'ı durup eskalasyon yapmaya zorlayabilir"
+      "Her agent adımı bir LLM çağrısıdır ve kaynak başlatabilir, bu yüzden döngüye giren bir agent hızla para ve işlem gücü yakar",
+      "Anomali tespiti, yalnızca sabit bir eşikte değil trendden sapmaya alarm vererek bir kaçağı erken yakalar",
+      "Maliyeti ya da eylemleri belirli bir agent'a atfetme ihtiyacını ortadan kaldırır",
+      "Bir eylem hızı tavanı, bir döngünün zararını sınırlar ve agent'ı durup yükseltmeye zorlayabilir"
     ],
     "correct": [0, 1, 3],
     "points": 1,
-    "explanation": "Agent aksiyonları maliyeti ve riski biriktirir, bu yüzden anomali tespiti bir kaçağı erken uyarır ve action-rate tavanı onu sınırlayıp eskalasyona zorlar. Hiçbiri agent bazında attribution ihtiyacını ortadan kaldırmaz — hangi agent'ı durduracağını tam da bununla bulursun."
+    "explanation": "Agent eylemleri maliyeti ve riski biriktirir; bu yüzden anomali tespiti bir kaçağı erken uyarır ve eylem hızı tavanı onu sınırlayıp yükseltmeye zorlar. Hiçbiri agent bazında atıf ihtiyacını ortadan kaldırmaz — hangi agent'ı durduracağını tam da bununla bulursun."
   },
   {
     "prompt": "Bir agent filosunu ölçekte ve saldırı altında güvenle işletmenin sağlam yolları hangileridir? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Tüm agent otonomisini anında durduran bir kill-switch ve aksiyonun geri alınması",
-      "Yüksek-blast aksiyonlar için en az yetki kimlikleri ve onay kapıları, policy-as-code ile tek tip uygulanır",
-      "Agent'ın okuduğu logları, ticket'ları ve hata mesajlarını, yüksek-blast aksiyonlara yetki veremeyen güvenilmez girdi olarak ele al",
-      "Olaylar daha hızlı çözülsün diye her agent'a sürekli sınırsız production yazma erişimi ver"
+      "Tüm agent otonomisini anında durduran bir acil durdurma ve eylemin geri alınması",
+      "Yüksek etkili eylemler için en az yetki kimlikleri ve onay kapıları; kod olarak politika ile tek tip uygulanır",
+      "Agent'ın okuduğu günlükleri, talep kayıtlarını ve hata mesajlarını, yüksek etkili eylemlere yetki veremeyen güvenilmez girdi olarak ele al",
+      "Olaylar daha hızlı çözülsün diye her agent'a sürekli sınırsız üretim yazma erişimi ver"
     ],
     "correct": [0, 1, 2],
     "points": 1,
-    "explanation": "Bir kill-switch, onay kapılı en az yetki policy-as-code ve dış metni güvenilmez girdi olarak ele almak; hepsi misfire eden ya da ele geçirilmiş bir agent'ın yapabileceğini sınırlar. Sürekli sınırsız prod yazma erişimi en az yetkinin tam tersidir ve tek bir kötü aksiyonu — ya da tek bir injection'ı — filo çapında bir felakete çevirir."
+    "explanation": "Bir acil durdurma, onay kapılı en az yetkili kod olarak politika ve dış metni güvenilmez girdi saymak; hepsi hatalı ya da ele geçirilmiş bir agent'ın yapabileceğini sınırlar. Sürekli sınırsız üretim yazma erişimi en az yetkinin tam tersidir ve tek bir kötü eylemi — ya da tek bir injection'ı — filo çapında bir felakete çevirir."
   },
   {
-    "prompt": "Bir agent'ın tüm politikasını (prompt + araçlar + yetkiler + model) neden versiyonlar ve değişiklikleri canlıda düzenlemek yerine önce shadow sonra canary ile yayına alırsın?",
+    "prompt": "Bir agent'ın tüm politikasını (istem + araçlar + yetkiler + model) neden versiyonlar ve değişiklikleri canlıda düzenlemek yerine önce shadow sonra canary ile yayına alırsın?",
     "choices": [
       "Çünkü versiyonlamak agent'ı daha hızlı çalıştırır",
-      "Çünkü agent dünya üzerinde aksiyon alır, dolayısıyla bir değişiklik hangi aksiyonları aldığını sessizce değiştirebilir; shadow, önerilen aksiyonları herhangi biri çalışmadan önce gerçek olaylarda karşılaştırır, canary blast radius'u sınırlar ve bir policy flag tek-çevirmelik rollback verir",
+      "Çünkü agent dünya üzerinde eylem alır; bir değişiklik hangi eylemleri aldığını sessizce değiştirebilir; shadow, önerilen eylemleri herhangi biri çalışmadan önce gerçek olaylarda karşılaştırır, canary etki alanını sınırlar ve bir politika bayrağı tek hamlede geri alma verir",
       "Çünkü versiyonlanmış bir politikanın bir daha asla güncellenmesi gerekmez",
-      "Çünkü otonom aksiyonları etkinleştirmek için canlı düzenleme gerekir"
+      "Çünkü otonom eylemleri etkinleştirmek için canlı düzenleme gerekir"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Agent gerçek aksiyonlar aldığı için, bir politika ya da model değişikliği onun sessizce farklı davranmasına yol açabilir. Politikayı versiyonlanmış bir artefakt olarak ele alıp shadow (dry-run, insanlarla karşılaştır) → canary (küçük otonom dilim) → flag'li rollout ile yayına almak, yanlış aksiyonları prod'dan önce yakalamanı ve tek çevirmeyle geri almanı sağlar."
+    "explanation": "Agent gerçek eylemler aldığı için, bir politika ya da model değişikliği onun sessizce farklı davranmasına yol açabilir. Politikayı versiyonlanmış bir artefakt sayıp shadow (dry-run, insanlarla karşılaştır) → canary (küçük otonom dilim) → bayraklı yayına alma ile çıkarmak, yanlış eylemleri üretimden önce yakalamanı ve tek hamlede geri almanı sağlar."
   }
 ]

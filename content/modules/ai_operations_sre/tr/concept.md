@@ -1,86 +1,79 @@
-# Agent Güdümlü SDLC ve Ops İşletmek
+# Agent Güdümlü SDLC ve Operasyonları İşletmek
 
-AI güdümlü (AI-driven) bir SDLC'de agent'lar yalnızca kod *yazmaz* — giderek onu **çalıştırır**
-da. AI agent'ları operasyon ve teslim hattı işinin giderek büyüyen bir kısmını üstleniyor: bir
-kodlama agent'ı PR açar, bir CI agent'ı kırık build'leri triage eder, bir **on-call (nöbet)
-agent'ı** bir alarm alır, araştırır ve bir düzeltmeyi önerir — ya da uygular. Normal bir AI
-özelliğinden en kritik fark şudur: bir agent **çağırıp output'unu okuduğun bir araç değil; senin
-sistemlerinde aksiyon alan bir aktördür.** Bu modül, *bu* dünyanın on-call bakış açısıdır:
-yazılımın üzerinde aksiyon alan agent'ları nasıl yönlendirir, sınırlar, gözlemler ve onların
-sorumluluğunu nasıl taşırsınız.
+AI güdümlü bir geliştirme sürecinde agent'lar artık yalnızca kod *yazmıyor*, onu **çalıştırıyor**
+da. AI agent'ları operasyonun ve teslim hattının giderek daha büyük bir bölümünü üstleniyor: biri
+PR açıyor, biri kırık derlemeleri ayıklıyor, bir nöbet (on-call) agent'ı bir alarmı alıp inceliyor
+ve bir çözüm öneriyor — hatta uyguluyor. Sıradan bir AI özelliğinden en önemli fark şu: agent,
+çağırıp çıktısını okuduğunuz bir araç değil; **sistemlerinizde eylem alan bir aktör.** Bu modül o
+dünyaya nöbetçi gözüyle bakar: yazılımın üzerinde eylem alan agent'ları nasıl yönlendirir,
+sınırlar, izler ve sorumluluğunu nasıl taşırsınız.
 
-**Çalışan bir örnek.** Platform ekibiniz agent'ları SDLC ve ops'a bağladı: kırmızı build'leri
-triage eden bir CI agent'ı, ölçekleme değişiklikleri öneren bir infra agent'ı ve alarmları alıp
-okuma araçlarıyla araştıran ve remediation (düzeltme) yapan bir **on-call agent'ı**. Bu agent'ları
-geliştirmek bitti; şimdi yazılımın giderek kendi üzerinde aksiyon aldığı bir sistemi işletiyorsunuz
-— ve bu sistem, bir script'in başarısız olmadığı şekillerde başarısız olur.
+**Bir örnek.** Platform ekibiniz agent'ları sürece bağladı: kırık derlemeleri ayıklayan bir agent,
+ölçekleme öneren bir altyapı agent'ı ve alarmları alıp salt-okunur araçlarla inceleyen, ardından
+çözüm uygulayan bir nöbet agent'ı. Bu agent'ları geliştirmek bitti; artık yazılımın kendi üzerinde
+eylem aldığı bir sistemi işletiyorsunuz — ve bu sistem, bir betiğin bozulmadığı şekillerde bozulur.
 
-## Araçtan aktöre — otonomi kayması
+## Araçtan aktöre: otonomi değişimi
 
-Çağrılan bir araç metin döndürür ve onunla ne yapılacağına bir insan karar verir. Bir **agent ise
-aksiyonu alır**: bir servisi yeniden başlatır, bir config push'lar, bir cluster'ı ölçekler, bir
-alarmı ack'ler, bir komut çalıştırır. Yani **blast radius (etki yarıçapı)** artık "yanlış bir
-*yanıt*" değil — sabahın 3'ünde, kendinden emin ve hızlı alınmış yanlış bir *aksiyon*. Güvenilir
-işletmek artık output kalitesiyle ilgili olmaktan çıkıp **agent'ın yapmasına izin verilen şeyi
-sınırlamakla** ilgili hale gelir.
+Çağrılan bir araç metin döndürür; onunla ne yapılacağına insan karar verir. Agent ise **eylemin
+kendisini** yapar: servisi yeniden başlatır, yapılandırma gönderir, bir kümeyi ölçekler, alarmı
+kapatır, komut çalıştırır. Böylece olası hatanın etki alanı artık "yanlış bir *yanıt*" değil; sabaha
+karşı, kendinden emin ve hızlı verilmiş yanlış bir *eylem*. Güvenilir işletmek artık çıktı
+kalitesiyle değil, **agent'ın neyi yapmasına izin verildiğini sınırlamakla** ilgilidir.
 
-## Blast radius'u sınırla — temel kontrol
+## Etki alanını sınırlayın: temel kontrol
 
-Bir agent aksiyon alabildiği için, merkezi disiplin yanlış bir aksiyonun verebileceği zararı
-sınırlamaktır:
+Bir agent eylem alabildiği için asıl disiplin, yanlış bir eylemin verebileceği zararı sınırlamaktır:
 
-- **En az yetki (least privilege)** — agent işine yetecek en dar yetkiyi alır; **varsayılan olarak
-  read-only (salt-okunur)**, yazma erişimi aksiyon sınıfı bazında verilir, asla sürekli duran bir
-  admin anahtarı değil.
-- **Ortam kapsamı (environment scoping)** — staging'de serbestçe aksiyon alır, ama production
-  aksiyonları kapıdan geçer.
-- **Plan-sonra-uygula / dry-run** — agent, herhangi bir şey çalışmadan önce somut değişikliği ve
-  beklenen etkisini önerir.
-- **Onay kapıları (approval gates)** — yıkıcı, geri alınamaz ya da production'a dokunan her şey bir
-  insanın onay vermesini gerektirir. Düşük riskli, geri alınabilir aksiyonlar otonom çalışabilir.
+- **En az yetki** — agent işini görecek en dar yetkiyi alır; varsayılan olarak yalnızca okur, yazma
+  izni eylem türüne göre tek tek verilir, kalıcı bir yönetici anahtarı asla verilmez.
+- **Ortam ayrımı** — test ortamında serbestçe eylem alabilir, ama üretimdeki eylemler onaydan geçer.
+- **Önce planla, sonra uygula** — agent, hiçbir şey çalışmadan önce yapacağı değişikliği ve beklenen
+  etkisini söyler.
+- **Onay kapıları** — yıkıcı, geri alınamaz ya da üretime dokunan her eylem bir insanın onayını
+  gerektirir. Düşük riskli, geri alınabilir eylemler kendi başına çalışabilir.
 
-## App'i değil, agent'ı gözlemle
+## Uygulamayı değil, agent'ı izleyin
 
-App metrikleri sana servisin ayakta olduğunu söyler; agent'ın *yanlış* servisi yeniden
-başlattığını söylemez. Bir **action audit trail'e (aksiyon denetim izi)** ihtiyacın var: her adımda
-agent'ın ne **yaptığı** (hangi araçları çağırdığı), ne **gözlemlediği** ve **neden** karar verdiği
-— muhakeme-artı-aksiyon izi, dokunduğu olayla ilişkilendirilebilir. "200 OK", agent'ın doğru şeyi
-yaptığının kanıtı değildir.
+Uygulama metrikleri servisin ayakta olduğunu söyler; ama agent'ın *yanlış* servisi yeniden
+başlattığını söylemez. Bu yüzden bir **eylem günlüğüne** ihtiyacınız var: her adımda agent'ın ne
+yaptığı, hangi araçları çağırdığı, ne gözlemlediği ve neden o kararı verdiği — yani gerekçesiyle
+birlikte eylem kaydı, ilgili olaya bağlanabilir biçimde. "200 OK", agent'ın doğru şeyi yaptığının
+kanıtı değildir.
 
-## İnsan-döngüde (human-in-the-loop) ve hesap verebilirlik
+## İnsan denetimi ve hesap verebilirlik
 
-Otonomi seviyesini **aksiyon sınıfı bazında**, blast radius'a göre belirle:
+Otonomi düzeyini, eylemin etki alanına göre **eylem türü bazında** belirleyin:
 
-- **Suggest-only (yalnızca öner)** — agent önerir, bir insan uygular (yüksek etkili ya da yeni
-  davranış için iyidir).
-- **Approve-then-act (onayla-sonra-uygula)** — agent aksiyonu hazırlar, bir insan "git" der.
-- **Otonom** — agent aksiyon alır ve bildirir (yalnızca düşük riskli, geri alınabilir sınıflar için).
+- **Yalnızca öneri** — agent önerir, uygulamayı insan yapar (yüksek etkili ya da yeni davranışlar
+  için uygundur).
+- **Onayla ve uygula** — agent eylemi hazırlar, insan "uygula" der.
+- **Otonom** — agent eylemi alır ve bildirir (yalnızca düşük riskli, geri alınabilir türler için).
 
-*Tüm* agent otonomisini anında durduran bir **kill-switch**, net eskalasyon yolları ve **her aksiyon
-için bir insanın hesap verebilir kaldığı** kuralını bağla. "Agent yaptı" bir postmortem'de bir cevap
-değildir.
+Tüm agent otonomisini anında durduran bir **acil durdurma (kill-switch)**, net yükseltme (eskalasyon)
+yolları ve **her eylemin sorumluluğunu bir insanın taşıdığı** kuralını yerleştirin. Olay sonrası bir
+incelemede "agent yaptı" geçerli bir cevap değildir.
 
-## Agent'a özgü failure modları
+## Agent'lara özgü hata biçimleri
 
-- **Döngü (looping)** — agent başarısız bir aksiyonu sonsuza dek dener, maliyet yakar ya da zararı
-  tekrarlar.
-- **Kendinden emin ama yanlış remediation** — yanlış bir teşhis üzerine kararlıca aksiyon alır ve
-  olayı *daha kötü* yapar (sağlıklı bir servisi yeniden başlatır, gerçek arızayı maskeler).
-- **Zincirleme aksiyonlar (cascading actions)** — bir otomatik düzeltme başka bir agent'ı ya da
-  alarmı tetikler; hiçbir insanın seçmediği bir zincir.
-- **Bir saldırı yüzeyi olarak prompt injection** — özenle hazırlanmış bir log satırı, ticket ya da
-  hata mesajı agent'ı tehlikeli bir şey çalıştırmaya yönlendirir. Agent artık *aksiyon* alabildiğine
-  göre, injection sadece bir içerik riski değil bir ops riskidir.
+- **Döngüye girme** — agent başarısız bir eylemi durmadan tekrarlar; para yakar ya da zararı çoğaltır.
+- **Kendinden emin ama yanlış çözüm** — yanlış bir teşhise göre kararlıca eylem alır ve olayı *daha
+  da kötüleştirir* (sağlam bir servisi yeniden başlatıp asıl arızayı gizler).
+- **Zincirleme eylemler** — bir otomatik düzeltme başka bir agent'ı ya da alarmı tetikler; kimsenin
+  seçmediği bir zincir oluşur.
+- **Bir saldırı yüzeyi olarak prompt injection** — özenle hazırlanmış bir günlük satırı, talep kaydı
+  ya da hata mesajı agent'ı tehlikeli bir şey çalıştırmaya yönlendirir. Agent artık *eylem*
+  alabildiği için bu yalnızca bir içerik riski değil, bir operasyon riskidir.
 
 ## Her rol bunu nasıl kullanır
 
-- **DevOps / SRE ve Infrastructure Engineer:** En az yetkiyi, ortam kapsamını, dry-run ve onay
-  kapılarını kurar, action audit trail'i ve kill-switch'i inşa eder ve döngüleri yakalamak için
-  action-rate (aksiyon hızı) limitleri koyar.
-- **Developer:** Agent'ın araçlarını ve her aksiyonun blast-radius sınıfını tanımlar ve anlık
-  rollback için prompt/araç değişikliklerini flag'lerin arkasında tutar.
-- **Release / Project Manager:** Hangi aksiyon sınıflarının otonom çalışabileceğine, hangilerinin
-  onay gerektirdiğine karar verir ve bir agent durup sorduğunda eskalasyon yoluna sahip çıkar.
-- **QA, Governance ve Security Engineer:** Onay politikasını, audit/hesap verebilirlik izini ve
-  girdi-güven sınırını tasarlar ve bir agent production'da aksiyon almadan önce kill-switch'i ve
-  failure modlarını doğrular.
+- **DevOps / SRE ve Altyapı Mühendisi:** En az yetkiyi, ortam ayrımını, "önce planla" adımını ve onay
+  kapılarını kurar; eylem günlüğünü ve acil durdurmayı inşa eder; döngüleri yakalamak için eylem
+  hızına sınır koyar.
+- **Geliştirici:** Agent'ın araçlarını ve her eylemin etki alanı türünü tanımlar; anında geri alma
+  için istem/araç değişikliklerini bayrak (feature flag) arkasında tutar.
+- **Release / Proje Yöneticisi:** Hangi eylem türlerinin otonom çalışabileceğine, hangilerinin onay
+  gerektireceğine karar verir; agent durup sorduğunda yükseltme yoluna sahip çıkar.
+- **QA, Yönetişim ve Güvenlik Mühendisi:** Onay politikasını, denetim/hesap verebilirlik kaydını ve
+  girdiye güven sınırını tasarlar; agent üretimde eylem almadan önce acil durdurmayı ve hata
+  biçimlerini doğrular.
