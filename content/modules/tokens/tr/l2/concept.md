@@ -1,60 +1,62 @@
 # Token Mekaniği ve Bütçeleme
 
-L1, token'ı tanıttı — modelin okuduğu sub-word (alt-kelime) birimi ve neden "1 kelime ≠ 1 token"
-olduğunu. L2, tokenization'ın neden böyle davrandığına daha derin iner ve bunu **güvenilir bir
-maliyet ve context bütçesine** nasıl çevireceğini gösterir. Bu, faturanın altındaki mekaniktir;
-optimizasyon kaldıraçlarından (caching, routing, streaming — Cost & Latency modülü) ayrıdır.
+L1, token'ı tanıttı — modelin okuduğu alt-kelime birimi ve neden "1 kelime ≠ 1 token" olduğunu. L2,
+token'lamanın neden böyle davrandığına daha derinden iner ve bunu **güvenilir bir maliyet ve bağlam
+bütçesine** nasıl çevireceğini gösterir. Bu, faturanın altındaki mekaniktir; iyileştirme
+kaldıraçlarından (önbellekleme, yönlendirme, akış — Maliyet ve Gecikme modülü) ayrıdır.
 
-**Çalışan bir örnek.** **AI PR-review botun** her pull request'te çalışıyor. Bütçesini onaylatmak
-ve context window içinde tutmak için token'larını tahmin değil, kesin öngörmen gerekir.
+**Bir örnek.** **AI PR-inceleme botun** her pull request'te çalışıyor. Bütçesini onaylatmak ve bağlam
+penceresine sığdırmak için token'larını tahminle değil, kesin hesapla öngörmen gerekir.
 
-## Kod ve bazı metinler neden "daha ağır" tokenize olur
+## Kod ve bazı metinler neden "daha ağır" token'lanır
 
-Tokenizer'lar metni veriden öğrenilen alt-kelime birimlerine böler (BPE tarzı bir şema). Sonuçları:
+Token'layıcı (tokenizer), metni veriden öğrenilmiş alt-kelime birimlerine böler (BPE türü bir
+yöntem). Sonuçları:
 
-- **Noktalama, boşluk ve semboller token harcar.** Kod; prose'da olmayan `(){};`, girinti ve
-  operatörlerle yoğundur, bu yüzden 400 satırlık bir diff, 400 satırlık bir denemeden çok daha fazla token'dır.
-- **Nadir veya bileşik kelimeler daha fazla parçaya bölünür.** Yaygın bir kelime tek token olabilir;
-  `getUserAccountByIdOrThrow` gibi sıra dışı bir tanımlayıcı birkaç parçaya ayrılır.
-- **Özel / kontrol token'ları vardır.** Mesajlar gizli yapısal token'lar (rol işaretleri,
-  delimiter'lar) taşır ve onlar da sayılır; yani faturalanan toplam, görünen metninden biraz fazladır.
+- **Noktalama, boşluk ve semboller token harcar.** Kod; düz metinde olmayan `(){};`, girinti ve
+  işleçlerle doludur; bu yüzden 400 satırlık bir fark (diff), 400 satırlık bir denemeden çok daha
+  fazla token eder.
+- **Nadir ya da bileşik kelimeler daha çok parçaya bölünür.** Yaygın bir kelime tek token olabilir;
+  `getUserAccountByIdOrThrow` gibi sıra dışı bir ad birkaç parçaya ayrılır.
+- **Özel/denetim token'ları vardır.** Mesajlar görünmeyen yapısal token'lar (rol işaretleri,
+  ayraçlar) taşır ve onlar da sayılır; yani faturalanan toplam, görünen metninden biraz fazladır.
 
-## Çok-dillilik cezası (multilingual penalty)
+## Çok dillilik cezası
 
-Tokenizer'lar genelde İngilizce için optimize edilir. **Aynı cümle Türkçe'de (ya da diğer
-İngilizce-dışı dillerde) çoğu zaman İngilizce'den belirgin biçimde daha fazla token'a mal olur**,
-çünkü model o kelimeleri daha fazla alt-kelime parçasına böler. Özelliğin İngilizce-dışı metin
-işliyorsa, İngilizce kuralı yerine bu ek yükü bütçele.
+Token'layıcılar genelde İngilizce için ayarlanır. **Aynı cümle Türkçe'de (ya da İngilizce dışı
+dillerde) çoğu zaman İngilizce'den belirgin biçimde daha fazla token eder**, çünkü model o kelimeleri
+daha çok alt-kelime parçasına böler. Özelliğin İngilizce dışı metin işliyorsa, İngilizce kuralı yerine
+bu ek yükü bütçele.
 
-## Sayma: tahmin vs kesin
+## Sayma: tahmin mi, kesin mi
 
-- **Tahmin** ilk geçiş için: kabaca **100 token ≈ 75 İngilizce kelime** — kabaca boyutlandırma için yeterli.
-- **Kesin say** maliyete duyarlı her şey için: metni **seçtiğin modelin tokenizer'ından** geçir.
-  Farklı model aileleri farklı tokenize eder, bu yüzden birinden alınan bir sayım diğeri için geçerli değildir.
+- **Tahmin** ilk bakış için: kabaca **100 token ≈ 75 İngilizce kelime** — kaba boyutlandırmaya yeter.
+- **Kesin say** maliyete duyarlı her şey için: metni **seçtiğin modelin token'layıcısından** geçir.
+  Farklı model aileleri farklı token'lar, bu yüzden birinden alınan sayım diğeri için geçerli değildir.
 
 ## Faturayı bütçelemek
 
-Maliyet **token × token-başına fiyat**'tır; **input ve output ayrı fiyatlanır** ve **output genelde
-daha pahalıdır**. Bir özelliği öngörmek için:
+Maliyet **token × token başına fiyat**'tır; **girdi ve çıktı ayrı fiyatlanır** ve **çıktı genelde daha
+pahalıdır**. Bir özelliği öngörmek için:
 
-> aylık maliyet ≈ ay/istek × (ort. input token × input fiyatı + ort. output token × output fiyatı)
+> aylık maliyet ≈ aylık istek × (ort. girdi token × girdi fiyatı + ort. çıktı token × çıktı fiyatı)
 
-PR botu için: 800 PR × (6.000 input + 1.000 output) token, output daha ağır ağırlıklı. Output hacmi,
-token sayısının ima ettiğinden daha çok önemlidir — bunu tahminde tut.
+PR botu için: 800 PR × (6.000 girdi + 1.000 çıktı) token; çıktı daha ağır fiyatlı. Çıktı hacmi, token
+sayısının ima ettiğinden daha önemlidir — bunu tahminde unutma.
 
-## Context window'u bütçelemek
+## Bağlam penceresini bütçelemek
 
-Token'lar aynı zamanda bir **alan** bütçesidir. Pencere input *ve* output'u tutar, bu yüzden kasıtlı
-ayır: sistem talimatları + getirilen context + sohbet geçmişi, **output için bir rezerv** bırakmalı.
-Yaygın bir hata, pencerenin %98'ini input'la doldurup cevaba yer bırakmamaktır.
+Token'lar aynı zamanda bir **alan** bütçesidir. Pencere, girdi *ve* çıktıyı birlikte tutar; bu yüzden
+bilinçli ayır: sistem talimatları + getirilen bağlam + sohbet geçmişi, **çıktı için bir pay**
+bırakmalı. Yaygın hata, pencerenin neredeyse tamamını girdiyle doldurup cevaba yer bırakmamaktır.
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** Büyük diff'leri göndermeden önce gerçek tokenizer'la token sayar ve input'un
-  output rezervini boğmaması için pencereyi bütçeler.
-- **İş Analisti:** Analiz başına token maliyetini — İngilizce-dışı ek yük dahil — tahmin eder, böylece
-  belge başına harcama baştan bilinir.
-- **PM/Ürün Sahibi:** İstek hacmi ve input/output token karışımından aylık harcamayı öngörür ve
-  faturanın output-güdümlü olduğu yerde output tavanları koyar.
-- **QA ve Mimar:** Pencere limitine yakın davranışı test eder ve uzun girdilerin taşmak yerine kasıtlı
-  bozulması için chunking/truncation tasarlar.
+- **Geliştirici/Mühendis:** Büyük farkları göndermeden önce gerçek token'layıcıyla token sayar ve
+  girdinin çıktı payını yutmaması için pencereyi bütçeler.
+- **İş Analisti:** Analiz başına token maliyetini — İngilizce dışı ek yük dahil — tahmin eder; böylece
+  belge başına harcama baştan bellidir.
+- **PM/Ürün Sahibi:** İstek hacmi ile girdi/çıktı token karışımından aylık harcamayı öngörür ve
+  faturanın çıktı kaynaklı olduğu yerde çıktı sınırları koyar.
+- **QA ve Mimar:** Pencere sınırına yakın davranışı test eder ve uzun girdilerin taşmak yerine
+  bilinçli biçimde kısalması için parçalama/kırpma tasarlar.

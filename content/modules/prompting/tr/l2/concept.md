@@ -1,68 +1,68 @@
-# İleri Prompting Desenleri
+# İleri Prompt Desenleri
 
-L1 temelleri kapsadı: net bir brief, system/user ayrımı, delimiter'lar ve iterasyon. L2,
-**production** prompt'ları için araç setidir — çıktıyı, başka yazılımların ve takım arkadaşlarının
-güvenebileceği kadar güvenilir kılan desenler ve bir prompt evrilirken çalışmaya devam etmesini
-sağlayan disiplin.
+L1 temelleri kapsadı: net bir yönerge, sistem/kullanıcı ayrımı, ayraçlar ve yineleme. L2 ise
+**üretim** prompt'ları için araç setidir — çıktıyı, başka yazılımların ve takım arkadaşlarının
+güvenebileceği kadar sağlam kılan desenler ve bir prompt değişirken çalışmaya devam etmesini sağlayan
+disiplin.
 
-**Çalışan bir örnek.** Ekibin, **bir spec'i yapılandırılmış bir test planına çeviren bir AI
-özelliği** yayınlıyor ve bu plan aşağı-akış araçlarca tüketiliyor. Gelişigüzel bir prompt demoda
-çalışır, production'da kırılır; bu desenler onu güvenilir kılan şeydir.
+**Bir örnek.** Ekibin, **bir şartnameyi (spec) yapılandırılmış bir test planına çeviren bir AI
+özelliği** yayınlıyor ve bu planı sonraki adımdaki araçlar tüketiyor. Gelişigüzel bir prompt demoda
+çalışır, üretimde kırılır; bu desenler onu güvenilir kılan şeydir.
 
 ## Few-shot'u iyi yapmak
 
-Örnek göstermek ("few-shot"), house style'ı tarif etmekten daha iyi öğretir — ama yalnızca örnekler iyiyse:
+Örnek göstermek ("few-shot"), tarz tarif etmekten daha iyi öğretir — ama yalnızca örnekler iyiyse:
 
-- **Temsili ve çeşitli** — kolay vakayı *ve* zor olanları (boş girdi, bir edge case) kapsa, üç benzer
-  happy-path değil.
-- **İstediğin formatla tutarlı** — örnekler *spec'in kendisidir*; herhangi bir tutarsızlık modele
-  tutarsız olmayı öğretir.
-- **Kasıtlı sıralı** — en net örneği başa koy; çok fazla örnek az kazanç için token israf eder, bu
-  yüzden zero-shot'un gerçekten başarısız olduğu yere örnek ekle.
+- **Temsili ve çeşitli** — kolay durumu *ve* zor olanları (boş girdi, bir uç durum) kapsa; üç benzer
+  kolay örnek değil.
+- **İstediğin biçimle tutarlı** — örnekler *şartnamenin kendisidir*; her tutarsızlık modele tutarsız
+  olmayı öğretir.
+- **Bilinçli sıralı** — en net örneği başa koy; çok fazla örnek az kazanç için token israf eder, bu
+  yüzden örneği yalnızca prompt'un örneksiz başarısız olduğu yere ekle.
 
-## Reasoning prompt'ları
+## Akıl yürütme prompt'ları
 
-Çok-adımlı problemler için modelin üzerinde çalışmasına izin ver: adım adım akıl yürütmesini iste ya
-da bunu içsel yapan bir **reasoning model** kullan. Bu; zor mantık, debugging ve denge analizinde
-yardımcı olur. Basit görevler için yalnızca token ve gecikme ekler — ve aşağı-akış kod için yalnızca
-nihai cevaba ihtiyacın varsa, akıl yürütüp **yalnızca** yapılandırılmış sonucu döndürmesini sağla.
+Çok adımlı problemlerde modelin üzerinde çalışmasına izin ver: adım adım akıl yürütmesini iste ya da
+bunu kendi içinde yapan, akıl yürüten bir model kullan. Bu; zor mantık, hata ayıklama ve denge
+analizinde yardımcı olur. Basit işlerde yalnızca token ve gecikme ekler — ve sonraki adımdaki kod için
+yalnızca nihai cevap lazımsa, akıl yürütüp **yalnızca** yapılandırılmış sonucu döndürmesini sağla.
 
 ## Bir sözleşme olarak yapılandırılmış çıktı
 
-Sonucu bir araç ya da takım arkadaşı tüketecekse, serbest metin bir risktir. Katı bir **çıktı
-sözleşmesi** belirt: adlandırılmış bir JSON şeması (ya da sabit bir şablon), delimiter'larla
-sarılmış, modele *yalnızca* onu döndürmesi söylenmiş. Sonra kullanmadan önce çıktıyı **doğrula**;
-başarısızlıkta onar ya da reddet. Tanımlı bir şema artı doğrulama, aşağı-akış kodun prose'u
-regex'lemek yerine sonuca güvenmesini sağlayan şeydir.
+Sonucu bir araç ya da takım arkadaşı tüketecekse, serbest metin risktir. Katı bir **çıktı sözleşmesi**
+belirt: adlandırılmış bir JSON şeması (ya da sabit bir şablon), ayraçlarla sarılı ve modele *yalnızca*
+onu döndürmesi söylenmiş. Sonra kullanmadan önce çıktıyı **doğrula**; başarısızlıkta onar ya da
+reddet. Tanımlı bir şema artı doğrulama, sonraki adımdaki kodun serbest metni ayrıştırmaya çalışmak
+yerine sonuca güvenmesini sağlayan şeydir.
 
-## Versiyonlanmış artefakt olarak prompt'lar
+## Versiyonlanan birer ürün olarak prompt'lar
 
-Bir production prompt koddur. Onu **version control'da ya da bir prompt registry'sinde** tut, satır
-içi ve canlı düzenlenmiş değil; değişken kısımları (spec, framework) **parametrele**, tüm string'i
-yeniden yazma; ve değişiklikleri her değişiklik gibi incele. Bir prompt'u bir takım genelinde
-sürdürülebilir kılan budur.
+Üretim prompt'u koddur. Onu **sürüm kontrolünde ya da bir prompt kayıt defterinde** tut, satır içinde
+ve canlı düzenlenmiş değil; değişken kısımları (şartname, çerçeve) **parametrele**, tüm metni yeniden
+yazma; ve değişiklikleri her kod değişikliği gibi incele. Bir prompt'u takım genelinde sürdürülebilir
+kılan budur.
 
-## Eval-güdümlü iterasyon
+## Değerlendirmeyle yineleme
 
-Prompt'ları vibe'la ayarlama. Temsili girdiler ve bilinen-doğru çıktılardan oluşan küçük bir **eval
-seti** tut; prompt'u değiştir, seti çalıştır ve değişikliği **yalnızca skorlar iyileşirse** sakla. Bu,
-prompt'lar için TDD'dir ve doğrudan Evaluation modülüne bağlanır — bir vakayı düzeltmenin sessizce on
-tanesini bozmamasını böyle sağlarsın.
+Prompt'ları sezgiyle ayarlama. Temsili girdiler ve bilinen-doğru çıktılardan oluşan küçük bir
+**değerlendirme seti (eval)** tut; prompt'u değiştir, seti çalıştır ve değişikliği **yalnızca skorlar
+iyileşirse** koru. Bu, prompt'lar için TDD'dir ve doğrudan Değerlendirme modülüne bağlanır — bir
+durumu düzeltmenin sessizce on tanesini bozmamasını böyle sağlarsın.
 
-## Sağlamlık (robustness)
+## Sağlamlık
 
-Gerçek girdiler dağınıktır ve bazen düşmancadır. Belirsizliği ele al (bilgi eksikse modele tahmin
+Gerçek girdiler dağınıktır, bazen de düşmancadır. Belirsizliği ele al (bilgi eksikse modele tahmin
 ettirmek yerine ne yapacağını söyle) ve prompt'taki herhangi bir **güvenilmez metni** (yapıştırılmış
-bir ticket, getirilen bir belge) talimat değil veri olarak ele al — Guardrails'te kapsanan prompt-
-injection sınırı.
+bir talep kaydı, getirilen bir belge) talimat değil veri olarak ele al — Guardrails modülünde
+işlenen prompt injection sınırı.
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** Doğrulamalı JSON-şeması çıktı sözleşmesini yazar, prompt'u parametreler ve
-  version control'a alır ve CI'da bir eval setine karşı iterasyon yapar.
-- **İş Analisti:** Temsili ve edge-case örnekleri sağlar ve "iyi" bir çıktının ne içerdiğini tanımlar,
-  böylece few-shot ve eval seti gerçek gereksinimleri yansıtır.
-- **PM/Ürün Sahibi:** Prompt'u sürdürülen bir varlık olarak ele alır (versiyonlu, incelenmiş) ve bir
-  prompt değişikliği yayınlanmadan önce eval setinin geçmesi gereken kalite çıtasını koyar.
-- **QA/Tester ve Mimar:** Eval/regresyon setini kurar, çıktıyı şemaya karşı ve injection sağlamlığı
-  için test eder ve prompt-versiyonlama ile doğrulama dikişlerini tasarlar.
+- **Geliştirici/Mühendis:** Doğrulamalı JSON şeması çıktı sözleşmesini yazar; prompt'u parametreler,
+  sürüm kontrolüne alır ve CI'da bir değerlendirme setine karşı yineler.
+- **İş Analisti:** Temsili ve uç durum örnekleri sağlar ve "iyi" bir çıktının ne içerdiğini tanımlar;
+  böylece few-shot ve değerlendirme seti gerçek gereksinimleri yansıtır.
+- **PM/Ürün Sahibi:** Prompt'u bakımı yapılan bir varlık olarak görür (versiyonlu, incelenmiş) ve bir
+  prompt değişikliği yayınlanmadan önce değerlendirme setinin geçmesi gereken kalite çıtasını koyar.
+- **QA/Test Uzmanı ve Mimar:** Değerlendirme/regresyon setini kurar; çıktıyı şemaya karşı ve injection
+  sağlamlığı için test eder ve prompt versiyonlama ile doğrulama noktalarını tasarlar.
