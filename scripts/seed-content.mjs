@@ -100,6 +100,27 @@ async function seedLevel(moduleId, code, level, lang, baseDir) {
     if (error) throw new Error(`exercises(${code},${level},${lang}): ${error.message}`);
   }
 
+  // Optional extra hands-on labs: labs/*.json, each seeded as its own exercise
+  // lesson (after the main exercise). Each file is exercise-shaped, plus a
+  // `title`. Filenames sort the order. Counted toward the level grade.
+  const labsDir = join(baseDir, 'labs');
+  if (existsSync(labsDir)) {
+    const labFiles = readdirSync(labsDir).filter((f) => f.endsWith('.json')).sort();
+    for (const f of labFiles) {
+      const lab = readJson(join(labsDir, f));
+      const lessonId = await insertLesson(moduleId, 'exercise', level, lang, lab.title ?? 'Lab', null, (sort += 1));
+      const { error } = await supabase.from('exercises').insert({
+        lesson_id: lessonId,
+        type: lab.type,
+        prompt_md: lab.prompt_md,
+        spec: lab.spec,
+        answer_key: lab.answer_key,
+        max_score: lab.max_score ?? 10,
+      });
+      if (error) throw new Error(`lab ${f}(${code},${level},${lang}): ${error.message}`);
+    }
+  }
+
   return sort;
 }
 

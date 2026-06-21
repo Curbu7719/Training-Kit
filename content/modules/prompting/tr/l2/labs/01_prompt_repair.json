@@ -1,0 +1,24 @@
+{
+  "title": "Lab: Bir Prompt'u Onar",
+  "type": "prompt_repair",
+  "prompt_md": "**Uygulamalı lab.** Aşağıdaki başlangıç prompt'u, güvenilir biçimde iyi unit testler üretemeyecek kadar belirsiz. Onu her gereksinimi karşılayacak şekilde düzenle, sonra gönder. Puanlama otomatik ve deterministik — her gereksinim kuralla kontrol edilir, model çalışmaz, böylece neyin eksik olduğuna dair anında geri bildirim alırsın.",
+  "spec": {
+    "starter": "Bu fonksiyon için testler yaz.",
+    "requirements": [
+      { "id": "framework", "label": "Kullanılacak test framework'ünü belirt (örn. pytest, jest, JUnit)" },
+      { "id": "edge_cases", "label": "Uç durumları iste (boş, sınır, null ya da geçersiz girdi)" },
+      { "id": "output_format", "label": "Çıktı formatını belirt (bir diff ya da tek bir test dosyası)" },
+      { "id": "delimiters", "label": "Fonksiyonun kodunu delimiter'larla sar (örn. üç ters tırnak)" }
+    ]
+  },
+  "answer_key": {
+    "checks": [
+      { "id": "framework", "anyOf": ["pytest", "jest", "junit", "unittest", "vitest", "mocha", "framework"] },
+      { "id": "edge_cases", "anyOf": ["uç durum", "boş", "sınır", "null", "geçersiz", "hata", "edge case"] },
+      { "id": "output_format", "anyOf": ["diff", "tek dosya", "tek bir dosya", "test dosyası", "json", "format"] },
+      { "id": "delimiters", "regex": "```|<code>|~~~" }
+    ],
+    "pass_ratio": 0.7
+  },
+  "max_score": 10
+}

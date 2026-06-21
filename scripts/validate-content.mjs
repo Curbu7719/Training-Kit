@@ -122,6 +122,12 @@ function validateLevel(dir, label) {
   }
   if (existsSync(join(dir, 'quiz.json'))) validateQuiz(join(dir, 'quiz.json'));
   if (existsSync(join(dir, 'exercise.json'))) validateExercise(join(dir, 'exercise.json'));
+  const labsDir = join(dir, 'labs');
+  if (existsSync(labsDir)) {
+    for (const f of readdirSync(labsDir).filter((n) => n.endsWith('.json'))) {
+      validateExercise(join(labsDir, f));
+    }
+  }
 }
 
 const codes = readdirSync(MODULES_DIR).filter((d) => statSync(join(MODULES_DIR, d)).isDirectory());
