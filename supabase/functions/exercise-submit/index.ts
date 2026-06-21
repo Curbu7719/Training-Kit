@@ -143,6 +143,9 @@ Deno.serve(async (req: Request) => {
       passed:    result.passed,
       // Per-requirement breakdown (prompt_repair); omitted for other types.
       ...(result.details ? { details: result.details } : {}),
+      // The correct answer (answer_key), revealed AFTER grading so the learner
+      // can see the right answer when they got it wrong — same pattern as quiz.
+      correct:   exercise.answer_key,
     }),
     { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
   );

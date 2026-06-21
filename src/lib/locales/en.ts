@@ -145,6 +145,7 @@ const en = {
   'exercise.submissionFailed': 'Submission failed.',
   'exercise.result.correct': 'Correct — {score}/{max} points',
   'exercise.result.incorrect': 'Incorrect — {score}/{max} points',
+  'exercise.correctAnswer': 'Correct answer:',
 
   // MCQ exercise
   'exercise.mcq.selectOne': 'Select one option.',

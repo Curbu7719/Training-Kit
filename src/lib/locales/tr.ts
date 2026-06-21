@@ -146,6 +146,7 @@ const tr = {
   'exercise.submissionFailed': 'Gönderim başarısız oldu.',
   'exercise.result.correct': 'Doğru — {score}/{max} puan',
   'exercise.result.incorrect': 'Yanlış — {score}/{max} puan',
+  'exercise.correctAnswer': 'Doğru cevap:',
 
   // MCQ exercise
   'exercise.mcq.selectOne': 'Bir seçenek seçin.',

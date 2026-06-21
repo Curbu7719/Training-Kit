@@ -118,6 +118,17 @@ export function MatchExercise({ spec, onSubmit }: Props) {
         </div>
       )}
 
+      {result && !result.passed && result.correct?.pairs && (
+        <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm">
+          <p className="mb-1 font-medium text-muted-foreground">{t('exercise.correctAnswer')}</p>
+          {result.correct.pairs.map(([l, r], i) => (
+            <p key={i} className="text-muted-foreground">
+              <span className="font-medium">{spec.left[l]}</span> → {spec.right[r]}
+            </p>
+          ))}
+        </div>
+      )}
+
       {!result && (
         <Button
           onClick={handleSubmit}

@@ -31,6 +31,8 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   const canSubmit = decision !== null && reason !== null;
+  const correctDecision = result?.correct?.decision;
+  const correctReason = result?.correct?.reason;
 
   async function handleSubmit() {
     if (decision === null || reason === null) return;
@@ -46,88 +48,71 @@ export function ScenarioExercise({ spec, onSubmit }: Props) {
     }
   }
 
+  /** One radio option, result-aware: green if correct, red if wrongly picked. */
+  function renderOption(
+    choice: string,
+    idx: number,
+    chosen: number | null,
+    correctIdx: number | undefined,
+    onPick: (i: number) => void,
+  ) {
+    const isSelected = chosen === idx;
+    const graded = result !== null;
+    const isCorrect = graded && correctIdx === idx;
+    const isWrongPick = graded && isSelected && correctIdx !== idx;
+    return (
+      <button
+        key={idx}
+        type="button"
+        role="radio"
+        aria-checked={isSelected}
+        onClick={() => { if (!graded) onPick(idx); }}
+        disabled={graded}
+        className={cn(
+          'flex w-full items-center gap-3 rounded-md border px-4 py-3 text-left text-sm transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          isSelected && !graded && 'border-primary bg-primary/5 text-primary',
+          !isSelected && !graded && 'border-border hover:border-primary/50 hover:bg-muted/50',
+          isCorrect && 'border-success bg-success/10 text-success',
+          isWrongPick && 'border-destructive bg-destructive/10 text-destructive',
+          graded && !isCorrect && !isWrongPick && 'border-border opacity-60',
+          graded && 'cursor-default'
+        )}
+      >
+        <span
+          className={cn(
+            'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-xs',
+            isCorrect ? 'border-success bg-success text-success-foreground' :
+            isWrongPick ? 'border-destructive bg-destructive text-destructive-foreground' :
+            isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'
+          )}
+          aria-hidden
+        >
+          {isCorrect ? '✓' : isWrongPick ? '✕' : isSelected ? '✓' : ''}
+        </span>
+        {choice}
+      </button>
+    );
+  }
+
   return (
     <div className="space-y-5">
-      {/* Decision MCQ */}
+      {/* Decision */}
       <fieldset>
-        <legend className="mb-2 text-sm font-semibold">
-          {t('exercise.scenario.decision')}
-        </legend>
+        <legend className="mb-2 text-sm font-semibold">{t('exercise.scenario.decision')}</legend>
         <div className="space-y-2" role="radiogroup" aria-label={t('exercise.scenario.decision')}>
-          {spec.decision_choices.map((choice, idx) => {
-            const isSelected = decision === idx;
-            const isDisabled = result !== null;
-            return (
-              <button
-                key={idx}
-                type="button"
-                role="radio"
-                aria-checked={isSelected}
-                onClick={() => { if (!isDisabled) setDecision(idx); }}
-                disabled={isDisabled}
-                className={cn(
-                  'flex w-full items-center gap-3 rounded-md border px-4 py-3 text-left text-sm transition-colors',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                  isSelected && !result && 'border-primary bg-primary/5 text-primary',
-                  !isSelected && !result && 'border-border hover:border-primary/50 hover:bg-muted/50',
-                  isDisabled && 'cursor-default'
-                )}
-              >
-                <span
-                  className={cn(
-                    'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-xs',
-                    isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'
-                  )}
-                  aria-hidden
-                >
-                  {isSelected && '✓'}
-                </span>
-                {choice}
-              </button>
-            );
-          })}
+          {spec.decision_choices.map((choice, idx) =>
+            renderOption(choice, idx, decision, correctDecision, setDecision))}
         </div>
       </fieldset>
 
-      {/* Reason MCQ — rendered once a decision is picked */}
+      {/* Reason — shown once a decision is picked */}
       {(decision !== null || result) && (
         <fieldset>
-          <legend className="mb-2 text-sm font-semibold">
-            {t('exercise.scenario.reason')}
-          </legend>
+          <legend className="mb-2 text-sm font-semibold">{t('exercise.scenario.reason')}</legend>
           <div className="space-y-2" role="radiogroup" aria-label={t('exercise.scenario.reason')}>
-            {spec.reason_choices.map((choice, idx) => {
-              const isSelected = reason === idx;
-              const isDisabled = result !== null;
-              return (
-                <button
-                  key={idx}
-                  type="button"
-                  role="radio"
-                  aria-checked={isSelected}
-                  onClick={() => { if (!isDisabled) setReason(idx); }}
-                  disabled={isDisabled}
-                  className={cn(
-                    'flex w-full items-center gap-3 rounded-md border px-4 py-3 text-left text-sm transition-colors',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                    isSelected && !result && 'border-primary bg-primary/5 text-primary',
-                    !isSelected && !result && 'border-border hover:border-primary/50 hover:bg-muted/50',
-                    isDisabled && 'cursor-default'
-                  )}
-                >
-                  <span
-                    className={cn(
-                      'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-xs',
-                      isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'
-                    )}
-                    aria-hidden
-                  >
-                    {isSelected && '✓'}
-                  </span>
-                  {choice}
-                </button>
-              );
-            })}
+            {spec.reason_choices.map((choice, idx) =>
+              renderOption(choice, idx, reason, correctReason, setReason))}
           </div>
         </fieldset>
       )}

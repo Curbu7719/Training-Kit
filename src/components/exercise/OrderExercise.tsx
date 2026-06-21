@@ -126,6 +126,17 @@ export function OrderExercise({ spec, onSubmit }: Props) {
         </div>
       )}
 
+      {result && !result.passed && result.correct?.order && (
+        <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm">
+          <p className="mb-1 font-medium text-muted-foreground">{t('exercise.correctAnswer')}</p>
+          <ol className="list-decimal pl-5 text-muted-foreground">
+            {result.correct.order.map((itemIdx, i) => (
+              <li key={i}>{spec.items[itemIdx]}</li>
+            ))}
+          </ol>
+        </div>
+      )}
+
       {!result && (
         <Button onClick={handleSubmit} disabled={submitting} className="mt-2" data-testid="exercise-submit-btn">
           {submitting ? t('exercise.submitting') : t('exercise.submit')}

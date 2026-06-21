@@ -17,6 +17,16 @@ export interface ExerciseSubmitResponse {
   passed: boolean;
   /** Per-requirement breakdown — present for prompt_repair exercises only. */
   details?: { id: string; met: boolean }[];
+  /** The correct answer (answer_key), returned after grading so the UI can
+   *  reveal it when the learner is wrong. Shape varies by exercise type. */
+  correct?: {
+    correct?: number[];
+    decision?: number;
+    reason?: number;
+    order?: number[];
+    pairs?: [number, number][];
+    accept?: string[][];
+  };
 }
 
 export interface ProgressEntry {

@@ -30,6 +30,7 @@ export function McqExercise({ spec, onSubmit }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   const multi = spec.multi ?? false;
+  const correctSet = new Set(result?.correct?.correct ?? []);
 
   function toggle(idx: number) {
     if (result) return; // locked after submit
@@ -66,6 +67,8 @@ export function McqExercise({ spec, onSubmit }: Props) {
         {spec.choices.map((choice, idx) => {
           const isSelected = selected.includes(idx);
           const isDisabled = result !== null;
+          const isCorrect = result !== null && correctSet.has(idx);
+          const isWrongPick = result !== null && isSelected && !correctSet.has(idx);
 
           return (
             <button
@@ -79,6 +82,9 @@ export function McqExercise({ spec, onSubmit }: Props) {
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                 isSelected && !result && 'border-primary bg-primary/5 text-primary',
                 !isSelected && !result && 'border-border hover:border-primary/50 hover:bg-muted/50',
+                isCorrect && 'border-success bg-success/10 text-success',
+                isWrongPick && 'border-destructive bg-destructive/10 text-destructive',
+                result && !isCorrect && !isWrongPick && 'border-border opacity-60',
                 isDisabled && 'cursor-default'
               )}
             >
@@ -87,11 +93,13 @@ export function McqExercise({ spec, onSubmit }: Props) {
                 className={cn(
                   'flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border text-xs',
                   multi ? 'rounded-sm' : 'rounded-full',
+                  isCorrect ? 'border-success bg-success text-success-foreground' :
+                  isWrongPick ? 'border-destructive bg-destructive text-destructive-foreground' :
                   isSelected ? 'border-primary bg-primary text-primary-foreground' : 'border-border'
                 )}
                 aria-hidden
               >
-                {isSelected && '✓'}
+                {isCorrect ? '✓' : isWrongPick ? '✕' : isSelected ? '✓' : ''}
               </span>
               {choice}
             </button>
