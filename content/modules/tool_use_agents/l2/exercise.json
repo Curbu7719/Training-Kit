@@ -6,13 +6,13 @@
       "Require human approval for refunds above a threshold, enforced in the application before the tool executes",
       "Rewrite the prompt to state the refund rule more emphatically and add more examples",
       "Increase the agent's max-iteration limit so it has more chances to reconsider",
-      "Lower the model's temperature so its decisions become more conservative"
+      "Trust the agent to refuse risky actions on its own"
     ],
     "reason_choices": [
       "Because an architectural permission boundary cannot be overridden by the model, while a prompt instruction can be misread or bypassed",
       "Because a more emphatic prompt is guaranteed to be obeyed on every request",
       "Because more iterations let the model eventually catch its own mistakes",
-      "Because lower temperature removes the possibility of incorrect tool calls"
+      "Because trusting the agent removes the possibility of incorrect tool calls"
     ]
   },
   "answer_key": {

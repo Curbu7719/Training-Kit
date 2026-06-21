@@ -32,7 +32,7 @@
   {
     "prompt": "Vibe coding yaparken AI, kütüphanenizde var olmayan bir metot olan `db.fetchAllFast()` çağıran bir düzeltme öneriyor ve siz bunu belirttikten sonra aynı var olmayan çağrının hafif varyantlarını öneripduruyor. Ne oluyor ve ne yapmalısınız?",
     "choices": [
-      "Model çok soğuk; temperature'ını yükseltin ve çıktıyı yine de yapıştırın",
+      "Model bugün kötü bir gün geçiriyor; çıktıyı yine de yapıştırın",
       "Bir API uyduruyor ve döngüye giriyor; prompt yazmayı bırakın, direksiyonu alın ve çağrıyı kendiniz yazın",
       "Kütüphane bozuk; sonradan bir düzeltmeyi zorlamak için üretilen kodu commit edin",
       "Hiçbir sorun yok; editörünüzde derleniyorsa doğru olmalı"
@@ -41,7 +41,7 @@
       1
     ],
     "points": 1,
-    "explanation": "Var olmayan bir metot uydurmak ve onu tekrarlamak bir hallucination döngüsüdür ve en hızlı çözüm direksiyonu alıp gerçek çağrıyı kendiniz yazmaktır. Temperature'ı yükseltmek ya da bozuk kodu commit etmek hatayı çözmek yerine sadece yayar."
+    "explanation": "Var olmayan bir metot uydurmak ve onu tekrarlamak bir hallucination döngüsüdür ve en hızlı çözüm direksiyonu alıp gerçek çağrıyı kendiniz yazmaktır. Yine de yapıştırmak ya da bozuk kodu commit etmek hatayı çözmek yerine sadece yayar."
   },
   {
     "prompt": "Bir QA/Tester'dan, bir takım arkadaşının büyük okunmamış bir AI çıktı bloğunu yapıştırarak vibe-code ettiği bir özelliği onaylaması isteniyor. Hangi yaklaşımlar bunu doğru yapmayı yansıtır? Geçerli olan HER ŞEYİ seçin.",

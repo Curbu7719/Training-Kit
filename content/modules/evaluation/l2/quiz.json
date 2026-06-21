@@ -4,12 +4,12 @@
     "choices": [
       "An aggregate score is hiding a failing subgroup; slice the score by category to expose it",
       "The system has no real problem because 92% is above any reasonable threshold",
-      "The model temperature must be lowered to fix all categories at once",
+      "A single overall accuracy number is enough to certify every category",
       "Offline evaluation is useless and should be abandoned entirely"
     ],
     "correct": [0],
     "points": 1,
-    "explanation": "A single 92% average can average over a category that performs terribly, so slicing by category exposes the failing subgroup. Trusting the aggregate ignores the complaints, and temperature changes or abandoning offline eval do not address a hidden per-category failure."
+    "explanation": "A single 92% average can average over a category that performs terribly, so slicing by category exposes the failing subgroup. Trusting the aggregate ignores the complaints, and a single overall number or abandoning offline eval does not address a hidden per-category failure."
   },
   {
     "prompt": "Which of the following are known biases of an LLM-as-judge that must be mitigated for its scores to be trustworthy? (Select all that apply.)",

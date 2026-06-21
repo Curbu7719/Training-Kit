@@ -5,7 +5,7 @@
     "decision_choices": [
       "Accept and commit the whole diff now, since it runs and reads like good code",
       "Reject the unrelated refactor, then read the coupon code line by line and add a behavioural test for its edge cases before committing",
-      "Raise the model's temperature and reprompt for a longer, more complete version",
+      "Switch to a larger model and paste whatever longer version it returns",
       "Merge it behind a smoke test that only checks the server starts without crashing"
     ],
     "reason_choices": [

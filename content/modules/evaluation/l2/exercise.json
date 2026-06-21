@@ -5,7 +5,7 @@
     "decision_choices": [
       "Stratify the dataset to represent the failing category, slice eval scores by segment, and validate the judge against human ratings",
       "Trust the 94% aggregate and dismiss the complaints as anecdotal",
-      "Raise the model temperature so answers become more varied",
+      "Switch to a larger model and assume every category improves",
       "Remove the failing category from the dataset so the score stays high"
     ],
     "reason_choices": [

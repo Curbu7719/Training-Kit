@@ -34,20 +34,20 @@
     "choices": [
       "Talimatlarınızı modelin işlemesi gereken koddan ayırmak için, böylece koddaki bir yorum talimat olarak okunmaz",
       "Prompt'u daha kısa yapmak için",
-      "Modeli daha yüksek bir sıcaklık (temperature) kullanmaya zorlamak için",
+      "Kodu başka bir dile çevirmek için",
       "Kodu otomatik olarak başka bir dile çevirmek için"
     ],
     "correct": [
       0
     ],
     "points": 1,
-    "explanation": "Sınırlayıcılar, talimatlarınızı modelin işlemesi gereken koddan net biçimde ayırır, böylece koddaki bir yorum talimat sanılmaz. Prompt'u kısaltmaz, temperature'ı değiştirmez ya da kodu çevirmezler."
+    "explanation": "Sınırlayıcılar, talimatlarınızı modelin işlemesi gereken koddan net biçimde ayırır, böylece koddaki bir yorum talimat sanılmaz. Prompt'u kısaltmaz, modeli hızlandırmaz ya da kodu çevirmezler."
   },
   {
     "prompt": "Bir İş Analisti, modelden bir paydaş isteğini kullanıcı hikayesine dönüştürmesini istiyor, ama çıktı sürekli kabul kriteri olmayan gevşek bir paragraf olarak geliyor ve ekibin backlog şablonunu bozuyor. Hangi prompt değişikliği bunu en doğrudan düzeltir?",
     "choices": [
       "Tam çıktı şablonunu belirtin ('... olarak... istiyorum, böylece...' artı numaralandırılmış bir kabul kriteri listesi) ve o biçimde bir örnek hikaye gösterin",
-      "Sıcaklığı (temperature) artırın ki ifade her çalıştırmada daha çok değişsin",
+      "Modele formatı nasıl isterse öyle yapmasını söyleyin",
       "Modelden bir şablon vermeden 'biraz daha yapılandırılmış' olmasını isteyin",
       "İyi biçimlendirilmiş bir hikaye çıkana kadar isteği tekrar tekrar gönderin"
     ],
@@ -55,7 +55,7 @@
       0
     ],
     "points": 1,
-    "explanation": "Tam çıktı şablonunu belirtmek ve o biçimde bir örnek göstermek, modeli ihtiyacınız olan yapıya doğrudan yönlendirir. Belirsiz istekler ('daha yapılandırılmış ol') ve temperature'ı yükseltmek şablonu güvenilir biçimde üretmez; aynı prompt'u tekrar göndermek de sorunu yineler."
+    "explanation": "Tam çıktı şablonunu belirtmek ve o biçimde bir örnek göstermek, modeli ihtiyacınız olan yapıya doğrudan yönlendirir. Belirsiz istekler ('daha yapılandırılmış ol' ya da 'nasıl istersen') şablonu güvenilir biçimde üretmez; aynı prompt'u tekrar göndermek de sorunu yineler."
   },
   {
     "prompt": "Few-shot örnekleri format uyumunu artırır ama her çağrıya token ekler. Günde milyonlarca kez çalışan basit, net bir çıkarım görevinde hangi *trade-off* daha iyi?",

@@ -17,11 +17,11 @@
       "Bir eşiğin üzerindeki iadeleri, prompt'ta değil uygulamada uygulanan bir insan-onay kapısının arkasına koyun",
       "Prompt'u daha sert biçimde yeniden ifade edin ve büyük harfler ekleyin",
       "Modelin kendini düzeltmesi için daha çok şansı olsun diye maksimum-iterasyon sınırını yükseltin",
-      "Modeli daha temkinli yapmak için model sıcaklığını (temperature) artırın"
+      "Modele dikkatli olmasını söyleyen kibar bir talimat ekleyin"
     ],
     "correct": [0],
     "points": 1,
-    "explanation": "Bir prompt talimatı modelin görmezden gelebileceği bir öneridir; yüksek etkili eylemler uygulama kodunda uygulanan sert bir kapı gerektirir. Prompt'u yeniden ifade etmek, iterasyon eklemek veya temperature'ı değiştirmek, güvensiz eylemi gerçek yetkilendirme olmadan erişilebilir bırakır."
+    "explanation": "Bir prompt talimatı modelin görmezden gelebileceği bir öneridir; yüksek etkili eylemler uygulama kodunda uygulanan sert bir kapı gerektirir. Prompt'u yeniden ifade etmek, iterasyon eklemek veya kibarca rica etmek, güvensiz eylemi gerçek yetkilendirme olmadan erişilebilir bırakır."
   },
   {
     "prompt": "Bir maksimum-iterasyon sınırı yerinde, yine de bir servis kapalı olduğunda agent pes etmeden önce on model çağrısı israf ediyor. Hangi iyileştirmeler bunu daha zarif şekilde ele alır? Uygun olanların tümünü seçin.",

@@ -50,14 +50,14 @@
     "choices": [
       "Redact PII and secrets from the text so only the minimum needed to diagnose the bug is sent",
       "Choose a model with a larger context window so it reads more of the trace",
-      "Increase the model's temperature so the answer is more creative",
+      "Switch to a larger model so the answer is more thorough",
       "Send the full trace quickly so the on-call rotation isn't delayed"
     ],
     "correct": [
       0
     ],
     "points": 1,
-    "explanation": "Redacting PII and secrets applies data minimization, so even an approved tool only ever sees what it needs. A bigger context window or higher temperature changes capability or style, not exposure, and sending the full trace increases the risk rather than reducing it."
+    "explanation": "Redacting PII and secrets applies data minimization, so even an approved tool only ever sees what it needs. A bigger context window or a larger model changes capability, not exposure, and sending the full trace increases the risk rather than reducing it."
   },
   {
     "prompt": "Self-hosting keeps data in-house but costs more and lags on model quality; a hosted API under a no-retention agreement is cheaper and stronger but data leaves your network. For moderately-sensitive internal docs covered by a vendor DPA, which *trade-off* is reasonable?",

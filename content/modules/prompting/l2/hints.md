@@ -27,8 +27,7 @@
   drifts.
 - **How many few-shot examples should I use?** Enough to cover the easy and the awkward cases —
   representative and diverse beats many near-identical ones, which just waste tokens.
-- **Does temperature zero fix format and completeness?** No. It reduces variety but doesn't
-  guarantee valid JSON or that edge cases are covered — you still need a schema, validation, and
-  good examples.
+- **Does a strict format alone guarantee correctness?** No. A schema and validation make the output
+  parseable, but you still need good examples and edge-case coverage for it to be actually correct.
 - **Why version prompts and use an eval set?** A prompt is production logic; versioning plus an eval
   gate means a change that fixes one case can't silently regress others you didn't re-check.

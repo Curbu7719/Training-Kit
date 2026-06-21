@@ -34,20 +34,20 @@
     "choices": [
       "To separate your instructions from the code the model should process, so a comment in the code isn't read as an instruction",
       "To make the prompt shorter",
-      "To force the model to use a higher temperature",
+      "To translate the code into another language",
       "To translate the code into another language automatically"
     ],
     "correct": [
       0
     ],
     "points": 1,
-    "explanation": "Delimiters clearly separate your instructions from the code the model should process, so an in-code comment isn't mistaken for an instruction. They don't shorten the prompt, change temperature, or translate the code."
+    "explanation": "Delimiters clearly separate your instructions from the code the model should process, so an in-code comment isn't mistaken for an instruction. They don't shorten the prompt, speed up the model, or translate the code."
   },
   {
     "prompt": "A Business Analyst prompts a model to turn a stakeholder request into a user story, but the output keeps coming back as a loose paragraph with no acceptance criteria, breaking the team's backlog template. Which prompt change most directly fixes this?",
     "choices": [
       "Specify the exact output template ('As a... I want... so that...' plus a numbered acceptance-criteria list) and show one example story in that format",
-      "Increase the temperature so the wording varies more each run",
+      "Tell the model to format it however it prefers",
       "Ask the model to be 'a bit more structured' without giving a template",
       "Re-send the request repeatedly until a well-formatted story appears"
     ],
@@ -55,7 +55,7 @@
       0
     ],
     "points": 1,
-    "explanation": "Specifying the exact output template and showing one example in that format directly steers the model to the structure you need. Vague asks ('be more structured') and raising temperature don't reliably produce the template, and re-sending the same prompt just repeats the problem."
+    "explanation": "Specifying the exact output template and showing one example in that format directly steers the model to the structure you need. Vague asks ('be more structured' or 'however you prefer') don't reliably produce the template, and re-sending the same prompt just repeats the problem."
   },
   {
     "prompt": "Few-shot examples improve format adherence but add tokens to every call. For a simple, unambiguous extraction task run millions of times a day, which *trade-off* is better?",

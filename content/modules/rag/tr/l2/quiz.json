@@ -5,11 +5,11 @@
       "Bir retrieval başarısızlığı: yanlış chunk yüzeye çıkarıldı ve generation kendisine verileni sadık bir şekilde kullandı",
       "Bir generation başarısızlığı: model sağlanan bağlamı görmezden geldi",
       "Embedding modelinin tüm monorepo üzerinde yeniden eğitilmesi gerekiyor",
-      "Temperature ayarı çok yüksek"
+      "Generation modeli çok küçük"
     ],
     "correct": [0],
     "points": 1,
-    "explanation": "Yanıt alıntıladığı kaynağı sadık şekilde kullandı, yani generation çalıştı; hata, retrieval'ın yanlış servisin chunk'ını yüzeye çıkarmasıdır. Bu bir generation başarısızlığı değil (model kendisine verileni kullandı) ve temperature veya yeniden eğitim, yanlış-ama-gerçek bir alıntıyı açıklamaz."
+    "explanation": "Yanıt alıntıladığı kaynağı sadık şekilde kullandı, yani generation çalıştı; hata, retrieval'ın yanlış servisin chunk'ını yüzeye çıkarmasıdır. Bu bir generation başarısızlığı değil (model kendisine verileni kullandı) ve model boyutu veya yeniden eğitim, yanlış-ama-gerçek bir alıntıyı açıklamaz."
   },
   {
     "prompt": "Hangi teknikler, bir kod tabanı asistanının (generation prompt'undan ziyade) özellikle RETRIEVAL aşamasını iyileştirir? (Geçerli olanların tümünü seçin.)",
@@ -29,10 +29,10 @@
       "Metadata filtreleme artı hybrid search ekleyin, çünkü filtreleme uygun olmayan servisleri kaldırır ve keyword eşleştirmesi ayırt edici tam token'ı ağırlıklandırır",
       "Top-k'yı 50'ye çıkarın, çünkü daha fazla chunk retrieve etmek her zaman doğruluğu artırır",
       "Chunk overlap'ını sıfıra indirin, çünkü yinelenen retrieval'a neden olan şey overlap'tır",
-      "Model temperature'ını yükseltin, çünkü daha fazla rastgelelik doğru dosyayı seçmesine yardımcı olur"
+      "Daha büyük bir modele geçin, çünkü daha büyük bir model doğru dosyayı seçer"
     ],
     "correct": [0],
     "points": 1,
-    "explanation": "Sorun, anlamsal benzerliğin tek ayırt edici token'ı yok saymasıdır, bu yüzden metadata filtreleme artı hybrid search hem yanlış servisi eler hem de tam token'ı ağırlıklandırır. Top-k'yı yükseltmek gürültü ekler, overlap neden değildir ve temperature yalnızca generation'ı etkiler, hangi chunk'ın retrieve edildiğini değil."
+    "explanation": "Sorun, anlamsal benzerliğin tek ayırt edici token'ı yok saymasıdır, bu yüzden metadata filtreleme artı hybrid search hem yanlış servisi eler hem de tam token'ı ağırlıklandırır. Top-k'yı yükseltmek gürültü ekler, overlap neden değildir ve model boyutu yalnızca generation'ı etkiler, hangi chunk'ın retrieve edildiğini değil."
   }
 ]

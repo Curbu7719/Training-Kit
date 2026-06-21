@@ -5,11 +5,11 @@
       "Ask for natural-language output and extract the fields with regular expressions",
       "Specify a strict JSON schema, tell the model to return only that, and validate the output before use",
       "Add 'please keep the format consistent' to the prompt and trust it to hold",
-      "Set temperature to zero so the wording, and therefore the format, never changes"
+      "Switch to the largest model and trust the format never varies"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "A defined JSON schema plus validation gives downstream code a contract it can depend on, repairing or rejecting bad responses. Regexing prose or relying on a polite request and low temperature breaks as soon as phrasing drifts."
+    "explanation": "A defined JSON schema plus validation gives downstream code a contract it can depend on, repairing or rejecting bad responses. Regexing prose or relying on a polite request breaks as soon as phrasing drifts."
   },
   {
     "prompt": "You're adding few-shot examples to a prompt that keeps missing edge cases. What makes the examples effective?",
@@ -29,11 +29,11 @@
       "Let the model infer and fill in whatever requirements seem reasonable",
       "Instruct it to flag the gap (e.g. mark an assumption) rather than inventing a requirement",
       "Tell it to skip anything not fully specified and output nothing for those parts",
-      "Raise the temperature so it explores more possible requirements"
+      "Switch to a larger model so it fills in the missing requirements"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Telling the model to surface missing info as a visible flag or assumption turns ambiguity into something a human can catch, instead of a confident fabrication. Inferring requirements invents rules; silently skipping hides gaps; temperature just adds variance."
+    "explanation": "Telling the model to surface missing info as a visible flag or assumption turns ambiguity into something a human can catch, instead of a confident fabrication. Inferring requirements invents rules; silently skipping hides gaps; a bigger model still invents the missing rule."
   },
   {
     "prompt": "Why treat a production prompt as a versioned artifact iterated against an eval set? (Select all that apply.)",

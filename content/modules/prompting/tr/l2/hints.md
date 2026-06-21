@@ -27,8 +27,8 @@
   aşağı-akış koda bir sözleşme verir; 'lütfen tutarlı ol' ifade savruldukça ilk seferde kırılır.
 - **Kaç few-shot örneği kullanmalıyım?** Kolay ve zor vakaları kapsayacak kadar — temsili ve çeşitli,
   yalnızca token israf eden birçok benzer örnekten iyidir.
-- **Temperature sıfır formatı ve eksiksizliği düzeltir mi?** Hayır. Çeşitliliği azaltır ama geçerli
-  JSON ya da edge case'lerin kapsandığını garanti etmez — yine de bir şema, doğrulama ve iyi örnekler gerekir.
+- **Katı bir biçim tek başına doğruluğu garanti eder mi?** Hayır. Bir şema ve doğrulama çıktıyı
+  ayrıştırılabilir yapar, ama gerçekten doğru olması için yine iyi örnekler ve uç durum kapsamı gerekir.
 - **Prompt'ları neden versiyonla ve eval seti kullan?** Bir prompt production mantığıdır; versiyonlama
   artı eval kapısı, bir vakayı düzelten bir değişikliğin yeniden kontrol etmediğin diğerlerini sessizce
   geriletememesi demektir.

@@ -41,7 +41,7 @@
       1
     ],
     "points": 1,
-    "explanation": "Agent'ın okuduğu verinin içine gizlenmiş kötü niyetli talimatlar bir prompt injection'dır ve gelen bu metni ilk tarayacak konumdaki katman girdi doğrulamadır. Temperature, parçalama ve context window'un bunu yakalamakla ilgisi yoktur."
+    "explanation": "Agent'ın okuduğu verinin içine gizlenmiş kötü niyetli talimatlar bir prompt injection'dır ve gelen bu metni ilk tarayacak konumdaki katman girdi doğrulamadır. Model boyutu, parçalama ve context window'un bunu yakalamakla ilgisi yoktur."
   },
   {
     "prompt": "İyi tasarlanmış AI hatları neden yalnızca birine güvenmek yerine birkaç guardrail katmanını bir araya getirir (derinlemesine savunma)? Geçerli olan TÜM seçenekleri seçin.",

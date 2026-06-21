@@ -5,13 +5,13 @@
     "decision_choices": [
       "Prompt'a 'lütfen tutarlı ol ve bir şey uydurma' ekle ve yeniden deploy et",
       "Doğrulamalı katı bir JSON-şeması çıktı sözleşmesi belirt, çeşitli few-shot örnekleri (edge case'ler dahil) ekle, eksik bilgiyi uydurmak yerine işaretlemesini söyle ve prompt'u bir eval-set kapısının arkasında versiyonla",
-      "Temperature'ı sıfıra indir ve çıktının artık her zaman geçerli ve eksiksiz olacağını varsay",
+      "Modelin her zaman geçerli çıktı döndüreceğine güven ve kontrol etme",
       "Mevcut en büyük modele geç ve aynı gelişigüzel prompt'u koru"
     ],
     "reason_choices": [
       "Çünkü şema-bağlı, doğrulanmış bir çıktı aşağı-akış koda güvenilecek bir sözleşme verir, çeşitli few-shot eksiksizliği öğretir, açık bir eksik-bilgi kuralı uydurmayı önler ve eval-kapılı versiyonlanmış bir prompt, bir vakayı düzeltmenin diğerlerini sessizce bozmasını engeller",
       "Çünkü modelden kibarca tutarlı olmasını istemek parse edilebilir bir formatı garanti etmeye yeter",
-      "Çünkü temperature sıfır çıktıyı hem mükemmel geçerli hem eksiksiz yapar, doğrulama ihtiyacını ortadan kaldırır",
+      "Çünkü model her zaman geçerli çıktı döndürür, doğrulama ihtiyacını ortadan kaldırır",
       "Çünkü daha büyük bir model çıktı formatını belirtme ya da eksik bilgiyi ele alma ihtiyacını ortadan kaldırır"
     ]
   },

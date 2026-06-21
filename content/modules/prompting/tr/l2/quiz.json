@@ -5,11 +5,11 @@
       "Doğal-dil çıktı iste ve alanları regular expression'larla çıkar",
       "Katı bir JSON şeması belirt, modele yalnızca onu döndürmesini söyle ve kullanmadan önce çıktıyı doğrula",
       "Prompt'a 'lütfen formatı tutarlı tut' ekle ve korunmasına güven",
-      "Temperature'ı sıfıra ayarla ki ifade, dolayısıyla format, asla değişmesin"
+      "En büyük modele geç ve formatın asla değişmeyeceğine güven"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Tanımlı bir JSON şeması artı doğrulama, aşağı-akış koda güvenebileceği bir sözleşme verir; bozuk yanıtları onarır ya da reddeder. Prose'u regex'lemek ya da kibar bir ricaya ve düşük temperature'a güvenmek, ifade savrulduğu an kırılır."
+    "explanation": "Tanımlı bir JSON şeması artı doğrulama, aşağı-akış koda güvenebileceği bir sözleşme verir; bozuk yanıtları onarır ya da reddeder. Prose'u regex'lemek ya da kibar bir ricaya güvenmek, ifade savrulduğu an kırılır."
   },
   {
     "prompt": "Edge case'leri kaçırıp duran bir prompt'a few-shot örnekleri ekliyorsun. Örnekleri etkili kılan nedir?",
@@ -29,11 +29,11 @@
       "Modelin makul görünen gereksinimleri çıkarıp doldurmasına izin ver",
       "Bir gereksinim uydurmak yerine boşluğu işaretlemesini (örn. bir varsayım işaretle) talimatla",
       "Tam belirtilmemiş her şeyi atlamasını ve o kısımlar için hiçbir şey üretmemesini söyle",
-      "Olası gereksinimleri daha çok keşfetsin diye temperature'ı yükselt"
+      "Eksik gereksinimleri doldursun diye daha büyük bir modele geç"
     ],
     "correct": [1],
     "points": 1,
-    "explanation": "Modele eksik bilgiyi görünür bir bayrak ya da varsayım olarak yüzeye çıkarmasını söylemek, belirsizliği bir insanın yakalayabileceği bir şeye çevirir — kendinden emin bir uydurma yerine. Gereksinim çıkarmak kural uydurur; sessizce atlamak boşlukları gizler; temperature yalnızca varyans ekler."
+    "explanation": "Modele eksik bilgiyi görünür bir bayrak ya da varsayım olarak yüzeye çıkarmasını söylemek, belirsizliği bir insanın yakalayabileceği bir şeye çevirir — kendinden emin bir uydurma yerine. Gereksinim çıkarmak kural uydurur; sessizce atlamak boşlukları gizler; daha büyük bir model de eksik kuralı yine uydurur."
   },
   {
     "prompt": "Bir production prompt'unu neden versiyonlanmış bir artefakt olarak ele alıp bir eval setine karşı iterasyon yaparsın? (Geçerli olan hepsini seçin.)",

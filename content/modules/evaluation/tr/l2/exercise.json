@@ -5,7 +5,7 @@
     "decision_choices": [
       "Veri kümesini başarısız kategoriyi temsil edecek şekilde katmanla, eval puanlarını segmente göre dilimle ve judge'ı insan derecelendirmelerine karşı doğrula",
       "%94 toplamaya güven ve şikayetleri anekdotsal olarak reddet",
-      "Yanıtların daha çeşitli hale gelmesi için model temperature'ını yükselt",
+      "Daha büyük bir modele geç ve her kategorinin iyileşeceğini varsay",
       "Puanın yüksek kalması için başarısız kategoriyi veri kümesinden çıkar"
     ],
     "reason_choices": [

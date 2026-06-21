@@ -5,7 +5,7 @@
     "decision_choices": [
       "Çalıştığı ve iyi kod gibi okunduğu için diff'in tamamını şimdi kabul edip commit etmek",
       "İlgisiz refactor'ı reddedin, sonra kupon kodunu satır satır okuyun ve commit etmeden önce kenar durumları için bir davranışsal test ekleyin",
-      "Modelin temperature'ını yükseltin ve daha uzun, daha eksiksiz bir versiyon için yeniden prompt yazın",
+      "Daha büyük bir modele geçin ve döndürdüğü daha uzun versiyonu olduğu gibi yapıştırın",
       "Onu yalnızca sunucunun çökmeden başladığını kontrol eden bir smoke test arkasında merge edin"
     ],
     "reason_choices": [

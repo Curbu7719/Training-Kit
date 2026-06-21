@@ -6,7 +6,7 @@
       "Tighten the redaction filter that runs on the agent's typed prompt only",
       "Classify and redact PII at ingestion (before embedding), isolate the store per tenant, and exclude the assembled prompt from plain logs",
       "Switch to a model with a larger context window so it retrieves fewer tickets",
-      "Lower the model's temperature so its answers are more deterministic"
+      "Trust the tool not to store anything sensitive"
     ],
     "reason_choices": [
       "Because the leak surfaces are upstream — the vector store and the logs hold raw PII regardless of the typed-prompt redaction, so controlling ingestion, isolation, and logging addresses the root cause",

@@ -17,11 +17,11 @@
       "Put refunds over a threshold behind a human-approval gate enforced in the application, not the prompt",
       "Reword the prompt more firmly and add capital letters",
       "Raise the max-iteration limit so the model has more chances to self-correct",
-      "Increase the model temperature to make it more cautious"
+      "Add a polite instruction asking the model to be careful"
     ],
     "correct": [0],
     "points": 1,
-    "explanation": "A prompt instruction is a suggestion the model can ignore; high-impact actions need a hard gate enforced in application code. Rewording the prompt, adding iterations, or changing temperature all leave the unsafe action reachable without real authorization."
+    "explanation": "A prompt instruction is a suggestion the model can ignore; high-impact actions need a hard gate enforced in application code. Rewording the prompt, adding iterations, or asking it politely all leave the unsafe action reachable without real authorization."
   },
   {
     "prompt": "A max-iteration cap is in place, yet an agent still wastes ten model calls when a service is down before giving up. Which improvements address this more gracefully? Select all that apply.",

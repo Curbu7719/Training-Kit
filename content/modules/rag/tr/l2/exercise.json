@@ -4,13 +4,13 @@
   "spec": {
     "decision_choices": [
       "Servise göre metadata filtreleme ile hybrid search ekle, sonra adayları re-rank et",
-      "Modelin yanıtını çeşitlendirmesi için generation temperature'ını yükselt",
+      "Yanıtı çeşitlensin diye daha büyük bir generation modeline geç",
       "Generation prompt'unu daha kibar ve ayrıntılı olacak şekilde yeniden yaz",
       "Soruyu birkaç kez yeniden embed et ve sonuçların ortalamasını al"
     ],
     "reason_choices": [
       "Çünkü başarısızlık retrieval'dadır — doğru billing chunk'ı prompt'a hiç ulaşmadı — bu yüzden filtreleme, tam-terim ağırlıklandırma ve re-ranking doğru servisin chunk'ını top-k'ya çıkarır",
-      "Çünkü daha yüksek temperature, modelin doğru timeout'u eğitim verisinden hatırlamasını daha olası kılar",
+      "Çünkü daha büyük bir model, doğru timeout'u eğitim verisinden hatırlamayı daha olası kılar",
       "Çünkü daha ayrıntılı bir prompt, modeli index'teki her dosyayı yeniden okumaya zorlar",
       "Çünkü birden çok soru embedding'inin ortalamasını almak, en yakın chunk'ın her zaman doğru olmasını garanti eder"
     ]

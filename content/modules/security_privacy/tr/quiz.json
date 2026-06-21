@@ -57,7 +57,7 @@
       0
     ],
     "points": 1,
-    "explanation": "PII ve secret'ları redact etmek veri minimizasyonu uygular, böylece onaylı bir araç bile yalnızca ihtiyaç duyduğunu görür. Daha büyük context window veya daha yüksek sıcaklık yeteneği ya da stili değiştirir, ifşayı değil; tüm trace'i göndermek ise riski azaltmak yerine artırır."
+    "explanation": "PII ve secret'ları redact etmek veri minimizasyonu uygular, böylece onaylı bir araç bile yalnızca ihtiyaç duyduğunu görür. Daha büyük context window veya daha büyük bir model yeteneği değiştirir, ifşayı değil; tüm trace'i göndermek ise riski azaltmak yerine artırır."
   },
   {
     "prompt": "Self-host veriyi içeride tutar ama daha pahalı ve model kalitesinde geride; no-retention anlaşmalı hosted API daha ucuz ve güçlü ama veri ağından çıkar. Vendor DPA kapsamındaki orta-hassasiyette iç belgeler için hangi *trade-off* makul?",

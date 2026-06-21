@@ -6,7 +6,7 @@
       "Strengthen validation of the assigned issue's title and body only",
       "Run the agent least-privilege so .env and prod config are unreadable, and scan every diff/PR field for secrets before commit",
       "Increase the model's context window so it can read the whole repository at once",
-      "Lower the model's temperature so its commits are more deterministic"
+      "Trust the agent to avoid dangerous commits on its own"
     ],
     "reason_choices": [
       "Because the injection is indirect — it rides in a file the agent reads, so least-privilege sandboxing plus post-action secret scanning contain the threat regardless of what the agent was tricked into doing",

@@ -32,7 +32,7 @@
   {
     "prompt": "While vibe coding, the AI proposes a fix that calls `db.fetchAllFast()` — a method that does not exist in your library — and after you point it out it keeps re-suggesting slight variants of the same non-existent call. What is happening, and what should you do?",
     "choices": [
-      "The model is too cold; raise its temperature and paste the output anyway",
+      "The model is just having an off day; paste the output anyway",
       "It is hallucinating an API and looping; stop prompting, take the wheel, and write the call yourself",
       "The library is broken; commit the generated code to force a fix later",
       "Nothing is wrong; if it compiles in your editor it must be correct"
@@ -41,7 +41,7 @@
       1
     ],
     "points": 1,
-    "explanation": "Inventing a non-existent method and repeating it is a hallucination loop, and the fastest fix is to take over and write the real call yourself. Raising temperature or committing the broken code just spreads the error instead of resolving it."
+    "explanation": "Inventing a non-existent method and repeating it is a hallucination loop, and the fastest fix is to take over and write the real call yourself. Pasting it anyway or committing the broken code just spreads the error instead of resolving it."
   },
   {
     "prompt": "A QA/Tester is asked to sign off on a feature a teammate vibe-coded by pasting a large unread block of AI output. Which approach reflects doing this right? Select ALL that apply.",
