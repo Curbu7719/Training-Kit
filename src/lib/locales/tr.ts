@@ -51,6 +51,28 @@ const tr = {
   'dashboard.about.body': 'Yazılım yaşam döngüsü boyunca AI benimseyen ekipler için bir "SDLC\'de AI" okuryazarlık programı — hem AI özellikleri inşa etmeyi hem de AI güdümlü bir SDLC\'de çalışmayı kapsar. Uygulamalı lab becerisi değil, ortak bir anlayış kazandırır. Modülleri istediğin sırayla al; her L2\'yi açmak için L1\'i tamamla, sonra sertifikanı kazanmak için sınava gir. Seviye başına gösterilen süreler kabaca taslaktır.',
   'dashboard.minutes': '~{min} dk',
 
+  // Rol bazlı patikalar
+  'role.panel.title': 'Rol patikan',
+  'role.panel.pick': 'Modüller arasında önerilen bir yol görmek için rolünü seç.',
+  'role.panel.placeholder': 'Bir rol seç…',
+  'role.panel.core': 'Çekirdek (rolün için zorunlu)',
+  'role.panel.recommended': 'Önerilen',
+  'role.panel.progress': '{total} çekirdek modülden {done} tamamlandı',
+  'role.panel.certified': 'Sertifikalı ✓',
+  'role.panel.note': 'Yine de her modülü alabilirsin — bu yalnızca önerilen yolunu ve rol rozetini şekillendirir.',
+  'role.required': 'Zorunlu',
+  'role.portfolio_manager': 'Portföy Yöneticisi',
+  'role.project_manager': 'Proje Yöneticisi',
+  'role.governance': 'Yönetişim',
+  'role.developer': 'Geliştirici',
+  'role.designer': 'Tasarımcı',
+  'role.enterprise_architect': 'Kurumsal Mimar',
+  'role.tester': 'Test Uzmanı',
+  'role.release_manager': 'Sürüm Yöneticisi',
+  'role.devops_engineer': 'DevOps Mühendisi',
+  'role.infrastructure_engineer': 'Altyapı Mühendisi',
+  'role.security_engineer': 'Güvenlik Mühendisi',
+
   // AI temelleri + sözlük
   'glossary.title': 'Sözlük',
   'glossary.subtitle': 'Eğitimde geçen her AI terimi için sade dille tanımlar.',

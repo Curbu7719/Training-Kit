@@ -11,6 +11,7 @@ import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
+import { ROLE_PATHS, ROLE_ORDER, type RoleKey, type RoleModule } from '@/lib/rolePaths';
 
 // ---------------------------------------------------------------------------
 // Single shared curriculum — one path for everyone (no role splitting).
@@ -112,10 +113,11 @@ interface ModuleCardProps {
   index: number;
   l1Status: CellStatus;
   l2Status: CellStatus;
+  required?: boolean;
   onOpen: () => void;
 }
 
-function ModuleCard({ code, index, l1Status, l2Status, onOpen }: ModuleCardProps) {
+function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: ModuleCardProps) {
   const { t } = useLanguage();
   const minutes = MODULE_MINUTES[code];
 
@@ -136,6 +138,11 @@ function ModuleCard({ code, index, l1Status, l2Status, onOpen }: ModuleCardProps
           <div>
             <CardTitle className="text-base leading-snug">
               {t(`module.${code}.title` as TranslationKey)}
+              {required && (
+                <span className="ml-2 inline-block rounded-full bg-primary/10 px-2 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-primary">
+                  {t('role.required')}
+                </span>
+              )}
             </CardTitle>
             <CardDescription className="mt-0.5">
               {t(`module.${code}.desc` as TranslationKey)}
@@ -175,6 +182,51 @@ function ModuleCard({ code, index, l1Status, l2Status, onOpen }: ModuleCardProps
         </Button>
       </CardContent>
     </Card>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Role path — a titled list of modules (core or recommended) with status
+// ---------------------------------------------------------------------------
+
+function PathList({
+  titleKey,
+  items,
+  statusFor,
+  onOpen,
+}: {
+  titleKey: TranslationKey;
+  items: RoleModule[];
+  statusFor: (code: string) => { l1: CellStatus; l2: CellStatus; l1Passed: boolean };
+  onOpen: (code: string) => void;
+}) {
+  const { t } = useLanguage();
+  if (items.length === 0) return null;
+  return (
+    <div>
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t(titleKey)}</p>
+      <ul className="space-y-1.5">
+        {items.map((rm) => {
+          const s = statusFor(rm.code);
+          const cell = rm.level === 'L2' ? s.l2 : s.l1;
+          return (
+            <li key={`${rm.code}-${rm.level}`}>
+              <button
+                type="button"
+                onClick={() => onOpen(rm.code)}
+                className="flex w-full items-center justify-between gap-2 rounded-md border border-border px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="text-[10px] font-semibold text-muted-foreground">{rm.level}</span>
+                  <span>{t(`module.${rm.code}.title` as TranslationKey)}</span>
+                </span>
+                <StatusBadge status={cell} />
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -231,6 +283,28 @@ export function DashboardPage() {
   const passedCount = MODULE_CODES.filter((code) => statusFor(code).l1Passed).length;
   const overallPct = Math.round((passedCount / MODULE_CODES.length) * 100);
 
+  // Role-based path (persisted to profiles.learning_role).
+  const [role, setRole] = useState<string>('');
+  useEffect(() => {
+    if (profile?.learning_role) setRole(profile.learning_role);
+  }, [profile?.learning_role]);
+
+  async function chooseRole(next: string) {
+    setRole(next);
+    if (profile) {
+      await supabase.from('profiles').update({ learning_role: next || null }).eq('id', profile.id);
+    }
+  }
+
+  const path = role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null;
+  const moduleSatisfied = (rm: RoleModule) => {
+    const s = statusFor(rm.code);
+    return rm.level === 'L2' ? s.l2 === 'passed' : s.l1Passed;
+  };
+  const coreCodes = new Set(path?.core.map((rm) => rm.code) ?? []);
+  const coreDone = path ? path.core.filter(moduleSatisfied).length : 0;
+  const roleCertified = path ? coreDone === path.core.length : false;
+
   return (
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
@@ -271,6 +345,51 @@ export function DashboardPage() {
           <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t('dashboard.about.body')}</p>
         </section>
 
+        {/* Role-based path */}
+        <section className="rounded-lg border border-border bg-card px-5 py-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-sm font-semibold">{t('role.panel.title')}</h2>
+            <select
+              value={role}
+              onChange={(e) => void chooseRole(e.target.value)}
+              aria-label={t('role.panel.title')}
+              data-testid="role-select"
+              className="rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              <option value="">{t('role.panel.placeholder')}</option>
+              {ROLE_ORDER.map((r) => (
+                <option key={r} value={r}>{t(`role.${r}` as TranslationKey)}</option>
+              ))}
+            </select>
+          </div>
+
+          {!path && <p className="mt-2 text-sm text-muted-foreground">{t('role.panel.pick')}</p>}
+
+          {path && (
+            <div className="mt-3 space-y-4">
+              <div className="text-sm">
+                {roleCertified ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 font-medium text-success">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    {t(`role.${role}` as TranslationKey)} — {t('role.panel.certified')}
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">
+                    {t('role.panel.progress', { done: coreDone, total: path.core.length })}
+                  </span>
+                )}
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <PathList titleKey="role.panel.core" items={path.core} statusFor={statusFor} onOpen={(c) => navigate(`/learn/${c}`)} />
+                <PathList titleKey="role.panel.recommended" items={path.recommended} statusFor={statusFor} onOpen={(c) => navigate(`/learn/${c}`)} />
+              </div>
+
+              <p className="text-xs text-muted-foreground">{t('role.panel.note')}</p>
+            </div>
+          )}
+        </section>
+
         {/* New-to-AI on-ramp */}
         <button
           type="button"
@@ -305,6 +424,7 @@ export function DashboardPage() {
                     index={i}
                     l1Status={l1}
                     l2Status={l2}
+                    required={coreCodes.has(code)}
                     onOpen={() => navigate(`/learn/${code}`)}
                   />
                 );

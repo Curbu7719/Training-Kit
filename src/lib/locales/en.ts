@@ -50,6 +50,28 @@ const en = {
   'dashboard.about.body': 'An AI-in-the-SDLC literacy program for teams adopting AI across the software lifecycle — covering both building AI features and working in an AI-driven SDLC. It builds shared understanding, not hands-on lab skills. Take the modules in any order; finish L1 to unlock each L2, then sit the exam to earn your certificate. Times shown per level are rough drafts.',
   'dashboard.minutes': '~{min} min',
 
+  // Role-based paths
+  'role.panel.title': 'Your role path',
+  'role.panel.pick': 'Pick your role to see a suggested path through the modules.',
+  'role.panel.placeholder': 'Select a role…',
+  'role.panel.core': 'Core (required for your role)',
+  'role.panel.recommended': 'Recommended',
+  'role.panel.progress': '{done}/{total} core modules complete',
+  'role.panel.certified': 'Certified ✓',
+  'role.panel.note': 'You can still take any module — this only shapes your suggested path and your role badge.',
+  'role.required': 'Required',
+  'role.portfolio_manager': 'Portfolio Manager',
+  'role.project_manager': 'Project Manager',
+  'role.governance': 'Governance',
+  'role.developer': 'Developer',
+  'role.designer': 'Designer',
+  'role.enterprise_architect': 'Enterprise Architect',
+  'role.tester': 'Tester',
+  'role.release_manager': 'Release Manager',
+  'role.devops_engineer': 'DevOps Engineer',
+  'role.infrastructure_engineer': 'Infrastructure Engineer',
+  'role.security_engineer': 'Security Engineer',
+
   // AI basics + glossary
   'glossary.title': 'Glossary',
   'glossary.subtitle': 'Plain-language definitions for every AI term used in the course.',

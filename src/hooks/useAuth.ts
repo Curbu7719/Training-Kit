@@ -19,6 +19,8 @@ export interface Profile {
   display_name: string | null;
   role: 'user' | 'admin';
   lang: 'en' | 'tr';
+  /** Chosen SDLC learning role (ROLE_PATHS key); null until the user picks one. */
+  learning_role: string | null;
 }
 
 export interface AuthContextValue {
@@ -50,7 +52,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase
     .from('profiles')
-    .select('id, display_name, role, lang')
+    .select('id, display_name, role, lang, learning_role')
     .eq('id', userId)
     .single();
 
