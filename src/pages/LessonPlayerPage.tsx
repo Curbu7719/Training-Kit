@@ -257,10 +257,11 @@ export function LessonPlayerPage() {
       const resolvedLevel: 'L1' | 'L2' = l1Passed ? 'L2' : 'L1';
       setUserLevel(resolvedLevel);
 
-      // 3. Load level-filtered lessons, also filtered by the current UI language.
-      //    L2 session loads L1+L2 (cumulative view).
-      const levelFilter: string[] =
-        resolvedLevel === 'L2' ? ['L1', 'L2'] : ['L1'];
+      // 3. Load lessons for the CURRENT level only, filtered by the UI language.
+      //    L2 shows just the L2 concept/example/quiz/exercise — not a repeat of
+      //    L1 — to avoid confusion. (Scoring still recomputes over L1+L2 in the
+      //    backend, since L1 is already passed before L2 unlocks.)
+      const levelFilter: string[] = [resolvedLevel];
 
       const { data: lessonData, error: lessonErr } = await supabase
         .from('lessons')
