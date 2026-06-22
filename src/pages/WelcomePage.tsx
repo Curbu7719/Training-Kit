@@ -14,7 +14,7 @@ import type { TranslationKey } from '@/lib/locales/en';
  * profiles.learning_role; the dashboard then shows that role's path.
  */
 export function WelcomePage() {
-  const { profile } = useAuth();
+  const { profile, refreshProfile } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ export function WelcomePage() {
     setSaving(true);
     try {
       await supabase.from('profiles').update({ learning_role: role }).eq('id', profile.id);
+      await refreshProfile();
     } finally {
       setSaving(false);
       navigate('/dashboard', { replace: true });

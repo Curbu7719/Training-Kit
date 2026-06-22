@@ -4,6 +4,7 @@ import {
   useEffect,
   useState,
   useCallback,
+  useRef,
   type ReactNode,
   createElement,
 } from 'react';
@@ -30,6 +31,8 @@ export interface AuthContextValue {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
+  /** Re-fetch the current user's profile (e.g. after changing learning_role). */
+  refreshProfile: () => Promise<void>;
   // -----------------------------------------------------------------------
   // LDAP / SSO seam — DEFERRED (DESIGN.md §1 decision 7)
   // When LDAP/SSO is introduced, add signInWithSSO() here. No schema change
@@ -73,15 +76,30 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // The uid whose profile we've already fetched. Lets us skip redundant
+  // re-fetches on benign auth events (TOKEN_REFRESHED, tab focus) that keep the
+  // same identity — otherwise `profile` churns and data-loading effects re-run,
+  // which looks like the page refreshing itself.
+  const syncedUid = useRef<string | null>(null);
+
   // Sync profile whenever the authenticated user changes.
   const syncProfile = useCallback(async (u: User | null) => {
     if (!u) {
+      syncedUid.current = null;
       setProfile(null);
       return;
     }
     const p = await fetchProfile(u.id);
+    syncedUid.current = u.id;
     setProfile(p);
   }, []);
+
+  // Exposed so screens that mutate the profile (e.g. picking a learning role)
+  // can pull the fresh row without a full page reload.
+  const refreshProfile = useCallback(async () => {
+    const { data: { user: u } } = await supabase.auth.getUser();
+    await syncProfile(u ?? null);
+  }, [syncProfile]);
 
   useEffect(() => {
     // Bootstrap: read the existing session on mount.
@@ -91,11 +109,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       syncProfile(u).finally(() => setLoading(false));
     });
 
-    // Stay in sync: sign-in, sign-out, token refresh all fire here.
+    // Stay in sync. Only re-fetch the profile when the identity actually
+    // changes — sign-in/out/user-switch — not on every token refresh.
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       const u = session?.user ?? null;
       setUser(u);
-      syncProfile(u);
+      if ((u?.id ?? null) !== syncedUid.current) {
+        syncProfile(u);
+      }
     });
 
     return () => listener.subscription.unsubscribe();
@@ -117,7 +138,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (error) throw error;
   }, []);
 
-  const value: AuthContextValue = { user, profile, loading, signIn, signUp, signOut };
+  const value: AuthContextValue = { user, profile, loading, signIn, signUp, signOut, refreshProfile };
 
   // Use createElement to avoid JSX in a .ts file.
   return createElement(AuthContext.Provider, { value }, children);
