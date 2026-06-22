@@ -16,9 +16,9 @@ import { IntroPage } from '@/pages/IntroPage';
 import { WelcomePage } from '@/pages/WelcomePage';
 import { Spinner } from '@/components/ui/spinner';
 
-// Post-login landing: everyone enters through the Welcome page (CIO message +
-// role picker, pre-filled if a role was already chosen). "Start" then takes the
-// learner to their dashboard, which shows the role path.
+// Post-login landing: first-time learners (no role yet) see the Welcome page
+// with the CIO message + role picker; once they've picked a role they go
+// straight to the dashboard on every later entry.
 function HomeRedirect() {
   const { profile, loading } = useAuth();
   if (loading || !profile) {
@@ -28,7 +28,7 @@ function HomeRedirect() {
       </div>
     );
   }
-  return <Navigate to="/welcome" replace />;
+  return <Navigate to={profile.learning_role ? '/dashboard' : '/welcome'} replace />;
 }
 
 // ---------------------------------------------------------------------------
