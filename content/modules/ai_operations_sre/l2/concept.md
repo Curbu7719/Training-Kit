@@ -1,18 +1,21 @@
 # Agent Ops at Scale — Governance, Incidents & Lifecycle
 
-L1 covered operating a few agents that act: bound the blast radius, observe the actions, keep a
-human accountable. L2 is what that becomes at **scale and over time** — a *fleet* of agents acting
-across many systems and teams, where their permissions, their decisions, and the cost of their
-actions all compound, and the model and tools underneath them **change out from under you**.
+L1 covered operating a few agents that act: bound the blast radius, watch the actions, keep a
+human accountable. (An agent is an AI that takes actions in your systems on its own; blast radius is
+how much damage one mistake can cause.) L2 is what that becomes at **scale and over time** — a
+*fleet* of agents acting across many systems and teams, where their permissions, their decisions, and
+the cost of their actions all pile up, and the model and tools underneath them **change out from
+under you**.
 
 **Permissions and policy as code.** At fleet scale you can't grant access agent-by-agent in a
 console. Each agent has its own **service identity**, least-privilege scopes, and environment
-boundaries, all expressed as **policy-as-code** and reviewed like any change. **Change windows**
-apply — no autonomous production actions during a freeze — and the high-blast action classes carry
-mandatory approval **uniformly** across every agent, not at each team's discretion.
+boundaries, all written as **policy-as-code** and reviewed like any other change. (Policy-as-code
+means the rules live in files you can review and version, not in a settings screen.) **Change
+windows** apply — no autonomous production actions during a freeze — and the high-blast action types
+carry required approval **the same way** across every agent, not at each team's choice.
 
 **Incidents WITH agents and ABOUT agents.** Agents are now both responders and causes, so the
-incident taxonomy splits two ways:
+list of incident types splits two ways:
 
 - **Agent as responder** — auto-triage, runbook execution, first-line remediation. Useful, but it
   can be wrong.
@@ -21,40 +24,40 @@ incident taxonomy splits two ways:
 - **Compromise via injection** — untrusted text steered an agent into a harmful action.
 - **Permission/escalation fault** — an agent reached something it shouldn't have.
 
-The universal control is the same: **pause autonomy (kill-switch)** and **revert the action**. Every
+The universal control is the same: **pause autonomy (kill-switch)** and **undo the action**. Every
 incident ends in a **blameless postmortem** that includes the agent's **decision trace**, and — the
 AI-specific twist — every misfire becomes a **new guardrail/policy and an eval case** for the agent's
-behaviour, so the same wrong action can't silently recur.
+behaviour, so the same wrong action can't quietly happen again.
 
-**Auditability, compliance, and accountability.** Every agent action is logged, **attributable** to
+**Auditability, compliance, and accountability.** Every agent action is logged, **traceable** to
 an agent identity *and* its human owner, and **reversible** wherever possible. The regulatory
 reality is blunt: a human is accountable for what an agent does — "the agent decided" is not a
-defence — so audits and postmortems must be able to reconstruct which agent, on what reasoning, took
+defence — so audits and postmortems must be able to rebuild which agent, on what reasoning, took
 which action.
 
 **Agentic FinOps.** Each agent step is an LLM call, and the actions may spin up cloud resources, so
-a looping or over-eager agent burns money and compute fast. Operate it: **attribute cost per agent**,
-**anomaly-detect** runaway loops (deviation from the trend, not just a fixed threshold), cap each
-agent's **action rate and spend**, and decide per agent whether crossing a cap should **degrade**
-(propose-only) or **stop**.
+a looping or over-eager agent burns money and compute fast. (FinOps means managing cloud spend as a
+team discipline.) Operate it: **attribute cost per agent**, **anomaly-detect** runaway loops (look
+for a break from the normal trend, not just a fixed threshold), cap each agent's **action rate and
+spend**, and decide per agent whether crossing a cap should **degrade** (propose-only) or **stop**.
 
 **Agent lifecycle.** An agent's behaviour is its **policy = prompt + tools + permissions + model** —
 all versioned artifacts in source control, reviewed and rolled out like code, never edited live.
 Because the agent acts on the world, changes go through a safe path: **shadow** (run it in
 observe/dry-run against real events and compare its *proposed* actions to what humans actually did)
-→ **canary** (let it act autonomously on a small slice of events) → **rollout** with a one-flip
-**policy rollback** ready. A model deprecation or a new tool is a behaviour change like any other.
+→ **canary** (let it act on its own on a small slice of events) → **rollout** with a one-flip
+**policy rollback** ready. A model being retired or a new tool is a behaviour change like any other.
 
-**The trust ladder.** Maturity is expanding autonomy as evidence accrues: **suggest-only →
-approve-then-act → bounded autonomy in low-risk domains → broader autonomy** — and pulling the leash
+**The trust ladder.** Maturity means widening autonomy as evidence builds up: **suggest-only →
+approve-then-act → bounded autonomy in low-risk areas → broader autonomy** — and pulling the leash
 back in when an agent misbehaves. It's about the policy, audit, and guardrail machinery that lets you
 safely give agents a longer leash, not about how clever any single agent is.
 
 ## How each role uses this
 
-- **DevOps Engineer:** Implements policy-as-code permissions, per-agent cost attribution and anomaly alerts, action-rate caps and load-shedding, and the shadow/canary harness for agent policy changes.
+- **DevOps Engineer:** Builds policy-as-code permissions, per-agent cost attribution and anomaly alerts, action-rate caps and load-shedding, and the shadow/canary harness for agent policy changes.
 - **Infrastructure Engineer:** Owns the capacity, quotas, and cost controls for the agent fleet at scale.
 - **Developer:** Versions the agent's policy (prompt/tools/permissions/model), wires the shadow/canary path, and turns each misfire into a guardrail and an eval case.
-- **Release Manager:** Owns change windows and the degrade-vs-stop policy per agent, and the trust-ladder decision of where autonomy may expand.
-- **Security Engineer:** Designs the injection/permission controls and the input-trust boundary, and validates the kill-switch and failover under real failure.
-- **Governance:** Owns the incident taxonomy, the audit/accountability trail, and the postmortem-to-eval-case loop.
+- **Release Manager:** Owns change windows and the degrade-vs-stop policy per agent, and the trust-ladder decision of where autonomy may widen.
+- **Security Engineer:** Designs the injection/permission controls and the input-trust boundary, and checks the kill-switch and failover under real failure.
+- **Governance:** Owns the incident-type list, the audit/accountability trail, and the postmortem-to-eval-case loop.
