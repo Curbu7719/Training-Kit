@@ -39,7 +39,7 @@ blocks dangerous commands, a secret scanner that blocks a commit with passwords 
   change is merged or deployed.
 
 **Defense in depth.** Any one layer can be broken. So good pipelines use several layers
-together. If one layer fails, another still catches the problem.
+together. If one layer fails, another still catches the problem. A shared platform makes this practical. By opening one **internal AI Agent platform** for every role, we set the sandbox, secret scanning, and approval gates once, for everyone — instead of each team building (or forgetting) them.
 
 ## How each role uses this
 

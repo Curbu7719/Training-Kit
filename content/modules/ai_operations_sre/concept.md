@@ -13,7 +13,7 @@ that act on your software.
 looks into red builds, an infra agent that proposes scaling changes, and an **on-call agent** that
 picks up alerts, investigates with read-only tools, and fixes things. Building those agents is done;
 now you operate a system where software increasingly acts on itself — and it fails in ways a script
-does not.
+does not. This is the world the **internal AI Agent platform** we are opening puts into every role’s hands — so the controls in this module are how we will operate it safely.
 
 ## From tool to actor — the autonomy shift
 

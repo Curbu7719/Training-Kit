@@ -38,7 +38,7 @@ olarak düşünün:
   katmanıyla kullanıldığının envanteri, böylece hiçbir şey görünmeden çalışmaz.
 
 Hiçbir tek kontrol her riski kapsamaz; governance her riski onu sahiplenen kontrolle eşler ve
-teknoloji ile kurallar evrildikçe bütünü gözden geçirir.
+teknoloji ile kurallar evrildikçe bütünü gözden geçirir. Her rol için açtığımız tek bir **kurum içi AI Agent platformu** bunu uygulanabilir kılar: herkes aynı yerde çalıştığında kullanım kaydı, risk katmanları ve kontroller temenni edilmek yerine merkezî olarak uygulanır.
 
 ## Her rol bunu nasıl kullanır
 

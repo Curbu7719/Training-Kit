@@ -25,7 +25,7 @@ oturumuna sızdırabilir.
 veriyi, hiçbir kurumsal anlaşması, zero-retention ayarı veya politikası olmayan rastgele
 tüketici chatbot'larına yapıştırması. AI'ı yasaklamak bunu yalnızca yeraltına iter. Onu gün
 ışığına çıkarın: **onaylı araçlar** (sanctioned tools), net bir politika ve neyin izinli olup
-olmadığı konusunda eğitim sunun.
+olmadığı konusunda eğitim sunun. Tam da bu yüzden her rol için tek bir **kurum içi AI Agent platformu** açıyoruz: no-train ve günlükleme yerleşik, onaylı tek bir çalışma yeri — böylece gölge-AI riski olmadan AI’ın yardımını alırsınız.
 
 **SDLC genelinde pratik önlemler.** Veriyi sınıflandırın ki insanlar neyin hassas olduğunu
 bilsin; göndermeden önce redaction yapın ve secret'lar için tarayın; bir **onaylı araç listesi**

@@ -38,7 +38,7 @@ herhangi bir AI değişikliği birleştirilmeden önce bir **insan onay geçidi*
   dağıtılmadan önce bir kişi onaylar.
 
 **Derinlemesine savunma.** Herhangi bir tek katman atlanabileceğinden, iyi hatlar birkaçını bir
-araya getirir, böylece biri başarısız olursa bir diğeri yine de sorunu yakalar.
+araya getirir, böylece biri başarısız olursa bir diğeri yine de sorunu yakalar. Bunu pratik kılan şey ortak bir platformdur: her rol için tek bir **kurum içi AI Agent platformu** açarak sandbox’ı, secret taramayı ve onay geçitlerini her ekip yeniden kurmak (ya da unutmak) yerine bir kez, herkes için uygularız.
 
 ## Her rol bunu nasıl kullanır
 

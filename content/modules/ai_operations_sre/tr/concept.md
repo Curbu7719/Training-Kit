@@ -11,7 +11,7 @@ sınırlar, izler ve sorumluluğunu nasıl taşırsınız.
 **Bir örnek.** Platform ekibiniz agent'ları sürece bağladı: kırık derlemeleri ayıklayan bir agent,
 ölçekleme öneren bir altyapı agent'ı ve alarmları alıp salt-okunur araçlarla inceleyen, ardından
 çözüm uygulayan bir nöbet agent'ı. Bu agent'ları geliştirmek bitti; artık yazılımın kendi üzerinde
-eylem aldığı bir sistemi işletiyorsunuz — ve bu sistem, bir betiğin bozulmadığı şekillerde bozulur.
+eylem aldığı bir sistemi işletiyorsunuz — ve bu sistem, bir betiğin bozulmadığı şekillerde bozulur. Açmakta olduğumuz **kurum içi AI Agent platformu**nun her rolün eline verdiği dünya tam da budur — bu yüzden bu modüldeki kontroller, onu güvenle işletme şeklimizdir.
 
 ## Araçtan aktöre: otonomi değişimi
 

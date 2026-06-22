@@ -26,7 +26,7 @@ customer's data into another customer's session.
 into random consumer chatbots that have no enterprise agreement, no zero-retention setting,
 and no policy. (Shadow AI means AI tools used without approval.) Banning AI just pushes this
 underground. Instead, bring it into the open: offer **sanctioned tools** (approved tools), a
-clear policy, and training on what is and is not allowed.
+clear policy, and training on what is and is not allowed. This is why we are opening one **internal AI Agent platform** for every role: a single approved place to work, with no-train settings and logging built in — so you get AI’s help without the shadow-AI risk.
 
 **Practical safeguards across the SDLC.** Classify data so people know what is sensitive.
 Redact and scan for secrets before sending. Use an **approved-tool list**. Turn on

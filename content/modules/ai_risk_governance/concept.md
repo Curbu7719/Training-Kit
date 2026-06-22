@@ -37,7 +37,7 @@ slowing teams down. It is about making the risks visible and giving each one an 
   tier (risk level), so nothing runs unseen.
 
 No single control covers every risk. Governance pairs each risk with the control that owns it,
-and reviews the whole set as the technology and the rules change.
+and reviews the whole set as the technology and the rules change. One **internal AI Agent platform** — which we are opening for every role — makes this enforceable: when everyone works in the same place, the use register, risk tiers, and controls are applied centrally, not just hoped for.
 
 ## How each role uses this
 
