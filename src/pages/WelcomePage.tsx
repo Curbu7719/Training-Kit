@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
@@ -9,23 +9,20 @@ import { ROLE_ORDER } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 
 /**
- * Entry page after login. Shows a leadership (CIO) message, then asks the
- * learner to pick their SDLC role and start. The chosen role is saved to
- * profiles.learning_role; the dashboard then shows that role's path.
+ * Entry page, shown on every app open. Leads with the leadership (CIO) message.
+ * If the learner has already chosen a role, it offers "Continue learning"; if
+ * not, it asks them to pick their SDLC role and start. The role is chosen once
+ * and locked (saved to profiles.learning_role).
  */
 export function WelcomePage() {
-  const { profile, refreshProfile } = useAuth();
+  const { profile, refreshProfile, signOut } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [role, setRole] = useState('');
   const [saving, setSaving] = useState(false);
 
-  // The role is chosen once and locked. If it's already set, there's nothing to
-  // do here — go straight to the dashboard.
-  useEffect(() => {
-    if (profile?.learning_role) navigate('/dashboard', { replace: true });
-  }, [profile?.learning_role, navigate]);
+  const hasRole = !!profile?.learning_role;
 
   async function handleStart() {
     if (!role || !profile) return;
@@ -44,7 +41,15 @@ export function WelcomePage() {
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
           <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-3">
+            {profile?.display_name && (
+              <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
+            )}
+            <LanguageSwitcher />
+            <Button variant="outline" size="sm" onClick={() => void signOut()} data-testid="sign-out-btn">
+              {t('nav.signOut')}
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -63,36 +68,56 @@ export function WelcomePage() {
           <p className="mt-4 text-sm font-medium text-muted-foreground">{t('welcome.cio.signature')}</p>
         </section>
 
-        {/* Role picker + start */}
-        <section className="rounded-lg border border-border bg-card px-6 py-6">
-          <h2 className="text-lg font-semibold">{t('welcome.role.title')}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t('welcome.role.help')}</p>
-
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              aria-label={t('welcome.role.title')}
-              data-testid="welcome-role-select"
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:max-w-xs"
-            >
-              <option value="">{t('role.panel.placeholder')}</option>
-              {ROLE_ORDER.map((r) => (
-                <option key={r} value={r}>{t(`role.${r}` as TranslationKey)}</option>
-              ))}
-            </select>
-
+        {hasRole ? (
+          /* Returning learner — role already chosen and locked */
+          <section className="rounded-lg border border-border bg-card px-6 py-6">
+            <h2 className="text-lg font-semibold">{t('welcome.back.title')}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t('welcome.back.role')}{' '}
+              <span className="font-medium text-primary">
+                {t(`role.${profile!.learning_role}` as TranslationKey)}
+              </span>
+            </p>
             <Button
-              data-testid="welcome-start-btn"
-              onClick={() => void handleStart()}
-              disabled={!role || saving}
+              className="mt-4"
+              data-testid="welcome-continue-btn"
+              onClick={() => navigate('/dashboard')}
             >
-              {t('welcome.start')}
+              {t('welcome.continue')}
             </Button>
-          </div>
+          </section>
+        ) : (
+          /* First time — pick a role and start */
+          <section className="rounded-lg border border-border bg-card px-6 py-6">
+            <h2 className="text-lg font-semibold">{t('welcome.role.title')}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{t('welcome.role.help')}</p>
 
-          {!role && <p className="mt-2 text-xs text-muted-foreground">{t('welcome.start.hint')}</p>}
-        </section>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                aria-label={t('welcome.role.title')}
+                data-testid="welcome-role-select"
+                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:max-w-xs"
+              >
+                <option value="">{t('role.panel.placeholder')}</option>
+                {ROLE_ORDER.map((r) => (
+                  <option key={r} value={r}>{t(`role.${r}` as TranslationKey)}</option>
+                ))}
+              </select>
+
+              <Button
+                data-testid="welcome-start-btn"
+                onClick={() => void handleStart()}
+                disabled={!role || saving}
+              >
+                {t('welcome.start')}
+              </Button>
+            </div>
+
+            {!role && <p className="mt-2 text-xs text-muted-foreground">{t('welcome.start.hint')}</p>}
+          </section>
+        )}
       </main>
     </div>
   );

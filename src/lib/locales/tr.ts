@@ -415,6 +415,9 @@ const tr = {
   'welcome.role.help': 'Öğrenme patikanı rolüne göre uyarlayacağız. Dikkatli seç — bu seçim bir kez yapılır ve sonradan değiştirilemez. Yine de istediğin başka modülü dilediğin zaman alabilirsin.',
   'welcome.start': 'Başla',
   'welcome.start.hint': 'Devam etmek için rolünü seç.',
+  'welcome.back.title': 'Tekrar hoş geldin',
+  'welcome.back.role': 'Patikanı seçtiğin rol:',
+  'welcome.continue': 'Öğrenmeye devam et',
 
   // Tamamlanma = tüm zorunlu modüller + sınav + refleksiyon
   'dashboard.complete.title': 'Eğitim tamamlandı 🎉',

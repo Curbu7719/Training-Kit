@@ -415,6 +415,9 @@ const en = {
   'welcome.role.help': 'We’ll tailor your learning path to your role. Choose carefully — this is set once and can’t be changed afterwards. You can still take any other module any time.',
   'welcome.start': 'Start',
   'welcome.start.hint': 'Pick your role to continue.',
+  'welcome.back.title': 'Welcome back',
+  'welcome.back.role': 'You’re on the path for:',
+  'welcome.continue': 'Continue learning',
 
   // Completion = all required modules + exam + reflection
   'dashboard.complete.title': 'Training complete 🎉',
