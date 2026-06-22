@@ -1,17 +1,13 @@
-# Worked Example: A Codebase Q&A Assistant for the Dev Team
+# Worked Example: Make the AI Answer From Your Codebase, Not Its Imagination
 
-**SDLC phase: Coding / Maintenance.** A platform team maintains a large service and a 400-page internal wiki. New engineers keep asking the same questions in chat — "how do we authenticate service-to-service calls?" — and a plain LLM assistant invents endpoints that don't exist. The team wants an assistant that answers using only *their* code and docs. Here's how RAG delivers it.
+You ask the assistant "how do we paginate results in our internal API?" and it confidently invents an endpoint that doesn't exist. It never saw your repo — it's answering from memory. **RAG** fixes exactly this, and it's what turns the AI from a plausible liar into a useful teammate on *your* code.
 
-**Indexing (run once, ahead of time, refreshed on each merge).** The repo source files, the wiki, and the API reference are split into chunks of roughly 300 words (or one function/section), with a 50-word overlap so a function signature spanning a boundary isn't lost. That yields about 6,000 chunks. Each chunk is passed through an embedding model, producing a vector that encodes its meaning. Every vector is stored in a vector index, tagged with its source file path and the wiki page URL.
+**The problem: the model never read your stuff.** Its training data stopped at a cutoff and never included your wiki, your standards, or last sprint's ADR. *Why does it lie so confidently?* Because it answers from memory and your internal API was never in that memory. So it guesses something plausible-but-wrong.
 
-**Query time.** A new developer asks: *"How do I make an authenticated call to the billing service?"*
+**The fix: open-book instead of closed-book.** RAG fetches the few most relevant chunks from your own sources at question time and pastes them into the prompt, so the model answers from *those passages*. *Why does this make your day easier?* You stop reading three wiki pages to answer your own question — you ask, and the assistant answers from the real "Backoff and re-queue policy" page, even though your question never used those words.
 
-1. **Embed the question** using the same embedding model.
-2. **Retrieve top-k (k=4).** The index returns the four closest chunks. The top match comes from `auth/service_client.py` and a wiki page titled *"Internal mTLS setup,"* even though neither uses the exact phrase "billing service" — semantic similarity surfaced them.
-3. **Augment the prompt.**
-   > Answer using only the context below. Cite the file or wiki page.
-   > Context: [chunk 1] [chunk 2] [chunk 3] [chunk 4]
-   > Question: How do I make an authenticated call to the billing service?
-4. **Generate.** The model replies: *"Use `ServiceClient.for('billing')`, which loads the mTLS cert from the secrets mount. (Source: `auth/service_client.py`; wiki: Internal mTLS setup.)"*
+**Why it finds the right page without matching words.** Each chunk is embedded — turned into a point in meaning-space — so "how do I retry a failed job?" lands near a page about backoff. *Why use AI here?* Keyword search would miss it; meaning-based retrieval surfaces the page a human would have had to know existed.
 
-**Why this works.** The answer is grounded in real, current code and carries a citation the developer can open and verify. If no chunk had been relevant, a well-designed prompt would have the model reply "I couldn't find this in our codebase" rather than inventing an endpoint. Merge a refactor, re-index those chunks, and the assistant's answers update too — no retraining required.
+**The part that earns your trust: citations.** Every chunk traces back to a file or wiki page, so the answer shows *where* it came from. *Why does this matter?* You can open the actual source and verify — you're not taking the AI's word, you're using it to find the right document fast.
+
+**The takeaway:** RAG is the difference between an assistant that guesses about your codebase and one that quotes it. Give it your real sources and it answers from them — grounded, cited, and checkable — instead of inventing an API you'll waste an hour chasing.

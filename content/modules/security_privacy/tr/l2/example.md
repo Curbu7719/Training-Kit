@@ -1,36 +1,13 @@
-# Uygulamalı Örnek: Redaction'dan Sağ Çıkan Sızıntı
+# İşlenmiş Örnek: "AI'a Dikkat Et"i Uygulanabilir Bir Kurala Çevir
 
-**Aşama: bir AI destek-asistanı özelliği geliştirmek.** Bir ekip, ilgili ticket'ları bir **vector
-store**'dan getirip bir modele besleyerek destek sorularını yanıtlayan dahili bir asistan
-yayınlar. Gizlilik çalışmalarıyla gurur duyuyorlar: bir temsilcinin yazdığı her prompt,
-sağlayıcıya ulaşmadan önce e-postaları ve kredi kartı numaralarını çıkaran bir **redaction**
-filtresinden geçirilir. Müşteri PII'sinin kontrol altında olduğuna inanıyorlar. Değil.
+"Ne yapıştırdığına dikkat et" kimsenin tutarlı izleyemeyeceği bir öğüttür — ve bir denetçi bunu doğrulayamaz. Derinlikte işin, o belirsizliği insanlar yerine karar veren bir sisteme çevirmektir. İşte bu, günlük AI kullanımını zorlaştırmaz, kolaylaştırır.
 
-**Sızıntı 1 — vector store.** Getirme özelliğini oluşturmak için, **tüm ticket geçmişini** ham ve
-redact edilmemiş halde bir vector veritabanına embed ettiler. Embedding'ler gerçek müşteri
-isimlerini, adreslerini ve hesap ayrıntılarını kodlar. Yazılan prompt'u redact etmek hiçbir şey
-yapmaz: hassas veri yukarı akışta alındı ve artık store'u sorgulayabilen herkes tarafından
-getirilebilir — izolasyon zayıfsa tenant sınırı boyunca dahi.
+**Veriyi etiketle ki kural otomatik olsun.** Veriyi public / internal / confidential / regulated diye etiketler ve her katmana bir AI kuralı bağlarsın: public snippet → herhangi bir onaylı araç; confidential kod → zero-retention kurumsal araç; regulated (PII/PHI/PCI) → maskelenir ya da hiç gönderilmez. *Bu gününü neden kolaylaştırır?* Kimse o an *yargıda bulunmak* zorunda kalmaz — etiket zaten karar vermiştir. "Dikkat et", "bu katman, bu araç" oldu.
 
-**Sızıntı 2 — log'lar.** Hata ayıklama için ekip, her tam prompt'u *ve* model tamamlamasını
-paylaşılan gözlemlenebilirlik platformlarına log'lar. Redaction filtresi temsilcinin yazdığı şeyde
-çalışır, ancak **getirilen ticket metni** — vector store'dan çekilen redact edilmemiş PII —
-redaction'dan *sonra* prompt'a eklenir ve doğrudan log'lara, geniş bir dahili kitle tarafından
-okunabilir şekilde akar.
+**Sözleşmeyi doğrula, pazarlamaya güvenme.** "Zero-retention" ve "no-train" bir his değil, sözleşmede ve API config'inde yaşar. Residency (prompt'lar nerede işleniyor), saklama süresi, eğitime girip girmedikleri ve hangi alt-işleyicilerin gördüğünü kontrol edersin. *Neden uğraşmalı?* *Aynı* ürünün ücretsiz katmanı ile kurumsal katmanı zıt cevaplar verebilir — varsaymak denetimde sana pahalıya patlar.
 
-**Sızıntı 3 — tedarikçi şartları.** Zero-retention varsaydılar. Sözleşme aslında sağlayıcıya
-"kötüye kullanım izleme" için 30 günlük bir retention penceresi tanıyor ve işleme, data-residency
-taahhütlerini ihlal eden bir bölgede gerçekleşiyor. Kimse anlaşmayı doğrulamadı.
+**Alt-katman sızıntılarını kapat.** Tek yüzey prompt değildir: prompt'lar ve cevaplar **loglara** ve observability araçlarına da düşer. *Hamle:* AI trafiğini düz loglardan uzak tut ya da orada da maskele — çünkü logdaki sızıntı da sızıntıdır.
 
-**Düzeltme.**
+**Tüm bunların altında neden AI?** Çünkü artık confidential işte ona *evet* diyebilirsin. Sınıflandırma + doğrulanmış sözleşme + temiz loglar, hukuk ve güvenliğin gerçek kod tabanı kullanımını gölge AI'a sürmek yerine onaylamasını sağlayan tam da şeydir.
 
-- **Alımda (ingestion) sınıflandırın ve redact edin**, yalnızca prompt'ta değil — PII'yi vector
-  store'a girmeden önce minimize edin ve embedding'leri tenant başına izole edin.
-- **Prompt'ları ve tamamlamaları düz log'lardan dışlayın** veya log'lamadan önce *birleştirilmiş*
-  prompt'u (getirilen bağlam dahil) redact edin.
-- **Sözleşmeyi doğrulayın**: zero-retention'ı, residency'yi ve no-train'i yazılı olarak ve API
-  yapılandırmasında onaylayın.
-
-**Çıkarılan ders.** Gizlilik yalnızca klavyede değil, verinin aktığı her yerde yaşar. Vector
-store, log'lar ve sözleşme sızdırırken prompt'u redact etmek **redaction tiyatrosudur** — her
-yüzeyin kendi kontrolü gerekir.
+**Özet:** yönetişim AI'ı yavaşlatan şey değildir — onu önemli veride kullanmanı sağlayan şeydir. Sınıflandır, kuralları katmanlara bağla, sözleşmeyi doğrula ve log yüzeylerini mühürle; "dikkat et" kanıtlayabileceğin bir kontrole dönüşür.

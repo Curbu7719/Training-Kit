@@ -1,18 +1,13 @@
-# İşlenmiş Örnek: Yanlış Bir Kod Tabanı Yanıtını Teşhis Etmek
+# İşlenmiş Örnek: Kod Asistanı Yanılınca Önce Retrieval'ı Düzelt
 
-**SDLC aşaması: Bakım.** Bir kod tabanı Soru-Cevap asistanı, birkaç servis içeren bir monorepo üzerinde RAG çalıştırıyor. Bir geliştirici sorar: *"`billing` servisinin HTTP istemcisindeki varsayılan istek timeout'u nedir?"* Asistan *"5 saniye"* diye yanıtlar — ama billing'in gerçek varsayılanı *30 saniye*'dir; 5 saniyelik değer `payments` servisine aittir. Yanıt yanlıştır ve yanlış dosyayı alıntılar. Bir mühendis bunu aşama aşama şöyle teşhis eder.
+RAG asistanın `billing` servisi hakkında kendinden emin biçimde yanlış bir cevap verir. İçgüdün modeli suçlamak — ama neredeyse her RAG hatası bir **retrieval** hatasıdır, generation hatası değil. Doğru dosya prompt'a hiç ulaşmadıysa hiçbir model onu kurtaramazdı. İşte retrieval'ı ayarlamak asistanı güvenilecek kadar güvenilir nasıl kılar.
 
-**Adım 1 — Retrieval'ı incele.** Gerçekten retrieve edilen top-k chunk'ı loglarlar. En yakın chunk `payments/http_client.py`'dir ("timeout = 5"); `billing/http_client.py` chunk'ı 8. sırada, k=5 kesim noktasının altında yer alır. Yani doğru dosya prompt'a hiç ulaşmadı. Bu bir **retrieval başarısızlığıdır** — model yanlış bağlamdan sadık bir şekilde yanıtladı.
+**Boyuta değil yapıya göre parçala.** Sabit boyutlu parçalar bir fonksiyonu ortadan keser; fonksiyon/sınıf/başlık sınırlarına göre bölmek her parçayı bütün tutar, %10–20 örtüşme ile bir imza ek yerinde kaybolmaz. *Bu gününü neden kolaylaştırır?* Asistan yarım fonksiyon döndürmeyi bırakır — kafanda gerçekten derlenen bir cevap alırsın.
 
-**Adım 2 — Kök nedeni bul.** İki sorun birleşir:
-- **Metadata filtreleme yok.** Sorgu servise göre kısıtlamadı, bu yüzden `billing` ve `payments` chunk'ları serbestçe yarıştı; anlamsal olarak neredeyse aynılar ("HTTP istemci varsayılan timeout").
-- **Saf anlamsal arama.** Tam token "billing", cümlenin genel anlamına karşı çok az ağırlık taşıdı.
+**Top-k cosine'den akıllıca getir.** Bir fonksiyon adı ya da hata kodu gibi tam bir token'ın saf-anlam eşleşmesinde kaybolmaması için **hibrit arama**, geniş bir aday kümesini yeniden sıralamak için **re-ranking** ve `billing` sorusunun `payments` kodunu çekmemesi için bir **metadata filtresi** eklersin. *Peki neden AI?* Çünkü artık *doğru* servis hakkında cevap verir — filtre, neredeyse aynı kodun seni yanıltmasını durduran şeydir.
 
-**Adım 3 — Düzeltmeleri uygula.**
-- `service = billing` üzerinde bir **metadata filtresi** ekleyin; böylece yalnızca billing chunk'ları aday olur.
-- **Hybrid search** ekleyin; böylece literal terim "billing" doğru chunk'ı öne çıkarır.
-- Aday kümesini **re-rank** edin; böylece en tam-konuya-uygun billing chunk'ı top birkaç arasına gelir.
+**Dayandırmayı (grounding) zorla.** Modele *yalnızca* verilen bağlamdan cevap vermesini ve yetersizse "bulunamadı" demesini söylersin. *Neden?* Yoksa eğitim hafızasına geri döner ve bir API uydurur — "bulunamadı", kendinden emin bir uydurmadan daha yararlıdır.
 
-**Adım 4 — Yeniden test et.** Artık `billing/http_client.py` 1. sırada retrieve ediliyor. Model şöyle yanıtlar: *"30 saniye (Kaynak: `billing/http_client.py`)."*
+**Başarısızlık biçimlerini bil.** Yanlış-servis benzerleri, "ortada kaybolma" (modeller gömülü pasajlara daha az dikkat eder), bir refactor'ın çoktan değiştirdiği bir imzayı sunan **bayat indeksler** ve parça-sınırı kaybı. *Bu seni neden kurtarır?* Bir cevap yanlış olduğunda *hangi* halkanın koptuğunu söyleyebilirsin — kötü retrieval mı kötü generation mı — ve yalnızca onu düzeltirsin.
 
-**Ders.** Bir kod tabanı yanıtı yanlış olduğunda, modeli suçlamadan önce *"doğru dosya hiç retrieve edildi mi?"* diye sorun. Çoğu düzeltme generation prompt'unda değil, retrieval'da yaşar — filtreleme, hybrid search, re-ranking, chunk'lama. Ve *yanlış servise* işaret eden bir alıntı, generation'ın değil retrieval'ın bozulduğunun ipucudur.
+**Özet:** yanlış bir RAG cevabı genelde generation kostümü giymiş bir retrieval hatasıdır. Yapıya göre parçala, hibrit + re-rank + filtrelerle getir, dayandırmayı zorla ve refactor'lardan sonra yeniden indeksle — asistan kodun hakkında gözetimsiz cevap verecek güveni kazansın.

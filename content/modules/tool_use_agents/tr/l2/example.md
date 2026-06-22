@@ -1,21 +1,15 @@
-# İşlenmiş Örnek: Bir İade Agent'ını Sağlamlaştırmak
+# İşlenmiş Örnek: Kendi Kendine Koşan Agent'ı Güvenilir Tut
 
-Bir ekip, iade taleplerini işleyen bir agent inşa ediyor. Naif sürümde tek bir tool, `do_refund(order_id, amount)`, en fazla 10 iterasyon ve "yalnızca geçerli siparişleri iade et" diyen bir prompt var. Testte çalışıyor. Üretimde öğretici şekillerde başarısız oluyor — ve düzeltmelerin hepsi L2 konularıdır.
+Hata düzelten agent'ın demoda çalışır, sonra production'da yirmi iterasyon boyunca aynı başarısız aracı çağırır. Otonomi fikri yanlış olduğu için değil, kenarlarda başarısız olur. İşte birkaç tasarım kararı onu doğru, ucuz ve hata ayıklanabilir tutar; böylece onu gerçekten çalışır halde bırakabilirsin.
 
-**Başarısızlık 1 — yorumlanamayan sonuçlar.** Sipariş servisi kısa süre devre dışı kaldığında `lookup_order` ham bir HTTP `500` döndürüyor. Model, *eksik* bir siparişi *geçici bir kesintiden* ayırt edemez, bu yüzden siparişin geçersiz olduğunu varsayar ve meşru bir iadeyi reddeder.
+**Asıl kaldıraç araç tasarımıdır.** Ham bir `500` döndüren araç modele hiçbir şey öğretmez; `{"error":"order_not_found","retryable":false}` döndüren ise akıllıca karar vermesini sağlar. *Bu gününü neden kolaylaştırır?* Agent belirsiz sonuçlarda çırpınmayı bırakır — dar, iyi adlandırılmış ve net hatalı araçlar, tahmin etmek yerine doğru bir sonraki adımı seçmesini sağlar.
 
-*Düzeltme — yorumlanabilir, tipli sonuçlar.* Tool artık `{"status": "unavailable", "retryable": true}` ile `{"status": "not_found", "retryable": false}` arasında döndürür. Model ilkini yeniden dener ve ikincisinde durur.
+**Sayaçtan öte döngü kontrolü.** Maksimum-iterasyon sınırı en kötü durumu durdurur, ama **ilerlememe** de saptarsın — aynı araç, aynı argümanlar, iki kez — ve geçici hataları (geri çekilmeyle yeniden dene) kalıcı olanlardan (dur ve raporla) ayırırsın. *Neden uğraşmalı?* Yoksa döngü "dönmekte" başarılı olur ve her boşa giden çağrıyı ödersin.
 
-**Başarısızlık 2 — dönen bir döngü.** Servis kapalı kaldığında, model `lookup_order`'ı aynı argümanlarla on kez çağırır, iterasyon sınırına çarpar ve on model çağrısı harcadıktan sonra pes eder.
+**Her adımı araç sonucuna dayandır.** Her adım bir öncekinin üzerine kurulduğundan, bir hatalı okuma yayılır. Modele kendi hafızasına değil, gerçek araç çıktısına göre doğrulama yaptırırsın. *Agent'ı neden böyle kullan?* Bu, erken bir hatayı bozuk bir PR'a büyüten agent ile kendini düzelten agent arasındaki farktır.
 
-*Düzeltme — ilerleme-olmaması algılama.* Döngü, aynı tool + aynı argümanların tekrarlandığını ve bir `retryable` hatasını algılar, **geri çekilme (backoff)** uygular ve iki başarısız yeniden denemeden sonra, sınıra kadar dönmek yerine "servis kullanılamıyor, lütfen daha sonra deneyin" diye raporlar.
+**Koşu başına daha az harca.** Bağımsız araç çağrılarını paralel çalıştırırsın, rutin alt-adımlar için küçük bir model kullanırsın ve büyük modeli planlamaya saklarsın. *Neden?* Her iterasyon bir model + araç çağrısı daha demektir — bu seçimler yeteneği kesmeden faturayı keser.
 
-**Başarısızlık 3 — yalnızca bir prompt'un arkasındaki geri alınamaz bir eylem.** Prompt "yalnızca geçerli siparişleri iade et" diyordu, ama bozuk bir istek modeli yanlış hesaba 5.000 $ iade etmeye ikna etti. Prompt *tek* korumaydı ve model onu geçersiz kıldı.
+**Hata ayıklanabilir yap.** Her iterasyonun planını, talep edilen aracı, argümanlarını ve gözlemi loglarsın. *Bu seni neden kurtarır?* Bir koşu ters gittiğinde, körlemesine yeniden çalıştırmak yerine onu adım adım izleyebilirsin.
 
-*Düzeltme — mimari bir onay kapısı.* Bir eşiğin üzerindeki `do_refund` artık yürütülmeden önce **insan onayı** gerektirir — prompt'ta değil, uygulamada uygulanır. Model iadeyi *isteyebilir*; büyük olanları bir kişi onaylamalıdır. Bir sınır, laf ile ikna edilemez.
-
-**Başarısızlık 4 — kara kutu bir başarısızlık.** Bir iade ters gittiğinde, ekibin agent'ın ne yaptığına dair hiçbir kaydı yoktu.
-
-*Düzeltme — gözlemlenebilirlik.* Her iterasyon artık planı, istenen tool'u, argümanlarını ve gözlemi loglar, böylece herhangi bir çalıştırma yeniden oynatılıp izlenebilir.
-
-**Ana hat:** L1 döngüsü doğruydu; güvenilirlik üstüne katmanlanan **tool tasarımı, döngü kontrolü, mimari korkuluklar ve gözlemlenebilirlikten** geldi. Otonomi yalnızca modelin atlayamayacağı bir yapıyla sınırlandığında güvenlidir.
+**Özet:** güvenilir otonomi bir prompt değil, bir mühendislik işidir. Yorumlanabilir araçlar, gerçek döngü kontrolü, dayandırma (grounding) ve iterasyon-başına loglar, agent'a her adımı izlemeyi bırakacak kadar güvenmeni sağlayan şeydir.

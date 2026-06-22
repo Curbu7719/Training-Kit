@@ -1,21 +1,15 @@
-# Worked Example: Hardening a Refund Agent
+# Worked Example: Keep the Agent Reliable When It Runs Itself
 
-A team builds an agent that processes refund requests. The naive version has one tool, `do_refund(order_id, amount)`, a max of 10 iterations, and a prompt saying "only refund valid orders." In testing it works. In production it fails in instructive ways — and the fixes are all L2 concerns.
+Your bug-fixing agent works in the demo and then, in production, spends twenty iterations calling the same failing tool. Autonomy doesn't fail because the idea is wrong — it fails at the edges. Here's how a few design choices keep it correct, cheap, and debuggable, so you can actually leave it running.
 
-**Failure 1 — uninterpretable results.** `lookup_order` returns a raw HTTP `500` when the order service is briefly down. The model can't tell a *missing* order from a *temporary outage*, so it assumes the order is invalid and refuses a legitimate refund.
+**Tool design is the real lever.** A tool that returns a raw `500` teaches the model nothing; one that returns `{"error":"order_not_found","retryable":false}` lets it decide intelligently. *Why does this make your day easier?* The agent stops flailing on ambiguous results — narrow, well-named tools with clear errors mean it picks the right next step instead of guessing.
 
-*Fix — interpretable, typed results.* The tool now returns `{"status": "unavailable", "retryable": true}` versus `{"status": "not_found", "retryable": false}`. The model retries the first and stops on the second.
+**Loop control beyond a counter.** A max-iteration cap stops the worst case, but you also detect **non-progress** — the same tool, same arguments, twice — and tell transient failures (retry with backoff) from permanent ones (stop and report). *Why bother?* Otherwise the loop "succeeds" at spinning and you pay for every wasted call.
 
-**Failure 2 — a spinning loop.** When the service stays down, the model calls `lookup_order` with identical arguments ten times, hits the iteration cap, and gives up after burning ten model calls.
+**Ground each step in the tool result.** Because each step builds on the last, one bad reading propagates. You have the model verify against the actual tool output, not its own memory. *Why use the agent this way?* It's the difference between an agent that compounds one early mistake into a broken PR and one that self-corrects.
 
-*Fix — non-progress detection.* The loop detects the same tool + same arguments repeated and a `retryable` error, applies **backoff**, and after two failed retries reports "service unavailable, please try later" instead of spinning to the cap.
+**Spend less per run.** You run independent tool calls in parallel, use a smaller model for routine sub-steps, and reserve the big model for planning. *Why?* Every iteration is another model + tool call — these choices cut the bill without cutting capability.
 
-**Failure 3 — an irreversible action behind only a prompt.** The prompt said "only refund valid orders," but a malformed request convinced the model to refund \$5,000 to the wrong account. The prompt was the *only* guard, and the model overrode it.
+**Make it debuggable.** You log each iteration's plan, the tool requested, its arguments, and the observation. *Why does this save you?* When a run goes wrong you can trace it step by step instead of re-running blind.
 
-*Fix — an architectural approval gate.* `do_refund` over a threshold now requires **human approval** before execution — enforced in the application, not the prompt. The model can *request* the refund; a person must confirm large ones. A boundary can't be talked out of.
-
-**Failure 4 — a black-box failure.** When a refund went wrong, the team had no record of what the agent did.
-
-*Fix — observability.* Every iteration now logs the plan, the tool requested, its arguments, and the observation, so any run can be replayed and traced.
-
-**The through-line:** the L1 loop was correct; reliability came from **tool design, loop control, architectural guardrails, and observability** layered on top. Autonomy is only safe when it's bounded by structure the model cannot bypass.
+**The takeaway:** reliable autonomy is an engineering job, not a prompt. Interpretable tools, real loop control, grounding, and per-iteration logs are what let you trust the agent enough to stop watching every step.

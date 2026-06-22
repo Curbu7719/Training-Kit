@@ -1,18 +1,13 @@
-# Worked Example: Diagnosing a Wrong Codebase Answer
+# Worked Example: When the Codebase Assistant Is Wrong, Fix Retrieval First
 
-**SDLC phase: Maintenance.** A codebase Q&A assistant runs RAG over a monorepo with several services. A developer asks: *"What's the default request timeout in the `billing` service's HTTP client?"* The assistant replies *"5 seconds"* — but billing's actual default is *30 seconds*; the 5-second value belongs to the `payments` service. The answer is wrong and cites the wrong file. Here's how an engineer diagnoses it stage by stage.
+Your RAG assistant gives a confidently wrong answer about the `billing` service. Your instinct is to blame the model — but almost every RAG failure is a **retrieval** failure, not a generation one. If the right file never reached the prompt, no model could have saved it. Here's how tuning retrieval makes the assistant trustworthy enough to rely on.
 
-**Step 1 — Inspect retrieval.** They log the top-k chunks actually retrieved. The closest chunk is `payments/http_client.py` ("timeout = 5"); the `billing/http_client.py` chunk ranks 8th, below the k=5 cutoff. So the right file never reached the prompt. This is a **retrieval failure** — the model answered faithfully from the wrong context.
+**Chunk on structure, not size.** Fixed-size chunks cut across a function; splitting on function/class/heading boundaries keeps each chunk whole, with 10–20% overlap so a signature isn't lost at a seam. *Why does this make your day easier?* The assistant stops returning half a function — you get an answer that actually compiles in your head.
 
-**Step 2 — Find the root cause.** Two issues compound:
-- **No metadata filtering.** The query didn't restrict by service, so `billing` and `payments` chunks competed freely; semantically they're near-identical ("HTTP client default timeout").
-- **Pure semantic search.** The exact token "billing" carried little weight against the overall sentence meaning.
+**Retrieve smarter than top-k cosine.** You add **hybrid search** so an exact token like a function name or error code isn't lost in pure-meaning matching, **re-ranking** to reorder a generous candidate set, and a **metadata filter** so a question about `billing` doesn't pull `payments` code. *Why use AI here at all?* Because now it answers about the *right* service — the filter is what stops near-identical code from misleading you.
 
-**Step 3 — Apply fixes.**
-- Add a **metadata filter** on `service = billing`, so only billing chunks are candidates.
-- Add **hybrid search** so the literal term "billing" boosts the right chunk.
-- **Re-rank** the candidate set so the most on-point billing chunk lands in the top few.
+**Force grounding.** You instruct the model to answer *only* from the provided context and say "not found" when it's insufficient. *Why?* Otherwise it falls back on training memory and invents an API — the "not found" is more useful than a confident fabrication.
 
-**Step 4 — Re-test.** Now `billing/http_client.py` retrieves at rank 1. The model answers *"30 seconds (Source: `billing/http_client.py`)."*
+**Know the failure modes.** Wrong-service look-alikes, "lost in the middle" (models attend less to buried passages), **stale indexes** serving a signature a refactor already changed, and chunk-boundary loss. *Why does this save you?* When an answer is wrong you can tell *which* link broke — bad retrieval or bad generation — and fix that one.
 
-**The lesson.** When a codebase answer is wrong, ask *"was the right file even retrieved?"* before blaming the model. Most fixes live in retrieval — filtering, hybrid search, re-ranking, chunking — not in the generation prompt. And a citation pointing to the *wrong service* is itself the clue that retrieval, not generation, broke.
+**The takeaway:** a wrong RAG answer is usually a retrieval bug wearing a generation costume. Chunk on structure, retrieve with hybrid + re-rank + filters, enforce grounding, and re-index after refactors — and the assistant earns the trust to answer about your code unsupervised.

@@ -1,15 +1,15 @@
-# İşlenmiş Örnek: QA Bir AI Sürüm-Notları Üreticisini Test Ediyor
+# İşlenmiş Örnek: AI Değişikliklerini İçine Doğduğu İçin Göndermeyi Bırak
 
-**SDLC aşaması: Test.** Bir ekip, merge edilmiş pull request'lerin bir listesini tek paragraflık bir sürüm notuna dönüştüren bir özellik ship ediyor. Demo'su muhteşem görünüyor — ama "demo'su muhteşem görünüyor" bir test sonucu değildir. QA test uzmanı, lansmandan önce bunu *ölçülebilir* kılmaya ve regresyonlara karşı korumaya sahiptir.
+Bir prompt'u değiştirirsin, denediğin üç örnekte daha iyi görünür, gönderirsin — ve kontrol etmediğin bir düzine durumu sessizce bozar. Bir AI özetine `assertEquals` yapamazsın, o yüzden körlemesine uçuyormuş gibi hissedersin. **Değerlendirme (evaluation)**, tek bir doğru metin yokken testin dönüştüğü şeydir ve tahmini bırakmanın yoludur.
 
-**Adım 1 — Bir golden dataset kur.** QA, 100 gerçek PR-listesi girdisi toplar ve her biri için bilinen-iyi bir referans not artı kısa bir rubric yazar: notun doğru olması, kullanıcıya dönük her değişikliği belirtmesi ve PR'larda olmayan hiçbir şeyi uydurmaması gerekir. Bu veri kümesi tekrarlanabilir ölçü çubuğu olur — AI özelliğinin test paketi.
+**Tuzak: bir avuç demoya bakıp karar vermek.** Üç iyi örnek kanıt gibi hisseder; değildir. *Neden tehlikeli?* Aynı prompt her koşuda farklı ifade üretir ve nadiren tek bir doğru cevap vardır — üç girdide parlayan bir değişiklik, hiç görmediğin yirmi girdide geriler.
 
-**Adım 2 — Bir LLM-as-judge ile puanla.** Her çalıştırmada 100 notu elle derecelendirmek CI için çok yavaştır. Bu yüzden QA, rubric ile yönlendirilen ikinci bir modeli judge olarak kullanır: "PR listesi, referans not ve aday not verildiğinde, adayı accuracy ve completeness açısından 1–5 arasında derecelendir ve PR'lar tarafından desteklenmeyen herhangi bir iddiayı işaretle." Faithfulness işareti, özellik uyduran notları yakalar — bir groundedness kontrolü.
+**Çözüm: golden dataset.** Bilinen-iyi cevapları ya da rubrikleri olan gerçek girdilerden bir set derlersin — QA'in test takımı karşılığı — ve özelliği bunların hepsi üzerinde puanlarsın. *Bu gününü neden kolaylaştırır?* "Daha iyi hissettiriyor" bir sayıya döner. Prompt'u değiştirir, takımı yeniden çalıştırır ve *değişikliği yalnızca puan yükseldiyse tutarsın.* Bu, AI için TDD'dir: his değil, sayılar karar verir.
 
-**Adım 3 — Metrikleri oku.** İlk çalıştırma: accuracy 4.1/5, completeness 4.3/5, çıktıların %12'sinde faithfulness işaretleri, ortalama latency 1.8s, not başına maliyet \$0.002. %12 kırmızı bayraktır — sekiz notta bir, PR'larda olmayan bir değişiklik iddia ediyor.
+**Tam metni değil, özellikleri puanla.** Çıktılar değiştiğinden, string eşleştirmek yerine doğruluk, alaka ve sadakat (kaynağa bağlı kalıyor mu?) ölçersin. *Peki neden AI?* Bir LLM-as-judge, "bu cevap sadık mı?" sorusunu yüzlerce durumda dakikalar içinde puanlayabilir — her değişiklikte çalıştıracak kadar hızlı.
 
-**Adım 4 — Eval'e karşı iterasyon yap.** Bir geliştirici prompt'u düzenler: "yalnızca PR listesinde bulunan değişiklikleri kullan." Aynı 100 maddelik paketi yeniden çalıştırırlar. Faithfulness işaretleri %3'e düşer; accuracy ve completeness korunur. Puan regresyon olmadan iyileştiği için değişikliği korurlar.
+**CI'a bağla.** Eval takımını her değişiklikten sonra, diğer test kapıları gibi çalıştırırsın; böylece bir yerdeki düzeltme başka bir yeri sessizce bozamaz. *Bu seni neden kurtarır?* Regresyon production'da değil, pipeline'da görünür.
 
-**Adım 5 — Bir regresyon geçidi olarak sabitle.** Eval paketi artık her sürümden önce CI'da çalışır. Daha sonra biri maliyeti azaltmak için daha ucuz bir model takar; paket, faithfulness'ın %9'a doğru tekrar tırmandığını gösterir, böylece QA regresyonu kullanıcılar görmeden yakalar.
+**Kontrol sende kalsın.** Judge'ın kendisine de güvenilmeli — bir sayının bir sürümü geçirmesine izin vermeden önce puanlarını kendi yargınla nokta kontrol et.
 
-**Çıkarım:** bir golden dataset artı otomatik puanlama, öznel bir "iyi hissettiriyor"u nesnel, tekrarlanabilir sayılara dönüştürdü — ve gelecekteki her değişikliği kanıtlanabilir şekilde ship edilebilir ya da edilemez kıldı.
+**Özet:** "AI çıktıları değişir" ile "çalışıp çalışmadığını bil" arasında seçim yapmak zorunda değilsin. Bir golden dataset, özellik puanlaması ve bir CI kapısı içgüdüyü kanıta çevirir — böylece demoda iyi görüneni değil, gerçekten yardımcı olan prompt değişikliğini gönderirsin.

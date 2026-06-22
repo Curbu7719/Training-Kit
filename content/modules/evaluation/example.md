@@ -1,15 +1,15 @@
-# Worked Example: QA Tests an AI Release-Notes Generator
+# Worked Example: Stop Shipping AI Changes on a Gut Feeling
 
-**SDLC phase: Testing.** A team ships a feature that turns a list of merged pull requests into a one-paragraph release note. It demos beautifully — but "demos beautifully" isn't a test result. The QA tester owns making it *measurable* before launch and guarding it against regressions.
+You tweak a prompt, it looks better on the three examples you tried, you ship it — and it quietly breaks a dozen cases you didn't check. You can't `assertEquals` an AI summary, so it feels like you're flying blind. **Evaluation** is what testing becomes when there's no single right string, and it's how you stop guessing.
 
-**Step 1 — Build a golden dataset.** QA collects 100 real PR-list inputs and, for each, writes a known-good reference note plus a short rubric: the note must be accurate, must mention every user-facing change, and must invent nothing not in the PRs. This dataset becomes the repeatable yardstick — the AI feature's test suite.
+**The trap: judging on a handful of demos.** Three good examples feel like proof; they aren't. *Why is this dangerous?* The same prompt produces different wording every run and there's rarely one correct answer — a tweak that shines on three inputs can regress on twenty you never saw.
 
-**Step 2 — Score with an LLM-as-judge.** Hand-grading 100 notes every run is too slow for CI. So QA uses a second model as judge, prompted with the rubric: "Given the PR list, the reference note, and the candidate note, rate the candidate 1–5 on accuracy and completeness, and flag any claim not supported by the PRs." The faithfulness flag catches notes that invent features — a groundedness check.
+**The fix: a golden dataset.** You curate a set of real inputs with known-good answers or rubrics — the QA equivalent of a test suite — and score the feature over all of them. *Why does this make your day easier?* "It feels better" becomes a number. You change the prompt, rerun the suite, and *keep the change only if the score went up.* That's TDD for AI: the numbers decide, not vibes.
 
-**Step 3 — Read the metrics.** First run: accuracy 4.1/5, completeness 4.3/5, faithfulness flags on 12% of outputs, average latency 1.8s, cost \$0.002 per note. The 12% is the red flag — one in eight notes claims a change that wasn't in the PRs.
+**Score properties, not exact strings.** Since outputs vary, you measure accuracy, relevance, and faithfulness (does it stick to the source?) rather than string-matching. *Why use AI here at all?* An LLM-as-judge can score "is this answer faithful?" across hundreds of cases in minutes — fast enough to run on every change.
 
-**Step 4 — Iterate against the eval.** A developer edits the prompt: "use only changes present in the PR list." They rerun the same 100-item suite. Faithfulness flags drop to 3%; accuracy and completeness hold. Because the score improved with no regression, they keep the change.
+**Wire it into CI.** You run the eval suite after every change, like any other test gate, so a fix in one place can't silently break another. *Why does this save you?* The regression shows up in the pipeline, not in production.
 
-**Step 5 — Lock it in as a regression gate.** The eval suite now runs in CI before every release. Later someone swaps in a cheaper model to cut cost; the suite shows faithfulness creeping back to 9%, so QA catches the regression before users see it.
+**Stay in control.** The judge itself has to be trusted — spot-check its scores against your own judgment before you let a number gate a release.
 
-**The takeaway:** a golden dataset plus automated scoring turned a subjective "feels good" into objective, repeatable numbers — and made every future change provably safe or unsafe to ship.
+**The takeaway:** you don't have to choose between "AI outputs vary" and "know if it works." A golden dataset, property scoring, and a CI gate turn a gut feeling into evidence — so you ship the prompt change that actually helped, not the one that demoed well.

@@ -1,13 +1,13 @@
-# Worked Example: When a 92% Eval Score Hides a Failure
+# Worked Example: Don't Let a Green Eval Score Lie to You
 
-**SDLC phase: Testing / Maintenance.** A team ships an AI assistant inside their support tool. QA's offline eval over a 200-case golden dataset reports **92% accuracy** with an LLM-as-judge, and the PM signs off. Two weeks after launch, complaints spike — specifically from users asking about refunds. The high score had hidden a real failure. Here's the L2 diagnosis the tester runs.
+Your eval suite shows 90% and you ship — then real users hit the 40% of cases your dataset never had. A flawed eval is worse than none, because it hands you false confidence. At depth the job isn't running an eval; it's making the measurement *trustworthy*. Here's how that keeps you from shipping on a number that's lying.
 
-**Problem 1 — Aggregate score hid a subgroup.** QA slices the 92% by category. Billing, account, and how-to questions score 95–98%; **refund questions score 48%**. The dataset had only 12 refund cases out of 200, so their poor performance barely dented the average. *Fix:* the dataset wasn't stratified — refunds were underrepresented relative to real traffic.
+**Your dataset can lie.** A golden set of only easy, happy-path inputs reports high scores while the feature fails where it counts. *The move:* stratify it — deliberately cover hard cases, rare categories, adversarial inputs, and every past production bug. *Why does this make your day easier?* Each bug becomes a permanent eval case, so it can never silently come back — your suite grows teeth exactly like adding a failing test per bug fix.
 
-**Problem 2 — The judge was too lenient.** They sample 30 refund answers and have humans rate them. Human-judge agreement is low: the LLM judge rated several wrong answers as acceptable because they were long and confident — **verbosity bias**. *Fix:* tighten the rubric to require a specific, correct policy reference, randomize comparison order, and re-validate against the human sample until agreement is high.
+**Your judge can lie.** An LLM judge has biases: it favors the first option, rates longer answers higher, and prefers its own model family. *The move:* validate judge scores against a sample of human ratings, randomize option order, and use a concrete rubric. *Why bother?* If judge-human agreement is low, the judge's numbers are noise and your CI gate is meaningless — you'd be gating on randomness.
 
-**Problem 3 — A regression that slipped through.** Checking history, refund accuracy was fine three releases ago. A prompt change meant to shorten answers had dropped a policy detail. Because no refund-specific regression case existed, CI caught nothing. *Fix:* add the real failing refund questions as permanent regression cases, so this bug can never silently return.
+**The aggregate can lie.** An overall 90% can hide a business-critical segment sitting at 40%. *The move:* slice scores by segment instead of trusting one headline number. *Why use eval this way?* Because the average is exactly where a critical failure goes to hide.
 
-**Step back.** QA re-stratifies the dataset to mirror real traffic, slices every future eval by category, validates the judge against periodic human labels, and the team gates releases on per-segment scores — not just the aggregate. Re-running after the prompt fix shows refunds back at 94% with no other category regressing.
+**A score change can be noise.** Outputs are non-deterministic, so a small wobble may be run-to-run variance, not a real regression. *Why does this save you?* You stop chasing phantom drops — and you don't ship a "win" that was just luck.
 
-**The lesson:** a single high number is not "good." Trustworthy evaluation means a representative dataset, a validated judge, regression cases mined from real bugs, and scores sliced finely enough that no critical subgroup can hide behind the average.
+**The takeaway:** at depth, the eval *is the thing under test*. Stratify the dataset, validate the judge, slice the aggregate, and separate noise from signal — so when the number says ship, it's telling the truth.

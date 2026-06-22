@@ -1,28 +1,13 @@
-# Uygulamalı Örnek: Müşteri E-postalarıyla Dolu Bir Üretim Stack Trace'i
+# İşlenmiş Örnek: AI'ı Gerçek İşte Kullan ama Sızdırma
 
-**Aşama: üretimde hata ayıklama (debugging).** Bir geliştirici, Maya, nöbettedir. Bir checkout
-servisi 500 hataları veriyor ve hata izleyici uzun bir Java stack trace'i gösteriyor. Hızlı
-yardım almak için, tüm trace'i evde kullandığı bir tüketici AI chatbot'una — hiçbir şirket
-anlaşması ve retention kontrolü olmayan birine — yapıştırmak üzeredir.
+Gerçek bir hatada AI'dan yardım istiyorsun; bu da gerçek kod, gerçek bir stack trace, belki gerçek bir müşteri kaydı yapıştırmak demek. Yardım buna değer — ama her yapıştırma, kontrolünden çıkan veridir. İşte hızlanmayı alıp olayı almamanın yolu.
 
-**Trace'in gerçekte içerdiği şey.** Yukarı kaydırınca, stack trace başarısız olan isteğin
-payload'ını içeriyor: üç gerçek **müşteri e-posta adresi**, **tam bir fatura adresi** ve —
-log'lanmış bir config nesnesine gömülü — canlı bir **ödeme ağ geçidi API anahtarı**. Bunu
-yapıştırmak, kişisel veriyi ve bir üretim secret'ını, ücretsiz katman şartları altında
-**prompt'ları saklayan ve eğitim için kullanabilen** harici bir sağlayıcıya gönderir. Müşteri
-verisi ayrıca başka bir bölgedeki sunuculara inebilir ve şirketin **data residency**
-taahhüdünü ihlal edebilir.
+**Refleks: hata veren satırı olduğu gibi yapıştırmak.** Bir hatayı yeniden üretmek, gerçek production veritabanı satırıyla en kolaydır. *Risk:* o satırda bir müşterinin e-postası ve kart son-dört hanesi var ve artık bir tedarikçinin loglarında, belki sınır ötesinde yaşıyor. *Hamle:* azalt ve maskele — şemayı ve aynı yapıda sahte bir satır yapıştır. *Peki neden hâlâ AI?* Mantığı, gerçek PII'den olduğu kadar gerçekçi bir sahte kayıttan da pekâlâ ayıklar — açıktan başka kaybın olmaz.
 
-**Daha güvenli yol.** Maya durur ve minimizasyon uygular:
+**Kayma: snippet'teki API anahtarı.** "Bu neden patlıyor" diye bir config bloğunu, anahtarıyla birlikte yapıştırırsın. *Neden önemli?* O anahtar artık sonsuza dek başkasının sistemindedir. *Hamle:* bir secret taraması (ya da sadece bir alışkanlık) prompt makineni terk etmeden kimlik bilgilerini sıyırır — cevabını yine de alırsın.
 
-- **Önce redaction.** Üç e-postayı `user1@example.com` ile değiştirir, fatura adresini bir
-  yer tutucuyla değiştirir ve API anahtarını tamamen kaldırır. Bu değerlerin hiçbiri bir
-  null-pointer exception'ı teşhis etmek için gerekli değildir.
-- **Onaylı bir araç kullan.** Kişisel chatbot'u yerine, **zero-retention** ve **no-train**
-  garantisiyle bir kurumsal anlaşma altında çalışan şirketin onaylı AI asistanını kullanır.
-- **Log'lardan uzak tut.** API anahtarının en başta hiç log'lanmaması gerektiğini not eder ve
-  secret'ları log çıktısından temizlemek için bir ticket açar.
+**Kolaylık tuzağı: rastgele bir ücretsiz chatbot.** Elinin altında, sen de içine kurum içi kod yapıştırırsın. *Risk — "gölge AI" (shadow AI):* kurumsal sözleşme yok, zero-retention yok, kodun bir sonraki modeli eğitebilir. *Doğru yolla neden AI?* Onaylı araç aynı yardımı bir no-train ayarı *ile* verir — aynı hız, sıfır açık.
 
-**Sonuç.** Maya aynı hata ayıklama yardımını alır — modelin yalnızca exception türüne ve satır
-numaralarına ihtiyacı vardı — tek bir müşterinin PII'sini veya bir üretim kimlik bilgisini
-sızdırmadan. Önemli olan düzeltme model değildi; **göndermemeyi seçtiği şeydi**.
+**Kontrol sende kalsın.** Enter'a basmadan önce tek soru sor: "Bu metin aynen bir tedarikçinin eğitim setinde belirse rahat olur muyum?" Olmazsan, önce maskele.
+
+**Özet:** AI'ın yardımı ile veriyi güvende tutmak arasında seçim yapmak zorunda değilsin. Modelin yardım etmesine yetecek en az veriyi gönder, secret ve PII'yi sıyır ve onaylı aracı kullan — taçlarını bir yabancıya vermeden hızlanmayı al.

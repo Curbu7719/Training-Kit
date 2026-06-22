@@ -1,36 +1,13 @@
-# Worked Example: The Leak That Survived Redaction
+# Worked Example: Make "Be Careful with AI" an Enforceable Rule
 
-**Phase: building an AI support-assistant feature.** A team ships an internal assistant that
-answers support questions by retrieving relevant tickets from a **vector store** and feeding
-them to a model. They are proud of their privacy work: every prompt typed by an agent is run
-through a **redaction** filter that strips emails and credit-card numbers before it reaches
-the provider. They believe customer PII is contained. It is not.
+"Be careful what you paste" is advice nobody can follow consistently — and an auditor can't verify it. At depth, your job is to turn that vibe into a system that decides for people. Here's how that actually makes daily AI use easier, not harder.
 
-**Leak 1 — the vector store.** To build the retrieval feature, they embedded the **entire
-ticket history**, raw and un-redacted, into a vector database. The embeddings encode real
-customer names, addresses, and account details. Redacting the typed prompt does nothing: the
-sensitive data was ingested upstream and is now retrievable by anyone who can query the
-store — including across the tenant boundary if isolation is weak.
+**Label the data so the rule is automatic.** You tag data public / internal / confidential / regulated, and bind an AI rule to each tier: public snippets → any approved tool; confidential code → zero-retention enterprise tool; regulated (PII/PHI/PCI) → redacted or never sent. *Why does this make your day easier?* Nobody has to *judge* in the moment — the label already decided. "Be careful" became "this tier, this tool."
 
-**Leak 2 — the logs.** For debugging, the team logs every full prompt *and* model completion
-to their shared observability platform. The redaction filter runs on what the agent types,
-but the **retrieved ticket text** — un-redacted PII pulled from the vector store — is
-appended to the prompt *after* redaction and flows straight into the logs, readable by a wide
-internal audience.
+**Verify the contract, don't trust the marketing.** "Zero-retention" and "no-train" live in the agreement and the API config, not in a vibe. You check residency (where prompts are processed), retention window, whether they enter training, and which sub-processors see them. *Why bother?* The free tier and the enterprise tier of the *same* product can have opposite answers — assuming costs you the audit.
 
-**Leak 3 — the vendor terms.** They assumed zero-retention. The contract actually grants the
-provider a 30-day retention window for "abuse monitoring," and processing happens in a region
-that violates their data-residency commitment. Nobody verified the agreement.
+**Close the downstream leaks.** The prompt isn't the only surface: prompts and completions land in **logs** and observability tools too. *The move:* keep AI traffic out of plain logs, or redact it there as well — because a leak in a log is still a leak.
 
-**The fix.**
+**Why use AI at all under all this?** Because now you can say *yes* to it on confidential work. The classification + verified contract + clean logs are exactly what lets legal and security approve real codebase use instead of banning it into shadow AI.
 
-- **Classify and redact at ingestion**, not just at the prompt — minimise PII before it ever
-  enters the vector store, and isolate embeddings per tenant.
-- **Exclude prompts and completions from plain logs**, or redact the *assembled* prompt
-  (including retrieved context) before logging.
-- **Verify the contract**: confirm zero-retention, residency, and no-train in writing and in
-  the API configuration.
-
-**The lesson.** Privacy lives wherever data flows, not only at the keyboard. Redacting the
-prompt while the vector store, the logs, and the contract all leak is **redaction theatre** —
-each surface needs its own control.
+**The takeaway:** governance isn't the thing that slows AI down — it's the thing that lets you use it on the data that matters. Classify, bind rules to tiers, verify the contract, and seal the log surfaces, and "be careful" becomes a control you can prove.

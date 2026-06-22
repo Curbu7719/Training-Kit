@@ -1,45 +1,13 @@
-# Worked Example: An Agent Fixing a Failing Test
+# Worked Example: Hand the Whole Bug to an Agent, Not Just a Question
 
-A teammate reports that `test_apply_discount` is red after a recent change. A single model call can't fix it well — it can't see the failure or the source. So we give a coding assistant three tools and let it run an **agent loop**.
+A plain chatbot can tell you *how* to fix the failing test in `cart.py`. An **agent** can actually fix it — run the tests, read the failure, edit the file, re-run, repeat until green. Here's the difference, and why letting the model *act* (within limits) saves your afternoon.
 
-**Tools the app declares to the model:**
+**A single call vs an agent.** For "summarize this PR," one call is plenty. But "fix the failing test" needs steps that depend on each other — you can't know the next edit until you've seen the last test run. *Why use an agent here?* It runs the plan → act → observe loop for you, instead of you copy-pasting output back into the chat ten times.
 
-- `run_tests(path)` → runs the suite, returns pass/fail and any traceback.
-- `search_code(query)` → returns matching files and line ranges.
-- `apply_patch(diff)` → applies a unified diff to the working tree.
+**How it acts without touching the keyboard.** The model can't run anything itself; it *requests* a tool — "call `run_tests` with `path=tests/`" — and your code runs the real command and feeds the result back. *Why does this make your day easier?* You define a few tools once (run tests, search code, apply patch) and the agent strings them together for every future bug, not just this one.
 
-**Iteration 1 — plan and act.** The model reasons it must see the actual failure first. Instead of guessing, it emits a tool request:
+**The reason to bound it.** Autonomy cuts both ways: it might loop forever editing and re-testing, or call a destructive command. *The guardrails that let you say yes:* a max-iteration limit so it can't spin all night, and a human-approval gate before it pushes or deletes. *Why use the agent at all then?* Because bounded autonomy does the tedious 90% — the run/read/edit grind — and stops to ask you only at the moments that need judgment.
 
-> `run_tests(path="tests/test_discount.py")`
+**Stay in control.** Start it on a low-stakes bug, watch one full loop, and confirm it stops on its own. Trust the autonomy *after* you've seen the limits hold.
 
-The model stops and waits — it has *requested*, not executed.
-
-**The app executes.** Your code runs pytest and returns the result into the conversation:
-
-> Result: `FAILED — AssertionError: expected 90, got 100. apply_discount() in cart.py:42`
-
-**Iteration 2 — observe, plan, act again.** The model now knows where the bug is but needs the source. It requests:
-
-> `search_code(query="def apply_discount")`
-
-The app returns `cart.py:40-46`, revealing the discount is never subtracted.
-
-**Iteration 3 — act.** The model proposes a fix:
-
-> `apply_patch(diff="--- a/cart.py ... price - discount ...")`
-
-The app applies it.
-
-**Iteration 4 — verify and finish.** The model re-runs the suite:
-
-> `run_tests(path="tests/test_discount.py")` → `PASSED`
-
-It calls no more tools and reports: "Fixed `apply_discount` in cart.py:42 — the discount wasn't being subtracted. Tests pass."
-
-**What this illustrates:**
-
-- The model **requested** tools; the **app executed** them — the boundary never blurs.
-- The loop ran **plan → act → observe** until tests went green, then stopped on its own.
-- A guardrail matters: if `run_tests` kept failing, a **max-iteration limit** (say, 8) would halt the loop instead of letting it edit-and-retry forever.
-
-A single call would have hallucinated a patch. The agent loop let the model *gather the failure and the source it didn't know*, step by step, before committing a fix that's actually verified.
+**The takeaway:** reach for a single call when you want advice; reach for an agent when you want the task *done*. Give it the right tools and firm limits, and it turns a multi-step grind into one request you supervise.
