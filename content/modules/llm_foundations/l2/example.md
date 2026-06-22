@@ -1,40 +1,15 @@
-# Worked Example: Matching Models to a Dev Toolchain
+# Worked Example: One Model Doesn't Fit Your Whole Day
 
-Your team runs four AI call sites. Instead of pointing all of them at one model, you match each
-to a model type and settings — then route the hard cases. Here's the reasoning.
+You use AI all day, but not every task deserves the same model. Here's how matching the model to the job keeps your tools fast and cheap — and why it's worth a moment's thought.
 
-## The four call sites
+**Inline completion — you want it instant.** As you type, a small fast model suggests the next line. *Why a small model?* A big "reasoning" model would think for seconds on every keystroke and cost a fortune — here speed beats brilliance, so you point completion at the cheapest fast model and cap the output short.
 
-| Call site | Need | Model choice | Settings |
-|---|---|---|---|
-| Inline code completion | Instant, high-volume, routine | Small fast model | Small max-tokens, stop at block end |
-| Automated PR reviewer | Solid quality, runs on every PR | Mid model + routing | Capped output; escalate large/complex diffs |
-| Docs chat assistant | Grounded answers, interactive | Mid model + RAG | Streaming |
-| "Reason about this design" | Rare, genuinely hard | Reasoning model | Higher token budget, no rush |
+**PR review — good enough, on every PR.** A mid model reviews each pull request; only the sprawling, scary refactors get escalated to a stronger one. *Why route instead of always-big?* Most PRs are routine — sending them all to the expensive model would multiply the bill for no extra catch.
 
-## Why these, not one model for all
+**The rare hard call — bring the big brain.** Once in a while you ask "is this design sound?" That's when the strongest reasoning model earns its cost, because it's rare and the answer really matters.
 
-**Completion** runs thousands of times a day; a reasoning model here would be slow and ruinously
-expensive for no benefit — the task is routine. **PR review** is where routing pays: a small diff
-goes to the mid model, but a sprawling refactor is escalated to a stronger one only when needed.
-The **design helper** is the one place a reasoning model earns its cost — it's rare and the
-problem is hard. Using *that* model everywhere would make completion unusable.
+**Two settings that keep output sane.** You cap **max output** so the reviewer gives you the top issues, not an essay, and set a **stop sequence** so completion ends cleanly at the block.
 
-## Setting the output controls
+**Why bother matching at all?** Pointing one big model at everything is the simple-looking trap: completion gets slow, the bill climbs every sprint, and you still hit hallucinations. Matching the model to the task hands you speed where you need it and depth where it counts.
 
-For the reviewer you cap **max output tokens** so it returns the top issues, not an essay, and set
-a **stop sequence** so completion ends cleanly at the code block. These keep output the right
-length and shape without changing which model runs.
-
-## The wrong way (and why)
-
-A teammate proposes "just use the biggest, newest model everywhere — simplest." It looks simple
-but: completion becomes slow and pricey, the PR bill climbs every sprint, and you still hit
-hallucinations. Simplicity in config buys you cost and latency.
-
-## The lesson
-
-There is no "the AI" — there's a fleet. Matching **model type** (reasoning vs fast, small vs
-large) and **output controls** (max-tokens, stop sequences) to each task, and **routing** only the
-hard cases to a stronger model, is what keeps a toolchain fast, affordable, and consistent. That's
-choosing and controlling models, not just calling one.
+**The takeaway:** there's no "the AI" — there's a small fast one for the routine, a strong one for the hard call, and routing that sends each task to the cheapest model that can do it.

@@ -1,13 +1,13 @@
-# Worked Example: Choosing Models Across a Coding Sprint (Coding Phase)
+# Worked Example: Let AI Take the Boring Parts of Your Day
 
-**Phase: Coding/Implementation.** A development team is wiring AI into its daily workflow during a feature sprint. Three distinct lifecycle tasks come up, and each calls for a different model choice — showing the capability/cost/latency trade-off in practice.
+Think about the small, repetitive chores in a normal working day — and how picking the *right* model quietly removes them, so your time goes to the work that actually needs you.
 
-**Task 1 — generating commit messages.** Every push triggers a small prompt: *"Summarize this diff as a one-line commit message. Diff: ..."*. The model continues the text and its most probable next tokens become the message. This is high-volume, simple, and well-bounded, so the team picks a **small, fast, cheap** model — they want concise, consistent phrasing, not creativity. Paying flagship prices on every commit would be wasteful.
+**The chore: writing commit messages.** Every push, you stop to summarise the diff into a tidy one-line message — dozens of times a day. A small, fast, cheap model writes it for you in a second: consistent phrasing, no thinking, cost too small to notice. *Why use AI here?* It's pure overhead for you and trivial for the model — you get those minutes back, every day.
 
-**Task 2 — generating unit-test cases.** A tester prompts the model to produce edge cases for a date-parsing function. This needs more reasoning than a commit message but isn't the hardest task, so a **mid-tier** model fits. The team prompts it explicitly for *varied* inputs (leap years, time zones, empty strings) rather than letting it repeat the obvious ones.
+**The chore: thinking up edge cases.** Before you ship a date parser you have to remember leap years, time zones, empty strings, the lot. A mid-tier model lists them in seconds and catches the ones you'd have forgotten. *Why use AI here?* Faster and more thorough than doing it from memory — and you still decide which cases matter.
 
-**Task 3 — reviewing an architecture proposal.** An architect asks the model to critique a proposed service split for hidden coupling and failure modes. This is genuinely hard, open-ended reasoning where a weak answer is costly, so the team reserves the **largest, most capable** model — accepting its higher cost and latency because it runs rarely and the stakes are high.
+**The hard one: a design gut-check.** You're unsure whether a service split hides coupling. You ask the strongest model to poke holes in it *before* the review meeting. *Why use AI here?* A serious second opinion in 30 seconds beats finding the problem in production — and the pricier model is worth it because the stakes are high and you ask rarely.
 
-**Where the limits bite.** The model once suggested a library method that doesn't exist — a **hallucination**. So the team treats every AI suggestion as a draft a human verifies, and pins the framework version in prompts to offset the **knowledge cutoff**.
+**The catch — so you stay in control.** The model once suggested a method that doesn't exist (a **hallucination**), and it doesn't know your newest framework version (**knowledge cutoff**). So you treat its output as a draft you check, not gospel.
 
-**Result:** one team, three tasks, three model sizes. The choice followed each task's demands — not a habit of always reaching for "the best" model.
+**The takeaway:** match the model to the chore — cheap and fast for the everyday stuff, the big one only for the genuinely hard call. AI earns its place by handing you back time on the boring parts and a second brain on the hard parts.

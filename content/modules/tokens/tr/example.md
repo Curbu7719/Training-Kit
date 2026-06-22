@@ -1,35 +1,13 @@
-# Uygulamalı Örnek: Bir AI Kod İnceleme Botunun Bütçelenmesi
+# İşlenmiş Örnek: AI Aracın Neden Birden Çok Pahalılaşır (ya da Kesilir)
 
-**Aşama: sürekli entegrasyon / kod inceleme.** Bir platform ekibi, her pull request'e yorum
-yapan bir AI inceleyici eklemek istiyor. Onu açmadan önce, özelliği ay için bütçeleyebilmek
-adına token maliyetini tahmin ediyorlar.
+AI araçlarıyla yaşanan iki günlük sürpriz aynı şeye dayanır — token'lara — ve bunu bilmek sana para ve yarım kalan cevaplar kazandırır.
 
-**İçeri ne giriyor.** Tipik bir PR'de bot, diff'i ve çevresindeki bir miktar kodu okur —
-yaklaşık **600 satır**. Kaynak kod token açısından ağırdır: parantezler, girinti ve
-tanımlayıcılar hepsi token harcar, bu yüzden ekip düz metin oranını kullanmaz. Temsili bir
-diff'i kendi modelleri için bir tokenizer'dan geçirip **~9.000 girdi token'ı** ölçerler. Ayrıca
-sabit bir talimat prompt'unu ("Bu diff'i hatalar, güvenlik sorunları ve stil açısından
-incele…") yaklaşık **300 token** olarak başa eklerler, böylece girdi PR başına **~9.300 token** olur.
+**Sürpriz 1: fatura tırmanıyor.** Ekibinin PR-inceleme botu her pull request'te çalışıyor ve aylık maliyet artıyor. *Neden?* Token başına faturalanırsın ve kod ağır tokenize olur — 400 satırlık bir diff göründüğünden çok daha fazla token'dır ve output, input'tan pahalıdır. Bunu bilince yalnızca değişen kısımları gönderir ve çıktıyı en önemli sorunlarla sınırlarsın — fatura düşer, özellik kaybı olmaz.
 
-**Dışarı ne çıkıyor.** Bot kabaca **400 kelimelik** inceleme yorumu yazar. Kabaca çıktı
-tahminini `400 ÷ 75 × 100 ≈ 530 çıktı token'ı` kullanarak **~550 çıktı token'ına** yuvarlarlar.
+**Sürpriz 2: büyük dosya kesiliyor.** Devasa bir dosya yapıştırırsın, cevap yarıda kesilir. *Neden?* Girdi ve çıktı tek bir context window'u paylaşır; pencereyi girdiyle doldurup cevaba yer bırakmadın. Bunu bilince dosyayı parçalar ya da yalnızca ilgili kısmı gönderirsin.
 
-**PR başına maliyet.** Girdi ve çıktı ayrı ayrı faturalandırıldığı için bunları ayrı
-hesaplarlar. Modellerinin milyon girdi token'ı başına \$3 ve milyon çıktı token'ı başına \$15
-ücret aldığını varsayalım:
+**Taahhütten önce öngör.** Yeni bir AI adımı bağlamadan önce birkaç örnekte modelin tokenizer'ıyla gerçek token say ve ne sıklıkta çalışacağıyla çarp — böylece ay sonunda fatura şoku olmaz.
 
-| Bölüm | Token | Oran (1M başına) | Maliyet |
-|---|---|---|---|
-| Girdi (diff + prompt) | 9.300 | \$3 | \$0.0279 |
-| Çıktı (yorumlar) | 550 | \$15 | \$0.0083 |
-| **PR başına** | | | **~\$0.036** |
+**Türkçe'ye özgü bir püf.** Aynı metin Türkçe'de İngilizce'den belirgin biçimde daha fazla token'a mal olur; aracın Türkçe işliyorsa fazlasını bütçele.
 
-**Aya ölçeklendirme.** Ekip ayda yaklaşık **1.500 PR** birleştirir, yani tahmin
-`1.500 × \$0.036 ≈ \$54/ay` olur — onaylanacak kadar ucuz.
-
-**Kontrol ettikleri tuzak.** Tek bir devasa PR (20.000 satırlık üretilmiş bir migration)
-modelin context window'unu tamamen aşardı, bu yüzden bot, bir token eşiğinin üzerindeki
-diff'leri başarısız olmak yerine **atlamak veya parçalamak** üzere yapılandırılmıştır.
-
-**Çıkarım:** istek başına tahmin et, girdiyi çıktıdan ayır, hacimle çarp — ve hem bütçeyi *hem
-de* context sınırını bozan tek bir aşırı büyük dosyaya karşı koru.
+**Neden uğraşayım?** Çünkü "AI pahalandı" ve "AI cevabımı kesti", token'larla düşününce ikisi de önlenebilir — aracı korur, sürprizlerden kurtulursun.

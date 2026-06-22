@@ -1,13 +1,13 @@
-# Çalışılmış Örnek: Bir Kodlama Sprint'inde Model Seçimi (Kodlama Aşaması)
+# İşlenmiş Örnek: Günün Sıkıcı Kısımlarını AI'a Bırak
 
-**Aşama: Kodlama/Geliştirme.** Bir geliştirme ekibi, bir özellik sprint'i sırasında AI'ı günlük iş akışına dahil ediyor. Üç ayrı yaşam döngüsü görevi ortaya çıkıyor ve her biri farklı bir model seçimini gerektiriyor — yetenek/maliyet/gecikme dengesini pratikte gösteriyor.
+Normal bir iş gününün küçük, tekrarlayan angaryalarını düşün — doğru modeli seçmek bunları sessizce ortadan kaldırır, böylece zamanın gerçekten sana ihtiyaç duyan işe gider.
 
-**Görev 1 — commit mesajları üretmek.** Her push küçük bir prompt tetikler: *"Bu diff'i tek satırlık bir commit mesajı olarak özetle. Diff: ..."*. Model metni sürdürür ve en olası sonraki token'ları mesaj olur. Bu yüksek hacimli, basit ve iyi sınırlandırılmış bir iştir, bu yüzden ekip **küçük, hızlı, ucuz** bir model seçer — yaratıcılık değil, özlü ve tutarlı bir ifade isterler. Her commit'te amiral gemisi fiyatları ödemek savurganlık olurdu.
+**Angarya: commit mesajı yazmak.** Her push'ta durup diff'i tek satırlık derli toplu bir mesaja özetlersin — günde onlarca kez. Küçük, hızlı, ucuz bir model bunu saniyede yazar: tutarlı ifade, düşünme yok, fark edilmeyecek kadar küçük maliyet. *Neden AI?* Senin için saf angarya, model için önemsiz — o dakikaları her gün geri alırsın.
 
-**Görev 2 — birim test senaryoları üretmek.** Bir test uzmanı, modele bir tarih ayrıştırma fonksiyonu için uç durumlar üretmesini söyler. Bu, bir commit mesajından daha fazla akıl yürütme gerektirir ama en zor görev değildir, bu yüzden **orta seviye** bir model uygundur. Ekip ona bariz olanları tekrarlamak yerine *çeşitli* girdiler (artık yıllar, saat dilimleri, boş dizeler) üretmesini açıkça söyler.
+**Angarya: uç durumları düşünmek.** Bir tarih ayrıştırıcıyı göndermeden önce artık yılları, saat dilimlerini, boş dizeleri… hepsini hatırlaman gerekir. Orta seviye bir model bunları saniyede sıralar ve senin unutacaklarını yakalar. *Neden AI?* Hafızadan yapmaktan daha hızlı ve daha kapsamlı — hangi vakaların önemli olduğuna yine sen karar verirsin.
 
-**Görev 3 — bir mimari öneriyi incelemek.** Bir mimar, modelden önerilen bir servis bölünmesini gizli bağımlılıklar ve hata modları açısından eleştirmesini ister. Bu, zayıf bir yanıtın maliyetli olduğu, gerçekten zor ve açık uçlu bir akıl yürütmedir, bu yüzden ekip **en büyük, en yetenekli** modeli saklar — nadiren çalıştığı ve riskler yüksek olduğu için daha yüksek maliyetini ve gecikmesini kabul eder.
+**Zor olan: tasarım kontrolü.** Bir servis bölünmesinin gizli bağımlılık saklayıp saklamadığından emin değilsin. İnceleme toplantısından *önce* en güçlü modele "bunu deş" dersin. *Neden AI?* 30 saniyede ciddi bir ikinci görüş, sorunu production'da bulmaktan iyidir — ve pahalı model burada değer, çünkü riskler yüksek ve nadiren sorarsın.
 
-**Sınırların ısırdığı yer.** Model bir keresinde var olmayan bir kütüphane metodu önerdi — bir **halüsinasyon**. Bu yüzden ekip her AI önerisini bir insanın doğruladığı bir taslak olarak görür ve **bilgi kesim tarihini** dengelemek için prompt'larda framework sürümünü sabitler.
+**Kontrol sende kalsın diye püf nokta.** Model bir keresinde var olmayan bir metot önerdi (**halüsinasyon**) ve en yeni framework sürümünü bilmiyor (**bilgi kesim tarihi**). Bu yüzden çıktısını kutsal değil, kontrol edeceğin bir taslak olarak görürsün.
 
-**Sonuç:** bir ekip, üç görev, üç model boyutu. Seçim her görevin gereksinimlerini izledi — her zaman "en iyi" modele uzanma alışkanlığını değil.
+**Özet:** modeli angaryaya göre eşle — günlük işler için ucuz ve hızlı, gerçekten zor karar için büyüğü. AI yerini, sıkıcı kısımlarda sana zaman, zor kısımlarda ikinci bir beyin vererek hak eder.

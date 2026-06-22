@@ -1,35 +1,13 @@
-# Worked Example: Budgeting an AI Code-Review Bot
+# Worked Example: Why Your AI Tool Suddenly Costs Too Much (or Cuts Off)
 
-**Phase: continuous integration / code review.** A platform team wants to add an AI
-reviewer that comments on every pull request. Before turning it on, they estimate the
-token cost so they can budget the feature for the month.
+Two everyday surprises with AI tools both come down to one thing — tokens — and knowing it saves you money and broken answers.
 
-**What goes in.** On a typical PR the bot reads the diff plus a little surrounding code —
-about **600 lines**. Source code is token-heavy: braces, indentation, and identifiers all
-cost tokens, so the team does not use the prose ratio. They run one representative diff
-through a tokenizer for their model and measure **~9,000 input tokens**. They also prepend
-a fixed instruction prompt ("Review this diff for bugs, security issues, and style…") of
-about **300 tokens**, so input is **~9,300 tokens** per PR.
+**Surprise 1: the bill creeps up.** Your team's PR-review bot runs on every pull request and the monthly cost keeps climbing. *Why?* You're billed per token, and code tokenizes heavy — a 400-line diff is far more tokens than it looks, and output costs more than input. Once you know that, you send just the changed hunks and cap the output to the top issues — the bill drops, no feature lost.
 
-**What comes out.** The bot writes roughly **400 words** of review comments. Using the
-rough output guess of `400 ÷ 75 × 100 ≈ 530 output tokens`, they round to **~550 output
-tokens**.
+**Surprise 2: a big file gets truncated.** You paste a huge file and the answer cuts off halfway. *Why?* Input and output share one context window; you filled it with input and left no room for the answer. Knowing that, you chunk the file or send only the relevant part.
 
-**Per-PR cost.** Because input and output are billed separately, they cost them apart.
-Suppose their model charges \$3 per million input tokens and \$15 per million output tokens:
+**Forecast before you commit.** Before wiring a new AI step, count real tokens with the model's tokenizer on a few samples and multiply by how often it'll run — so there's no bill-shock at month end.
 
-| Part | Tokens | Rate (per 1M) | Cost |
-|---|---|---|---|
-| Input (diff + prompt) | 9,300 | \$3 | \$0.0279 |
-| Output (comments) | 550 | \$15 | \$0.0083 |
-| **Per PR** | | | **~\$0.036** |
+**One Turkish-specific catch.** The same text in Turkish costs noticeably more tokens than English, so if your tool handles Turkish, budget for the extra.
 
-**Scaling to a month.** The team merges about **1,500 PRs/month**, so the estimate is
-`1,500 × \$0.036 ≈ \$54/month` — cheap enough to approve.
-
-**The catch they check for.** One huge PR (a generated migration of 20,000 lines) would
-blow past the model's context window entirely, so the bot is configured to **skip or
-chunk** diffs over a token threshold rather than fail.
-
-**The takeaway:** estimate per request, separate input from output, multiply by volume —
-and guard against the single oversized file that breaks the budget *and* the context limit.
+**Why bother?** Because "AI got expensive" and "AI cut off my answer" are both avoidable once you think in tokens — you keep the tool and lose the surprises.
