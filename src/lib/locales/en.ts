@@ -397,9 +397,16 @@ const en = {
   'welcome.cio.body3': 'Please take it seriously and finish it. At the end you will tell us, in your own words, what you will do differently in your work. That is how we turn a course into a real change in how we build.',
   'welcome.cio.signature': '— Your CIO',
   'welcome.role.title': 'Choose your role to start',
-  'welcome.role.help': 'We’ll tailor your learning path to your role. You can change it later from your dashboard.',
+  'welcome.role.help': 'We’ll tailor your learning path to your role. Choose carefully — this is set once and can’t be changed afterwards. You can still take any other module any time.',
   'welcome.start': 'Start',
   'welcome.start.hint': 'Pick your role to continue.',
+
+  // Completion = all required modules + exam + reflection
+  'dashboard.complete.title': 'Training complete 🎉',
+  'dashboard.complete.checklist': 'To complete your training:',
+  'dashboard.complete.modules': 'Required modules ({done}/{total})',
+  'dashboard.complete.exam': 'Pass the exam',
+  'dashboard.complete.reflection': 'Write your completion note',
 } as const;
 
 export type TranslationKey = keyof typeof en;

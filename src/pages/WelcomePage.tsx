@@ -21,10 +21,11 @@ export function WelcomePage() {
   const [role, setRole] = useState('');
   const [saving, setSaving] = useState(false);
 
-  // Pre-select an existing choice if the learner already picked one.
+  // The role is chosen once and locked. If it's already set, there's nothing to
+  // do here — go straight to the dashboard.
   useEffect(() => {
-    if (profile?.learning_role) setRole(profile.learning_role);
-  }, [profile?.learning_role]);
+    if (profile?.learning_role) navigate('/dashboard', { replace: true });
+  }, [profile?.learning_role, navigate]);
 
   async function handleStart() {
     if (!role || !profile) return;

@@ -12,7 +12,7 @@ import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import type { TranslationKey } from '@/lib/locales/en';
-import { ROLE_PATHS, ROLE_ORDER, type RoleKey, type RoleModule } from '@/lib/rolePaths';
+import { ROLE_PATHS, type RoleKey, type RoleModule } from '@/lib/rolePaths';
 
 // ---------------------------------------------------------------------------
 // Single shared curriculum — one path for everyone (no role splitting).
@@ -232,6 +232,38 @@ function PathList({
 }
 
 // ---------------------------------------------------------------------------
+// ChecklistRow — one completion gate (required modules / exam / reflection)
+// ---------------------------------------------------------------------------
+
+function ChecklistRow({
+  done,
+  label,
+  action,
+}: {
+  done: boolean;
+  label: string;
+  action?: { label: string; onClick: () => void };
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <span className="flex items-center gap-2 text-sm">
+        {done ? (
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
+        ) : (
+          <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
+        )}
+        <span className={done ? 'text-foreground' : 'text-muted-foreground'}>{label}</span>
+      </span>
+      {action && !done && (
+        <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={action.onClick}>
+          {action.label}
+        </Button>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
@@ -244,8 +276,9 @@ export function DashboardPage() {
   const [moduleIdByCode, setModuleIdByCode] = useState<Record<string, string>>({});
   const [progressByModule, setProgressByModule] = useState<Record<string, Partial<Record<Level, ProgressRow>>>>({});
   const [loading, setLoading] = useState(true);
-  // Mandatory completion reflection: due once the exam is passed but not yet written.
-  const [reflectionDue, setReflectionDue] = useState(false);
+  // Completion gates beyond modules: the exam pass and the written reflection.
+  const [examPassed, setExamPassed] = useState(false);
+  const [reflectionDone, setReflectionDone] = useState(false);
 
   const load = useCallback(async () => {
     if (!profile) return;
@@ -268,12 +301,14 @@ export function DashboardPage() {
     setProgressByModule(byModule);
     setLoading(false);
 
-    // Surface the mandatory reflection once the exam is passed and unwritten.
+    // Track the exam + reflection gates for the completion checklist.
     try {
       const [passed, reflection] = await Promise.all([hasPassedExam(), getMyReflection()]);
-      setReflectionDue(passed && !reflection);
+      setExamPassed(passed);
+      setReflectionDone(!!reflection);
     } catch {
-      setReflectionDue(false);
+      setExamPassed(false);
+      setReflectionDone(false);
     }
   }, [profile]);
 
@@ -294,18 +329,12 @@ export function DashboardPage() {
   const passedCount = MODULE_CODES.filter((code) => statusFor(code).l1Passed).length;
   const overallPct = Math.round((passedCount / MODULE_CODES.length) * 100);
 
-  // Role-based path (persisted to profiles.learning_role).
-  const [role, setRole] = useState<string>('');
+  // Role is chosen once on the Welcome page and locked thereafter. If a learner
+  // somehow reaches the dashboard without one, send them back to pick it.
+  const role = profile?.learning_role ?? '';
   useEffect(() => {
-    if (profile?.learning_role) setRole(profile.learning_role);
-  }, [profile?.learning_role]);
-
-  async function chooseRole(next: string) {
-    setRole(next);
-    if (profile) {
-      await supabase.from('profiles').update({ learning_role: next || null }).eq('id', profile.id);
-    }
-  }
+    if (profile && !profile.learning_role) navigate('/welcome', { replace: true });
+  }, [profile, navigate]);
 
   const path = role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null;
   const moduleSatisfied = (rm: RoleModule) => {
@@ -314,7 +343,11 @@ export function DashboardPage() {
   };
   const coreCodes = new Set(path?.core.map((rm) => rm.code) ?? []);
   const coreDone = path ? path.core.filter(moduleSatisfied).length : 0;
-  const roleCertified = path ? coreDone === path.core.length : false;
+
+  // Completion = every required module passed + exam passed + reflection written.
+  const requiredDone = path ? coreDone === path.core.length : false;
+  const complete = requiredDone && examPassed && reflectionDone;
+  const reflectionDue = examPassed && !reflectionDone;
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -382,36 +415,48 @@ export function DashboardPage() {
         <section className="rounded-lg border border-border bg-card px-5 py-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-sm font-semibold">{t('role.panel.title')}</h2>
-            <select
-              value={role}
-              onChange={(e) => void chooseRole(e.target.value)}
-              aria-label={t('role.panel.title')}
-              data-testid="role-select"
-              className="rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <option value="">{t('role.panel.placeholder')}</option>
-              {ROLE_ORDER.map((r) => (
-                <option key={r} value={r}>{t(`role.${r}` as TranslationKey)}</option>
-              ))}
-            </select>
+            {role && (
+              <span
+                data-testid="role-locked"
+                className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary"
+              >
+                {t(`role.${role}` as TranslationKey)}
+              </span>
+            )}
           </div>
-
-          {!path && <p className="mt-2 text-sm text-muted-foreground">{t('role.panel.pick')}</p>}
 
           {path && (
             <div className="mt-3 space-y-4">
-              <div className="text-sm">
-                {roleCertified ? (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 font-medium text-success">
-                    <CheckCircle2 className="h-3.5 w-3.5" />
-                    {t(`role.${role}` as TranslationKey)} — {t('role.panel.certified')}
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">
-                    {t('role.panel.progress', { done: coreDone, total: path.core.length })}
-                  </span>
-                )}
-              </div>
+              {/* Completion = all required modules + exam + reflection */}
+              {complete ? (
+                <div
+                  data-testid="training-complete"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-sm font-medium text-success"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  {t('dashboard.complete.title')}
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t('dashboard.complete.checklist')}
+                  </p>
+                  <ChecklistRow
+                    done={requiredDone}
+                    label={t('dashboard.complete.modules', { done: coreDone, total: path.core.length })}
+                  />
+                  <ChecklistRow
+                    done={examPassed}
+                    label={t('dashboard.complete.exam')}
+                    action={!examPassed ? { label: t('exam.cta.button'), onClick: () => navigate('/exam') } : undefined}
+                  />
+                  <ChecklistRow
+                    done={reflectionDone}
+                    label={t('dashboard.complete.reflection')}
+                    action={examPassed && !reflectionDone ? { label: t('dashboard.reflection.cta'), onClick: () => navigate('/reflection') } : undefined}
+                  />
+                </div>
+              )}
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <PathList titleKey="role.panel.core" items={path.core} statusFor={statusFor} onOpen={(c) => navigate(`/learn/${c}`)} />

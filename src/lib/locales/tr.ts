@@ -397,9 +397,16 @@ const tr = {
   'welcome.cio.body3': 'Lütfen ciddiye alın ve tamamlayın. Sonunda, kendi kelimelerinizle işinizde neyi farklı yapacağınızı bize anlatacaksınız. Bir kursu, inşa etme şeklimizde gerçek bir değişime böyle çeviririz.',
   'welcome.cio.signature': '— CIO’nuz',
   'welcome.role.title': 'Başlamak için rolünü seç',
-  'welcome.role.help': 'Öğrenme patikanı rolüne göre uyarlayacağız. Daha sonra ana sayfandan değiştirebilirsin.',
+  'welcome.role.help': 'Öğrenme patikanı rolüne göre uyarlayacağız. Dikkatli seç — bu seçim bir kez yapılır ve sonradan değiştirilemez. Yine de istediğin başka modülü dilediğin zaman alabilirsin.',
   'welcome.start': 'Başla',
   'welcome.start.hint': 'Devam etmek için rolünü seç.',
+
+  // Tamamlanma = tüm zorunlu modüller + sınav + refleksiyon
+  'dashboard.complete.title': 'Eğitim tamamlandı 🎉',
+  'dashboard.complete.checklist': 'Eğitimi tamamlamak için:',
+  'dashboard.complete.modules': 'Zorunlu modüller ({done}/{total})',
+  'dashboard.complete.exam': 'Sınavı geç',
+  'dashboard.complete.reflection': 'Tamamlama notunu yaz',
 } as const;
 
 export default tr;
