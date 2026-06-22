@@ -1,0 +1,54 @@
+name: Deploy Supabase
+
+# Keeps the live Supabase project in sync with the repo:
+#   - pushes any NEW database migrations (supabase/migrations/**)
+#   - redeploys the edge functions (supabase/functions/**)
+# Runs only when something under supabase/ changes on main.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_ACCESS_TOKEN  — a Supabase personal access token (sbp_…)
+#   SUPABASE_DB_PASSWORD   — the project's database password
+#                            (Dashboard → Project Settings → Database → Password)
+#
+# Migration history was baselined (0001–0014 marked applied), so `db push`
+# only applies migrations added after that.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/**'
+      - 'supabase/functions/**'
+      - 'supabase/config.toml'
+  workflow_dispatch:
+
+env:
+  SUPABASE_PROJECT_REF: ymliczohkmksptbxtpah
+
+jobs:
+  migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Push new database migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          supabase link --project-ref "$SUPABASE_PROJECT_REF"
+          supabase db push
+
+  functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Deploy edge functions
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: supabase functions deploy --project-ref "$SUPABASE_PROJECT_REF"
