@@ -1,47 +1,13 @@
-# İşlenmiş Örnek: Spec'ten-Test-Planına Prompt'unu Sağlamlaştırmak
+# İşlenmiş Örnek: Başka Yazılımın Güvenebileceği Bir Prompt Yap
 
-AI özelliğin bir özellik spec'ini, aşağı-akış araçların yuttuğu yapılandırılmış bir test planına
-çeviriyor. İlk prompt demoda iyiydi, sonra production'da kırıldı. İleri desenler onu nasıl güvenilir
-kılıyor, işte.
+Prompt'un bir spec'i, alt sistemlerin otomatik okuduğu bir test planına çevirir. Demoda çalıştı, production'da bozuldu — çünkü demo düzyazıya tahammül eder, production bir sözleşme ister. İşte ileri seviye desenler onu nasıl güvenilir kılar ve bu emek neden değer.
 
-## Gelişigüzel prompt (ve nasıl başarısız oldu)
+**Few-shot'u iyi yapmak.** Üç neredeyse-aynı mutlu-yol örneği yapıştırmazsın; kolay durumu *ve* zorları yapıştırırsın — boş girdi, tuhaf bir uç durum. *Neden?* Örnekler *spec'in kendisidir* — yalnızca mutlu yolları göster, model ilk tuhaf girdide bozulur. Çeşitli örnekler, asıl başarısız olduğu yerde güvenilirlik kazandırır.
 
-> "Bu spec'i oku ve bir test planı yaz."
+**Katı bir çıktı sözleşmesi.** "Bir test planı" istemeyi bırakır, sınırlayıcılarla sarılmış, adlandırılmış bir JSON şeması istersin: "yalnızca bunu döndür". *Peki neden AI?* Çünkü artık alt katman kod, düzyazıyı regex'lemek yerine sonuca güvenebilir — ve kullanmadan önce JSON'u **doğrularsın**, hatalı bir planı göndermek yerine onararak ya da reddederek.
 
-Demoda derli toplu bir plan üretti. Production'da bir sefer prose döndürdü, bir dahaki sefer markdown
-tablo, edge case'leri atladı ve bir keresinde spec'te olmayan bir gereksinim uydurdu. İkinci
-çalıştırmada aşağı-akış parse kırıldı. Sorun model değil — belirtilmemiş bir prompt.
+**Önce akıl yürüt, sonra yalnızca cevabı döndür.** Çetrefilli bir spec için modelin adım adım akıl yürütmesine izin verirsin — ama yalnızca nihai yapılandırılmış planı döndürmesini söylersin. *Neden?* Akıl yürütme cevabı iyileştirir; alt katman araç ise düşünme metniyle boğulur. Kaliteyi dağınıklık olmadan alırsın.
 
-## Düzeltme 1 — Katı bir çıktı sözleşmesi
+**Prompt'a kod gibi davran.** Onu satır içinde değil, versiyon kontrolünde tutarsın. *Baştan neden AI?* Çünkü başka yazılımın bağımlı olduğu bir prompt *yazılımdır* — değiştiğinde bir diff, bir inceleme ve geri alabilme istersin, tıpkı diğer production değişiklikleri gibi.
 
-Bir JSON şeması tanımlarsın: her biri `id`, `title`, `type` (happy/edge/negative) ve `steps` içeren
-bir test-case dizisi. Prompt, spec'i delimiter'larla sarar ve **yalnızca bu şemaya uyan JSON döndür**
-der. Aşağı-akış kod sonra her yanıtı şemaya karşı **doğrular** ve başarısızlıkta reddeder ya da onarır
-— böylece bozuk bir çalıştırma pipeline'ı sessizce bozamaz.
-
-## Düzeltme 2 — Gerçek çeşitlilikle few-shot
-
-İki örnek eklersin: sıradan bir özellik *ve* zor bir edge case'i olan biri (boş girdi, bir izin
-sınırı). Artık model yalnızca happy-path'i değil, negative ve edge case'leri de güvenilir biçimde
-üretir — çünkü "tam" olmanın ne demek olduğunu prose değil, örnekler öğretti.
-
-## Düzeltme 3 — Eksik-bilgi durumunu ele al
-
-Spec'ler çoğu zaman eksiktir. Modelin gereksinim uydurmasına izin vermek yerine, prompt şunu
-talimatlar: *spec bir davranışı belirtmiyorsa, bir kural uydurmak yerine `assumption` (varsayım)
-olarak işaretlenmiş bir test-case ekle.* Belirsizlik artık kendinden emin bir uydurma değil, görünür
-bir bayrak olarak ortaya çıkar.
-
-## Düzeltme 4 — Versiyonla ve eval'le kapıla
-
-Prompt'u koddan çıkarıp version control'a alır, spec girdisini parametrelersin. Küçük bir **eval
-seti** tutarsın: bilinen-doğru planlara sahip on spec. Her prompt değişikliği seti CI'da çalıştırır ve
-**yalnızca skorlar korunur ya da iyileşirse** yayınlanır — böylece bir vakayı sıkılaştırmak
-diğerlerini sessizce bozamaz.
-
-## Ders
-
-Model akıllanmadı; prompt **mühendislik edildi**. Doğrulamalı şema-bağlı bir çıktı sözleşmesi,
-çeşitli few-shot örnekleri, eksik bilginin açık ele alınması ve bir eval setiyle kapılı versiyonlanmış
-bir prompt; demo-seviyesi bir prompt'u, production araçlarının güvenebileceği birine çevirir. Etkileyen
-prompting ile yayınlanan prompting arasındaki fark budur.
+**Özet:** demodan production'a sıçrama daha zekice bir prompt değildir — çeşitli örnekler, doğrulanmış bir çıktı sözleşmesi ve versiyonlamadır. Gerçek araçları AI çıktısına yöneltip ona güvenmeni sağlayan budur.

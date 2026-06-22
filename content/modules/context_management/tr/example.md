@@ -1,16 +1,13 @@
-# Çalışılmış Örnek: Planı Kaybeden Çok Dosyalı Bir Refactor (Bakım Aşaması)
+# İşlenmiş Örnek: AI'a Tüm Repoyu Yapıştırmayı Bırak
 
-**Aşama: Bakım/Refactoring.** Bir geliştirici, bir AI asistanından eski bir serviste çekirdek bir `User` modelini `Account` olarak yeniden adlandırmasını ister — yaklaşık 30 dosyaya dokunarak. Oturum iyi başlar: asistan modeli, repository sınıfını ve birkaç çağıranı günceller. Sonra, yirmi dosya geçince, erken bir talimatı ("DB uyumluluğu için eski `user_id` kolon adını koru") "unutur" ve kolonu da yeniden adlandırmaya başlar, migration'ları bozar.
+Beş dosyaya dokunan bir özelliği yeniden düzenliyorsun. İlk akla gelen, AI'ın "her şeye sahip olması" için tüm repoyu sohbete yapıştırmak — ama onu tam da yavaş, pahalı ve unutkan yapan şey bu. İşte context window'u düşünmek kendi gününü nasıl kolaylaştırır.
 
-**Neden oldu.** Araç, model durumsuz olduğu için her çağrıda **tüm** transkripti — düzenlenen her dosyayı ve açıklamayı — yeniden gönderiyordu. Refactor büyüdükçe biriken bağlam **context window** sınırına yaklaştı. Sığdırmak için en eski içerik — o uyumluluk talimatı dahil — atıldı. Model bunu hiç görmedi, bu yüzden ona uyamadı.
+**Angarya: çok dosyalı değişiklik için AI'ı beslemek.** 30 dosya yapıştırıp düzenlemeyi istersin ve cevap yarıda kesilir. *Neden?* Context window, **gönderdiğin ile geri yazdığının** paylaştığı tek bir bütçedir — ihtiyacın olmayan kaynakla doldurursan, asıl istediğin koda yer kalmaz. O yüzden yalnızca değişikliğin dokunduğu beş dosyayı gönderirsin ve cevap birden bütün gelir.
 
-**Strateji seçimleriyle düzeltmek.** Ekip iki yaklaşımı birleştirir:
+**Sürpriz: "ama bunu daha önce söylemiştim."** Birinci mesajda bir kural koyarsın ("`legacy_id` sütun adını koru"), on mesaj sonra AI yine de yeniden adlandırır. *Neden?* Her çağrı **durumsuzdur (stateless)** — model yalnızca şu an pencerede olanı bilir; araç yeniden göndermezse eski mesajlar yok olmuştur. O yüzden vazgeçilmez kuralı "hatırlamasına" güvenmek yerine, önemli olan mesajda yeniden yazarsın.
 
-- Kod tabanı için **retrieval**: 30 dosyanın hepsini yapıştırmak yerine, yalnızca mevcut düzenlemeyle ilgili birkaç dosyayı getir. Bu, tüm refactor boyunca pencereyi yalın tutar.
-- Plan için **sabitlenmiş gerçeklerle özetleme**: refactor'un kurallarının kısa bir çalışan özetini tut ("`User`→`Account` yeniden adlandır; **`user_id` kolonunu koru**; tüm çağıranları güncelle"), her zaman en üstte yeniden gönderilir, böylece asla kaydırılıp gözden çıkmaz.
+**Günü kurtaran çözüm: kısa bir özet.** Uzun bir tasarım tartışmasını tekrar yapıştırmak yerine üç satırlık bir özet yazarsın — alınan kararlar, korunacak adlar, kalan işler — ve onu yapıştırırsın. *Peki neden AI?* Çünkü artık AI derli toplu, doğru bir brief'ten çalışır ve sürekli taşan bir pencereyi düşünmeye yeri olan bir pencereye çevirmiş olursun.
 
-Artık her çağrı şunları içerir: sabitlenmiş refactor kuralları + o ana kadarki ilerlemenin bir özeti + yalnızca şu an düzenlenen dosyalar — pencere içinde rahatça.
+**Kontrol sende kalsın.** Büyük pencere hafıza demek değildir. Bir kısıt önemliyse, onu önemli olduğu istek için pencerenin *içine* koy — hayatta kaldığını varsayma.
 
-**Bir başka seçenek.** BA'nın görüşme notlarındaki uzun gereksinim dizileri için de aynı fikir geçerlidir: her mesajı yapıştırmak yerine diziyi **özetle**.
-
-**Çıkarım:** bağlamın tükenmesi bir model hatası değildir — bir tasarım kısıtıdır. Çözüm, her çağrıda *neyi dahil edeceğine* karar vermektir; kod için retrieval, plan için özetleme kullanarak, sınırın altında kalırken temel kuralların mevcut kalmasını sağlamak.
+**Özet:** AI'a her şeyi değil, *doğru* dilimi verirsin. Bilinçli gönderilen daha az bağlam, kurallarına uyan eksiksiz bir cevap getirir — üstelik daha ucuza.

@@ -1,45 +1,13 @@
-# Worked Example: Hardening a Spec-to-Test-Plan Prompt
+# Worked Example: Make a Prompt Other Software Can Depend On
 
-Your AI feature turns a feature spec into a structured test plan that downstream tooling ingests.
-The first prompt demoed well and then broke in production. Here's how the advanced patterns make it
-dependable.
+Your prompt turns a spec into a test plan that downstream tooling reads automatically. It worked in the demo and broke in production — because a demo tolerates prose and production needs a contract. Here's how the advanced patterns make it dependable, and why that's worth the effort.
 
-## The casual prompt (and how it failed)
+**Few-shot done well.** You don't paste three near-identical happy-path examples; you paste the easy case *and* the awkward ones — empty input, a weird edge case. *Why?* The examples *are* the spec — show only happy paths and the model breaks on the first odd input. Diverse examples buy you reliability where it actually fails.
 
-> "Read this spec and write a test plan."
+**A strict output contract.** You stop asking for "a test plan" and ask for a named JSON schema, wrapped in delimiters, "return only this." *Why use AI here at all?* Because now downstream code can rely on the result instead of regexing prose — and you **validate** the JSON before use, repairing or rejecting on failure rather than shipping a malformed plan.
 
-In the demo it produced a tidy plan. In production it returned prose one time, a markdown table the
-next, skipped edge cases, and once invented a requirement that wasn't in the spec. Downstream
-parsing broke on the second run. The problem isn't the model — it's an unspecified prompt.
+**Reason, then return only the answer.** For a tricky spec you let the model reason step by step — but you tell it to return *only* the final structured plan. *Why?* The reasoning improves the answer; the downstream tool would choke on the thinking. You get the quality without the mess.
 
-## Fix 1 — A strict output contract
+**Treat the prompt as code.** You put it in version control, not inline. *Why use AI here in the first place?* Because a prompt that other software depends on *is* software — when it changes, you want a diff, a review, and the ability to roll back, same as any other production change.
 
-You define a JSON schema: an array of test cases, each with `id`, `title`, `type`
-(happy/edge/negative), and `steps`. The prompt wraps the spec in delimiters and says **return only
-JSON matching this schema**. Downstream code then **validates** every response against the schema
-and rejects or repairs on failure — so a malformed run can't silently corrupt the pipeline.
-
-## Fix 2 — Few-shot with real diversity
-
-You add two examples: one ordinary feature *and* one with a tricky edge case (empty input, a
-permission boundary). Now the model reliably emits negative and edge cases, not just the happy
-path — because the examples, not the prose, taught it what "complete" means.
-
-## Fix 3 — Handle the missing-info case
-
-Specs are often incomplete. Instead of letting the model invent requirements, the prompt instructs:
-*if the spec doesn't state a behaviour, add a test case flagged `assumption` rather than inventing a
-rule.* Ambiguity now surfaces as a visible flag instead of a confident fabrication.
-
-## Fix 4 — Version it and gate it with evals
-
-You move the prompt out of the code and into version control, parameterizing the spec input. You
-keep a small **eval set**: ten specs with known-good plans. Every prompt change runs the set in CI
-and ships **only if scores hold or improve** — so tightening one case can't quietly break others.
-
-## The lesson
-
-The model didn't get smarter; the prompt got **engineered**. A schema-bound output contract with
-validation, diverse few-shot examples, explicit handling of missing info, and a versioned
-prompt gated by an eval set turn a demo-grade prompt into one production tooling can depend on.
-That's the difference between prompting that impresses and prompting that ships.
+**The takeaway:** the jump from demo to production isn't a cleverer prompt — it's diverse examples, a validated output contract, and versioning. That's what lets you point real tooling at AI output and trust it.

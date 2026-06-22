@@ -1,13 +1,13 @@
-# Worked Example: When Each Strategy's Failure Mode Bites (Maintenance Phase)
+# Worked Example: Pick the Strategy, Accept Its Failure Mode
 
-**Phase: Maintenance — a multi-day legacy migration.** A team runs an AI assistant to migrate a service from a deprecated framework to its successor. Three incidents, each exposing a different strategy's failure mode, show why one technique is never universally "safe."
+You're running a multi-day, AI-assisted migration. No single trick keeps it inside the context window — so you combine a few, knowing exactly how each one can bite you. Here's how that keeps your own work moving instead of silently breaking.
 
-**Incident 1 — summarization drift.** To control tokens, older turns of the migration were folded into a running summary, which was itself re-summarized as the work grew. By day three, the rule "preserve the public `/v1/orders` response shape for backward compatibility" had been compressed away. The model changed the response schema, breaking downstream consumers. **Lesson:** summarization is lossy, and summaries-of-summaries drift. The fix: **pin** backward-compatibility rules as protected facts carried verbatim, never summarized.
+**Recent dialogue: sliding window.** You keep only the last several turns live. *Why?* It's cheap and the recent back-and-forth is what matters now. *The catch you accept:* it's amnesiac by design — a rule you stated on day one scrolls out. So you **pin** that rule as a fixed fact rather than trusting the window to hold it.
 
-**Incident 2 — sliding-window amnesia.** A second session kept only the last 12 turns verbatim with no summary. The migration's stated goal from turn 1 (move auth to the new middleware, leave routing untouched) scrolled out, and the assistant began rewriting routing too. **Lesson:** sliding window is amnesiac by design. The fix: pair it with a short persistent summary of goal and scope.
+**Older history: a running summary.** You compress yesterday's decisions into a short recap. *Why use AI here?* It writes the recap in seconds and you carry decisions forward without re-pasting everything. *The catch:* summaries are lossy and summaries-of-summaries drift — so you keep identifiers and acceptance criteria verbatim, never paraphrased.
 
-**Incident 3 — retrieval miss.** Source files were served to the model via retrieval. A poorly chunked file split a validation function across two chunks; the retriever returned only the first half, and the model hallucinated the rest, producing code that compiled but skipped a check. **Lesson:** retrieval moves the risk to retrieval quality — chunk boundaries and index freshness now matter. The fix: align chunks to function boundaries plus a check that retrieved chunks cover the symbol being edited.
+**The codebase: retrieval.** You fetch only the files each step needs. *Why?* It keeps the window lean across hundreds of calls. *The catch:* now your risk is retrieval quality — a stale index serves last week's code and the AI "fixes" a file that already changed. So you re-index before each session.
 
-**The combined design.** The team ended with: retrieval for source files (with quality checks), a sliding window for recent dialogue, a running summary for older history, *pinned* compatibility and scope rules, and a **checkpoint** written at the end of each day so the next session resumes cleanly.
+**Placement matters.** You put the critical spec near the **start or end** of the prompt, not buried in the middle, because models attend less reliably to the middle of a long context — and you reserve headroom so a near-full input doesn't starve the output.
 
-**Takeaway:** every strategy has a characteristic failure mode. Robust context management combines techniques and protects the facts that must never be lost.
+**The takeaway:** at depth the skill isn't finding a "safe" technique — there isn't one. It's matching strategy to content and handling its known failure mode on purpose, so a long AI-assisted job stays correct instead of quietly losing a constraint.

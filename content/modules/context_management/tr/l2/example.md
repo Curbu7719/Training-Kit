@@ -1,13 +1,13 @@
-# Çalışılmış Örnek: Her Stratejinin Hata Modu Isırdığında (Bakım Aşaması)
+# İşlenmiş Örnek: Stratejiyi Seç, Başarısızlık Biçimini Kabul Et
 
-**Aşama: Bakım — çok günlü bir eski sistem migration'ı.** Bir ekip, bir servisi kullanımdan kaldırılmış bir framework'ten halefine taşımak için bir AI asistanı çalıştırır. Her biri farklı bir stratejinin hata modunu açığa çıkaran üç olay, neden bir tekniğin asla evrensel olarak "güvenli" olmadığını gösterir.
+Günlerce sürecek, AI destekli bir migration yürütüyorsun. Tek bir numara işi context window içinde tutmaz — o yüzden her birinin seni nasıl ısırabileceğini bilerek birkaçını birleştirirsin. İşte bu, kendi işini sessizce bozulmak yerine akar tutar.
 
-**Olay 1 — özetleme kayması.** Token'ları kontrol etmek için, migration'ın eski turları çalışan bir özete katlandı; bu özet de iş büyüdükçe yeniden özetlendi. Üçüncü güne gelindiğinde, "geriye dönük uyumluluk için herkese açık `/v1/orders` yanıt şeklini koru" kuralı sıkıştırılarak yok edilmişti. Model yanıt şemasını değiştirdi, aşağı akış tüketicilerini bozdu. **Ders:** özetleme kayıplıdır ve özetlerin özetleri kayar. Çözüm: geriye dönük uyumluluk kurallarını, asla özetlenmeyen, kelimesi kelimesine taşınan korumalı gerçekler olarak **sabitle**.
+**Yakın diyalog: kayan pencere (sliding window).** Yalnızca son birkaç turu canlı tutarsın. *Neden?* Ucuzdur ve şu an önemli olan yakın gidiş-geliştir. *Kabul ettiğin tuzak:* tasarım gereği unutkandır — ilk gün koyduğun bir kural pencereden kayar. O yüzden o kuralı pencerenin tutacağına güvenmek yerine sabit bir gerçek olarak **sabitlersin (pin)**.
 
-**Olay 2 — kayan pencere unutkanlığı.** İkinci bir oturum, özet olmadan yalnızca son 12 turu kelimesi kelimesine tuttu. Migration'ın 1. turdan itibaren belirtilen hedefi (auth'ı yeni middleware'e taşı, routing'e dokunma) kaydırılıp gözden çıktı ve asistan routing'i de yeniden yazmaya başladı. **Ders:** kayan pencere tasarım gereği unutkandır. Çözüm: bunu hedef ve kapsamın kısa, kalıcı bir özetiyle eşleştir.
+**Eski geçmiş: yürüyen özet.** Dünkü kararları kısa bir özete sıkıştırırsın. *Neden AI?* Özeti saniyede yazar ve her şeyi tekrar yapıştırmadan kararları ileri taşırsın. *Tuzak:* özetler kayıplıdır, özetin özeti ise sapar — o yüzden tanımlayıcıları ve kabul kriterlerini asla başka kelimelerle değil, birebir korursun.
 
-**Olay 3 — retrieval kaçırması.** Kaynak dosyalar modele retrieval aracılığıyla sunuldu. Kötü parçalanmış bir dosya, bir doğrulama fonksiyonunu iki parçaya böldü; retriever yalnızca ilk yarıyı döndürdü ve model gerisini halüsinasyon olarak üretti, derlenen ama bir kontrolü atlayan kod ortaya çıkardı. **Ders:** retrieval riski retrieval kalitesine taşır — parça sınırları ve indeks tazeliği artık önemlidir. Çözüm: parçaları fonksiyon sınırlarına hizala ve getirilen parçaların düzenlenen sembolü kapsadığını kontrol et.
+**Kod tabanı: retrieval.** Her adımın ihtiyaç duyduğu dosyaları çekersin. *Neden?* Yüzlerce çağrı boyunca pencereyi yalın tutar. *Tuzak:* artık riskin retrieval kalitesidir — bayat bir indeks geçen haftanın kodunu getirir ve AI zaten değişmiş bir dosyayı "düzeltir". O yüzden her oturumdan önce yeniden indekslersin.
 
-**Birleşik tasarım.** Ekip şunlarla bitirdi: kaynak dosyalar için retrieval (kalite kontrolleriyle), yakın diyalog için kayan pencere, eski geçmiş için çalışan bir özet, *sabitlenmiş* uyumluluk ve kapsam kuralları ve her günün sonunda yazılan bir **kontrol noktası**, böylece sonraki oturum temiz biçimde devam eder.
+**Yerleşim önemli.** Kritik spec'i prompt'un ortasına gömmek yerine **başına ya da sonuna** koyarsın, çünkü modeller uzun bağlamın ortasına daha az güvenilir biçimde dikkat eder — ve dolmaya yakın bir girdinin çıktıyı aç bırakmaması için pay ayırırsın.
 
-**Çıkarım:** her stratejinin karakteristik bir hata modu vardır. Sağlam context yönetimi teknikleri birleştirir ve asla kaybedilmemesi gereken gerçekleri korur.
+**Özet:** derinlikte beceri "güvenli" bir teknik bulmak değildir — öyle bir teknik yok. Stratejiyi içeriğe eşlemek ve bilinen başarısızlık biçimini bilerek yönetmektir; böylece uzun, AI destekli bir iş bir kısıtı sessizce kaybetmek yerine doğru kalır.

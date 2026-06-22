@@ -1,34 +1,15 @@
-# İşlenmiş Örnek: Kodlama Aşamasında Birim Testleri için Prompt Yazmak
+# İşlenmiş Örnek: Daha İyi Bir Brief Yazıp İlk Seferde Doğruyu Al
 
-**Görev:** kodlama aşamasında bir geliştirici, yeni fiyatlandırma özelliğinin kapsamla birlikte yayınlanması için modelin bir `parse_price` fonksiyonu için birim testleri üretmesini istiyor.
+AI'a "bu fonksiyon için birkaç test yaz" dersin ve yeniden yazman gereken üç sıradan mutlu-yol testi alırsın. Sorun modelde değildi — brief'teydi. İşte prompt'a ayıracağın birkaç dakika seni o yeniden yazmaktan nasıl kurtarır.
 
-**İlk deneme (belirsiz):**
+**Angarya: belirsiz istek, işe yaramaz çıktı.** "Birkaç test yaz" modele hedef göstermez, o da tahmin eder. Şöyle değiştirirsin: "Boş liste, tek eleman ve taşma durumlarını kapsa; pytest kullan; test başına tek assertion." *Neden AI?* Aynı model, ama artık elinle yazacağın tam o durumları yazar — sıkıcı testleri *de* unutacağın testleri *de* aldın.
 
-> parse_price fonksiyonum için biraz test yaz.
+**Kaldıraç: kuralları bir kez, en üstte koy.** Kalıcı şeyleri **sistem mesajına** koyarsın — "Testleri bizim framework'ümüzle yazarsın ve asla olmayan API uydurmazsın" — ve **kullanıcı mesajını** o anki istek için saklarsın. *Neden?* Sistem kuralı her istekte geçerli kalır, böylece kodlama standartlarını her prompt'a yeniden yazmayı bırakırsın.
 
-Modelin elinde kod yok, framework yok ve hangi uç durumların önemli olduğuna dair fikri yok. Akla yatkın görünen bir fonksiyon imzası uydurur, rastgele bir framework seçer ve var olmayan bir API'ye karşı iki mutlu-yol testi yazar. Yapı için işe yaramaz.
+**Kısayol: anlatma, göster.** Test adlandırma tarzını bir paragrafla açıklamak yerine bir örnek test yapıştırırsın. *Neden AI?* İyi bir örnek ("few-shot") ev tarzını üç cümlenin asla beceremeyeceği kadar iyi öğretir — model kendi desenini uydurmak yerine seninkini kopyalar.
 
-**Mühendislik yapılmış prompt.** Bir rol ekleriz, gerçek kodu sınırlayıcılar içine yapıştırırız, görevi tam olarak belirtiriz ve çıktı biçimini sabitleriz:
+**Artefaktı sarmala.** Fonksiyonu üçlü tırnak içine alırsın ki model neyin *talimat* neyin *işlenecek şey* olduğunu bilsin — artık prompt metnini "düzeltmez".
 
-> **System:** Sen kıdemli bir Python mühendisisin. Testleri yalnızca `pytest` kullanarak yaz. Gösterilmeyen fonksiyonlar uydurma.
->
-> **User:** Etiketler arasındaki fonksiyon için birim testleri üret. Şunları kapsa: geçerli bir fiyat string'i, boş bir string, negatif bir değer ve sayısal olmayan bir girdi.
-> Tek bir test dosyası döndür, düz metin (prose) ekleme.
-> `<code>def parse_price(s): ...</code>`
+**Kontrol sende kalsın.** İlk prompt bir taslaktır, tıpkı testler geçmeden önceki kod gibi. Birkaç girdide çalıştır, nerede yanıldığını gör, ifadeyi sıkılaştır — sihirli bir söz bekleme.
 
-Şimdi model, projenin gerçek framework'ünü kullanan dört hedefli testle temiz bir `test_parse_price.py` döndürür.
-
-**Bir few-shot örneği eklemek** ev tarzını sabitler. Adlandırma ve yapının eşleşmesi için var olan bir testi başa ekleriz:
-
-> Test tarzımızdan bir örnek:
-> `<test>def test_parse_price_valid(): assert parse_price("9.99") == 9.99</test>`
-> Şimdi gerisini bu tarzda üret.
-
-**Her değişiklik neden önemliydi:**
-
-- **System mesajı** framework'ü sabitledi ve uydurulmuş API'leri yasakladı — böylece testler gerçekten çalışıyor.
-- **Kodu sınırlayıcılar içine yapıştırmak** modele tahmin yerine gerçek zemin verdi ve koddaki bir yorumun talimat olarak okunmasını engelledi.
-- **Tam durumları listelemek** "biraz test"i, QA'nın önemsediği uç durumlara dönüştürdü.
-- **Few-shot örneği** ekibin adlandırma kuralıyla eşleşti, böylece diff temiz şekilde merge oldu.
-
-**Ders:** model denemeler arasında daha akıllı olmadı — *brifing* oldu. Yapılandırılmış, koda dayalı, örnekle desteklenmiş bir prompt, bir tahmini CI pipeline'ının çalıştırabileceği çalışır testlere dönüştürdü.
+**Özet:** cevabın kalitesi brief'in kalitesini izler. Üç dakika belirgin olmaya harca, AI'ın tahminini yeniden yazmaya harcayacağın yirmi dakikadan kurtul.
