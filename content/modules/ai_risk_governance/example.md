@@ -1,33 +1,11 @@
-# Worked Example: Governing a New AI Customer-Support Assistant
+# Worked Example: Governance Is What Lets You Actually Use AI on Real Work
 
-**The situation.** A retail company wants to launch an AI assistant that answers customer
-questions about orders. It will read the customer's name, address, and order history, and
-draft replies. Before any of this ships, the governance process steps in — not to block the
-project, but to make each risk visible and assign an owner.
+You want to bring AI into your daily workflow — real code, real documents, real decisions. The thing standing between "I'd like to" and "yes, go" usually isn't the tool; it's whether anyone can answer "is this safe and allowed?" Governance is how that becomes a yes instead of a quiet no. Here's how it makes adoption easier, not slower.
 
-**Step 1 — Register the use.** The team adds the assistant to the **AI use register**: what
-it does, which data it touches (customer PII and order records), which external model
-provider it calls, and a **risk tier** of "high" because it handles personal data and faces
-customers.
+**The blocker: nobody owns the risk, so the answer is "no."** You ask to use an AI tool on customer tickets and get a nervous "better not." *Why?* Without governance, the risks (a privacy breach, leaked source, an unauditable decision) are invisible and unowned — so the safe move for everyone is to say no. *How does governance help your day?* It makes each risk visible and assigns an owner, so "is this allowed?" has a real answer instead of a shrug.
 
-**Step 2 — Check data privacy and the contract.** The Business Analyst confirms customer
-PII is in scope of privacy law (GDPR/KVKK). Legal reviews the provider contract for two
-things: whether customer data could be **reused to train** the vendor's model, and **who
-owns the output**. They negotiate a no-training clause and turn on data-residency controls.
+**Match the control to the risk, not a blanket ban.** Pasting customer PII into a tool that may train on it breaks privacy law — so that path gets redaction or a no-train tool. An unauditable black-box decision in a regulated flow gets a human in the loop. *Why use AI here at all?* Because the control is what lets you say *yes* to the safe version, instead of banning AI and driving everyone to shadow tools.
 
-**Step 3 — Apply the acceptable-use policy.** Policy says raw customer identifiers must not
-leave the company's systems unmasked, so engineering adds **PII redaction** before prompts
-are sent, and **logging** so every prompt and reply is recorded for audit.
+**Name the risks you'd otherwise hit by surprise.** Privacy/PII, IP and output ownership, regulatory auditability, security leakage, hallucinated-but-confident output, and bias. *Why does this make your work easier?* Each one already has a control that answers it — so you adopt deliberately and don't discover the risk during an incident.
 
-**Step 4 — Add oversight and an approval gate.** Because replies are customer-facing, the
-team adds a **human-in-the-loop** review for any reply touching refunds or complaints, and
-an **approval gate** so the product owner signs off before the assistant goes live.
-
-**Step 5 — Test for bias and reliability.** QA checks that the assistant does not give worse
-answers based on a customer's name or location (**bias**), and that it says "I don't know"
-instead of inventing an order status (**reliability**).
-
-**The outcome.** The assistant launches, but every risk now has a named control behind it:
-the register records it, the contract settles ownership and training, redaction and logging
-protect privacy, and human oversight plus testing guard reliability and fairness. Governance
-turned an open-ended risk into a set of owned, auditable decisions.
+**The takeaway:** governance isn't there to slow you down — it's what turns "too risky to allow" into "approved, here's how." Make the risks visible, give each an owner and a matching control, and AI becomes something you're cleared to use on real work instead of something you sneak.

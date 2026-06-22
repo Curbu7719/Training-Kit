@@ -1,28 +1,13 @@
-# İşlenmiş Örnek: İyi Okunan Makul-ama-Bozuk Bir Diff
+# İşlenmiş Örnek: Her Disiplini AI Kodunun Gerçekten Kırıldığı Yere Koy
 
-**Görev.** Raj bir indirim hesaplayıcısını vibe-code ediyor: bir sepete yüzdelik indirim uygula
-ama toplamın asla sıfırın altına düşmesine izin verme. Bunun için prompt yazıyor ve temiz,
-kendinden emin bir fonksiyon geri alıyor.
+Vibe-coding döngüsünü oturttun — ama derinlikte disiplinler bir ritüel değil, her biri AI üretimi kodun *belirli* bir başarısızlık biçimine karşı bir savunmadır. Başarısızlık biçimlerini bilmek, hareketleri taklit etmek yerine her korumayı bilerek yerleştirmeni sağlayan şeydir. İşte bu, sessiz hasar olmadan hızı korur.
 
-**Diff harika görünüyor.** İyi adlandırılmış, bir yorumu var, bir `discountPercent` parametresini
-ele alıyor ve `total - (total * discountPercent / 100)` döndürüyor. Kıdemli bir mühendisin
-yazdığı bir şey gibi okunuyor. Raj'ın dikkatsiz içgüdüsü onu kabul etmek — *çalışıyor* ve *doğru
-görünüyor*. Bu içgüdü tam da **makul-ama-bozuk** tuzağıdır: akıcılık doğruluk değildir.
+**Sessiz yanlış kod.** Çalışır, bir değer döndürür ve düpedüz yanlıştır — bir-eksik (off-by-one), tersine çevrilmiş koşul. Hiçbir şey çökmez, o yüzden "çalışıyor" sana hiçbir şey söylemez. *Koruma:* yalnızca hata yokluğunu değil, *davranışı* doğrulayan testler. *Bu gününü neden kolaylaştırır?* Hata gelecek hafta production'da değil, şimdi takımda yüzeye çıkar — bir bakışın yakalayamadığını yakalarsın.
 
-**Spec'e karşı okumak.** Raj bunun yerine diff'i niyetini akılda tutarak okuyor — *"asla sıfırın
-altına düşme."* Fonksiyonun sonucu asla clamp etmediğini ve `discountPercent`'in hiçbir sınır
-kontrolü olmadan doğrudan bir istekten alındığını fark ediyor. Yani `150`'lik bir `discountPercent`
-*negatif* bir toplam döndürüyor ve spec'inden gelen "asla sıfırın altına düşme" kuralı sessizce
-ihlal ediliyor. Hiçbir şey çökmedi; yalnızca "hata yok"u kontrol eden bir test geçmiş olurdu. Bu,
-makul-ama-bozuk çıktının içinde gizlenen **sessiz yanlış koddur**.
+**Makul ama bozuk.** Çıktı kendinden emin, deyimsel kod gibi okunur ve göz gezdirmeyi geçer, ama bir null'ı, bir uç durumu ya da eşzamanlılığı yanlış ele alır. Akıcılığı *tam da* tuzaktır. *Koruma:* diff'i, spec'inin uç durumlarını aklında tutarak gerçekten oku. *AI'ı neden böyle kullan?* Çünkü AI doğru *görünmekte* ne kadar iyileşirse, gerçek değerin onun doğru *olup olmadığını* kontrol etmek olur.
 
-**Onu sınırlamak.** Raj davranışı doğrulayan bir test yazıyor — `discount(100, 150)` `-50` değil
-`0` olmalı — ve başarısız olduğunu izleyerek hatayı doğruluyor. Sonucu clamp etmek ve girdi
-aralığını doğrulamak için küçük bir düzeltme prompt'u yazıyor, yeni diff'i **okuyor**, test'i
-geçene kadar **çalıştırıyor** ve **commit** ediyor. Daha sonra AI'ın ayrıca ilgisiz bir fiyatlama
-modülünü refactor etmeye çalıştığını (**kapsam kayması**) fark ettiğinde, o kısmı reddedip diff'i
-tek amaçlı tutuyor.
+**Kapsam kayması ve sessiz sürüklenme.** Bir değişiklik istersin, AI yardımseverce üç şeyi yeniden yazar. *Koruma:* küçük diff'ler, her seferinde tek değişiklik; böylece tam olarak neyin değiştiğini görürsün. *Bu neden önemli?* Büyük, "yardımsever" bir blob, bir şeyi bozan o tek satırı gizler — küçük adımlar hasarı görünür tutar.
 
-**Ders.** Buradaki her hata ona yönelik bir disiplin tarafından yakalandı: okuma makul-ama-bozuk
-mantığı yakaladı, davranışsal bir test sessiz yanlış sonucu yakaladı ve küçük-diff alışkanlığı
-kapsam kaymasını yakaladı. "Çalışıyor ve doğru görünüyor" üçünü de gönderirdi.
+**Döngüye girince direksiyonu al.** AI yakınsamayan varyasyonlar üretmeyi sürdürdüğünde, prompt'lamayı bırakır ve çetrefilli kısmı kendin yazarsın. *Neden?* Takılmış bir modeli yeniden prompt'lamak zaman ve token yakar; döngüyü erken fark etmek, hızlının bir sarmala dönmesini engelleyen şeydir.
+
+**Özet:** derinlikte her disiplin bir başarısızlık biçimine karşılık gelir — sessiz-yanlış için testler, makul-ama-bozuk için okumak, sürüklenme için küçük adımlar, döngüler için direksiyonu almak. Onları bilerek yerleştir, AI seni hem hızlı tutsun *hem de* kodu arkasında durabileceğin bir şey olarak korusun.

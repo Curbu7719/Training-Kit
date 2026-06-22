@@ -1,30 +1,13 @@
-# Uygulamalı Örnek: Ölçeklendirmeden Sağ Çıkan Bir Business Case
+# İşlenmiş Örnek: AI Kazanımının İnceleme Altında Ayakta Kalacak Bir İş Gerekçesi Kur
 
-**Pilot harika görünüyordu.** Bir sigorta firması, eksperler için hasar dosyalarını özetleyen
-bir AI asistanını pilotluyor. Üç hafta boyunca on eksperle ortalama inceleme süresi %30 düşüyor
-ve adoption güçlü. Genç bir analist, manşet olarak "%30 daha hızlı"yı öne sürerek hemen 300
-eksperin tamamına ölçeklendirmeyi öneriyor.
+Pilotun değer kanıtladı, o yüzden onu ölçeklemek istiyorsun — ve AI bir demoyu aştığı an, finans ve liderlik sayıları didikler. Derinlikte "çalışıyor" yetmez; sıkı bir bakışı atlatan bir gerekçeye ihtiyacın var. İşte onu dürüstçe kurmak, ölçeklemeyi sattığın bir umut yerine savunabileceğin bir karar yapar.
 
-**Gerçek business case'i oluşturma.** Bir iş analisti case'i bir manşet değil, bir karşılaştırma
-olarak yeniden inşa ediyor. **Baseline:** her eksper haftada dosya incelemesine 12 saat
-harcıyor. **Delta:** tasarruf edilen %30 yaklaşık 3,6 saat/hafta. **Sunmanın toplam maliyeti:**
-özet başına inference maliyeti, artı pilot'un gizlediği önemli bir kalem — bir kıdemli eksper,
-yanlış bir özet bir hasarı yanlış fiyatlandırabileceği için haftada iki saatini özetlerin
-doğruluğunu kontrol ederek geçiriyor. Net delta gerçek ama gözetim maliyeti sayıldığında
-manşetten daha küçük.
+**Bir sayı değil, bir karşılaştırma olarak ifade et.** İnandırıcı bir gerekçede bir **baseline** (bugünkü maliyet/zaman/hata oranı), AI'ın ürettiği **beklenen delta** ve **teslim etmenin toplam maliyeti** — inşa, çalıştırma *ve* sıkça göz ardı edilen gözetim ve inceleme maliyeti — vardır. Değer = delta − toplam maliyet. *Bu gününü neden kolaylaştırır?* On analist-saati kazandıran ama haftada sekiz saat inceleme gerektiren bir araç, manşetten çok daha zayıf bir gerekçeye sahiptir — ve bunu CFO'nun karşısında değil, şimdi öğrenmeyi tercih edersin.
 
-**Ölçekte birim ekonomisini kontrol etme.** On kullanıcıda inference faturası önemsizdi. Ekip
-300 kullanıcıda **incelenen hasar başına maliyeti** modelliyor ve tasarruf edilen işgücünün çok
-altında kaldığını doğruluyor — ekonomi geçerli. İyi: ölçeklendirme değeri tersine çevirmeyecek.
+**İnceleme vergisini say.** İnsan gözetimi, düzeltme ve değişim yönetimi, demonun gizlediği gerçek maliyetlerdir. *AI'ı neden böyle kullan?* Onları dahil etmek, ölçekte ayakta kalan bir gerekçeyi, biri gerçek maliyeti topladığı an çöken birinden ayıran şeydir.
 
-**Öncü göstergeleri izleme.** Ardıl "üç aylık azaltılan maliyet" sayısını beklemek yerine,
-yeni eklenen her eksper için **taslak kabul oranı**nı ve **ilk-değere-süre**yi izliyorlar. İlk
-50 kişilik dalgada kabul düşüyor ve onboarding yavaş — eğitimin dağıtımın gerisinde kaldığına
-dair bir sinyal.
+**Öncü ve gecikmeli göstergeleri izle.** Gecikmeli metrikler (düşen maliyet, etkilenen gelir) değeri kanıtlar ama geç gelir; öncüler (benimseme, görev tamamlama) yolunda olup olmadığını erken söyler. *Bu neden önemli?* Gecikmeli olanın bir başarısızlığı aylar sonra doğrulamasını beklemek yerine öncü sinyalde rotanı düzeltebilirsin.
 
-**Adoption çökmeden önce harekete geçme.** Dağıtımı duraklatıyor, onboarding'i ve geri bildirim
-döngüsünü güçlendiriyor ve ancak ondan sonra devam ediyorlar. Adoption 300'ün tamamında
-toparlanıyor. Kardeş bir projeyle karşıtlık — hiç daha hızlı incelemeye bağlanmayan ve sessizce
-bütçe tüketen ham "üretilen özetler" üzerine ölçeklendirilen — dersi somutlaştırıyor:
-savunulabilir bir case, gerçek birim ekonomisi ve öncü göstergeler, ölçeklendirmenin değeri yok
-etmek yerine yaratmasını sağlayan şeylerdir.
+**Birim ekonomisine dikkat et.** Ölçekte çağrı-başı maliyet × hacim, küçük hacimde ucuz olan bir pilotu para kaybettirene çevirebilir. *Neden?* Pilotun ekonomisi 100× hacim artışını nadiren değişmeden atlatır — taahhütten önce modellersin.
+
+**Özet:** derinlikte ölçekleme bir his değil, bir iş gerekçesidir. Baseline eksi tam maliyet (inceleme vergisi dahil), öncü + gecikmeli göstergeler ve dürüst birim ekonomisi — sayılar didiklendiğinde ölçekleme kararını savunmanı ve sayılar tutmadığında erken çekilmeni sağlayan budur.

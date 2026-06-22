@@ -1,31 +1,13 @@
-# Uygulamalı Örnek: Bir Destek Asistanı için Pilot'tan Ölçeklendirmeye
+# İşlenmiş Örnek: Büyük Oynamadan Önce AI Kazanımının Gerçek Olduğunu Bil
 
-**Fikir.** 200 kişilik bir şirket müşteri desteğine yüksek harcama yapıyor. Ekip, gelen
-taleplere yanıt taslakları hazırlayan bir AI asistanı öneriyor; böylece temsilciler sıfırdan
-yazmak yerine düzenleyip-gönderiyor. Liderlik önce tek bir soru soruyor: *ne değer ve bunu
-nasıl bileceğiz?*
+Küçük bir AI pilotu çalıştırdın — diyelim, destek kayıtlarına ilk-taslak yanıtlar hazırlayan bir araç — ve bir kazanım gibi hissettiriyor. Onu herkese yaymadan önce seni kurtaran soru şu: *bu gerçek değer mi yoksa iyi bir demo mu?* İşte onu ölçmek, ölçekle-ya-da-kapat kararını politik olmaktan çıkarıp kolaylaştırır.
 
-**Başarı metriğini belirleme.** Herhangi bir şey inşa etmeden önce ekip bir **gerçek değer
-metriği** üzerinde anlaşıyor: talep başına ortalama işlem süresi, artı temsilcilerin küçük
-düzenlemelerle kabul ettiği taslakların oranı. "Üretilen taslak sayısı" vanity metriğini açıkça
-reddediyorlar — kimsenin kullanmadığı taslaklar üretmek hiçbir şey kanıtlamaz. Devam eşiği: en
-az %60 taslak kabulü ile işlem süresinde %20 düşüş.
+**Tuzak: etkileyen ama hiçbir şey ifade etmeyen bir sayı.** "Bu ay 10.000 prompt çalıştı" ya da "%92 doğru" harika gelir. *Bunlar neden vanity (gösteriş) metrikleri?* Paraya, zamana, riske ya da kaliteye bağlanmazlar. Test: *bu sayı ikiye katlansa iş daha iyi olur muydu?* Olmazsa, gösteriştir. *Bu gününü neden kolaylaştırır?* Bir pilotu, aslında onu savunmayan sayılarla savunmayı bırakırsın.
 
-**Pilot.** Tek bir talep kategorisinde sekiz temsilciyle dört haftalık bir pilot yürütüyorlar.
-İşlem süresi %25 düşüyor, taslak kabulü %68'e ulaşıyor ve temsilciler aracın gerçekten yardımcı
-olduğunu bildiriyor. Metrik eşiği geçiyor ve adoption gerçek — sekiz temsilci söylenmeden
-kullanmaya devam ediyor.
+**Gerçek ölçü: faaliyet değil, sonuç.** Temsilci başına kazanılan saat, insansız çözülen kayıtlar, düşen hata oranı. *Peki neden AI?* Çünkü üzerine oynadığın şey *budur* — ve gerçek bir değer metriği, "daha hızlı hissettiriyor"u herkesin kontrol edebileceği bir kanıta çevirir.
 
-**Ölçeklendir-ya-da-durdur kararı.** Sayılar ölçeklendirmeyi haklı çıkarıyor, ama ekip
-**maliyet ve adoption'ı** da kontrol ediyor. Talep başına model maliyeti, tasarruf edilen
-işgücünün çok altında, dolayısıyla birim ekonomisi hacim büyüdükçe geçerli kalıyor.
-Ölçeklendirmeye karar veriyorlar — ama kasıtlı olarak, her seferinde bir kategori.
+**Aşamalardan geç, atlama.** Pilot (küçük, süreli, tek metrik) → production (izlenen, sahipli) → scale (değer kanıtlanınca daha çok kullanıcı). *Neden?* Her kapı, daha fazla harcamadan önce değerin tuttuğunu doğrulama şansıdır — ona bağlandığın için değil, önceden anlaşılan bir çıtayı geçtiği *için* ölçeklersin.
 
-**Değişim yönetimi.** 40 temsilcinin tamamına yayarken eğitime yatırım yapıyor, güven inşa etmek
-için pilot sonuçlarını paylaşıyor ve temsilcilerin kötü taslakları işaretlemesi için bir geri
-bildirim düğmesi ekliyorlar. Temsilciler aracı işlerine bir tehdit değil, yardım olarak gördüğü
-için adoption yükseliyor.
+**Zayıf bir pilotu kapatmak bir kazanımdır.** Değer kanıtlanmadıysa, çabaya rağmen benimseme düşükse ya da çalıştırması kazandırdığından pahalıysa — durdur. *Bu işini neden kolaylaştırır?* Başlattığın için bir kaybedeni sürüklemek yerine, zamanını ve bütçeni *gerçekten* karşılığını veren bahse serbest bırakır.
 
-**Karşıtlık.** İkinci bir pilot — talepleri otomatik etiketleyen bir AI — yalnızca %3 zaman
-tasarrufu ve düşük temsilci güveni gösteriyor. Ekip onu **durduruyor**. Bu bir kazanç: zayıf
-bir bahse harcamayı durduruyor ve bütçeyi açıkça işe yarayan asistana yönlendiriyorlar.
+**Özet:** AI'ın değeri ürettiği sonuçtur, AI kullanması değil. Gerçek şeyi ölç, pilot → production → scale'i dürüst kapılardan geçir ve zayıfları erken kapat — böylece yalnızca gerçekten gerçek olan kazanımlara büyük oynarsın.

@@ -1,25 +1,13 @@
-# Worked Example: Two Ways to Vibe-Code the Same Feature
+# Worked Example: Ship Fast With an AI Coding Assistant — Without Losing the Plot
 
-**The task.** Maya needs to add a "reset password" endpoint to a web app. She decides to vibe-
-code it — prompt an AI assistant to write the code. Two versions of Maya tackle it.
+You can now ask an AI to write the code and steer it to a working result. Done well it's the fastest way you've ever shipped. Done by accepting whatever "looks right," it leaves you with code nobody understands and bugs you can't find. The tool isn't the difference — the discipline is. Here's how to keep the speed and the control.
 
-**Reckless Maya.** She types: *"add password reset to my app."* The AI returns ~120 lines
-touching three files: a route, an email sender, and a token store. It looks plausible, so she
-pastes it in, sees the server start, and opens a pull request titled "password reset done." She
-never read the token logic. Two days later: reset tokens never expire (so an old link works
-forever), the email password is hard-coded in the committed file, and the token is compared with
-`==` against user input with no constant-time check. The diff was big, unread, and untested — the
-bugs shipped on vibes.
+**Start from intent, not a vibe.** Before prompting, you know the behaviour, inputs, outputs, edge cases — "add an endpoint returning a user's last 10 orders, paginated." *Why does this make your day easier?* A clear small spec gives the AI a target *and* gives you a way to check the result. "Make it better" gives neither, and you'll burn the afternoon re-prompting.
 
-**Disciplined Maya.** She starts from intent: *"endpoint that emails a one-time reset token,
-token expires in 15 minutes, single use, no secrets in code."* She prompts for one piece at a
-time. First the token model — she **reads the diff**, notices the AI invented a
-`crypto.randomToken()` API that doesn't exist, and says so; the AI corrects it. She runs it,
-commits. Next the email step — she keeps the SMTP password in an environment variable, not the
-prompt. Then she asks the AI to write a test for expiry, **runs it**, and watches it pass. Each
-step is a small, reviewed, committed diff she fully understands. When the AI starts guessing at
-the mailer config in a loop, she **takes the wheel** and wires it herself.
+**Work in small, reviewable steps.** One change, run it, then the next. *Why use AI this way?* Small diffs are easy to read, test, and undo; a giant generated blob is none of those — and when it's wrong you can't tell where. Small steps are what let you move fast *safely*.
 
-**Same tool, opposite outcomes.** Both used AI to write the code. The difference was Maya's
-discipline: clear intent, small steps, reading every diff, tests and version control as a safety
-net, secrets kept out — and knowing when to stop prompting and take over.
+**Never ship code you don't understand.** This is the core rule. If you can't explain what a generated function does, you can't maintain or trust it. *Why does this matter even though the AI wrote it?* Because *you* own it the moment you merge it — reading the diff isn't optional polish, it's the job.
+
+**Keep a safety net.** Commit working states often, run or generate tests, review the diff before merge. *Why?* The net is exactly what lets you accept the AI's speed — mistakes surface immediately and are reversible, so going fast stops being reckless.
+
+**The takeaway:** vibe coding makes you fast *because* of the discipline, not despite it. Clear intent, small steps, read every diff, and a test-and-commit safety net — that's how an AI assistant becomes a force multiplier instead of a debt machine.

@@ -1,31 +1,13 @@
-# Çalışılmış Örnek: Hacim Büyürken Bir Belge-Çıkarma Özelliğini Yeniden Temin Etmek
+# İşlenmiş Örnek: AI Yüzeyini Küçült ve Kararı Geri Alınabilir Tut
 
-**Aşama: ilk temin etme kararını aşan bir özellik.** Bir fintech ürünü, yüklenen faturalardan
-alanları (tutarlar, tarihler, satıcı adları) çıkarıyor. Bir yıl önce, düşük hacimde, ekip ince
-bir soyutlamanın arkasında **barındırılan bir LLM API'si çağırdı**. Bu doğru L1 kararıydı:
-yayınlaması hızlı, ön maliyeti düşük ve AI belirsiz, çeşitli belge düzenlerine gerçekten uydu.
+Bir özelliğe AI'ın uyduğuna karar verdin — ama "AI kullan" tek bir karar değil, birkaçıdır ve yanlışını geri sarmak pahalıdır. Derinlikte hamle, AI yüzeyini olabildiğince küçültmek ve tedarik kararını geri alınabilir tutmaktır. İşte bu, her şeyi hem daha ucuz inşa edilir hem de yaşaması daha kolay kılar.
 
-**Ne değişti.** Hacim ayda 2.000'den 900.000 faturaya yükseldi. Şimdi üç baskı çarpışıyor:
+**Karar vermeden önce parçala.** Çoğu "AI özelliği" çoğunlukla deterministiktir, *tek bir* gerçekten belirsiz adımla. Bir belge çıkarıcı şunlardır: dosyayı doğrula (kod), müşteriyi bul (kod) ve *dağınık serbest-metin alanını anla* (AI). *Bu gününü neden kolaylaştırır?* Yapabildiğin her şeyi düz koda it — test edilebilir, her seferinde aynı cevap — ve modeli yalnızca indirgenemez belirsiz çekirdeğe yönelt. AI yüzeyi ne kadar darsa, tüm sistem o kadar ucuz ve test edilebilir.
 
-- **Gerçek hacimde maliyet.** Önemsiz olan çağrı başına fiyat şimdi en büyük kalem — etiket
-  fiyatı değil, açık bir TCO problemi.
-- **Doğruluk ihtiyacı yükseldi.** Finans artık düşük riskli faturaları otomatik kaydediyor,
-  dolayısıyla tolere edilebilir hata oranı düştü. Bir zamanlar bir insan denetleyiciyle
-  soğurdukları non-determinizm şimdi daha sıkı kontrol gerektiriyor.
-- **Lock-in yüzeye çıktı.** Prompt'ları ve çıktı şeması bir sağlayıcının kaprislerine ayarlı.
+**Üç eksene birlikte karar ver, içgüdüyle değil.** Gereken doğruluk, katlanabileceğin belirsizlik ve gerçek hacimde maliyet — *birlikte* tartılır. *Neden?* Bir iş, doğrulukta harika bir AI uyumu, hacmindeki çağrı-başı maliyette berbat olabilir; tek eksene bakmak diğerini gizler.
 
-**L2 merceğiyle yeniden karar.** Özelliği ayrıştırıyorlar: çoğu fatura, deterministik bir
-ayrıştırıcının kesin, ucuz ve test edilebilir olduğu birkaç **bilinen şablonu** izliyor — bu
-yüzden onları **koda** yönlendiriyor, AI yüzeyini yalnızca gerçekten yeni düzenlere
-daraltıyorlar. Bu kalan için seçenekleri **TCO** üzerinden karşılaştırıyorlar: genel bir API
-(yükselen maliyet), şimdi biriktirdikleri bir yıllık etiketli çıkarımlar üzerinde daha küçük
-bir modeli **fine-tune** etmek (daha düşük çağrı başına maliyet, daha iyi doğruluk, ama eğitim
-ve barındırma yükü) ve bir uzman **buy**.
+**Geri alınabilir tut.** Tek bir tedarikçiye kaynak yapmak yerine, kendi arayüzünün arkasından bir API çağırırsın. *AI'ı neden böyle kullan?* Hacim büyüyüp bir API çağrısı pahalılaştığında ya da bir fine-tune kâra geçmeye başladığında, özelliği yeniden yazmadan kaynağı değiştirirsin — karar, verin, hacmin ve doğruluk ihtiyacın büyüdükçe değiştirilebilir kalır.
 
-**Karar.** Belirsiz kalan için daha küçük bir modeli **fine-tune** ediyorlar ve API'nin bir
-yedek olarak kalması için **soyutlama katmanını** koruyorlar. İlk günden bir soyutlama ve
-taşınabilir eval'lara sahip oldukları için switching cost düşük ve hamle geri alınabilir.
+**Bir takvimde yeniden karar ver.** Pilot hacminde "doğru" tedarik kararı çoğu zaman ölçekte yanlıştır. *Bu seni neden kurtarır?* Geçen çeyreğe uyan bir seçime hapsolmak yerine onu bilerek yeniden gözden geçirirsin.
 
-**Ders.** Temin etme bir kez karar verilmez. AI yüzeyini daraltmak, gerçek hacimde fiyatlamak
-ve bir soyutlama ile çıkış planı tutmak, ekibin API'den fine-tune'a bir yeniden yazma olmadan
-yeniden temin etmesini sağlıyor — tam da L2'nin konusu olan geri alınabilirlik.
+**Özet:** derinlikte uygunluk evet/hayır değildir ve tedarik sonsuza dek değildir. AI'ı belirsiz çekirdeğe küçült, doğruluk + değişkenlik + maliyete birlikte karar ver ve kaynağı takas edilebilir tut — böylece AI özelliği hem daha ucuz inşa edilir *hem de* fikrini değiştirmen ucuz olur.

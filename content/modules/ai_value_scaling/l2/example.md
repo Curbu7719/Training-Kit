@@ -1,28 +1,13 @@
-# Worked Example: A Business Case That Survives Scaling
+# Worked Example: Build a Business Case Your AI Win Can Survive Scrutiny With
 
-**The pilot looked great.** An insurance firm pilots an AI assistant that summarises claim
-files for adjusters. With ten adjusters over three weeks, average review time drops 30% and
-adoption is strong. A junior analyst proposes scaling to all 300 adjusters immediately, citing
-"30% faster" as the headline.
+Your pilot proved value, so you want to scale it — and the moment AI moves past a demo, finance and leadership scrutinize the numbers. At depth, "it works" isn't enough; you need a case that survives a hard look. Here's how building it honestly makes scaling a decision you can defend instead of a hope you're selling.
 
-**Building the real business case.** A business analyst rebuilds the case as a comparison, not a
-headline. **Baseline:** each adjuster spends 12 hours/week on file review. **Delta:** 30%
-saved is ~3.6 hours/week. **Total cost to deliver:** per-summary inference cost, plus a
-crucial line item the pilot hid — a senior adjuster spends two hours a week checking summaries
-for accuracy because a wrong summary can mis-price a claim. The net delta is real but smaller
-than the headline once oversight cost is counted.
+**State it as a comparison, not a number.** A credible case has a **baseline** (today's cost/time/error rate), the **expected delta** the AI produces, and the **total cost to deliver** — build, run, *and* the often-ignored cost of oversight and review. Value = delta − total cost. *Why does this make your day easier?* A tool that saves ten analyst-hours but needs eight hours of weekly review has a far thinner case than the headline — and you'd rather find that out now than in front of the CFO.
 
-**Checking unit economics at scale.** At ten users the inference bill was trivial. The team
-models **cost per reviewed claim** at 300 users and confirms it stays well below the labour
-saved — the economics hold. Good: scaling will not invert the value.
+**Count the review tax.** Human oversight, correction, and change management are real costs that the demo hid. *Why use AI this way?* Including them is what separates a case that holds at scale from one that collapses the moment someone adds up the true cost.
 
-**Watching leading indicators.** Rather than wait for the lagging "quarterly cost reduced"
-number, they track **draft acceptance rate** and **time-to-first-value** for each newly
-onboarded adjuster. In the first wave of 50, acceptance dips and onboarding is slow — a signal
-that training is lagging the rollout.
+**Watch leading and lagging indicators.** Lagging metrics (cost reduced, revenue influenced) prove value but arrive late; leading ones (adoption, task completion) tell you early if you're on track. *Why does this matter?* You can course-correct on the leading signal instead of waiting months for the lagging one to confirm a failure.
 
-**Acting before adoption collapses.** They pause the rollout, strengthen onboarding and the
-feedback loop, and only then continue. Adoption recovers across all 300. The contrast with a
-sibling project — scaled on raw "summaries generated," which never tied to faster reviews and
-quietly burned budget — makes the lesson concrete: a defensible case, real unit economics, and
-leading indicators are what let scaling create value instead of destroying it.
+**Mind the unit economics.** Cost per call × volume at scale can flip a pilot that was cheap at small volume into a money-loser. *Why?* The pilot's economics rarely survive a 100× volume increase unchanged — you model it before you commit.
+
+**The takeaway:** at depth, scaling is a business case, not a feeling. Baseline minus full cost (including the review tax), leading + lagging indicators, and honest unit economics — that's what lets you defend the scale decision when the numbers get scrutinized, and walk away early when they don't add up.

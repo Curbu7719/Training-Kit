@@ -45,7 +45,7 @@
     "explanation": "Sending customer PII to an external provider directly raises privacy and IP/output-ownership risks, answered by redaction, policy, no-training clauses, and contract review. Context-window size and hardware failure are performance/infrastructure concerns, not the governance risks this scenario raises."
   },
   {
-    "prompt": "A Business Analyst is asked to support AI governance for a new hiring-screening tool. Which task is the BEST fit for that role?",
+    "prompt": "Someone in a Governance role is asked to support AI governance for a new hiring-screening tool. Which task is the BEST fit for that role??",
     "choices": [
       "Writing the PII-redaction code that strips identifiers before prompts are sent",
       "Mapping each AI use to the data it touches and the regulations that apply, feeding the AI use register and risk tiering",
@@ -56,7 +56,7 @@
       1
     ],
     "points": 1,
-    "explanation": "A Business Analyst's strength is mapping AI uses to the data and regulations involved and feeding the use register and risk tiering. Writing redaction code or designing the network is engineering work, and final go-live sign-off is an accountable owner's decision, not the analyst's."
+    "explanation": "A Governance role’s strength is mapping AI uses to the data and regulations involved and feeding the use register and risk tiering. Writing redaction code or designing the network is engineering work, and final go-live sign-off is an accountable owner’s decision, not the Governance role’s."
   },
   {
     "prompt": "Heavy approval gates and audits reduce risk but slow delivery. For a low-risk, internal-only AI helper, which governance *trade-off* is appropriate?",

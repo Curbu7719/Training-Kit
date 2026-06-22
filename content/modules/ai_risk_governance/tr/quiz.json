@@ -45,7 +45,7 @@
     "explanation": "Müşteri PII'sini harici bir sağlayıcıya göndermek doğrudan gizlilik ve IP/çıktı-sahipliği risklerini doğurur; bunlar redaksiyon, politika, eğitim-yok maddeleri ve sözleşme incelemesiyle yanıtlanır. Context window boyutu ve donanım arızası ise bu senaryonun doğurduğu governance riskleri değil, performans/altyapı meseleleridir."
   },
   {
-    "prompt": "Bir İş Analistinden, yeni bir işe-alım-eleme aracı için AI governance'ı desteklemesi isteniyor. Bu rol için EN uygun görev hangisidir?",
+    "prompt": "Governance rolündeki birinden, yeni bir işe-alım-eleme aracı için AI governance’ı desteklemesi isteniyor. Bu rol için EN uygun görev hangisidir??",
     "choices": [
       "Prompt'lar gönderilmeden önce tanımlayıcıları çıkaran PII-redaksiyon kodunu yazmak",
       "Her AI kullanımını dokunduğu veriye ve geçerli düzenlemelere eşlemek, AI kullanım kaydını ve risk katmanlamayı beslemek",
@@ -56,7 +56,7 @@
       1
     ],
     "points": 1,
-    "explanation": "Bir İş Analistinin güçlü yanı, AI kullanımlarını ilgili veriye ve düzenlemelere eşlemek ve kullanım kaydı ile risk katmanlamayı beslemektir. Redaksiyon kodu yazmak veya ağı tasarlamak mühendislik işidir ve nihai canlıya-geçiş onayı analistin değil, hesap verebilir bir sahibin kararıdır."
+    "explanation": "Governance rolünün güçlü yanı, AI kullanımlarını ilgili veriye ve düzenlemelere eşlemek ve kullanım kaydı ile risk katmanlamayı beslemektir. Redaksiyon kodu yazmak veya ağı tasarlamak mühendislik işidir ve nihai canlıya-geçiş onayı Governance rolünün değil, hesap verebilir bir sahibin kararıdır."
   },
   {
     "prompt": "Ağır onay kapıları ve denetimler riski azaltır ama teslimi yavaşlatır. Düşük-riskli, yalnızca-iç bir AI yardımcısı için hangi yönetişim *trade-off*'u uygun?",

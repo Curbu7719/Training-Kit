@@ -1,35 +1,11 @@
-# Uygulamalı Örnek: Yeni Bir AI Müşteri-Destek Asistanını Yönetmek
+# İşlenmiş Örnek: Yönetişim, AI'ı Gerçek İşte Kullanmanı Sağlayan Şeydir
 
-**Durum.** Bir perakende şirketi, müşterilerin siparişleriyle ilgili sorularını yanıtlayan bir
-AI asistanı başlatmak istiyor. Müşterinin adını, adresini ve sipariş geçmişini okuyacak ve
-yanıtlar taslaklayacak. Bunlardan herhangi biri yayına çıkmadan önce governance süreci devreye
-girer — projeyi engellemek için değil, her riski görünür kılmak ve bir sahip atamak için.
+AI'ı günlük iş akışına katmak istiyorsun — gerçek kod, gerçek belgeler, gerçek kararlar. "İsterdim" ile "evet, başla" arasında duran şey genelde araç değildir; "bu güvenli ve izinli mi?" sorusunu birinin yanıtlayıp yanıtlayamamasıdır. Yönetişim, bunun sessiz bir hayır yerine bir evet olmasının yoludur. İşte adımı yavaşlatmadan kolaylaştırması.
 
-**Adım 1 — Kullanımı kaydet.** Ekip asistanı **AI kullanım kaydına (register)** ekler: ne
-yaptığı, hangi veriye dokunduğu (müşteri PII'si ve sipariş kayıtları), hangi harici model
-sağlayıcısını çağırdığı ve kişisel veri işlediği ve müşteriye dönük olduğu için "yüksek" bir
-**risk katmanı**.
+**Engel: riski kimse sahiplenmiyor, o yüzden cevap "hayır."** Müşteri kayıtlarında bir AI aracı kullanmak istersin, tedirgin bir "kullanmasan iyi olur" alırsın. *Neden?* Yönetişim olmadan riskler (bir gizlilik ihlali, sızan kaynak, denetlenemez bir karar) görünmez ve sahipsizdir — o yüzden herkes için güvenli hamle hayır demektir. *Yönetişim gününe nasıl yardım eder?* Her riski görünür kılar ve bir sahip atar; böylece "izinli mi?" bir omuz silkme yerine gerçek bir cevaba sahip olur.
 
-**Adım 2 — Veri gizliliğini ve sözleşmeyi kontrol et.** İş Analisti, müşteri PII'sinin gizlilik
-yasası (GDPR/KVKK) kapsamında olduğunu doğrular. Hukuk, sağlayıcı sözleşmesini iki şey için
-inceler: müşteri verisinin satıcının modelini **eğitmek için yeniden kullanılıp**
-kullanılamayacağı ve **çıktının sahibinin kim olduğu**. Bir eğitim-yok maddesi müzakere eder ve
-veri-yerleşimi kontrollerini açarlar.
+**Genel bir yasak değil, kontrolü riske eşle.** Müşteri PII'sini, üzerinde eğitim yapabilecek bir araca yapıştırmak gizlilik yasasını çiğner — o yüzden o yol maskeleme ya da no-train bir araç alır. Regüle bir akıştaki denetlenemez bir kara-kutu kararı, döngüde bir insan alır. *Peki neden AI?* Çünkü kontrol, AI'ı yasaklayıp herkesi gölge araçlara sürmek yerine güvenli sürüme *evet* demeni sağlayan şeydir.
 
-**Adım 3 — Kabul edilebilir kullanım politikasını uygula.** Politika, ham müşteri
-tanımlayıcılarının maskelenmeden şirketin sistemlerinden çıkmaması gerektiğini söyler, bu yüzden
-mühendislik, prompt'lar gönderilmeden önce **PII redaksiyonu** ekler ve her prompt ile yanıtın
-audit için kaydedilmesi için **günlükleme** ekler.
+**Yoksa sürpriz yaşatacak riskleri adlandır.** Gizlilik/PII, IP ve çıktı sahipliği, regülasyon denetlenebilirliği, güvenlik sızıntısı, halüsinasyonlu-ama-emin çıktı ve önyargı. *Bu işini neden kolaylaştırır?* Her birinin onu yanıtlayan bir kontrolü zaten var — böylece bilerek benimsersin ve riski bir olay sırasında keşfetmezsin.
 
-**Adım 4 — Gözetim ve bir onay geçidi ekle.** Yanıtlar müşteriye dönük olduğundan, ekip
-iadelere veya şikâyetlere dokunan herhangi bir yanıt için bir **insan-döngüde** incelemesi ve
-asistan canlıya geçmeden önce ürün sahibinin onayladığı bir **onay geçidi** ekler.
-
-**Adım 5 — Bias ve güvenilirlik için test et.** QA, asistanın bir müşterinin adına veya
-konumuna göre daha kötü yanıtlar vermediğini (**bias**) ve bir sipariş durumu uydurmak yerine
-"bilmiyorum" dediğini (**güvenilirlik**) kontrol eder.
-
-**Sonuç.** Asistan yayına çıkar, ama artık her riskin arkasında adı konmuş bir kontrol vardır:
-register onu kaydeder, sözleşme sahipliği ve eğitimi çözer, redaksiyon ve günlükleme gizliliği
-korur, insan gözetimi artı test güvenilirliği ve adaleti güvence altına alır. Governance, uçu
-açık bir riski sahiplenilmiş, denetlenebilir kararlar dizisine dönüştürdü.
+**Özet:** yönetişim seni yavaşlatmak için değildir — "izin vermek fazla riskli"yi "onaylandı, işte nasıl"a çeviren şeydir. Riskleri görünür kıl, her birine bir sahip ve eşleşen bir kontrol ver; AI, sakladığın bir şey yerine gerçek işte kullanmaya yetkili olduğun bir şeye dönüşsün.

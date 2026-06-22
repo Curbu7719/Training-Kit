@@ -44,7 +44,7 @@
     "explanation": "Delimiters clearly separate your instructions from the code the model should process, so an in-code comment isn't mistaken for an instruction. They don't shorten the prompt, speed up the model, or translate the code."
   },
   {
-    "prompt": "A Business Analyst prompts a model to turn a stakeholder request into a user story, but the output keeps coming back as a loose paragraph with no acceptance criteria, breaking the team's backlog template. Which prompt change most directly fixes this?",
+    "prompt": "A Project Manager prompts a model to turn a stakeholder request into a user story, but the output keeps coming back as a loose paragraph with no acceptance criteria, breaking the team's backlog template. Which prompt change most directly fixes this?",
     "choices": [
       "Specify the exact output template ('As a... I want... so that...' plus a numbered acceptance-criteria list) and show one example story in that format",
       "Tell the model to format it however it prefers",

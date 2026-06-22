@@ -1,64 +1,11 @@
-# Worked Example: Delivering a Feature with an AI-Assisted Team
+# Worked Example: Lead an AI-Driven Team Without Getting Surprised
 
-A product owner asks for it in a sentence: *"Add bulk receipt upload with auto-categorisation
-to the expense app."* The feature is ordinary software — but your team builds it in an
-**AI-driven SDLC**, with coding assistants generating most of the code. Here's how you manage
-the delivery instead of assuming AI just makes it 3× faster.
+Your team builds an internal expense-management app, and everyone now works with an AI coding assistant — it scaffolds endpoints, drafts tests, proposes refactors. The temptation is "AI writes the code, so we're 3× faster, ship the date 3× sooner." That math burns delivery leads, because the bottleneck *moved*. Here's how seeing where it went makes your job easier, not just faster.
 
-## Step 1 — Specify the intent before generating
+**The shift: typing code stopped being the constraint.** When the AI produces a component in seconds, the slow part is no longer writing it. *Where did the work go?* To **specifying** precisely what you want, **reviewing** whether the output is correct and secure, and **verifying** it works. *Why does this make your day easier?* You stop staffing for "more typing" and start protecting review and verification capacity — which is what actually gates throughput now.
 
-The assistant is only as good as the intent it's given. Before anyone generates code, you pin
-down what "done" means: the accepted file types and size limits, how a receipt maps to a
-category, what happens on a failed parse, and the API contract with the existing ledger. Vague
-intent produces plausible code that solves the wrong problem fast.
+**Beware the last 10%.** The AI gets you a working-looking 90% fast, and the demo dazzles. *Why is this the trap?* The remaining 10% — the edge cases, the integration seams, the security review — is where the real time goes, and it doesn't shrink just because the first 90% was quick. *Why use AI here at all?* Because it genuinely removes the bulk grind — as long as you estimate the tail honestly instead of extrapolating from the fast start.
 
-## Step 2 — Estimate the verification, not the generation
+**Manage trust, not just output.** The constraint is how fast humans can specify and trust what the AI emits. *Why does this matter?* A flood of unreviewed AI code isn't velocity — it's debt arriving faster. Your throughput is real only as fast as your team can stand behind it.
 
-The assistant scaffolds the upload endpoint, the parsing service, and a first set of tests in an
-afternoon. It *looks* nearly done. You resist quoting a near-term ship date, because the real
-work is the **last 10%**: malformed receipts, duplicate uploads, currency edge cases,
-integration with the ledger's transaction rules, and reviewing code nobody hand-wrote. You
-estimate **that** work — review, integration, verification — not the generation that's already
-done.
-
-## Step 3 — Make the quality gates the definition of done
-
-Because the code came fast and confident, the gates are where correctness is actually earned:
-
-| Gate | Owner | What it catches |
-|---|---|---|
-| Human review of generated code | Engineer | Hallucinated APIs, wrong logic, off-pattern code |
-| Automated tests + edge-case suite | QA | Malformed/duplicate receipts, currency cases |
-| Type check + security/dependency scan | Architect | Insecure patterns, outdated/echoed dependencies |
-| Pattern & architecture check | Architect | Drift from the codebase's conventions |
-
-A change is "done" when it clears these — not when it compiles or the happy-path demo works.
-
-## Step 4 — The honest checkpoint
-
-Review finds it: the assistant's parser handles the demo receipts perfectly but silently
-mis-parses non-USD amounts, and it pulled in a dependency with a known advisory. The generated
-code was *80% right and 100% confident.* You have three honest options — and "it already works
-in the demo, ship it" is **not** one of them:
-
-- **Merge as-is** — rejected; the currency bug would corrupt real ledgers and the dependency
-  fails the security gate.
-- **Fix and re-verify** — chosen: tighten the intent, regenerate the parser with explicit
-  currency handling, swap the dependency, and add the edge-case tests before merge.
-- **Hand-write the risky part** — held in reserve for the currency logic if the assistant keeps
-  missing it; some code is cheaper to own directly than to keep re-reviewing.
-
-## Step 5 — Report real throughput
-
-At the standup you don't report "the assistant generated 4,000 lines this sprint." You report
-**cycle time** (idea to merged-and-verified), **defect escape** (bugs that reached staging), and
-the **working value shipped**. The generation was fast; the delivery was paced by review and
-verification — and that's the number that tells the truth.
-
-## The lesson
-
-No part of this required predicting how good the model would be — it required managing a workflow
-whose bottleneck moved from writing code to **specifying, reviewing, and verifying** it. By
-estimating the last 10%, making quality gates the definition of done, and measuring real
-throughput instead of output, the lead turned "AI makes us faster" into delivery that's actually
-faster *and* safe. That's delivering software in an AI-driven SDLC.
+**The takeaway:** an AI-driven team isn't a hand-coded team sped up 3×. The bottleneck moved from writing to specifying, reviewing, and verifying — so lead there. Estimate the last 10% honestly and protect review capacity, and AI makes delivery genuinely faster instead of just faster-looking.

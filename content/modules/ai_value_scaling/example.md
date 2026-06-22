@@ -1,28 +1,13 @@
-# Worked Example: From Pilot to Scale for a Support Assistant
+# Worked Example: Know If Your AI Win Is Real Before You Bet Big on It
 
-**The idea.** A 200-person company spends heavily on customer support. The team proposes an
-AI assistant that drafts replies to incoming tickets so agents edit-and-send instead of
-writing from scratch. Leadership asks one question first: *what value, and how will we know?*
+You ran a small AI pilot — say, a tool that drafts first-pass responses to support tickets — and it feels like a win. Before you roll it out to everyone, the question that saves you is: *is this real value or a good demo?* Here's how measuring it makes the scale-or-kill call easy instead of political.
 
-**Setting the success metric.** Before building anything, the team agrees on a **real value
-metric**: average handle time per ticket, plus the share of drafts agents accept with minor
-edits. They explicitly reject the vanity metric "number of drafts generated" — generating
-drafts nobody uses would prove nothing. The threshold to proceed: a 20% drop in handle time
-with at least 60% draft acceptance.
+**The trap: a number that impresses but means nothing.** "10,000 prompts run this month" or "92% accurate" sound great. *Why are these vanity metrics?* They don't tie to money, time, risk, or quality. The test: *if this number doubled, would the business be better off?* If not, it's vanity. *Why does this make your day easier?* You stop defending a pilot with numbers that don't actually argue for it.
 
-**The pilot.** They run a four-week pilot with eight agents on one ticket category. Handle
-time falls 25%, draft acceptance reaches 68%, and agents report the tool genuinely helps.
-The metric clears the threshold, and adoption is real — the eight agents keep using it
-without being told to.
+**The real measure: outcome, not activity.** Hours saved per agent, tickets resolved without a human, error rate down. *Why use AI here at all?* Because *that's* the thing you're betting on — and a real value metric is what turns "it feels faster" into evidence anyone can check.
 
-**The scale-or-kill decision.** The numbers justify scaling, but the team checks **cost and
-adoption** too. Per-ticket model cost is well below the labour it saves, so unit economics
-hold as volume grows. They decide to scale — but deliberately, one category at a time.
+**Move through stages, don't leap.** Pilot (small, time-boxed, one metric) → production (monitored, owned) → scale (more users, once value is proven). *Why?* Each gate is a chance to confirm the value held before you spend more — you scale *because* it cleared a pre-agreed bar, not because you're attached to it.
 
-**Change management.** Rolling out to all 40 agents, they invest in training, share the pilot
-results to build trust, and add a feedback button so agents flag bad drafts. Adoption climbs
-because agents see the tool as help, not a threat to their jobs.
+**Killing a weak pilot is a win.** If value is unproven, adoption is low despite effort, or it costs more to run than it saves — stop it. *Why does this make your work easier?* It frees your time and budget for the bet that *does* pay off, instead of dragging a loser along because you started it.
 
-**The contrast.** A second pilot — an AI that auto-tags tickets — showed only a 3% time
-saving and low agent trust. The team **kills** it. That is a win: they stop spending on a
-weak bet and redirect the budget to the assistant that is clearly working.
+**The takeaway:** AI's value is the outcome it produces, not that it uses AI. Measure the real thing, move pilot → production → scale through honest gates, and kill the weak ones early — so you bet big only on the wins that are actually real.

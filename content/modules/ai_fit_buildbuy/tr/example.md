@@ -1,36 +1,13 @@
-# Çalışılmış Örnek: Bir "Akıllı Yanıt Önerisi" Özelliğini Temin Etmek
+# İşlenmiş Örnek: AI İşini Ne Zaman Kolaylaştırır — Ne Zaman Kolaylaştırmaz, Bil
 
-**Ekip.** Bir SaaS yardım masası ürünü **önerilen yanıtlar** eklemek istiyor: bir temsilci
-bir müşteri talep'ini açtığında, uygulama düzenleyip gönderebileceği bir taslak yanıt sunuyor.
-PM, bir geliştirici ve bir mimar bunu nasıl temin edeceklerine karar vermek için oturuyor.
+Elinin altında AI var, o yüzden refleks onu her işe atmak. Ama on satır düz kodun yapacağı yerde modele uzanmak, en yaygın ve pahalı hatalardan biridir. İşte AI'ın gününü gerçekten kolaylaştırdığını mı yoksa sadece yavaşlatıp pahalılaştırdığını mı ayırt etmenin yolu.
 
-**Adım 1 — AI gerçekten doğru araç mı?** Taslaklar serbest biçimli talep metnine bağlı ve
-doğal okunmalı, dolayısıyla bu belirsiz, dil biçimli iş — bir LLM için iyi bir uyum. AI
-*olmayan* kısımları ayırarak teyit ediyorlar: müşterinin planını ve sipariş geçmişini aramak
-kesin bir veritabanı sorgusu, dolayısıyla o deterministik kod olarak kalıyor. Yalnızca
-**taslak ifadesi** AI'ya gidiyor.
+**Tuzak: kesin, bilinen bir kural için AI.** Bir modele e-posta formatı doğrulatmak ya da vergi hesaplatmak istersin. *Bu neden yanlış karar?* Bunların tek bir kesin cevabı var ve AI **belirsizdir (non-deterministic)** — aynı girdi, muhtemelen farklı çıktı. Düz kod daha ucuz, anında, test edilebilir ve *her seferinde aynı cevabı* verir. *Burada neden "AI"? Kullanmazsın.* Bunu fark etmek, bir hesap makinesinin bedava yaptığı şeyin yavaş ve titrek bir sürümünden seni kurtarır.
 
-**Adım 2 — Doğruluk ve non-determinizm.** "Çoğunlukla doğru" bir öneri yeterli çünkü bir
-insan **göndermeden önce düzenliyor** — yani modelin non-determinizmini tolere edebilirler.
-Yanıt incelenmeden otomatik gönderilseydi bunu tolere *etmezlerdi*.
+**Uygun olan: belirsiz, yargı biçimli iş.** "Bu 500 destek kaydını oku ve temaları söyle" sorusunun kesin bir cevabı yok ve elle saatler sürerdi. *Burada neden AI?* Dil biçimli ve yargı ağırlıklı — modelin tam da parladığı ve *muhtemelen-doğru'nun hiçten iyi olduğu* yer. Değişkenliğe katlanırsın çünkü alternatif 500 kaydı kendin okumak.
 
-**Adım 3 — Build vs buy vs fine-tune vs API.** Dört seçeneği tartıyorlar:
+**Üç şeyi dürüstçe tart.** İş gerçekte ne kadar **doğruluk** gerektiriyor, ne kadar **belirsizliğe** katlanabilirsin ve gerçek hacminde **çağrı başına maliyet** ne? *Bu gününü neden kolaylaştırır?* "AI kullanmalı mıyım?"ı bir histen hızlı, tekrarlanabilir bir kontrole çevirir — böylece kod isteyen işe bir modeli (ve parayı) harcamayı bırakırsın.
 
-- Önerilen yanıt yapan bir yardım masası eklentisini **satın al (buy)** — en hızlı, ama
-  jenerik ve çekirdek destek iş akışlarında **vendor lock-in** yaratır.
-- Şirket içinde bir model **build** et — ne eğitim verileri ne de bir nedenleri var, çünkü
-  yanıt taslağı oluşturma farklılaştırıcıları değil.
-- **Fine-tune** — cazip, ama henüz etiketli bir veri kümeleri yok.
-- İyi bir prompt'la bir **API çağır** (barındırılan bir LLM) — düşük ön maliyet, haftalar
-  içinde yayında.
+**Sonra nasıl tedarik edeceğine karar ver.** AI uyduğunda, hız için bir API çağır, zaten varsa bir SaaS özelliği satın al, yalnızca verin ve ihtiyacın varsa fine-tune et. *Neden?* Çoğu zaman bir API çağrısı, hiçbir şey inşa etmeden seni bugün oraya götürür.
 
-**Karar.** Talep'i ve alınan hesap bilgilerini besleyerek, ince bir dahili **soyutlama
-katmanının** arkasında **barındırılan bir LLM API'si çağırıyorlar**. Soyutlama **switching
-cost**'ları düşük tutuyor — sağlayıcıları sonradan değiştirebilirler. Gerçek **TCO**'yu
-izlemek için hacmi günlüklüyorlar ve düzenlenmiş-yanıt verisini topladıktan sonra kalite
-platoya ulaşırsa yalnızca o zaman **fine-tune** etmeyi planlıyorlar.
-
-**Bu neden doğru karar.** AI yalnızca belirsiz kısma uyuyor; deterministik arama kod olarak
-kalıyor; bir insan geçidi non-determinizmi soğuruyor; ve bir soyutlamanın arkasında bir
-API'yle başlamak değeri hızla getirirken sonraki her seçeneği — buy, fine-tune veya build —
-düşük lock-in ile açık tutuyor.
+**Özet:** beceri "AI kullan" değildir — *nerede* yardımcı olduğunu bilmektir. Kesin kurallar için deterministik kod, belirsiz yargı için AI ve karar için üçlü kontrol (doğruluk, değişkenlik, maliyet). AI'ın, çözülmüş bir problemi süslemek yerine işini kolaylaştırmasının yolu budur.

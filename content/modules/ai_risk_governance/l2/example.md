@@ -1,36 +1,13 @@
-# Worked Example: When Governance Was Treated as a One-Time Gate
+# Worked Example: Run Governance as a Program So AI Adoption Scales
 
-**The setup.** A bank governs AI well at launch. A vendor tool that helps assess loan
-applications passes a full review: it is entered in the **AI use register** at "high" tier,
-a contract settles output ownership and forbids training on the bank's data, bias testing is
-run, and an **approval gate** signs it off. Everyone moves on.
+One careful approval is fine for one tool. But as AI use spreads across the org, governing every use the same way either smothers harmless experiments or under-protects the dangerous ones — and either way people route around you. At depth, governance is a program that *tiers* risk so adoption can scale safely. Here's how that keeps the yes flowing.
 
-**What changed quietly.** Eight months later, three things have shifted, and none triggered a
-re-review:
+**Tier the use, don't apply one rule.** An internal brainstorming aid is low tier — little gating. A tool making customer-facing or regulated decisions (credit, hiring, health) is high tier — approval gates, human oversight, bias testing, an audit trail. *Why does this make your day easier?* Low-risk experiments fly through while scrutiny lands where the exposure actually is — so governance stops being the thing everyone dreads.
 
-- The vendor **updated its model** to a newer version with different behaviour.
-- The team started feeding it **new data fields** (postal code and applicant age) that were
-  not in the original assessment.
-- A **new regulation** raised the bar for explainability in automated lending decisions.
+**Keep an AI use register.** You record each use and its tier. *Why use AI this way?* When an auditor or an incident asks "what AI are we running and how is each controlled?", you have an answer instead of a scramble — and new uses inherit the right controls automatically.
 
-**Where governance failed — and where it held.**
+**Balance the trade-off triangle on purpose.** Every call weighs risk reduction against speed of adoption against cost. *Why?* Over-govern and people use shadow tools; under-govern and you get burned. Naming the trade-off per tier lets you choose deliberately instead of defaulting to "block everything."
 
-- **Risk tiering (stale):** *Failed.* The use was tiered once and never re-tiered, so the
-  added age and postal-code fields — which can encode **bias** — were never re-assessed.
-- **Contract (held, partly):** *Held* on ownership and no-training, but the contract was not
-  re-checked against the model update, so new output-liability terms went unreviewed.
-- **Audit logging (held):** *Held.* Because every decision was logged, the bank could later
-  reconstruct which model version and which fields drove each decision — essential when the
-  regulator asked.
-- **Bias testing (stale):** *Failed.* It ran once at launch, not after the new fields were
-  added, so a drift toward unfair outcomes went undetected for months.
+**Adapt as the rules move.** Regulation and the tech keep shifting. *Why does this matter?* A program — owners, a register, tiers — absorbs a new law as an update, where a pile of one-off approvals would have to be redone from scratch.
 
-**The fix the bank adopts.** They make governance **continuous**: the register entry gets a
-**re-review trigger** on any model update or data-field change; bias testing is scheduled,
-not one-off; and a process tracks regulatory changes and re-tiers affected uses. Human
-oversight is spot-audited so it cannot quietly become a rubber stamp.
-
-**The lesson.** The launch controls were correct but treated as a one-time gate. Real
-governance is a living program: tiers, contracts, bias tests, and the register must be
-re-visited as the model, the data, and the law change — otherwise yesterday's approval
-silently covers today's unreviewed risk.
+**The takeaway:** at scale, governance isn't more gates — it's a program that matches control to risk tier, tracks every use, and adapts. That's what lets AI adoption spread across the org *with* the auditors and the regulators on side, instead of in the shadows.

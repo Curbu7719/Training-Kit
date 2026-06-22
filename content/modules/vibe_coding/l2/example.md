@@ -1,26 +1,13 @@
-# Worked Example: A Plausible-but-Broken Diff That Reads Fine
+# Worked Example: Place Each Discipline Where AI Code Actually Breaks
 
-**The task.** Raj vibe-codes a discount calculator: apply a percentage discount to a cart, but
-never let the total go below zero. He prompts for it and gets back a clean, confident function.
+You've got the vibe-coding loop down — but at depth the disciplines aren't a ritual, they're each a defense against a *specific* way AI-generated code fails. Knowing the failure modes is what lets you place each guard deliberately instead of going through the motions. Here's how that keeps the speed without the silent damage.
 
-**The diff looks great.** It's well-named, has a comment, handles a `discountPercent` parameter,
-and returns `total - (total * discountPercent / 100)`. It reads like something a senior engineer
-wrote. Raj's reckless instinct is to accept it — it *runs*, and it *looks right*. That instinct is
-exactly the **plausible-but-broken** trap: fluency is not correctness.
+**Silent wrong code.** It runs, returns a value, and is simply wrong — off-by-one, inverted condition. Nothing crashes, so "it runs" tells you nothing. *The guard:* tests that assert *behaviour*, not just absence of errors. *Why does this make your day easier?* The bug surfaces in the suite now, not in production next week — you catch the thing a glance can't.
 
-**Reading against the spec.** Raj instead reads the diff with his intent in mind — *"never below
-zero."* He notices the function never clamps the result, and that `discountPercent` is taken
-straight from a request with no bounds check. So a `discountPercent` of `150` returns a *negative*
-total, and the "never below zero" rule from his spec is silently violated. Nothing crashed; a test
-that only checked "no error" would have passed. This is **silent wrong code** hiding inside
-plausible-but-broken output.
+**Plausible-but-broken.** The output reads like confident, idiomatic code and passes a skim, but mishandles a null, an edge case, or concurrency. Its fluency *is* the trap. *The guard:* actually read the diff with your spec's edge cases in mind. *Why use AI this way?* Because the better the AI gets at *looking* right, the more your real value is checking whether it *is* right.
 
-**Containing it.** Raj writes a test that asserts behaviour — `discount(100, 150)` should be `0`,
-not `-50` — and watches it fail, confirming the bug. He prompts for a small fix to clamp the result
-and validate the input range, **reads** the new diff, **runs** the test until it passes, and
-**commits**. When he later notices the AI also tried to refactor an unrelated pricing module
-(**scope creep**), he rejects that part and keeps the diff single-purpose.
+**Scope creep and silent drift.** You ask for one change and the AI helpfully rewrites three things. *The guard:* small diffs, one change at a time, so you can see exactly what moved. *Why does this matter?* A big "helpful" blob hides the one line that broke something — small steps keep the damage visible.
 
-**The lesson.** Every failure here was caught by a discipline aimed at it: reading caught the
-plausible-but-broken logic, a behavioural test caught the silent wrong result, and a small-diff
-habit caught the scope creep. "Runs and looks right" would have shipped all three.
+**Take the wheel when it loops.** When the AI keeps producing variations that don't converge, you stop prompting and write the tricky part yourself. *Why?* Re-prompting a stuck model burns time and tokens; recognizing the loop early is what keeps fast from turning into a spiral.
+
+**The takeaway:** at depth, each discipline maps to a failure mode — tests for silent-wrong, reading for plausible-but-broken, small steps for drift, taking the wheel for loops. Place them on purpose and AI keeps you fast *and* keeps the code something you can stand behind.

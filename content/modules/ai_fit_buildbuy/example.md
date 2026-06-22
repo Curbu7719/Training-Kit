@@ -1,34 +1,13 @@
-# Worked Example: Sourcing a "Smart Reply Suggestion" Feature
+# Worked Example: Know When AI Makes Your Work Easier — and When It Doesn't
 
-**The team.** A SaaS help-desk product wants to add **suggested replies**: when an agent
-opens a customer ticket, the app proposes a draft response they can edit and send. The PM,
-a developer, and an architect sit down to decide how to source it.
+You've got AI on tap, so the reflex is to throw it at every task. But reaching for a model where ten lines of plain code would do is one of the most common, expensive mistakes. Here's how to tell when AI actually makes your day easier and when it just makes it slower and pricier.
 
-**Step 1 — Is AI even the right tool?** The drafts depend on free-form ticket text and must
-read naturally, so this is fuzzy, language-shaped work — a good fit for an LLM. They double
-check by carving out the parts that are *not* AI: looking up the customer's plan and order
-history is an exact database query, so that stays deterministic code. Only the **draft
-wording** goes to AI.
+**The trap: AI for an exact, known rule.** You're tempted to ask a model to validate an email format or calculate tax. *Why is this the wrong call?* Those have one exact answer, and AI is **non-deterministic** — same input, possibly different output. Plain code is cheaper, instant, testable, and gives the *same answer every time*. *Why "use AI" here? You don't.* Recognizing that saves you a slow, flaky version of something a calculator does for free.
 
-**Step 2 — Accuracy and non-determinism.** A suggestion that is "mostly right" is fine
-because a human **edits before sending** — so they can tolerate the model's
-non-determinism. They would *not* tolerate it if the reply auto-sent unreviewed.
+**The fit: AI for fuzzy, judgment-shaped work.** "Read these 500 support tickets and tell me the themes" has no exact answer and would take you hours by hand. *Why use AI here?* It's language-shaped and judgment-heavy — exactly where a model shines, and where *probably-right beats nothing*. You tolerate the variability because the alternative is reading 500 tickets yourself.
 
-**Step 3 — Build vs buy vs fine-tune vs API.** They weigh four options:
+**Weigh three things, honestly.** How much **accuracy** does the task truly need, how much **non-determinism** can you live with, and what's the **cost per call** at your real volume? *Why does this make your day easier?* It turns "should I use AI?" from a vibe into a quick, repeatable check — so you stop wasting a model (and money) on work that wanted code.
 
-- **Buy** a help-desk add-on that does suggested replies — fastest, but it is generic and
-  creates **vendor lock-in** on their core support workflow.
-- **Build** a model in-house — they have neither the training data nor a reason to, since
-  reply-drafting is not their differentiator.
-- **Fine-tune** — tempting, but they have no labeled dataset yet.
-- **Call an API** (a hosted LLM) with a good prompt — low upfront cost, ships in weeks.
+**Then pick how to source it.** Once AI fits, call an API for speed, buy a SaaS feature if it already exists, fine-tune only when you have the data and the need. *Why?* Most of the time an API call gets you there today without building anything.
 
-**Decision.** They **call a hosted LLM API** behind a thin internal **abstraction layer**,
-feeding it the ticket plus retrieved account facts. The abstraction keeps **switching costs**
-low — they can change providers later. They log volume to track real **TCO**, and plan to
-**fine-tune** only if quality plateaus once they have collected edited-reply data.
-
-**Why this is the right call.** AI fits the fuzzy part only; the deterministic lookup stays
-code; a human gate absorbs the non-determinism; and starting with an API behind an
-abstraction gets value fast while keeping every later option — buy, fine-tune, or build —
-open at low lock-in.
+**The takeaway:** the skill isn't "use AI" — it's knowing *where* it helps. Deterministic code for exact rules, AI for the fuzzy judgment, and a three-way check (accuracy, variability, cost) to decide. That's how AI makes your work easier instead of dressing up a solved problem.
