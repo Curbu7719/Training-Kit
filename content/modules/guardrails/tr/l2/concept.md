@@ -47,13 +47,8 @@ hız arasındaki döngüyü kapatır.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Her kontrolü optimal hat aşamasına yerleştirir, agent'ı en az
-  ayrıcalıklı çalıştırır, depo/araç içeriğini güvenilmez olarak ele alır ve her engellenen
-  eylemin gözlemlenebilir ve ayarlanabilir olması için günlükleme yapar.
-- **İş Analisti:** Risk katmanlarını (dokümantasyon vs. auth vs. üretim config) ve katman başına
-  kabul edilebilir yanlış pozitif vs. yanlış negatif dengesini tanımlar, her birini uyumluluğa izler.
-- **PM/Ürün Sahibi:** Güvenlik-vs-hız-vs-maliyet ödünleşimine sahip çıkar, bir insan onay
-  geçidinin haklı olduğu ve ekibi gereksiz yere yavaşlattığı yerleri önceliklendirir.
-- **QA & Mimar:** Issue'larda ve bağımlılıklarda dolaylı prompt injection için red-team yapar,
-  katmanların bağımsız olduğunu doğrular (paylaşılan tek hata noktası yok) ve guardrail'leri
-  güncel tutan izleme döngüsünü doğrular.
+- **Developer:** Her kontrolü optimal hat aşamasına yerleştirir, agent'ı en az ayrıcalıkla çalıştırır, depo/araç içeriğini güvenilmez sayar ve her engellenen eylem gözlemlenebilir/ayarlanabilir olsun diye günlükleme yapar.
+- **Security Engineer:** Issue'larda ve bağımlılıklarda dolaylı prompt injection için red-team yapar ve katmanların bağımsız olduğunu (paylaşılan tek hata noktası yok) doğrular.
+- **Governance:** Risk katmanlarını (dokümantasyon vs auth vs üretim config) ve katman başına kabul edilebilir yanlış pozitif/yanlış negatif dengesini tanımlar, her birini uyumluluğa izler.
+- **Project Manager:** Güvenlik-vs-hız-vs-maliyet dengesini sahiplenir; bir insan onay geçidinin haklı olduğu ve ekibi gereksiz yere yavaşlattığı yerleri önceliklendirir.
+- **Enterprise Architect:** Agent ve tehditler evrildikçe guardrail'leri güncel tutan izleme döngüsünü doğrular.

@@ -48,11 +48,8 @@ geriye gidebilir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** Sağlayıcı soyutlamasını timeout'lar, retry'lar ve fallback'lerle
-  kurar; input/output guardrail aşamalarını ve uçtan uca izlemeyi uygular.
-- **İş Analisti:** Lansmanı kapılayan PII/veri akışını ve yönetişim gereksinimlerini
-  belgeler ve işin önemsediği kalite sinyallerini tanımlar.
-- **PM/Ürün Sahibi:** Canary/shadow karşılaştırmalarıyla flag'li, kademeli yayılımları ve
-  model veya prompt değişiklikleri için açık bir geri alma planı planlar.
-- **QA ve Mimar:** Güvenilirliği (circuit breaker'lar, degraded modlar) tasarlar, çevrimdışı
-  eval setini sürdürür ve başarısızlık altında failover ve guardrail davranışını doğrular.
+- **Enterprise Architect:** Güvenilirliği (circuit breaker'lar, degraded modlar) tasarlar, çevrimdışı eval setini sürdürür ve başarısızlık altında failover ve guardrail davranışını doğrular.
+- **Developer:** Sağlayıcı soyutlamasını timeout'lar, retry'lar ve fallback'lerle kurar ve input/output guardrail aşamalarını ve uçtan uca izlemeyi uygular.
+- **Security Engineer:** Lansmanı kapılayan PII/veri akışını ve yönetişim gereksinimlerini belgeler.
+- **Project Manager:** Canary/shadow karşılaştırmalarıyla flag'li, kademeli yayılımları ve model/prompt değişiklikleri için açık bir geri alma planı planlar.
+- **DevOps Engineer:** Canary/shadow karşılaştırmasını ve üretimde yayılım/geri alma sürecini yürütür.

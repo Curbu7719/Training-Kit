@@ -19,7 +19,8 @@ On its own, a language model can only produce text. It can't run your test suite
 
 ## How each role uses this
 
-- **Developer/Engineer:** Defines tool schemas (run the test suite, search the codebase, apply a patch) and writes the execution layer plus loop limits and input validation that keep a coding agent safe.
-- **Business Analyst:** Identifies which real systems and data sources the agent must reach (issue tracker, requirements store) and where a human-approval step belongs in the workflow.
-- **PM/Product Owner:** Decides when a feature genuinely needs an autonomous agent versus a cheaper single call, scopes how much autonomy it gets, and budgets the per-iteration cost.
-- **QA/Tester & Architect:** Defines an agent that triages flaky tests, tests loop termination and failure modes, and sets the approval gates and allowed-tool boundaries that contain destructive or runaway behavior.
+- **Developer:** Defines the tool schemas (run the test suite, search the codebase, apply a patch) and writes the execution layer plus loop limits and input validation that keep a coding agent safe.
+- **Enterprise Architect:** Sets the allowed-tool boundaries and approval gates as architecture, and decides single-call vs agent.
+- **Security Engineer:** Scopes which systems and data the agent may reach and requires approval for destructive or irreversible actions.
+- **Tester:** Builds an agent that triages flaky tests and tests loop termination and failure modes.
+- **Project Manager:** Decides when a feature genuinely needs an agent vs a cheaper single call, scopes its autonomy, and budgets the per-iteration cost.

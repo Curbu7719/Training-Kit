@@ -16,7 +16,7 @@ When you test a normal feature, you assert: given this input, expect that output
 
 ## How each role uses this
 
-- **Developer/Engineer:** Wires the eval suite into CI as a regression gate so a prompt change can't merge if scores drop.
-- **Business Analyst:** Defines what "good" means for the feature — which metrics matter and the correctness rubric — so evaluation reflects real business value.
-- **PM/Product Owner:** Sets the quality bar (the pass threshold) and weighs accuracy against latency and cost when deciding to ship.
-- **QA/Tester & Architect:** Builds the eval suite and golden dataset, scores properties instead of exact strings to tolerate non-determinism, and designs the observability so quality is visible in production.
+- **Tester:** Builds the eval suite and golden dataset, scores properties instead of exact strings to tolerate non-determinism, and makes quality visible.
+- **Developer:** Wires the eval suite into CI as a regression gate so a prompt change can't merge if scores drop.
+- **Project Manager:** Defines what "good" means and sets the quality bar (pass threshold), weighing accuracy against latency and cost when deciding to ship.
+- **Enterprise Architect:** Designs the observability so quality is visible in production, not just pre-launch.

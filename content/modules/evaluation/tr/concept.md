@@ -16,7 +16,7 @@ Normal bir özelliği test ederken şunu öne sürersiniz: bu girdi verildiğind
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Eval paketini CI'a bir regresyon geçidi olarak bağlar; böylece puanlar düşerse bir prompt değişikliği merge edilemez.
-- **İş Analisti:** Özellik için "iyi"nin ne anlama geldiğini tanımlar — hangi metriklerin önemli olduğu ve doğruluk rubric'i — böylece değerlendirme gerçek iş değerini yansıtır.
-- **PM/Ürün Sahibi:** Kalite çıtasını (geçme eşiğini) belirler ve ship etmeye karar verirken accuracy'yi latency ve maliyete karşı tartar.
-- **QA/Test Uzmanı & Mimar:** Eval paketini ve golden dataset'i kurar, non-determinizmi tolere etmek için tam string'ler yerine özellikleri puanlar ve kalitenin production'da görünür olması için observability'yi tasarlar.
+- **Tester:** Eval paketini ve golden dataset'i kurar, non-determinizmi tolere etmek için tam string yerine özellikleri puanlar ve kaliteyi görünür kılar.
+- **Developer:** Eval paketini CI'a bir regresyon geçidi olarak bağlar; böylece puanlar düşerse bir prompt değişikliği merge edilemez.
+- **Project Manager:** "İyi"nin ne demek olduğunu tanımlar ve kalite çıtasını (geçme eşiği) belirler; ship kararında accuracy'yi latency ve maliyete karşı tartar.
+- **Enterprise Architect:** Kalitenin yalnızca yayın öncesi değil production'da da görünür olması için observability'yi tasarlar.

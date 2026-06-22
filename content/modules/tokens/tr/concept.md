@@ -32,11 +32,7 @@ için seçtiğiniz modele uygun bir tokenizer ile tam olarak sayın.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Büyük bir kaynak dosyasını veya diff'i bir AI aracına göndermeden
-  önce token sayılarını kontrol eder ve bir dosya context window'a sığmayacak kadar büyükse girdileri parçalara böler.
-- **İş Analisti:** AI'a büyük gereksinim belgelerini veya spesifikasyonları özetletmenin token
-  maliyetini tahmin eder, böylece analiz başına harcama önceden bilinir.
-- **PM/Ürün Sahibi:** Önerilen bir AI özelliğini (örn. otomatik bir inceleyici), istek başına
-  token'ları istek hacmiyle ve token başına fiyatla çarparak bütçeler.
-- **QA & Mimar:** Uzun test günlüklerini veya izleri bir AI triyaj aracına beslerken token
-  sınırlarını öngörür ve hattı, girdileri bilinçli olarak parçalayacak veya kırpacak şekilde tasarlar.
+- **Developer:** Büyük bir dosyayı veya diff'i bir AI aracına göndermeden önce token sayılarını kontrol eder ve context window'a sığmayacak girdileri parçalara böler.
+- **Project Manager:** Önerilen bir AI özelliğini (ör. otomatik bir inceleyici), istek başına token'ları istek hacmiyle ve token başına fiyatla çarparak bütçeler.
+- **Infrastructure Engineer:** Beklenen token hacminden sağlayıcı kotasını ve maliyet zarfını planlar; böylece özellik kapasite ve bütçe içinde kalır.
+- **Enterprise Architect:** Uzun günlükler veya izler bir AI aracına beslendiğinde token sınırlarını öngörür ve hattı girdileri bilinçli parçalayacak/kırpacak biçimde tasarlar.

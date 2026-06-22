@@ -12,7 +12,7 @@ L1 introduced approaches and metrics. At L2 the hard part is making the measurem
 
 ## How each role uses this
 
-- **Developer/Engineer:** Stratifies datasets, adds every production bug as a regression case, validates the judge against human labels, and slices scores by segment in CI.
-- **Business Analyst:** Ensures the dataset and rubric represent real-world cases and business-critical segments, not just easy inputs.
-- **PM/Product Owner:** Balances fast offline gates against slower online ground truth, and guards against optimizing a proxy metric at the expense of real user value.
-- **QA/Tester & Architect:** Separates real regressions from non-deterministic noise, audits the judge for bias, designs the production observability, and ensures aggregate scores never hide a failing subgroup.
+- **Tester:** Stratifies datasets, adds every production bug as a regression case, validates the judge against human labels, and slices scores by segment.
+- **Developer:** Wires stratified evals and per-segment slicing into CI.
+- **Project Manager:** Balances fast offline gates against slower online ground truth, ensures the dataset covers business-critical segments, and guards against optimising a proxy metric at the expense of real value.
+- **Enterprise Architect:** Designs production observability and ensures aggregate scores never hide a failing subgroup.

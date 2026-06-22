@@ -32,11 +32,7 @@ add **review gates** before AI output reaches production.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Redacts PII and secrets before prompting, uses only approved tools
-  with zero-retention enabled, and keeps prompts and model output out of shared logs.
-- **Business Analyst:** Classifies which data is sensitive or regulated, so redaction and
-  residency rules map directly to compliance obligations.
-- **PM/Product Owner:** Owns the approved-tool list and policy, deciding which AI tools are
-  sanctioned and where human review gates are required before shipping.
-- **QA/Tester & Architect:** Tests for data leaks and prompt injection, and designs tenant
-  isolation, logging hygiene, and no-train data flows so sensitive data never escapes.
+- **Security Engineer:** Redacts PII and secrets before prompting, tests for data leaks and prompt injection, and keeps prompts and model output out of shared logs.
+- **Developer:** Uses only approved tools with zero-retention enabled and wires redaction/secret scanning into the workflow.
+- **Governance:** Classifies which data is sensitive or regulated, owns the approved-tool list and policy, and decides which tools are sanctioned and where review gates are required.
+- **Enterprise Architect:** Designs tenant isolation, logging hygiene, and no-train data flows so sensitive data never escapes.

@@ -45,14 +45,7 @@ kendisi yeni bir sızıntı yüzeyi olmadan tespit edilebilir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Sınıflandırmayı prompt anında uygular, redaction ve secret taramayı
-  araçlara entegre eder ve prompt'lar/çıktıların düz log'lardan ve paylaşılan cache'lerden
-  dışlandığından emin olur.
-- **İş Analisti:** Her veri sınıfını düzenleyici yükümlülüğüne (residency, retention sınırları,
-  rıza) eşler ve hangi sınıfların hangi araç katmanına ulaşabileceğini tanımlar.
-- **PM/Ürün Sahibi:** Tedarikçi durum tespitine ve onaylı araç listesine sahip çıkar, geliştirici
-  hızını retention/residency riskine karşı dengeler ve inceleme geçitlerinin nerede zorunlu
-  olduğuna karar verir.
-- **QA/Test Uzmanı & Mimar:** Prompt injection'ı, log sızıntısını ve multi-tenant izolasyonunu
-  red-team eder; no-train/zero-retention iddialarının uçtan uca geçerli olduğunu doğrular; bunu
-  kanıtlayan denetlenebilir log'lamayı tasarlar.
+- **Security Engineer:** Prompt injection'ı, log sızıntısını ve multi-tenant izolasyonunu red-team eder ve no-train/zero-retention iddialarının uçtan uca geçerli olduğunu doğrular.
+- **Developer:** Sınıflandırmayı prompt anında uygular, redaction ve secret taramayı araçlara entegre eder ve prompt'lar/çıktıları düz log'lardan ve paylaşılan cache'lerden dışlar.
+- **Governance:** Her veri sınıfını düzenleyici yükümlülüğüne (residency, retention sınırları, rıza) eşler, tedarikçi durum tespitine ve onaylı araç listesine sahip çıkar ve hangi sınıfların hangi araç katmanına ulaşabileceğine karar verir.
+- **Enterprise Architect:** Kontrollerin gerçekten tuttuğunu kanıtlayan denetlenebilir log'lamayı tasarlar.

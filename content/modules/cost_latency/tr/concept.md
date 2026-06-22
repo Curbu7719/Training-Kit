@@ -42,15 +42,7 @@ dengeyi seçer.
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** Her CI asistanı çağrısında token ve yanıt süresini ölçer,
-  ardından PR kontrolünü hızlı ve bütçe içinde tutmak için caching, output sınırları ve
-  routing uygular.
-- **İş Analisti:** PR hacmi ile input ve output token karışımından aylık AI araç gereci
-  harcamasını modeller; yavaş bir kontrolün ekibin merge iş akışını durduracağı durumları
-  işaret eder.
-- **PM/Ürün Sahibi:** AI araç gereci bütçesine sahip çıkar ve kalite/maliyet/latency
-  dengesini belirler — örneğin rutin PR'lerde daha küçük bir modeli kabul ederek sürümlerde
-  daha büyük bir modeli finanse eder.
-- **QA ve Mimar:** Pipeline kontrolü için latency SLO'ları belirler, onu en yoğun commit
-  yükü altında test eder ve asistanın maliyet ve süre hedefleri içinde kalması için
-  caching/routing tasarımını yapar.
+- **Developer:** Her CI asistanı çağrısında token ve yanıt süresini ölçer, ardından PR kontrolünü hızlı ve bütçe içinde tutmak için caching, output sınırları ve routing uygular.
+- **Infrastructure Engineer:** Pipeline kontrolü için latency SLO'ları belirler ve kapasite içinde kalsın diye onu en yoğun commit yükü altında test eder.
+- **Project Manager:** AI araç gereci bütçesine sahip çıkar, PR hacmi ve girdi/çıktı karışımından aylık harcamayı modeller ve kalite/maliyet/latency dengesini belirler.
+- **Enterprise Architect:** Asistanın maliyet ve süre hedefleri içinde kalması için caching/routing tasarımını yapar.

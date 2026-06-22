@@ -20,7 +20,8 @@ A **prompt** is the text you give a language model to steer its output. Because 
 
 ## How each role uses this
 
-- **Developer/Engineer:** Writes a system message pinning the test framework and coding standards, then prompts the model to generate unit tests or a refactor as a diff, iterating against cases the model first gets wrong.
-- **Business Analyst:** Structures a prompt that turns a stakeholder request into a user story with explicit acceptance criteria, encoding the real business rule rather than a vague paraphrase.
-- **PM/Product Owner:** Defines the desired scope, tone, and output format (e.g., a prioritized backlog table) up front, recognizing that prompt quality — not just model choice — drives feature quality.
-- **QA/Tester & Architect:** Builds a prompt that drafts a test plan from a spec with a fixed section template, and designs the system/user split and delimiters so prompts stay reusable and safe across the team.
+- **Developer:** Writes a system message pinning the test framework and coding standards, prompts the model to generate unit tests or a refactor as a diff, and iterates against cases it first gets wrong.
+- **Tester:** Builds a prompt that drafts a test plan from a spec with a fixed section template, so the output is consistent and checkable.
+- **Designer:** Turns a fuzzy request into the clear intent and acceptance criteria that make a good prompt — and a result you can check against.
+- **Project Manager:** Defines the desired scope, tone, and output format up front, recognising that prompt quality — not just model choice — drives feature quality.
+- **Enterprise Architect:** Designs the system/user split and delimiters so prompts stay reusable and safe across the team.

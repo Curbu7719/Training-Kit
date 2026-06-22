@@ -53,11 +53,7 @@ no room for the answer.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Counts tokens with the real tokenizer before sending large diffs, and
-  budgets the window so input never crowds out the output reserve.
-- **Business Analyst:** Estimates per-analysis token cost — including the non-English overhead — so
-  spend per document is known up front.
-- **PM/Product Owner:** Forecasts monthly spend from request volume and the input/output token mix,
-  and sets output caps where the bill is output-driven.
-- **QA & Architect:** Tests behaviour near the window limit and designs chunking/truncation so long
-  inputs degrade deliberately instead of overflowing.
+- **Developer:** Counts tokens with the real tokenizer before sending large diffs, and budgets the window so input never crowds out the output reserve.
+- **Project Manager:** Forecasts monthly spend from request volume and the input/output token mix, and sets output caps where the bill is output-driven.
+- **Infrastructure Engineer:** Factors the non-English token overhead and provider quotas into capacity and cost planning.
+- **Enterprise Architect:** Designs chunking/truncation so long inputs degrade deliberately instead of overflowing the window.

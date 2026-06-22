@@ -16,9 +16,9 @@ Temel **yetenekler**: kod yazmak ve açıklamak, gereksinimleri özetlemek, test
 
 **Model seçimi**, **yetenek, maliyet ve gecikme (latency)** arasında bir denge kurmaktır: yaşam döngüsü görevini güvenilir biçimde yapan en küçük modeli kullanın ve en büyüğü tasarım ya da karmaşık refactor gibi gerçekten zor işler için saklayın.
 
-## Bu konuyu her rol nasıl kullanır
+## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Satır içi kod tamamlama asistanı ya da commit mesajı üretmek için küçük, ucuz bir model seçer; karmaşık çok dosyalı bir refactor ya da zorlu bir hata teşhisi için güçlü bir model kullanır.
-- **İş Analisti:** Uzun bir gereksinim görüşmesini yapılandırılmış kullanıcı hikayelerine özetlemek için yetenekli bir model kullanır ve model halüsinasyon görebileceği için her olgusal iddiayı doğrular.
-- **PM/Ürün Sahibi:** Bir AI özelliğini kapsamlandırırken yetenek, maliyet ve gecikmeyi tartar; yüksek hacimli çağrıların (örneğin PR başlığı üretimi) daha ucuz bir modeli tercih ettiğini bilir.
-- **QA/Test Uzmanı & Mimar:** Bir test uzmanı uç durum test verisi üretmek için bir model kullanır ve belirsizliği tolere eden doğrulamalar tasarlar; bir mimar tasarım incelemesi ve denge analizi için en güçlü modeli saklar.
+- **Developer:** Satır içi kod tamamlama ya da commit mesajı için küçük, ucuz bir model; karmaşık çok dosyalı bir refactor ya da zorlu bir hata teşhisi için güçlü bir model seçer.
+- **Enterprise Architect:** En güçlü modeli tasarım incelemesi ve denge analizi için saklar ve modeli değiştirilebilir bir bağımlılık olarak ele alır.
+- **Tester:** Uç durum test verisi üretmek için bir model kullanır ve belirsizliği tolere eden doğrulamalar tasarlar.
+- **Project Manager:** Bir özelliği kapsamlandırırken yetenek, maliyet ve gecikmeyi tartar — yüksek hacimli çağrıların (ör. PR başlığı üretimi) daha ucuz modeli tercih ettiğini bilir — ve model seçimini bir maliyet/kalite riski olarak izler.

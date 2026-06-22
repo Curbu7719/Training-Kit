@@ -21,7 +21,7 @@ The skill is matching strategy to content and accepting its failure mode knowing
 
 ## How each role uses this
 
-- **Developer/Engineer:** Selects and *combines* strategies for a refactor, reserves output headroom, instruments token usage, and orders critical files deliberately to dodge lost-in-the-middle.
-- **Business Analyst:** Flags which acceptance criteria are non-negotiable so summarization and checkpointing never compress them away, and defines what "correct retrieval" means for the domain.
-- **PM/Product Owner:** Weighs the cost/latency of large windows vs retrieval, and accepts the residual risk of each strategy's failure mode when prioritizing AI features.
-- **QA/Tester & Architect:** A tester designs adversarial cases — early constraints that must survive a long session, retrieval with stale/missing files, mid-context facts; an architect picks an architecture whose failure mode is tolerable for the use case.
+- **Developer:** Selects and *combines* strategies for a refactor, reserves output headroom, instruments token usage, and orders critical files deliberately to dodge lost-in-the-middle.
+- **Project Manager:** Weighs the cost/latency of large windows vs retrieval, flags which constraints are non-negotiable so they're never summarized away, and accepts each strategy's residual failure mode when prioritizing.
+- **Tester:** Designs adversarial cases — early constraints that must survive a long session, retrieval with stale/missing files, mid-context facts.
+- **Enterprise Architect:** Picks an architecture whose failure mode is tolerable for the use case and defines what "correct retrieval" means for the domain.

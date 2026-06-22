@@ -49,11 +49,7 @@ capability to need is.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Sets max output length and stop sequences per task, picks a small model
-  for completion and a reasoning model for hard debugging, and wires the routing.
-- **Business Analyst:** Knows which tasks tolerate varied output (brainstorming) vs need a strict,
-  repeatable format (extraction), and shapes requirements accordingly.
-- **PM/Product Owner:** Weighs capability vs cost vs latency per feature and budgets for routing
-  instead of one expensive model everywhere.
-- **QA/Tester & Architect:** Tests under non-determinism, validates model choice against an eval
-  set, and designs the routing and provider abstraction so models stay swappable.
+- **Developer:** Sets max output length and stop sequences per task, picks a small model for completion and a reasoning model for hard debugging, and wires the routing.
+- **Enterprise Architect:** Designs the routing and provider abstraction so models stay swappable, and validates model choice against an eval set.
+- **Tester:** Tests under non-determinism and checks that the chosen model holds quality on a representative set.
+- **Project Manager:** Weighs capability vs cost vs latency per feature and budgets for routing instead of one expensive model everywhere.

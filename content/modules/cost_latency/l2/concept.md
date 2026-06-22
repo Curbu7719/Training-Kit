@@ -41,12 +41,7 @@ trace to one runaway check or an uncapped review, visible only once you measure.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Logs TTFT, token rate, and per-PR call counts; implements prefix
-  caching, response caching, and cascades, and load-tests the check for queueing at peak.
-- **Business Analyst:** Builds a cost model over the full per-PR pipeline (retries and
-  multi-step calls included), not a single call, to forecast the team's AI-tooling spend.
-- **PM/Product Owner:** Sets latency targets developers actually feel (TTFT on the merge
-  gate) and decides which checks justify a cascade or larger model versus aggressive trimming.
-- **QA & Architect:** Sets separate SLOs for the interactive merge gate vs. nightly batch
-  jobs, tests cascade escalation and retry behaviour under peak load, and ensures
-  observability covers every call in a fan-out.
+- **Developer:** Logs TTFT, token rate, and per-PR call counts; implements prefix caching, response caching, and cascades; and load-tests the check for queueing at peak.
+- **Infrastructure Engineer:** Sets separate SLOs for the interactive merge gate vs nightly batch jobs, tests cascade/retry behaviour under peak load, and ensures observability covers every call in a fan-out.
+- **Project Manager:** Builds a cost model over the full per-PR pipeline (retries and multi-step calls included), sets latency targets developers actually feel, and decides which checks justify a cascade or larger model.
+- **Enterprise Architect:** Designs the cascade/cache architecture across the fan-out.

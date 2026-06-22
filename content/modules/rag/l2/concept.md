@@ -15,7 +15,8 @@ L1 covered the pipeline: chunk → embed → store → retrieve → augment → 
 
 ## How each role uses this
 
-- **Developer/Engineer:** Chooses structure-aware chunking, adds hybrid search and re-ranking, applies a service/branch metadata filter, and orders context to dodge lost-in-the-middle.
-- **Business Analyst:** Maps which sources (which services, which doc spaces, which access levels) a given user may retrieve, and flags where a stale index would mislead.
-- **PM/Product Owner:** Trades retrieval sophistication (re-ranking, hybrid search) against latency and cost, and prioritizes which repos and wikis to index first.
-- **QA/Tester & Architect:** Separately tests retrieval (did the right file surface?) from generation (was it used faithfully?), and probes stale-index and boundary-loss modes after each refactor.
+- **Developer:** Chooses structure-aware chunking, adds hybrid search and re-ranking, applies a service/branch metadata filter, and orders context to dodge lost-in-the-middle.
+- **Enterprise Architect:** Designs which sources and access levels a given user may retrieve, and the overall retrieval architecture.
+- **Infrastructure Engineer:** Owns the vector index/store, keeps it fresh, and flags where a stale index would mislead.
+- **Tester:** Separately tests retrieval (did the right file surface?) from generation (was it used faithfully?), and probes stale-index and boundary-loss modes after each refactor.
+- **Project Manager:** Trades retrieval sophistication (re-ranking, hybrid search) against latency and cost, and prioritises which repos and wikis to index first.

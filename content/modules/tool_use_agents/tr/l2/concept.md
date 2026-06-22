@@ -16,7 +16,8 @@ L1'de agent döngüsü planla → eyleme geç → gözlemle → tekrarla şeklin
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Yorumlanabilir hata sonuçlarına sahip tipli tool şemaları tasarlar, yeniden-dene-veya-dur mantığını ve paralel tool çağrılarını uygular ve izleme için her iterasyonu loglar.
-- **İş Analisti:** Hangi eylemlerin geri alınamaz olduğunu ve onayın arkasında durması gerektiğini belirtir ve "doğru" bir sonucun neye benzediğini tanımlar ki ilerleme olmaması algılanabilsin.
-- **PM/Ürün Sahibi:** İterasyon ve bütçe tavanlarını ürün kısıtlamaları olarak belirler ve daha hızlı küçük bir model ile daha yetenekli büyük bir model arasındaki maliyet/gecikme ödünleşimine karar verir.
-- **QA & Mimar:** İzin sınırlarını ve onay kapılarını mimari olarak tasarlar ve başarısızlık biçimlerini test eder — geçici ve kalıcı hatalar, döngü sonlanması ve birikerek büyüyen hata kurtarması.
+- **Developer:** Yorumlanabilir hata sonuçlarına sahip tipli tool şemaları tasarlar, yeniden-dene-veya-dur mantığını ve paralel tool çağrılarını uygular ve izleme için her iterasyonu loglar.
+- **Enterprise Architect:** İzin sınırlarını ve onay kapılarını mimari olarak tasarlar.
+- **Security Engineer:** Hangi eylemlerin geri alınamaz olduğunu ve onayın arkasında durması gerektiğini belirtir.
+- **Tester:** Başarısızlık biçimlerini test eder — geçici ve kalıcı hatalar, döngü sonlanması ve birikerek büyüyen hata kurtarması.
+- **Project Manager:** İterasyon ve bütçe tavanlarını ürün kısıtı olarak belirler ve küçük ile büyük model arasındaki maliyet/gecikme dengesine karar verir.

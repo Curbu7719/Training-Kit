@@ -65,13 +65,9 @@ postmortem.
 
 ## How each role uses this
 
-- **DevOps / SRE & Infrastructure Engineer:** Sets least-privilege, environment scoping, dry-run
-  and approval gates, builds the action audit trail and the kill-switch, and puts action-rate
-  limits in place to catch loops.
-- **Developer:** Defines the agent's tools and the blast-radius class of each action, and keeps
-  prompt/tool changes behind flags for instant rollback.
-- **Release / Project Manager:** Decides which action classes may run autonomously vs need
-  approval, and owns the escalation path when an agent stops and asks.
-- **QA, Governance & Security Engineer:** Designs the approval policy, the audit/accountability
-  trail, and the input-trust boundary, and validates the kill-switch and failure modes before an
-  agent acts in production.
+- **DevOps Engineer:** Sets least-privilege, dry-run, and approval gates, builds the action audit trail and the kill-switch, and puts action-rate limits in place to catch loops.
+- **Infrastructure Engineer:** Owns environment scoping and the capacity and permissions the agent's actions run within.
+- **Developer:** Defines the agent's tools and the blast-radius class of each action, and keeps prompt/tool changes behind flags for instant rollback.
+- **Release Manager:** Decides which action classes may run autonomously vs need approval, and owns the escalation path when an agent stops and asks.
+- **Security Engineer:** Owns the input-trust boundary and the approval policy for high-blast actions, and validates the kill-switch and failure modes before an agent acts in production.
+- **Governance:** Holds the rule that a human stays accountable for every agent action.

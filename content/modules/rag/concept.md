@@ -14,7 +14,7 @@ Finally, **citations and grounding**: because each chunk traces back to a file o
 
 ## How each role uses this
 
-- **Developer/Engineer:** Builds and tunes the pipeline so an in-IDE assistant answers codebase questions from real files — chunk size, embedding model, top-k, and how retrieved code is formatted into the prompt.
-- **Business Analyst:** Grounds a search assistant on the requirements history and past tickets, so "why did we drop the SMS channel?" returns the actual decision, not a guess.
-- **PM/Product Owner:** Queries past design decisions and roadmap docs through a RAG assistant during scoping, instead of re-reading every old spec by hand.
-- **QA/Tester & Architect:** Retrieves the team's test conventions and design standards so generated tests and reviews follow *your* patterns, and verifies answers cite real internal sources.
+- **Developer:** Builds and tunes the pipeline so an in-IDE assistant answers codebase questions from real files — chunk size, embedding model, top-k, and how retrieved code is formatted into the prompt.
+- **Enterprise Architect:** Designs the retrieval architecture and which sources answers may be grounded on.
+- **Tester:** Verifies answers cite real internal sources and follow the team's patterns, and tests that the right files surface.
+- **Project Manager:** Queries past design decisions and roadmap docs through a RAG assistant during scoping, instead of re-reading every old spec by hand.

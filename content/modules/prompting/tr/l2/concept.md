@@ -58,11 +58,8 @@ işlenen prompt injection sınırı.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Doğrulamalı JSON şeması çıktı sözleşmesini yazar; prompt'u parametreler,
-  sürüm kontrolüne alır ve CI'da bir değerlendirme setine karşı yineler.
-- **İş Analisti:** Temsili ve uç durum örnekleri sağlar ve "iyi" bir çıktının ne içerdiğini tanımlar;
-  böylece few-shot ve değerlendirme seti gerçek gereksinimleri yansıtır.
-- **PM/Ürün Sahibi:** Prompt'u bakımı yapılan bir varlık olarak görür (versiyonlu, incelenmiş) ve bir
-  prompt değişikliği yayınlanmadan önce değerlendirme setinin geçmesi gereken kalite çıtasını koyar.
-- **QA/Test Uzmanı ve Mimar:** Değerlendirme/regresyon setini kurar; çıktıyı şemaya karşı ve injection
-  sağlamlığı için test eder ve prompt versiyonlama ile doğrulama noktalarını tasarlar.
+- **Developer:** Doğrulamalı JSON şeması çıktı sözleşmesini yazar, prompt'u parametreler ve sürüm kontrolüne alır ve CI'da bir değerlendirme setine karşı yineler.
+- **Tester:** Değerlendirme/regresyon setini kurar ve çıktıyı şemaya karşı ve prompt-injection sağlamlığı için test eder.
+- **Designer:** Temsili ve uç durum örnekleri sağlar ve "iyi" bir çıktının ne içerdiğini tanımlar; böylece few-shot ve değerlendirme seti gerçek ihtiyaçları yansıtır.
+- **Project Manager:** Prompt'u bakımı yapılan bir varlık olarak görür (versiyonlu, incelenmiş) ve bir değişiklik yayınlanmadan önce değerlendirme setinin geçmesi gereken kalite çıtasını koyar.
+- **Enterprise Architect:** Prompt versiyonlama ve doğrulama noktalarını, prompt'lar evrildikçe güvenilir kalacak biçimde tasarlar.

@@ -67,13 +67,9 @@ incelemede "agent yaptı" geçerli bir cevap değildir.
 
 ## Her rol bunu nasıl kullanır
 
-- **DevOps / SRE ve Altyapı Mühendisi:** En az yetkiyi, ortam ayrımını, "önce planla" adımını ve onay
-  kapılarını kurar; eylem günlüğünü ve acil durdurmayı inşa eder; döngüleri yakalamak için eylem
-  hızına sınır koyar.
-- **Geliştirici:** Agent'ın araçlarını ve her eylemin etki alanı türünü tanımlar; anında geri alma
-  için istem/araç değişikliklerini bayrak (feature flag) arkasında tutar.
-- **Release / Proje Yöneticisi:** Hangi eylem türlerinin otonom çalışabileceğine, hangilerinin onay
-  gerektireceğine karar verir; agent durup sorduğunda yükseltme yoluna sahip çıkar.
-- **QA, Yönetişim ve Güvenlik Mühendisi:** Onay politikasını, denetim/hesap verebilirlik kaydını ve
-  girdiye güven sınırını tasarlar; agent üretimde eylem almadan önce acil durdurmayı ve hata
-  biçimlerini doğrular.
+- **DevOps Engineer:** En az yetkiyi, "önce planla" adımını ve onay kapılarını kurar; eylem günlüğünü ve acil durdurmayı inşa eder; döngüleri yakalamak için eylem hızına sınır koyar.
+- **Infrastructure Engineer:** Ortam ayrımına ve agent eylemlerinin içinde çalıştığı kapasite ve izinlere sahiptir.
+- **Developer:** Agent'ın araçlarını ve her eylemin etki alanı türünü tanımlar; anında geri alma için istem/araç değişikliklerini bayrak arkasında tutar.
+- **Release Manager:** Hangi eylem türlerinin otonom çalışabileceğine, hangilerinin onay gerektireceğine karar verir; agent durup sorduğunda yükseltme yoluna sahip çıkar.
+- **Security Engineer:** Girdiye güven sınırına ve yüksek-etkili eylemler için onay politikasına sahiptir; agent üretimde eylem almadan önce acil durdurmayı ve hata biçimlerini doğrular.
+- **Governance:** Her agent eyleminden bir insanın hesap verebilir kaldığı kuralını tutar.

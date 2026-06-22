@@ -44,13 +44,8 @@ also reveals *over-blocking*, closing the loop between safety and velocity.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Places each control at its optimal pipeline stage, runs the agent
-  least-privilege, treats repo/tool content as untrusted, and instruments logging so every
-  blocked action is observable and tunable.
-- **Business Analyst:** Defines risk tiers (docs vs. auth vs. production config) and the
-  acceptable false-positive vs. false-negative balance per tier, tracing each to compliance.
-- **PM/Product Owner:** Owns the safety-vs-velocity-vs-cost trade-off, prioritizing where a
-  human approval gate is justified and where it needlessly slows the team.
-- **QA & Architect:** Red-teams indirect prompt injection in issues and dependencies,
-  verifies layers are independent (no shared single point of failure), and validates the
-  monitoring loop that keeps the guardrails current.
+- **Developer:** Places each control at its optimal pipeline stage, runs the agent least-privilege, treats repo/tool content as untrusted, and instruments logging so every blocked action is observable and tunable.
+- **Security Engineer:** Red-teams indirect prompt injection in issues and dependencies, and verifies the layers are independent (no shared single point of failure).
+- **Governance:** Defines risk tiers (docs vs auth vs production config) and the acceptable false-positive/false-negative balance per tier, tracing each to compliance.
+- **Project Manager:** Owns the safety-vs-velocity-vs-cost trade-off, prioritising where a human approval gate is justified and where it needlessly slows the team.
+- **Enterprise Architect:** Validates the monitoring loop that keeps the guardrails current as the agent and the threats evolve.

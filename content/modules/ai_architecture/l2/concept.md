@@ -46,11 +46,8 @@ test won't catch.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Builds the provider abstraction with timeouts, retries, and
-  fallbacks; implements input/output guardrail stages and end-to-end tracing.
-- **Business Analyst:** Documents the PII/data flow and governance requirements that gate
-  launch, and defines the quality signals the business cares about.
-- **PM/Product Owner:** Plans flagged, gradual rollouts with canary/shadow comparisons
-  and an explicit rollback plan for model or prompt changes.
-- **QA & Architect:** Designs reliability (circuit breakers, degraded modes), maintains
-  the offline eval set, and validates failover and guardrail behaviour under failure.
+- **Enterprise Architect:** Designs reliability (circuit breakers, degraded modes), maintains the offline eval set, and validates failover and guardrail behaviour under failure.
+- **Developer:** Builds the provider abstraction with timeouts, retries, and fallbacks, and implements input/output guardrail stages and end-to-end tracing.
+- **Security Engineer:** Documents the PII/data flow and governance requirements that gate launch.
+- **Project Manager:** Plans flagged, gradual rollouts with canary/shadow comparisons and an explicit rollback plan for model or prompt changes.
+- **DevOps Engineer:** Runs the canary/shadow comparison and the rollout/rollback in production.

@@ -43,13 +43,7 @@ new leak surface itself.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Enforces classification at the point of prompting, wires redaction
-  and secret scanning into tooling, and ensures prompts/outputs are excluded from plain logs
-  and shared caches.
-- **Business Analyst:** Maps each data class to its regulatory obligation (residency,
-  retention limits, consent) and defines which classes may reach which tier of tool.
-- **PM/Product Owner:** Owns vendor due diligence and the approved-tool list, balancing
-  developer velocity against retention/residency risk, and where review gates are mandatory.
-- **QA/Tester & Architect:** Red-teams prompt injection, log leakage, and multi-tenant
-  isolation; verifies no-train/zero-retention claims hold end to end; designs the auditable
-  logging that proves it.
+- **Security Engineer:** Red-teams prompt injection, log leakage, and multi-tenant isolation, and verifies no-train/zero-retention claims hold end to end.
+- **Developer:** Enforces classification at the point of prompting, wires redaction and secret scanning into tooling, and excludes prompts/outputs from plain logs and shared caches.
+- **Governance:** Maps each data class to its regulatory obligation (residency, retention limits, consent), owns vendor due diligence and the approved-tool list, and decides which classes may reach which tier of tool.
+- **Enterprise Architect:** Designs the auditable logging that proves the controls actually hold.

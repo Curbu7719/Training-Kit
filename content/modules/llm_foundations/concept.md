@@ -18,7 +18,7 @@ Key **capabilities**: writing and explaining code, summarizing requirements, dra
 
 ## How each role uses this
 
-- **Developer/Engineer:** Picks a small, cheap model for an inline code-completion assistant or generating commit messages, and a strong model for a complex multi-file refactor or hard bug diagnosis.
-- **Business Analyst:** Uses a capable model to summarize a long requirements interview into structured user stories, and verifies any factual claims since the model can hallucinate.
-- **PM/Product Owner:** Weighs capability vs cost vs latency when scoping an AI feature, knowing high-volume calls (e.g. PR-title generation) favor a cheaper model.
-- **QA/Tester & Architect:** A tester uses a model to generate edge-case test data and designs assertions that tolerate non-determinism; an architect reserves the strongest model for design-review and trade-off analysis.
+- **Developer:** Picks a small, cheap model for inline code-completion or commit messages, and a strong model for a complex multi-file refactor or a hard bug diagnosis.
+- **Enterprise Architect:** Reserves the strongest model for design review and trade-off analysis, and treats the model as a swappable dependency.
+- **Tester:** Uses a model to generate edge-case test data and designs assertions that tolerate non-determinism.
+- **Project Manager:** Weighs capability vs cost vs latency when scoping a feature — knowing high-volume calls (e.g. PR-title generation) favour a cheaper model — and tracks model choice as a cost/quality risk.

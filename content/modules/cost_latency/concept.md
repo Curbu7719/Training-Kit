@@ -39,11 +39,7 @@ setting.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Instruments tokens and response time on each CI assistant call,
-  then applies caching, output caps, and routing to keep the PR check fast and in budget.
-- **Business Analyst:** Models the monthly AI-tooling spend from PR volume and input vs.
-  output token mix, flagging when a slow check would stall the team's merge workflow.
-- **PM/Product Owner:** Owns the AI-tooling budget and sets the quality/cost/latency
-  balance — e.g. accepting a smaller model on routine PRs to fund a larger one on releases.
-- **QA & Architect:** Sets latency SLOs for the pipeline check, tests it under peak commit
-  load, and designs the caching/routing so the assistant stays within cost and time targets.
+- **Developer:** Instruments tokens and response time on each CI assistant call, then applies caching, output caps, and routing to keep the PR check fast and in budget.
+- **Infrastructure Engineer:** Sets latency SLOs for the pipeline check and tests it under peak commit load so it stays within capacity.
+- **Project Manager:** Owns the AI-tooling budget, models monthly spend from PR volume and the input/output mix, and sets the quality/cost/latency balance.
+- **Enterprise Architect:** Designs the caching/routing so the assistant stays within cost and time targets.

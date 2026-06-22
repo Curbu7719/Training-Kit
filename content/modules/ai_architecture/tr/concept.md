@@ -42,13 +42,8 @@ yayın yapın ve değerlendirme metriklerini izleyin.
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** Orkestrasyon katmanını uygular, retrieval, araçları ve
-  guardrail'leri bağlar ve modelin takas edilebilmesi için onu bir soyutlamanın arkasında
-  tutar.
-- **İş Analisti:** PII'nin mimari boyunca nereye aktığını ve bir özellik yayınlanmadan önce
-  hangi adımların veri yönetişimi kontrollerine ihtiyaç duyduğunu haritalar.
-- **PM/Ürün Sahibi:** Yayılımı flag'lerin arkasında planlar ve özelliğin risk düzeyi için
-  hangi guardrail'lerin ve fallback'lerin gerekli olduğuna karar verir.
-- **QA ve Mimar:** Güvenilirlik (fallback'ler, sağlayıcı takas edilebilirliği) için tasarım
-  yapar ve üretimde regresyonları yakalamak için gözlemlenebilirlik ve değerlendirmenin
-  yerinde olmasını sağlar.
+- **Enterprise Architect:** Güvenilirlik (fallback'ler, sağlayıcı takas edilebilirliği) için tasarım yapar ve üretimde regresyonları yakalamak için gözlemlenebilirlik ve değerlendirmenin yerinde olmasını sağlar.
+- **Developer:** Orkestrasyon katmanını uygular, retrieval, araçları ve guardrail'leri bağlar ve modelin takas edilebilmesi için onu bir soyutlamanın arkasında tutar.
+- **Security Engineer:** PII'nin mimari boyunca nereye aktığını ve lansman öncesi hangi adımların veri yönetişimi kontrolleri gerektirdiğini haritalar.
+- **Project Manager:** Özelliğin risk düzeyinin hangi guardrail ve fallback'leri gerektirdiğine karar verir ve yayılımı planlar.
+- **DevOps Engineer:** Flag'li, kademeli yayılımı ve metrikleri izleyen gözetimi yürütür.

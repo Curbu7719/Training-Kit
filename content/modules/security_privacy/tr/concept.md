@@ -35,12 +35,7 @@ gates) ekleyin.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Prompt göndermeden önce PII ve secret'ları redact eder, yalnızca
-  zero-retention etkin onaylı araçları kullanır ve prompt'ları ile model çıktısını paylaşılan
-  log'lardan uzak tutar.
-- **İş Analisti:** Hangi verinin hassas veya regüle olduğunu sınıflandırır, böylece redaction
-  ve residency kuralları doğrudan uyumluluk yükümlülüklerine eşlenir.
-- **PM/Ürün Sahibi:** Onaylı araç listesine ve politikaya sahip çıkar, hangi AI araçlarının
-  onaylı olduğuna ve gönderimden önce nerede insan inceleme geçitlerinin gerektiğine karar verir.
-- **QA/Test Uzmanı & Mimar:** Veri sızıntıları ve prompt injection için test eder; hassas veri
-  asla kaçmasın diye tenant izolasyonu, log hijyeni ve no-train veri akışları tasarlar.
+- **Security Engineer:** Prompt göndermeden önce PII ve secret'ları redact eder, veri sızıntıları ve prompt injection için test eder ve prompt'ları ile model çıktısını paylaşılan log'lardan uzak tutar.
+- **Developer:** Yalnızca zero-retention etkin onaylı araçları kullanır ve redaction/secret taramayı iş akışına bağlar.
+- **Governance:** Hangi verinin hassas veya regüle olduğunu sınıflandırır, onaylı araç listesine ve politikaya sahip çıkar ve hangi araçların onaylı olduğuna ve nerede inceleme geçidi gerektiğine karar verir.
+- **Enterprise Architect:** Hassas veri asla kaçmasın diye tenant izolasyonu, log hijyeni ve no-train veri akışları tasarlar.

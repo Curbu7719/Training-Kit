@@ -20,7 +20,8 @@ Bir **prompt**, bir dil modeline çıktısını yönlendirmek için verdiğiniz 
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Test framework'ünü ve kodlama standartlarını sabitleyen bir system mesajı yazar, ardından modele birim testleri veya bir diff olarak refactor ürettirip modelin ilk başta yanlış yaptığı durumlara karşı yineler.
-- **İş Analisti:** Bir paydaş isteğini, belirsiz bir parafrazlamadan çok gerçek iş kuralını kodlayarak, açık kabul kriterleri olan bir kullanıcı hikayesine dönüştüren bir prompt yapılandırır.
-- **PM/Ürün Sahibi:** İstenen kapsamı, tonu ve çıktı biçimini (ör. önceliklendirilmiş bir backlog tablosu) baştan tanımlar; özellik kalitesini yalnızca model seçiminin değil, prompt kalitesinin de yönlendirdiğini fark eder.
-- **QA/Test Uzmanı & Mimar:** Sabit bir bölüm şablonuyla bir spesifikasyondan test planı taslağı hazırlayan bir prompt kurar; system/user ayrımını ve sınırlayıcıları, prompt'lar ekip genelinde yeniden kullanılabilir ve güvenli kalacak şekilde tasarlar.
+- **Developer:** Test framework'ünü ve kodlama standartlarını sabitleyen bir system mesajı yazar, modele birim testleri ya da bir diff olarak refactor ürettirir ve ilk başta yanlış yaptığı durumlara karşı yineler.
+- **Tester:** Sabit bir bölüm şablonuyla bir spesifikasyondan test planı taslağı hazırlayan bir prompt kurar; böylece çıktı tutarlı ve kontrol edilebilir olur.
+- **Designer:** Bulanık bir isteği, iyi bir prompt — ve karşı kontrol edebileceğin bir sonuç — yapan açık niyete ve kabul kriterlerine çevirir.
+- **Project Manager:** İstenen kapsamı, tonu ve çıktı biçimini baştan tanımlar; özellik kalitesini yalnızca model seçiminin değil prompt kalitesinin de yönlendirdiğini bilir.
+- **Enterprise Architect:** System/user ayrımını ve sınırlayıcıları, prompt'lar ekip genelinde yeniden kullanılabilir ve güvenli kalacak biçimde tasarlar.

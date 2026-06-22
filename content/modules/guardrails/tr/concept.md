@@ -42,11 +42,8 @@ araya getirir, böylece biri başarısız olursa bir diğeri yine de sorunu yaka
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Kodlama agent'ını, yıkıcı shell komutları çalıştıramayacağı veya
-  ilgisiz sistemlere dokunamayacağı şekilde kapsamlandırılmış dosya ve komut izinleriyle bir sandbox içinde çalıştırır.
-- **İş Analisti:** Hangi verinin gizli olduğunu ve hangi eylemlerin onay gerektirdiğini
-  yakalar, böylece guardrail kuralları doğrudan uyumluluk gereksinimlerine eşlenir.
-- **PM/Ürün Sahibi:** Kabul edilebilir riske ve bir AI tarafından üretilen değişiklik üretime
-  ulaşmadan önce bir insan onay geçidinin gerekli olduğu yere karar verir.
-- **QA & Mimar:** Birleştirmeden önce AI çıktısını doğrular ve hiçbir tek kontrolün (örn. tek
-  bir secret tarayıcı) tek bir hata noktası olmaması için katmanlı savunmalar tasarlar.
+- **Developer:** Kodlama agent'ını, yıkıcı komut çalıştıramayacağı veya ilgisiz sistemlere dokunamayacağı şekilde kapsamlandırılmış dosya ve komut izinleriyle bir sandbox içinde çalıştırır.
+- **Security Engineer:** Secret/PII taramasını ve girdi doğrulamasını ekler ve güvensiz içerik sızmasın diye merge'den önce AI çıktısını inceler.
+- **Governance:** Hangi verinin gizli olduğunu ve hangi eylemlerin onay gerektirdiğini yakalar; kabul edilebilir riski ve bir AI değişikliği üretime ulaşmadan önce insan onay geçidinin nerede gerektiğine karar verir.
+- **Enterprise Architect:** Hiçbir tek kontrolün (ör. tek bir secret tarayıcı) tek hata noktası olmaması için katmanlı savunmalar tasarlar.
+- **Tester:** Guardrail'lerin kötü vakaları gerçekten engellediğini doğrular — yıkıcı komutlar, sızan secret'lar, enjekte edilmiş talimatlar.

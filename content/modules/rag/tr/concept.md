@@ -14,7 +14,7 @@ Son olarak, **alıntılar ve grounding**: her chunk bir dosyaya veya wiki sayfas
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Pipeline'ı kurar ve ayarlar; böylece IDE içi bir asistan kod tabanı sorularını gerçek dosyalardan yanıtlar — chunk boyutu, embedding modeli, top-k ve getirilen kodun prompt'a nasıl biçimlendirileceği.
-- **İş Analisti:** Bir arama asistanını gereksinim geçmişine ve geçmiş ticket'lara dayandırır; böylece "SMS kanalını neden kaldırdık?" sorusu bir tahmini değil, gerçek kararı döndürür.
-- **PM/Ürün Sahibi:** Her eski spec'i tek tek yeniden okumak yerine, kapsam belirleme sırasında geçmiş tasarım kararlarını ve yol haritası dokümanlarını bir RAG asistanı üzerinden sorgular.
-- **QA/Test Uzmanı & Mimar:** Ekibin test kurallarını ve tasarım standartlarını retrieve eder; böylece üretilen testler ve incelemeler *sizin* kalıplarınızı izler ve yanıtların gerçek dahili kaynaklara atıf yaptığını doğrular.
+- **Developer:** Pipeline'ı kurar ve ayarlar; böylece IDE içi bir asistan kod tabanı sorularını gerçek dosyalardan yanıtlar — chunk boyutu, embedding modeli, top-k ve getirilen kodun prompt'a nasıl biçimlendiği.
+- **Enterprise Architect:** Retrieval mimarisini ve yanıtların hangi kaynaklara dayandırılabileceğini tasarlar.
+- **Tester:** Yanıtların gerçek dahili kaynaklara atıf yaptığını ve ekibin kalıplarını izlediğini doğrular ve doğru dosyaların yüzeye çıktığını test eder.
+- **Project Manager:** Her eski spec'i tek tek okumak yerine, kapsam belirlerken geçmiş tasarım kararlarını ve yol haritası dokümanlarını bir RAG asistanı üzerinden sorgular.

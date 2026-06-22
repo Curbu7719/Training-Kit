@@ -56,13 +56,9 @@ güvenle daha uzun bir ip vermenizi sağlayan politika, denetim ve guardrail dü
 
 ## Her rol bunu nasıl kullanır
 
-- **DevOps / SRE ve Altyapı Mühendisi:** Kod olarak politika yetkilerini, agent bazında maliyet atfını
-  ve anomali alarmlarını, eylem hızı tavanlarını ve yük atmayı (load-shedding) ve agent politika
-  değişiklikleri için shadow/canary düzeneğini kurar.
-- **Geliştirici:** Agent'ın politikasını (istem/araçlar/yetkiler/model) versiyonlar, shadow/canary
-  yolunu bağlar ve her hatalı eylemi bir guardrail ve bir eval senaryosuna dönüştürür.
-- **Release / Proje Yöneticisi:** Değişiklik pencerelerine ve agent başına düşürme-mi-durdurma-mı
-  politikasına sahip çıkar; otonominin nerede genişleyebileceğine dair güven merdiveni kararını verir.
-- **QA, Yönetişim ve Güvenlik Mühendisi:** Olay sınıflamasını ve runbook'ları, "olaydan eval
-  senaryosuna" döngüsünü, denetim/hesap verebilirlik kaydını ve injection/yetki kontrollerini
-  tasarlar; acil durdurmayı ve yük devretmeyi (failover) gerçek arıza altında doğrular.
+- **DevOps Engineer:** Kod olarak politika yetkilerini, agent bazında maliyet atfını ve anomali alarmlarını, eylem hızı tavanlarını ve yük atmayı ve agent politika değişiklikleri için shadow/canary düzeneğini kurar.
+- **Infrastructure Engineer:** Ölçekte agent filosu için kapasiteye, kotalara ve maliyet kontrollerine sahiptir.
+- **Developer:** Agent'ın politikasını (istem/araçlar/yetkiler/model) versiyonlar, shadow/canary yolunu bağlar ve her hatalı eylemi bir guardrail ve bir eval senaryosuna dönüştürür.
+- **Release Manager:** Değişiklik pencerelerine ve agent başına düşürme-mi-durdurma-mı politikasına sahip çıkar; otonominin nerede genişleyebileceğine dair güven merdiveni kararını verir.
+- **Security Engineer:** Injection/yetki kontrollerini ve girdiye güven sınırını tasarlar ve acil durdurmayı ve failover'ı gerçek arıza altında doğrular.
+- **Governance:** Olay sınıflamasına, denetim/hesap verebilirlik kaydına ve "olaydan eval senaryosuna" döngüsüne sahiptir.

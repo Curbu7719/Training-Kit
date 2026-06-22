@@ -52,13 +52,9 @@ safely give agents a longer leash, not about how clever any single agent is.
 
 ## How each role uses this
 
-- **DevOps / SRE & Infrastructure Engineer:** Implements policy-as-code permissions, per-agent cost
-  attribution and anomaly alerts, action-rate caps and load-shedding, and the shadow/canary harness
-  for agent policy changes.
-- **Developer:** Versions the agent's policy (prompt/tools/permissions/model), wires the
-  shadow/canary path, and turns each misfire into a guardrail and an eval case.
-- **Release / Project Manager:** Owns change windows and the degrade-vs-stop policy per agent, and
-  the trust-ladder decision of where autonomy may expand.
-- **QA, Governance & Security Engineer:** Designs the incident taxonomy and runbooks, the
-  postmortem-to-eval-case loop, the audit/accountability trail, and the injection/permission
-  controls, and validates the kill-switch and failover under real failure.
+- **DevOps Engineer:** Implements policy-as-code permissions, per-agent cost attribution and anomaly alerts, action-rate caps and load-shedding, and the shadow/canary harness for agent policy changes.
+- **Infrastructure Engineer:** Owns the capacity, quotas, and cost controls for the agent fleet at scale.
+- **Developer:** Versions the agent's policy (prompt/tools/permissions/model), wires the shadow/canary path, and turns each misfire into a guardrail and an eval case.
+- **Release Manager:** Owns change windows and the degrade-vs-stop policy per agent, and the trust-ladder decision of where autonomy may expand.
+- **Security Engineer:** Designs the injection/permission controls and the input-trust boundary, and validates the kill-switch and failover under real failure.
+- **Governance:** Owns the incident taxonomy, the audit/accountability trail, and the postmortem-to-eval-case loop.

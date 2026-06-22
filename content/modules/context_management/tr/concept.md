@@ -18,9 +18,9 @@ Pencere içinde kalmak için yaygın **stratejiler**:
 - **Kayan pencere (sliding window)** — bir görüşmenin ya da oturumun yalnızca son N turunu tutup en eskilerin düşmesine izin vermek.
 - **Kontrol noktası / devir (checkpointing / handoff)** — ilerlemenin yapılandırılmış bir özetini periyodik olarak kaydetmek, böylece bir refactor (ya da bir oturum) her şeyi yeniden göndermeden devam edebilir.
 
-## Bu konuyu her rol nasıl kullanır
+## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Çok dosyalı bir refactor için tüm depoyu yapıştırıp pencereyi taşırmak yerine, retrieval aracılığıyla AI'a yalnızca ilgili dosyaları besler.
-- **İş Analisti:** Uzun bir paydaş görüşmesini kompakt bir özete sıkıştırır, böylece model sınırları aşmadan tüm gereksinim dizisini tutarlı tutabilir.
-- **PM/Ürün Sahibi:** Daha büyük belgelerin ve daha uzun oturumların daha fazla token harcadığını ve sınırlara çarpabileceğini anlar, bu da özellik kapsamını ve bütçesini şekillendirir.
-- **QA/Test Uzmanı & Mimar:** Bir test uzmanı sınırın yakınında ve ötesinde davranışı yoklar (çok uzun sohbetler, devasa girdiler); bir mimar, sistemin zarif biçimde bozulması için retrieval, özetleme ya da kontrol noktası arasında seçim yapar.
+- **Developer:** Çok dosyalı bir refactor için tüm depoyu yapıştırıp pencereyi taşırmak yerine retrieval ile AI'a yalnızca ilgili dosyaları besler.
+- **Project Manager:** Daha büyük belgelerin ve daha uzun oturumların daha çok token harcadığını ve sınırlara çarpabileceğini bilir; bu, özellik kapsamını ve bütçesini şekillendirir.
+- **Tester:** Sınırın yakınında ve ötesinde davranışı yoklar — çok uzun oturumlar, devasa girdiler — sessiz bağlam kaybını ortaya çıkarmak için.
+- **Enterprise Architect:** Sistemin sessizce unutmak yerine zarifçe bozulması için retrieval, özetleme ya da kontrol noktası arasında seçim yapar.

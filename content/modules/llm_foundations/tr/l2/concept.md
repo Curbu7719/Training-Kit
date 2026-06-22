@@ -52,13 +52,7 @@ strateji değildir; yeteneği ihtiyaca eşlemek stratejidir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Görev başına maksimum çıktı uzunluğu ve durdurma dizilerini ayarlar;
-  tamamlama için küçük bir model, zor hata ayıklama için akıl yürüten bir model seçer ve
-  yönlendirmeyi kurar.
-- **İş Analisti:** Hangi işlerin çeşitli çıktıya dayandığını (beyin fırtınası), hangilerinin katı ve
-  tekrarlanabilir bir biçim istediğini (bilgi çıkarımı) bilir ve gereksinimleri buna göre şekillendirir.
-- **PM/Ürün Sahibi:** Özellik başına yetenek, maliyet ve gecikmeyi tartar; her yere tek pahalı model
-  yerine yönlendirmeye bütçe ayırır.
-- **QA/Test Uzmanı ve Mimar:** Belirsizlik altında test eder, model seçimini bir değerlendirme setine
-  karşı doğrular ve yönlendirme ile sağlayıcı soyutlamasını, modeller değiştirilebilir kalacak biçimde
-  tasarlar.
+- **Developer:** Görev başına maksimum çıktı uzunluğu ve durdurma dizilerini ayarlar; tamamlama için küçük bir model, zor hata ayıklama için akıl yürüten bir model seçer ve yönlendirmeyi kurar.
+- **Enterprise Architect:** Yönlendirme ile sağlayıcı soyutlamasını modeller değiştirilebilir kalacak biçimde tasarlar ve model seçimini bir değerlendirme setine karşı doğrular.
+- **Tester:** Belirsizlik altında test eder ve seçilen modelin temsili bir sette kaliteyi koruduğunu kontrol eder.
+- **Project Manager:** Özellik başına yetenek, maliyet ve gecikmeyi tartar ve her yere tek pahalı model yerine yönlendirmeye bütçe ayırır.

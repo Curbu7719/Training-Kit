@@ -19,9 +19,9 @@ L1'de context window'un paylaşılan bir girdi+çıktı token bütçesi olduğun
 
 Beceri, stratejiyi içerikle eşleştirmek ve herhangi bir tek tekniğin "güvenli" olduğunu varsaymak yerine onun hata modunu bilinçli olarak kabul etmektir.
 
-## Bu konuyu her rol nasıl kullanır
+## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Bir refactor için stratejileri seçer ve *birleştirir*, çıktı baş boşluğu ayırır, token kullanımını ölçer ve ortada kaybolmadan kaçınmak için kritik dosyaları bilinçli sıralar.
-- **İş Analisti:** Hangi kabul kriterlerinin pazarlık konusu olmadığını işaretler, böylece özetleme ve kontrol noktası onları asla sıkıştırıp atmaz ve alan için "doğru retrieval"ın ne anlama geldiğini tanımlar.
-- **PM/Ürün Sahibi:** Büyük pencerelerin maliyet/gecikmesini retrieval'a karşı tartar ve AI özelliklerini önceliklendirirken her stratejinin hata modunun artık riskini kabul eder.
-- **QA/Test Uzmanı & Mimar:** Bir test uzmanı çekişmeli senaryolar tasarlar — uzun bir oturumu atlatması gereken erken kısıtlar, bayat/eksik dosyalarla retrieval, bağlam ortasındaki gerçekler; bir mimar, hata modu kullanım senaryosu için tolere edilebilir bir mimari seçer.
+- **Developer:** Bir refactor için stratejileri seçer ve *birleştirir*, çıktı payı ayırır, token kullanımını ölçer ve ortada-kaybolmadan kaçınmak için kritik dosyaları bilinçli sıralar.
+- **Project Manager:** Büyük pencerelerin maliyet/gecikmesini retrieval'a karşı tartar, hangi kısıtların pazarlık konusu olmadığını işaretler ki asla özetlenip atılmasın ve önceliklendirirken her stratejinin artık hata modunu kabul eder.
+- **Tester:** Çekişmeli senaryolar tasarlar — uzun bir oturumu atlatması gereken erken kısıtlar, bayat/eksik dosyalarla retrieval, bağlam ortasındaki gerçekler.
+- **Enterprise Architect:** Hata modu kullanım senaryosu için tolere edilebilir bir mimari seçer ve alan için "doğru retrieval"ın ne demek olduğunu tanımlar.

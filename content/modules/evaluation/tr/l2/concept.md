@@ -12,7 +12,7 @@ L1, yaklaşımları ve metrikleri tanıttı. L2'de zor olan kısım, ölçümün
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Veri kümelerini katmanlar, her production hatasını bir regresyon vakası olarak ekler, judge'ı insan etiketlerine karşı doğrular ve CI'da puanları segmente göre dilimler.
-- **İş Analisti:** Veri kümesinin ve rubric'in yalnızca kolay girdileri değil, gerçek-dünya vakalarını ve iş açısından kritik segmentleri temsil etmesini sağlar.
-- **PM/Ürün Sahibi:** Hızlı offline geçitleri daha yavaş online ground truth'a karşı dengeler ve bir proxy metriği gerçek kullanıcı değeri pahasına optimize etmeye karşı korur.
-- **QA/Test Uzmanı & Mimar:** Gerçek regresyonları non-deterministik gürültüden ayırır, judge'ı önyargı için denetler, production observability'sini tasarlar ve toplu puanların asla başarısız bir alt grubu gizlememesini sağlar.
+- **Tester:** Veri kümelerini katmanlar, her production hatasını regresyon vakası olarak ekler, judge'ı insan etiketlerine karşı doğrular ve puanları segmente göre dilimler.
+- **Developer:** Katmanlı eval'ları ve segment bazlı dilimlemeyi CI'a bağlar.
+- **Project Manager:** Hızlı offline geçitleri daha yavaş online ground truth'a karşı dengeler, veri kümesinin iş açısından kritik segmentleri kapsamasını sağlar ve bir proxy metriği gerçek değer pahasına optimize etmeye karşı korur.
+- **Enterprise Architect:** Production observability'sini tasarlar ve toplu puanların asla başarısız bir alt grubu gizlememesini sağlar.

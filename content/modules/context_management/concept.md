@@ -20,7 +20,7 @@ Common **strategies** to live within the window:
 
 ## How each role uses this
 
-- **Developer/Engineer:** Feeds an AI just the relevant files for a multi-file refactor via retrieval, instead of pasting the whole repo and overflowing the window.
-- **Business Analyst:** Summarizes a long stakeholder interview into a compact recap so the model can keep the whole requirements thread coherent without exceeding limits.
-- **PM/Product Owner:** Understands that bigger documents and longer sessions cost more tokens and may hit limits, shaping feature scope and budget.
-- **QA/Tester & Architect:** A tester probes behavior near and past the limit (very long chats, huge inputs); an architect chooses retrieval vs summarization vs checkpointing so the system degrades gracefully.
+- **Developer:** Feeds an AI just the relevant files for a multi-file refactor via retrieval, instead of pasting the whole repo and overflowing the window.
+- **Project Manager:** Knows that bigger documents and longer sessions cost more tokens and can hit limits, which shapes feature scope and budget.
+- **Tester:** Probes behaviour near and past the limit — very long sessions, huge inputs — to expose silent context loss.
+- **Enterprise Architect:** Chooses retrieval vs summarization vs checkpointing so the system degrades gracefully instead of forgetting silently.

@@ -45,15 +45,7 @@ araç gereci faturası patladı" sorunu, yalnızca ölçtüğünüzde görünür
 
 ## Her rol bunu nasıl kullanır
 
-- **Developer/Mühendis:** TTFT'yi, token hızını ve PR başına çağrı sayılarını loglar;
-  prefix caching, response caching ve cascade'leri uygular ve kontrolü en yoğunda kuyruğa
-  girme için yük testine tabi tutar.
-- **İş Analisti:** Ekibin AI araç gereci harcamasını tahmin etmek için tek bir çağrı değil,
-  PR başına tüm pipeline üzerinde (retry'lar ve çok adımlı çağrılar dahil) bir maliyet
-  modeli kurar.
-- **PM/Ürün Sahibi:** Geliştiricilerin gerçekten hissettiği latency hedeflerini (merge
-  kapısında TTFT) belirler ve hangi kontrollerin bir cascade veya daha büyük modeli, agresif
-  kırpmaya karşı haklı çıkardığına karar verir.
-- **QA ve Mimar:** Etkileşimli merge kapısı ile gecelik toplu işler için ayrı SLO'lar
-  belirler, cascade yükseltmesini ve retry davranışını en yoğun yük altında test eder ve
-  gözlemlenebilirliğin bir fan-out'taki her çağrıyı kapsamasını sağlar.
+- **Developer:** TTFT'yi, token hızını ve PR başına çağrı sayılarını loglar; prefix caching, response caching ve cascade'leri uygular ve kontrolü en yoğunda kuyruğa girme için yük testine tabi tutar.
+- **Infrastructure Engineer:** Etkileşimli merge kapısı ile gecelik toplu işler için ayrı SLO'lar belirler, cascade/retry davranışını en yoğun yük altında test eder ve gözlemlenebilirliğin bir fan-out'taki her çağrıyı kapsamasını sağlar.
+- **Project Manager:** PR başına tüm pipeline üzerinde (retry'lar ve çok adımlı çağrılar dahil) bir maliyet modeli kurar, geliştiricilerin gerçekten hissettiği latency hedeflerini belirler ve hangi kontrollerin bir cascade ya da daha büyük modeli hak ettiğine karar verir.
+- **Enterprise Architect:** Fan-out genelinde cascade/cache mimarisini tasarlar.

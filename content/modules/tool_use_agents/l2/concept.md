@@ -16,7 +16,8 @@ At L1 the agent loop was plan → act → observe → repeat. At L2 the question
 
 ## How each role uses this
 
-- **Developer/Engineer:** Designs typed tool schemas with interpretable error results, implements retry-vs-stop logic and parallel tool calls, and logs every iteration for tracing.
-- **Business Analyst:** Specifies which actions are irreversible and must sit behind approval, and defines what a "correct" outcome looks like so non-progress can be detected.
-- **PM/Product Owner:** Sets iteration and budget ceilings as product constraints, and decides the cost/latency trade-off between a faster small model and a more capable large one.
-- **QA & Architect:** Designs the permission boundaries and approval gates as architecture, and tests failure modes — transient vs permanent errors, loop termination, and compounding-error recovery.
+- **Developer:** Designs typed tool schemas with interpretable error results, implements retry-vs-stop logic and parallel tool calls, and logs every iteration for tracing.
+- **Enterprise Architect:** Designs the permission boundaries and approval gates as architecture.
+- **Security Engineer:** Specifies which actions are irreversible and must sit behind approval.
+- **Tester:** Tests failure modes — transient vs permanent errors, loop termination, and compounding-error recovery.
+- **Project Manager:** Sets iteration and budget ceilings as product constraints and decides the cost/latency trade-off between a small and a large model.

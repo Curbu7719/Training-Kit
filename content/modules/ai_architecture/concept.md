@@ -39,11 +39,8 @@ software practice — ship behind flags, roll out gradually, and watch evaluatio
 
 ## How each role uses this
 
-- **Developer/Engineer:** Implements the orchestration layer, wires in retrieval, tools,
-  and guardrails, and keeps the model behind an abstraction so it can be swapped.
-- **Business Analyst:** Maps where PII flows through the architecture and which steps
-  need data-governance controls before a feature can launch.
-- **PM/Product Owner:** Plans rollout behind flags and decides which guardrails and
-  fallbacks are required for the feature's risk level.
-- **QA & Architect:** Designs for reliability (fallbacks, provider swappability) and
-  ensures observability and evaluation are in place to catch regressions in production.
+- **Enterprise Architect:** Designs for reliability (fallbacks, provider swappability) and ensures observability and evaluation are in place to catch regressions in production.
+- **Developer:** Implements the orchestration layer, wires in retrieval, tools, and guardrails, and keeps the model behind an abstraction so it can be swapped.
+- **Security Engineer:** Maps where PII flows through the architecture and which steps need data-governance controls before launch.
+- **Project Manager:** Decides which guardrails and fallbacks the feature's risk level requires, and plans the rollout.
+- **DevOps Engineer:** Runs the flagged, gradual rollout and the monitoring that watches the metrics.

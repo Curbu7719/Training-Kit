@@ -52,11 +52,7 @@ bırakmalı. Yaygın hata, pencerenin neredeyse tamamını girdiyle doldurup cev
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Büyük farkları göndermeden önce gerçek token'layıcıyla token sayar ve
-  girdinin çıktı payını yutmaması için pencereyi bütçeler.
-- **İş Analisti:** Analiz başına token maliyetini — İngilizce dışı ek yük dahil — tahmin eder; böylece
-  belge başına harcama baştan bellidir.
-- **PM/Ürün Sahibi:** İstek hacmi ile girdi/çıktı token karışımından aylık harcamayı öngörür ve
-  faturanın çıktı kaynaklı olduğu yerde çıktı sınırları koyar.
-- **QA ve Mimar:** Pencere sınırına yakın davranışı test eder ve uzun girdilerin taşmak yerine
-  bilinçli biçimde kısalması için parçalama/kırpma tasarlar.
+- **Developer:** Büyük diff'leri göndermeden önce gerçek token'layıcıyla token sayar ve girdinin çıktı payını yutmaması için pencereyi bütçeler.
+- **Project Manager:** İstek hacmi ve girdi/çıktı token karışımından aylık harcamayı öngörür ve faturanın çıktı kaynaklı olduğu yerde çıktı sınırları koyar.
+- **Infrastructure Engineer:** İngilizce dışı token ek yükünü ve sağlayıcı kotalarını kapasite ve maliyet planlamasına katar.
+- **Enterprise Architect:** Uzun girdiler taşmak yerine bilinçli kısalsın diye parçalama/kırpma tasarlar.

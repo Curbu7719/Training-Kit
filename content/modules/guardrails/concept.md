@@ -41,11 +41,8 @@ so that if one fails, another still catches the problem.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Runs the coding agent in a sandbox with scoped file and command
-  permissions so it cannot run destructive shell commands or touch unrelated systems.
-- **Business Analyst:** Captures which data is confidential and which actions need sign-off,
-  so guardrail rules map directly to compliance requirements.
-- **PM/Product Owner:** Decides acceptable risk and where a human approval gate is required
-  before an AI-generated change reaches production.
-- **QA & Architect:** Validates AI output before merge and designs layered defenses so no
-  single control (e.g. one secret scanner) is a single point of failure.
+- **Developer:** Runs the coding agent in a sandbox with scoped file and command permissions so it can't run destructive commands or touch unrelated systems.
+- **Security Engineer:** Adds the secret/PII scanning and input validation, and reviews AI output before merge so unsafe content can't slip through.
+- **Governance:** Captures which data is confidential and which actions need sign-off, and decides the acceptable risk and where a human approval gate is required before an AI change reaches production.
+- **Enterprise Architect:** Designs layered defenses so no single control (e.g. one secret scanner) is a single point of failure.
+- **Tester:** Validates the guardrails actually block the bad cases — destructive commands, leaked secrets, injected instructions.

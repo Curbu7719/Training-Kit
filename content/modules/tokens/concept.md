@@ -32,11 +32,7 @@ cost-sensitive, count exactly with a tokenizer for your chosen model.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Checks token counts before sending a large source file or diff
-  to an AI tool, and chunks inputs when a file is too big to fit the context window.
-- **Business Analyst:** Estimates the token cost of having AI summarize large requirement
-  documents or specs, so the spend per analysis is known up front.
-- **PM/Product Owner:** Budgets a proposed AI feature (e.g. an automated reviewer) by
-  multiplying tokens per request by request volume and the per-token price.
-- **QA & Architect:** Anticipates token limits when feeding long test logs or traces to an
-  AI triage tool, and designs the pipeline to chunk or truncate inputs deliberately.
+- **Developer:** Checks token counts before sending a large file or diff to an AI tool, and chunks inputs that won't fit the context window.
+- **Project Manager:** Budgets a proposed AI feature (e.g. an automated reviewer) by multiplying tokens per request by request volume and the per-token price.
+- **Infrastructure Engineer:** Plans provider quota and the cost envelope from expected token volume, so the feature stays within capacity and budget.
+- **Enterprise Architect:** Anticipates token limits when long logs or traces are fed to an AI tool, and designs the pipeline to chunk or truncate inputs deliberately.
