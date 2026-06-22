@@ -390,6 +390,18 @@ const tr = {
   'admin.reflections.work': 'İşinde ne yapacağı',
   'admin.reflections.value': 'Beklenen değer / kazanım',
 
+  // Admin — rol patikaları sekmesi
+  'admin.tab.rolePaths': 'Rol patikaları',
+  'admin.rolePaths.role': 'Rol',
+  'admin.rolePaths.help': 'Her rol için hangi modüllerin zorunlu (core) ya da önerilen olduğunu ve hangi seviyede olduğunu belirle. Değişiklikler kullanıcıların ana sayfasına ve leaderboard sertifikasına yansır.',
+  'admin.rolePaths.counts': '{core} core · {rec} önerilen',
+  'admin.rolePaths.col.module': 'Modül',
+  'admin.rolePaths.col.kind': 'Patikada',
+  'admin.rolePaths.col.level': 'Seviye',
+  'admin.rolePaths.kind.off': 'Patikada değil',
+  'admin.rolePaths.kind.core': 'Core (zorunlu)',
+  'admin.rolePaths.kind.recommended': 'Önerilen',
+
   // ---------------------------------------------------------------------------
   // Karşılama / onboarding (CIO mesajı + rol seçimi)
   // ---------------------------------------------------------------------------

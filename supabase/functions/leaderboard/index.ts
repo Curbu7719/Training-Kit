@@ -29,23 +29,9 @@ import { maskEmail } from '../_shared/leaderboard-helpers.ts';
 
 export { maskEmail };
 
-// Per-role CORE modules → required level. MUST stay in sync with
-// src/lib/rolePaths.ts (only the `core` arrays). 'L1' = baseline pass,
-// 'L2' = deep dive. A role is "certified" when every core module here is
-// passed at its level.
-const CORE_BY_ROLE: Record<string, [string, 'L1' | 'L2'][]> = {
-  portfolio_manager: [['llm_foundations', 'L1'], ['ai_delivery_portfolio', 'L2'], ['ai_value_scaling', 'L1'], ['ai_fit_buildbuy', 'L1'], ['ai_risk_governance', 'L1']],
-  project_manager: [['llm_foundations', 'L1'], ['ai_delivery_portfolio', 'L1'], ['ai_value_scaling', 'L1'], ['ai_risk_governance', 'L1']],
-  governance: [['llm_foundations', 'L1'], ['ai_risk_governance', 'L1'], ['security_privacy', 'L1'], ['guardrails', 'L1']],
-  developer: [['llm_foundations', 'L1'], ['tokens', 'L1'], ['prompting', 'L1'], ['context_management', 'L1'], ['tool_use_agents', 'L1'], ['rag', 'L1'], ['evaluation', 'L1'], ['vibe_coding', 'L1']],
-  designer: [['llm_foundations', 'L1'], ['prompting', 'L1'], ['context_management', 'L1'], ['guardrails', 'L1']],
-  enterprise_architect: [['llm_foundations', 'L1'], ['ai_architecture', 'L1'], ['ai_fit_buildbuy', 'L1'], ['rag', 'L1'], ['tool_use_agents', 'L1'], ['security_privacy', 'L1'], ['cost_latency', 'L1']],
-  tester: [['llm_foundations', 'L1'], ['evaluation', 'L1'], ['guardrails', 'L1'], ['prompting', 'L1']],
-  release_manager: [['llm_foundations', 'L1'], ['ai_operations_sre', 'L1'], ['evaluation', 'L1'], ['ai_delivery_portfolio', 'L1']],
-  devops_engineer: [['llm_foundations', 'L1'], ['tokens', 'L1'], ['ai_operations_sre', 'L1'], ['cost_latency', 'L1'], ['evaluation', 'L1']],
-  infrastructure_engineer: [['llm_foundations', 'L1'], ['tokens', 'L1'], ['cost_latency', 'L1'], ['ai_operations_sre', 'L1'], ['ai_architecture', 'L1']],
-  security_engineer: [['llm_foundations', 'L1'], ['security_privacy', 'L1'], ['guardrails', 'L1'], ['ai_risk_governance', 'L1']],
-};
+// Per-role CORE modules now live in the admin-managed `role_paths` table and
+// are loaded at request time (see below). A role is "certified" when every
+// core module for that role is passed at its required level.
 
 // ---------------------------------------------------------------------------
 // Entry point
@@ -87,7 +73,7 @@ Deno.serve(async (req: Request) => {
   const userIds = profiles.map((p) => p.id);
 
   // Aggregate progress + badges + module id→code (for role-cert computation)
-  const [progressRes, badgesRes, modulesRes] = await Promise.all([
+  const [progressRes, badgesRes, modulesRes, rolePathsRes] = await Promise.all([
     db.from('user_progress')
       .select('user_id, status, score, module_id, level')
       .in('user_id', userIds),
@@ -95,6 +81,7 @@ Deno.serve(async (req: Request) => {
       .select('user_id, badge_id')
       .in('user_id', userIds),
     db.from('modules').select('id, code'),
+    db.from('role_paths').select('role, module_code, level, kind').eq('kind', 'core'),
   ]);
 
   if (progressRes.error) {
@@ -112,6 +99,14 @@ Deno.serve(async (req: Request) => {
 
   const codeById = new Map<string, string>();
   for (const m of modulesRes.data ?? []) codeById.set(m.id, m.code);
+
+  // Admin-managed core modules per role: role → [code:level, ...]
+  const coreByRole = new Map<string, string[]>();
+  for (const r of rolePathsRes.data ?? []) {
+    const list = coreByRole.get(r.role) ?? [];
+    list.push(`${r.module_code}:${r.level}`);
+    coreByRole.set(r.role, list);
+  }
 
   // Build per-user aggregates + a set of passed "code:level" keys for cert check.
   type UserAgg = { total_score: number; badges: number; modules_passed: number; passed: Set<string> };
@@ -138,8 +133,8 @@ Deno.serve(async (req: Request) => {
   const rows = profiles.map((p) => {
     const a = agg.get(p.id) ?? { total_score: 0, badges: 0, modules_passed: 0, passed: new Set<string>() };
     const role: string | null = p.learning_role ?? null;
-    const core = role ? CORE_BY_ROLE[role] : undefined;
-    const certified = !!core && core.length > 0 && core.every(([code, lvl]) => a.passed.has(`${code}:${lvl}`));
+    const core = role ? coreByRole.get(role) : undefined;
+    const certified = !!core && core.length > 0 && core.every((key) => a.passed.has(key));
     return {
       name:           maskEmail(p.display_name),
       total_score:    a.total_score,

@@ -12,7 +12,7 @@ import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import type { TranslationKey } from '@/lib/locales/en';
-import { ROLE_PATHS, type RoleKey, type RoleModule } from '@/lib/rolePaths';
+import { ROLE_PATHS, type RoleKey, type RoleModule, type RolePath } from '@/lib/rolePaths';
 
 // ---------------------------------------------------------------------------
 // Single shared curriculum — one path for everyone (no role splitting).
@@ -284,6 +284,8 @@ export function DashboardPage() {
   // Completion gates beyond modules: the exam pass and the written reflection.
   const [examPassed, setExamPassed] = useState(false);
   const [reflectionDone, setReflectionDone] = useState(false);
+  // Role path loaded from the DB (admin-managed); falls back to the constant.
+  const [dbPath, setDbPath] = useState<RolePath | null>(null);
 
   const load = useCallback(async () => {
     if (!profile) return;
@@ -315,6 +317,24 @@ export function DashboardPage() {
       setExamPassed(false);
       setReflectionDone(false);
     }
+
+    // Load the admin-managed role path for this user's role.
+    if (profile.learning_role) {
+      const { data: rp } = await supabase
+        .from('role_paths')
+        .select('module_code, level, kind, sort_order')
+        .eq('role', profile.learning_role);
+      const rows = (rp ?? []) as { module_code: string; level: Level; kind: string; sort_order: number }[];
+      if (rows.length > 0) {
+        const pick = (kind: string) =>
+          rows.filter((r) => r.kind === kind)
+            .sort((a, b) => a.sort_order - b.sort_order)
+            .map((r) => ({ code: r.module_code, level: r.level }));
+        setDbPath({ core: pick('core'), recommended: pick('recommended') });
+      } else {
+        setDbPath(null);
+      }
+    }
   }, [profile]);
 
   useEffect(() => {
@@ -341,7 +361,7 @@ export function DashboardPage() {
     if (profile && !profile.learning_role) navigate('/welcome', { replace: true });
   }, [profile, navigate]);
 
-  const path = role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null;
+  const path = dbPath ?? (role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null);
   const moduleSatisfied = (rm: RoleModule) => {
     const s = statusFor(rm.code);
     return rm.level === 'L2' ? s.l2 === 'passed' : s.l1Passed;

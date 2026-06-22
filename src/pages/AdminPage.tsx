@@ -16,6 +16,8 @@ import {
   listUsers,
   getProgressReport,
   listReflections,
+  getRolePaths,
+  updateRolePath,
   type ModuleSummary,
   type ModuleFull,
   type LessonRow,
@@ -24,7 +26,11 @@ import {
   type UserSummary,
   type ProgressUser,
   type ReflectionEntry,
+  type RolePathRow,
+  type RolePathEntry,
 } from '@/lib/adminApi';
+import { ROLE_ORDER } from '@/lib/rolePaths';
+import type { TranslationKey } from '@/lib/locales/en';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -697,6 +703,166 @@ function ReflectionsTab() {
 }
 
 // ---------------------------------------------------------------------------
+// RolePathsTab — set which modules are core (must) / recommended per role
+// ---------------------------------------------------------------------------
+
+type PathKind = 'off' | 'core' | 'recommended';
+interface RowState { kind: PathKind; level: 'L1' | 'L2' }
+
+function RolePathsTab() {
+  const { t } = useLanguage();
+  const [modules, setModules] = useState<ModuleSummary[]>([]);
+  const [allPaths, setAllPaths] = useState<RolePathRow[]>([]);
+  const [role, setRole] = useState<string>(ROLE_ORDER[0]);
+  const [state, setState] = useState<Record<string, RowState>>({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [savedMsg, setSavedMsg] = useState('');
+  const [fetchErr, setFetchErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    Promise.all([listModules(), getRolePaths()])
+      .then(([mods, paths]) => {
+        // Show modules in their natural sort order.
+        setModules([...mods].sort((a, b) => a.sort_order - b.sort_order));
+        setAllPaths(paths);
+      })
+      .catch((e: Error) => setFetchErr(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Rebuild the editable map whenever the role or loaded paths change.
+  useEffect(() => {
+    const map: Record<string, RowState> = {};
+    for (const p of allPaths.filter((p) => p.role === role)) {
+      map[p.module_code] = { kind: p.kind, level: p.level };
+    }
+    setState(map);
+    setSavedMsg('');
+  }, [role, allPaths]);
+
+  function setKind(code: string, kind: PathKind) {
+    setState((prev) => ({ ...prev, [code]: { kind, level: prev[code]?.level ?? 'L1' } }));
+  }
+  function setLevel(code: string, level: 'L1' | 'L2') {
+    setState((prev) => ({ ...prev, [code]: { kind: prev[code]?.kind ?? 'off', level } }));
+  }
+
+  async function handleSave() {
+    setSaving(true);
+    setSavedMsg('');
+    // Preserve module order; number core and recommended independently.
+    const counters: Record<string, number> = { core: 0, recommended: 0 };
+    const entries: RolePathEntry[] = [];
+    for (const m of modules) {
+      const r = state[m.code];
+      if (!r || r.kind === 'off') continue;
+      entries.push({ module_code: m.code, kind: r.kind, level: r.level, sort_order: counters[r.kind]++ });
+    }
+    try {
+      await updateRolePath(role, entries);
+      // Refresh the canonical copy so switching roles reflects the save.
+      setAllPaths((prev) => [
+        ...prev.filter((p) => p.role !== role),
+        ...entries.map((e) => ({ role, module_code: e.module_code, level: e.level, kind: e.kind, sort_order: e.sort_order ?? 0 })),
+      ]);
+      setSavedMsg(t('admin.saved'));
+    } catch (e) {
+      setSavedMsg(`Error: ${(e as Error).message}`);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (loading) {
+    return <div className="flex justify-center py-12"><Spinner size="lg" /></div>;
+  }
+  if (fetchErr) {
+    return <p className="text-sm text-destructive py-4">{fetchErr}</p>;
+  }
+
+  const coreCount = Object.values(state).filter((r) => r.kind === 'core').length;
+  const recCount = Object.values(state).filter((r) => r.kind === 'recommended').length;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium">{t('admin.rolePaths.role')}</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            data-testid="admin-role-select"
+            className="rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {ROLE_ORDER.map((r) => (
+              <option key={r} value={r}>{t(`role.${r}` as TranslationKey)}</option>
+            ))}
+          </select>
+          <span className="text-xs text-muted-foreground">
+            {t('admin.rolePaths.counts', { core: coreCount, rec: recCount })}
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button size="sm" onClick={() => void handleSave()} disabled={saving}>
+            {saving ? <Spinner size="sm" /> : t('admin.save')}
+          </Button>
+          {savedMsg && (
+            <span className={`text-xs ${savedMsg.startsWith('Error') ? 'text-destructive' : 'text-success'}`}>{savedMsg}</span>
+          )}
+        </div>
+      </div>
+
+      <p className="text-xs text-muted-foreground">{t('admin.rolePaths.help')}</p>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
+              <th className="pb-2 pr-4">{t('admin.rolePaths.col.module')}</th>
+              <th className="pb-2 pr-4">{t('admin.rolePaths.col.kind')}</th>
+              <th className="pb-2">{t('admin.rolePaths.col.level')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {modules.map((m) => {
+              const r = state[m.code] ?? { kind: 'off' as PathKind, level: 'L1' as const };
+              return (
+                <tr key={m.code} className="border-b border-border/50 last:border-0">
+                  <td className="py-2 pr-4 font-medium">{m.title}</td>
+                  <td className="py-2 pr-4">
+                    <select
+                      value={r.kind}
+                      onChange={(e) => setKind(m.code, e.target.value as PathKind)}
+                      className="rounded-md border border-input bg-background px-2 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <option value="off">{t('admin.rolePaths.kind.off')}</option>
+                      <option value="core">{t('admin.rolePaths.kind.core')}</option>
+                      <option value="recommended">{t('admin.rolePaths.kind.recommended')}</option>
+                    </select>
+                  </td>
+                  <td className="py-2">
+                    <select
+                      value={r.level}
+                      disabled={r.kind === 'off'}
+                      onChange={(e) => setLevel(m.code, e.target.value as 'L1' | 'L2')}
+                      className="rounded-md border border-input bg-background px-2 py-1 text-xs disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <option value="L1">L1</option>
+                      <option value="L2">L2</option>
+                    </select>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // AdminPage
 // ---------------------------------------------------------------------------
 
@@ -734,6 +900,7 @@ export function AdminPage() {
             <TabsTrigger value="content">{t('admin.tab.content')}</TabsTrigger>
             <TabsTrigger value="users">{t('admin.tab.users')}</TabsTrigger>
             <TabsTrigger value="progress">{t('admin.tab.progress')}</TabsTrigger>
+            <TabsTrigger value="rolepaths">{t('admin.tab.rolePaths')}</TabsTrigger>
             <TabsTrigger value="reflections">{t('admin.tab.reflections')}</TabsTrigger>
           </TabsList>
 
@@ -747,6 +914,10 @@ export function AdminPage() {
 
           <TabsContent value="progress">
             <ProgressTab />
+          </TabsContent>
+
+          <TabsContent value="rolepaths">
+            <RolePathsTab />
           </TabsContent>
 
           <TabsContent value="reflections">

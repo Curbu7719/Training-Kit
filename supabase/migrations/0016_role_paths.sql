@@ -1,0 +1,141 @@
+-- ============================================================
+-- 0016  Admin-managed role paths
+-- ============================================================
+-- Moves the per-role learning paths (which modules are CORE/required vs
+-- RECOMMENDED, and at which level) out of the frontend constant and into a table
+-- the admin panel can edit. The dashboard and the leaderboard read from here.
+-- Seeded from the existing src/lib/rolePaths.ts so behaviour is unchanged.
+-- ============================================================
+
+create table if not exists public.role_paths (
+  id          uuid primary key default uuid_generate_v4(),
+  role        text not null,
+  module_code text not null references public.modules(code) on delete cascade,
+  level       public.module_level not null default 'L1',
+  kind        text not null check (kind in ('core','recommended')),
+  sort_order  integer not null default 0,
+  unique (role, module_code)
+);
+
+alter table public.role_paths enable row level security;
+
+-- Any signed-in user may read (the dashboard needs it); only admins may write.
+create policy "role_paths_read_auth" on public.role_paths
+  for select using (auth.uid() is not null);
+create policy "role_paths_admin_write" on public.role_paths
+  for all using (
+    exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
+  );
+
+-- Seed from the current paths.
+insert into public.role_paths (role, module_code, level, kind, sort_order) values
+  ('portfolio_manager', 'using_ai_safely', 'L1', 'core', 0),
+  ('portfolio_manager', 'llm_foundations', 'L1', 'core', 1),
+  ('portfolio_manager', 'ai_delivery_portfolio', 'L2', 'core', 2),
+  ('portfolio_manager', 'ai_value_scaling', 'L1', 'core', 3),
+  ('portfolio_manager', 'ai_fit_buildbuy', 'L1', 'core', 4),
+  ('portfolio_manager', 'ai_risk_governance', 'L1', 'core', 5),
+  ('portfolio_manager', 'evaluation', 'L1', 'recommended', 0),
+  ('portfolio_manager', 'ai_operations_sre', 'L1', 'recommended', 1),
+  ('project_manager', 'using_ai_safely', 'L1', 'core', 0),
+  ('project_manager', 'llm_foundations', 'L1', 'core', 1),
+  ('project_manager', 'ai_delivery_portfolio', 'L1', 'core', 2),
+  ('project_manager', 'ai_value_scaling', 'L1', 'core', 3),
+  ('project_manager', 'ai_risk_governance', 'L1', 'core', 4),
+  ('project_manager', 'tokens', 'L1', 'recommended', 0),
+  ('project_manager', 'evaluation', 'L1', 'recommended', 1),
+  ('project_manager', 'vibe_coding', 'L1', 'recommended', 2),
+  ('project_manager', 'ai_fit_buildbuy', 'L1', 'recommended', 3),
+  ('governance', 'using_ai_safely', 'L1', 'core', 0),
+  ('governance', 'llm_foundations', 'L1', 'core', 1),
+  ('governance', 'ai_risk_governance', 'L1', 'core', 2),
+  ('governance', 'security_privacy', 'L1', 'core', 3),
+  ('governance', 'guardrails', 'L1', 'core', 4),
+  ('governance', 'evaluation', 'L1', 'recommended', 0),
+  ('governance', 'ai_fit_buildbuy', 'L1', 'recommended', 1),
+  ('governance', 'ai_delivery_portfolio', 'L1', 'recommended', 2),
+  ('governance', 'tool_use_agents', 'L1', 'recommended', 3),
+  ('developer', 'using_ai_safely', 'L1', 'core', 0),
+  ('developer', 'llm_foundations', 'L1', 'core', 1),
+  ('developer', 'tokens', 'L1', 'core', 2),
+  ('developer', 'prompting', 'L1', 'core', 3),
+  ('developer', 'context_management', 'L1', 'core', 4),
+  ('developer', 'tool_use_agents', 'L1', 'core', 5),
+  ('developer', 'rag', 'L1', 'core', 6),
+  ('developer', 'evaluation', 'L1', 'core', 7),
+  ('developer', 'vibe_coding', 'L1', 'core', 8),
+  ('developer', 'guardrails', 'L1', 'recommended', 0),
+  ('developer', 'cost_latency', 'L1', 'recommended', 1),
+  ('developer', 'security_privacy', 'L1', 'recommended', 2),
+  ('developer', 'ai_architecture', 'L1', 'recommended', 3),
+  ('designer', 'using_ai_safely', 'L1', 'core', 0),
+  ('designer', 'llm_foundations', 'L1', 'core', 1),
+  ('designer', 'prompting', 'L1', 'core', 2),
+  ('designer', 'context_management', 'L1', 'core', 3),
+  ('designer', 'guardrails', 'L1', 'core', 4),
+  ('designer', 'tokens', 'L1', 'recommended', 0),
+  ('designer', 'evaluation', 'L1', 'recommended', 1),
+  ('designer', 'vibe_coding', 'L1', 'recommended', 2),
+  ('designer', 'ai_value_scaling', 'L1', 'recommended', 3),
+  ('enterprise_architect', 'using_ai_safely', 'L1', 'core', 0),
+  ('enterprise_architect', 'llm_foundations', 'L1', 'core', 1),
+  ('enterprise_architect', 'ai_architecture', 'L1', 'core', 2),
+  ('enterprise_architect', 'ai_fit_buildbuy', 'L1', 'core', 3),
+  ('enterprise_architect', 'rag', 'L1', 'core', 4),
+  ('enterprise_architect', 'tool_use_agents', 'L1', 'core', 5),
+  ('enterprise_architect', 'security_privacy', 'L1', 'core', 6),
+  ('enterprise_architect', 'cost_latency', 'L1', 'core', 7),
+  ('enterprise_architect', 'tokens', 'L1', 'recommended', 0),
+  ('enterprise_architect', 'ai_risk_governance', 'L1', 'recommended', 1),
+  ('enterprise_architect', 'evaluation', 'L1', 'recommended', 2),
+  ('enterprise_architect', 'ai_operations_sre', 'L1', 'recommended', 3),
+  ('enterprise_architect', 'ai_delivery_portfolio', 'L1', 'recommended', 4),
+  ('enterprise_architect', 'context_management', 'L1', 'recommended', 5),
+  ('tester', 'using_ai_safely', 'L1', 'core', 0),
+  ('tester', 'llm_foundations', 'L1', 'core', 1),
+  ('tester', 'evaluation', 'L1', 'core', 2),
+  ('tester', 'guardrails', 'L1', 'core', 3),
+  ('tester', 'prompting', 'L1', 'core', 4),
+  ('tester', 'security_privacy', 'L1', 'recommended', 0),
+  ('tester', 'tool_use_agents', 'L1', 'recommended', 1),
+  ('tester', 'context_management', 'L1', 'recommended', 2),
+  ('tester', 'rag', 'L1', 'recommended', 3),
+  ('release_manager', 'using_ai_safely', 'L1', 'core', 0),
+  ('release_manager', 'llm_foundations', 'L1', 'core', 1),
+  ('release_manager', 'ai_operations_sre', 'L1', 'core', 2),
+  ('release_manager', 'evaluation', 'L1', 'core', 3),
+  ('release_manager', 'ai_delivery_portfolio', 'L1', 'core', 4),
+  ('release_manager', 'cost_latency', 'L1', 'recommended', 0),
+  ('release_manager', 'guardrails', 'L1', 'recommended', 1),
+  ('release_manager', 'ai_risk_governance', 'L1', 'recommended', 2),
+  ('devops_engineer', 'using_ai_safely', 'L1', 'core', 0),
+  ('devops_engineer', 'llm_foundations', 'L1', 'core', 1),
+  ('devops_engineer', 'tokens', 'L1', 'core', 2),
+  ('devops_engineer', 'ai_operations_sre', 'L1', 'core', 3),
+  ('devops_engineer', 'cost_latency', 'L1', 'core', 4),
+  ('devops_engineer', 'evaluation', 'L1', 'core', 5),
+  ('devops_engineer', 'tool_use_agents', 'L1', 'recommended', 0),
+  ('devops_engineer', 'guardrails', 'L1', 'recommended', 1),
+  ('devops_engineer', 'security_privacy', 'L1', 'recommended', 2),
+  ('devops_engineer', 'ai_architecture', 'L1', 'recommended', 3),
+  ('infrastructure_engineer', 'using_ai_safely', 'L1', 'core', 0),
+  ('infrastructure_engineer', 'llm_foundations', 'L1', 'core', 1),
+  ('infrastructure_engineer', 'tokens', 'L1', 'core', 2),
+  ('infrastructure_engineer', 'cost_latency', 'L1', 'core', 3),
+  ('infrastructure_engineer', 'ai_operations_sre', 'L1', 'core', 4),
+  ('infrastructure_engineer', 'ai_architecture', 'L1', 'core', 5),
+  ('infrastructure_engineer', 'security_privacy', 'L1', 'recommended', 0),
+  ('infrastructure_engineer', 'tool_use_agents', 'L1', 'recommended', 1),
+  ('infrastructure_engineer', 'rag', 'L1', 'recommended', 2),
+  ('infrastructure_engineer', 'context_management', 'L1', 'recommended', 3),
+  ('security_engineer', 'using_ai_safely', 'L1', 'core', 0),
+  ('security_engineer', 'llm_foundations', 'L1', 'core', 1),
+  ('security_engineer', 'security_privacy', 'L1', 'core', 2),
+  ('security_engineer', 'guardrails', 'L1', 'core', 3),
+  ('security_engineer', 'ai_risk_governance', 'L1', 'core', 4),
+  ('security_engineer', 'tool_use_agents', 'L1', 'recommended', 0),
+  ('security_engineer', 'rag', 'L1', 'recommended', 1),
+  ('security_engineer', 'evaluation', 'L1', 'recommended', 2),
+  ('security_engineer', 'ai_architecture', 'L1', 'recommended', 3),
+  ('security_engineer', 'ai_operations_sre', 'L1', 'recommended', 4)
+on conflict (role, module_code) do nothing;

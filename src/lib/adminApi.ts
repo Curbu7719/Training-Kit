@@ -191,6 +191,33 @@ export async function listReflections(): Promise<ReflectionEntry[]> {
 }
 
 // ---------------------------------------------------------------------------
+// Role paths (admin-managed: which modules are core/recommended per role)
+// ---------------------------------------------------------------------------
+
+export interface RolePathRow {
+  role: string;
+  module_code: string;
+  level: 'L1' | 'L2';
+  kind: 'core' | 'recommended';
+  sort_order: number;
+}
+
+export async function getRolePaths(): Promise<RolePathRow[]> {
+  return invokeAdmin<RolePathRow[]>('get_role_paths');
+}
+
+export interface RolePathEntry {
+  module_code: string;
+  level: 'L1' | 'L2';
+  kind: 'core' | 'recommended';
+  sort_order?: number;
+}
+
+export async function updateRolePath(role: string, entries: RolePathEntry[]): Promise<{ role: string; count: number }> {
+  return invokeAdmin<{ role: string; count: number }>('update_role_path', { role, entries });
+}
+
+// ---------------------------------------------------------------------------
 // Leaderboard (any authed user — separate edge function)
 // ---------------------------------------------------------------------------
 

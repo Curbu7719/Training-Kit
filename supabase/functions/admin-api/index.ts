@@ -394,6 +394,61 @@ async function listReflections(db: ReturnType<typeof createServiceClient>): Prom
 }
 
 // ---------------------------------------------------------------------------
+// get_role_paths / update_role_path — admin-managed per-role learning paths.
+// ---------------------------------------------------------------------------
+
+async function getRolePaths(db: ReturnType<typeof createServiceClient>): Promise<HandlerResult> {
+  const { data, error } = await db
+    .from('role_paths')
+    .select('role, module_code, level, kind, sort_order')
+    .order('role', { ascending: true })
+    .order('kind', { ascending: true })
+    .order('sort_order', { ascending: true });
+  if (error) return { status: 500, payload: { ok: false, error: error.message } };
+  return { status: 200, payload: { ok: true, data: data ?? [] } };
+}
+
+async function updateRolePath(
+  db: ReturnType<typeof createServiceClient>,
+  body: Record<string, unknown>,
+): Promise<HandlerResult> {
+  const role = body.role;
+  if (typeof role !== 'string' || !role) {
+    return { status: 400, payload: { ok: false, error: '`role` (string) is required' } };
+  }
+  if (!Array.isArray(body.entries)) {
+    return { status: 400, payload: { ok: false, error: '`entries` (array) is required' } };
+  }
+  const rows: { role: string; module_code: string; level: string; kind: string; sort_order: number }[] = [];
+  for (let i = 0; i < body.entries.length; i++) {
+    const e = body.entries[i] as Record<string, unknown>;
+    if (!e || typeof e.module_code !== 'string') {
+      return { status: 400, payload: { ok: false, error: `entries[${i}]: module_code (string) required` } };
+    }
+    if (e.kind !== 'core' && e.kind !== 'recommended') {
+      return { status: 400, payload: { ok: false, error: `entries[${i}]: kind must be core|recommended` } };
+    }
+    const level = e.level === 'L2' ? 'L2' : 'L1';
+    rows.push({
+      role,
+      module_code: e.module_code,
+      level,
+      kind: e.kind,
+      sort_order: typeof e.sort_order === 'number' ? e.sort_order : i,
+    });
+  }
+
+  // Replace this role's rows atomically enough for an admin tool: delete then insert.
+  const del = await db.from('role_paths').delete().eq('role', role);
+  if (del.error) return { status: 500, payload: { ok: false, error: del.error.message } };
+  if (rows.length > 0) {
+    const ins = await db.from('role_paths').insert(rows);
+    if (ins.error) return { status: 500, payload: { ok: false, error: ins.error.message } };
+  }
+  return { status: 200, payload: { ok: true, data: { role, count: rows.length } } };
+}
+
+// ---------------------------------------------------------------------------
 // progress_report — per-user development across all sections + the exam.
 //
 // A "unit" is one (module, level) that has lessons. For each section
@@ -554,6 +609,12 @@ Deno.serve(async (req: Request) => {
       break;
     case 'list_reflections':
       result = await listReflections(db);
+      break;
+    case 'get_role_paths':
+      result = await getRolePaths(db);
+      break;
+    case 'update_role_path':
+      result = await updateRolePath(db, body);
       break;
     default:
       result = { status: 400, payload: { ok: false, error: `Unknown action: ${action}` } };

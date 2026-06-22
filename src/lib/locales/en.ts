@@ -390,6 +390,18 @@ const en = {
   'admin.reflections.work': 'What they will do in their work',
   'admin.reflections.value': 'Expected value / gain',
 
+  // Admin — role paths tab
+  'admin.tab.rolePaths': 'Role paths',
+  'admin.rolePaths.role': 'Role',
+  'admin.rolePaths.help': 'Set which modules are required (core) or recommended for each role, and at which level. Changes apply to learners’ dashboards and to leaderboard certification.',
+  'admin.rolePaths.counts': '{core} core · {rec} recommended',
+  'admin.rolePaths.col.module': 'Module',
+  'admin.rolePaths.col.kind': 'In path',
+  'admin.rolePaths.col.level': 'Level',
+  'admin.rolePaths.kind.off': 'Not in path',
+  'admin.rolePaths.kind.core': 'Core (required)',
+  'admin.rolePaths.kind.recommended': 'Recommended',
+
   // ---------------------------------------------------------------------------
   // Welcome / onboarding (CIO message + role picker)
   // ---------------------------------------------------------------------------
