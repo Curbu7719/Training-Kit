@@ -32,13 +32,8 @@ sonradan değiştirebilmek için bir **soyutlama katmanını** tercih edin.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Deterministik kodun bir modeli ne zaman geçtiğini fark eder,
-  herhangi bir AI'yı sağlayıcı değiştirilebilsin diye bir soyutlamanın arkasına sarar ve
-  çağrı başına gerçek maliyeti ve gecikmeyi ölçer.
-- **İş Analisti:** Görevin gerçekte ihtiyaç duyduğu doğruluğu ve build-vs-buy'ı hangi veri ve
-  iş akışlarının kısıtladığını çerçeveler, her seçeneği bir gereksinime eşler.
-- **PM/Ürün Sahibi:** AI'nın build edilmeye değer bir farklılaştırıcı mı yoksa satın alınacak
-  bir meta mı olduğuna karar verir ve TCO ile lock-in dengesini pazara çıkış süresine karşı
-  yönetir.
-- **QA & Mimar:** Non-deterministik bir özelliğin nasıl test edilip kabul edileceğini tanımlar
-  ve vendor switching cost'ları düşük kalsın diye entegrasyonu tasarlar.
+- **Portfolio Manager:** Gelen bir demand'in AI'a değip değmediğine ve build mi, satın alma mı, fine-tune mu yoksa API çağrısı mı olacağına karar verir — toplam maliyeti teknik ekiple, şirket öncelikleri ve roadmap'e karşı tartar.
+- **Project Manager:** Görevin gerçekte ihtiyaç duyduğu doğruluğu ve veri/iş akışı kısıtlarını çerçeveler, temin etme kararını planlar ve risklerini, pazara çıkış süresini sahiplenir.
+- **Enterprise Architect:** AI-vs-deterministik uygunluğunu değerlendirir, bir sağlayıcı soyutlaması tasarlar ve switching cost ile lock-in'i düşük tutar.
+- **Developer:** Düz kodun bir modeli ne zaman geçtiğini fark eder, herhangi bir AI'yı o soyutlamanın arkasına sarar ve çağrı başına gerçek maliyeti ve gecikmeyi ölçer.
+- **Governance:** Bir build/buy seçimini gate'leyebilecek vendor, IP/lisans ve uyum kısıtlarını işaretler.

@@ -46,14 +46,8 @@ bir sistemdir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Governance'ı ölçekte uygulanabilir kılan kontrolleri kurar —
-  redaksiyon, erişim kapsamlandırma, kurcalama-belirgin audit günlükleri — ve yeni AI
-  kullanımlarını gölgeye gitmek yerine otomatik olarak kayıtta görünecek şekilde enstrümante eder.
-- **İş Analisti:** Risk-katmanlama ölçütlerini tanımlar, her kullanımı geçerli düzenlemeye eşler
-  ve kullanımlar evrildikçe kaydı ile risk sınıflandırmalarını güncel tutar.
-- **PM/Ürün Sahibi:** Katman başına risk-hız-maliyet trade-off'unun sahibidir, onay geçitlerinin
-  ve insan gözetiminin nerede gerekçeli olduğuna karar verir ve sahiplenilmiş yolu geçici çözümden
-  daha hızlı yaparak gölge AI'yı önler.
-- **QA & Mimar:** Bias ve sızıntı için red-team yapar, gözetimin lastik-damga yerine gerçek
-  olduğunu doğrular ve AI etkili kararların itiraz altında açıklanabilir ve savunulabilir kalması
-  için audit izini tasarlar.
+- **Governance:** Risk-katmanlama ölçütlerini tanımlar, kaydı kullanımlar evrildikçe güncel tutar, katman başına risk-hız-maliyet dengesini sahiplenir ve sahiplenilmiş yolu geçici çözümden daha hızlı yaparak gölge AI'yı önler.
+- **Security Engineer:** Sızıntı ve kötüye kullanım için red-team yapar ve governance'ı ölçekte uygulanabilir kılan kontrolleri (redaksiyon, erişim kapsamlandırma, kurcalama-belirgin günlükler) kurar.
+- **Enterprise Architect:** Audit izini tasarlar; böylece AI etkili kararlar itiraz altında açıklanabilir ve savunulabilir kalır.
+- **Project Manager:** Yeni AI kullanımlarını gölgeye gitmek yerine kayıtta görünür kılar ve risk katmanı başına gözetim işini planlar.
+- **Developer:** Kullanımları otomatik kayıtta görünecek şekilde enstrümante eder ve gözetimin lastik-damga yerine gerçek olduğunu doğrular.

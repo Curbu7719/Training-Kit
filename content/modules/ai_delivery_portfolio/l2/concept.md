@@ -51,14 +51,9 @@ assistant is the newest.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Builds the shared platform capabilities (golden patterns, prompt/agent
-  library, secure CI, review automation) so teams stop reinventing the AI workflow, and surfaces
-  per-initiative cycle time and defect data for the portfolio view.
-- **Business Analyst:** Defines the value and feasibility scores that rank initiatives, and
-  separates real productivity gains (cycle time, defect rate, value) from output vanity.
-- **PM/Product Owner & Portfolio Manager:** Prioritises and sequences the bets, holds kill
-  discipline despite cheap builds, decides point-vs-platform investment, and reports real
-  throughput and risk to leadership.
-- **QA & Architect:** Designs the cross-team guardrails for generated code (security, dependency/
-  license compliance), the provider abstraction and exit strategy, and the enforced patterns that
-  keep quality consistent across the portfolio.
+- **Portfolio Manager:** Prioritises and sequences the bets, holds kill discipline despite cheap builds, decides point-vs-platform investment, and reports real throughput (cycle time, defects) and risk to leadership — not lines generated.
+- **Project Manager:** Tracks each initiative, plans it, and manages its risks; surfaces real per-initiative delivery data into the portfolio view.
+- **Release Manager:** Owns the test environments and sequences releases of interdependent initiatives so portfolio-wide changes ship safely and in order.
+- **Developer:** Builds the shared platform (golden patterns, secure CI, review automation) so teams stop reinventing the AI workflow, and surfaces per-initiative cost/quality data.
+- **Governance:** Sets the cross-team guardrails for generated code (security, dependency/license compliance, human accountability) so portfolio speed doesn't multiply risk.
+- **Enterprise Architect:** Designs the shared platform, the provider abstraction and exit strategy, and the patterns that keep quality consistent across the portfolio.

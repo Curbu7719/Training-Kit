@@ -43,14 +43,8 @@ is a living system where every AI use is visible, owned, and proportionate to it
 
 ## How each role uses this
 
-- **Developer/Engineer:** Builds the controls that make governance enforceable at scale —
-  redaction, access scoping, tamper-evident audit logs — and instruments new AI uses so they
-  surface in the register automatically rather than going shadow.
-- **Business Analyst:** Defines the risk-tiering criteria, maps each use to applicable
-  regulation, and keeps the register and risk classifications current as uses evolve.
-- **PM/Product Owner:** Owns the risk-vs-speed-vs-cost trade-off per tier, decides where
-  approval gates and human oversight are justified, and prevents shadow AI by making the
-  sanctioned path faster than the workaround.
-- **QA & Architect:** Red-teams for bias and leakage, verifies oversight is real rather than
-  rubber-stamped, and designs the audit trail so AI-influenced decisions remain explainable
-  and defensible under challenge.
+- **Governance:** Defines the risk-tiering criteria, keeps the register current as uses evolve, owns the risk-vs-speed-vs-cost trade-off per tier, and prevents shadow AI by making the sanctioned path faster than the workaround.
+- **Security Engineer:** Red-teams for leakage and abuse, and builds the controls (redaction, access scoping, tamper-evident logs) that make governance enforceable at scale.
+- **Enterprise Architect:** Designs the audit trail so AI-influenced decisions stay explainable and defensible under challenge.
+- **Project Manager:** Surfaces new AI uses into the register rather than letting them go shadow, and plans the oversight work per risk tier.
+- **Developer:** Instruments uses so they appear in the register automatically, and verifies oversight is real rather than rubber-stamped.

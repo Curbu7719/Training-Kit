@@ -42,11 +42,8 @@ teknoloji ile kurallar evrildikçe bütünü gözden geçirir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Teknik kontrolleri uygular — günlükleme, erişim kapsamlandırma,
-  PII redaksiyonu — ve gizli veriyle kimlik bilgilerini harici araçların dışında tutar.
-- **İş Analisti:** Her AI kullanımını dokunduğu veriye ve geçerli düzenlemelere eşler; AI
-  kullanım kaydını ve risk katmanlamasını besler.
-- **PM/Ürün Sahibi:** Kabul edilebilir kullanım politikasının sahibidir ve hangi kullanımların
-  yayına çıkmadan önce bir onay geçidine ya da insan gözetimine ihtiyaç duyduğuna karar verir.
-- **QA & Mimar:** Bias, güvenilirlik ve sızıntı için test eder ve AI kararlarının açıklanabilir
-  ve hesap verebilir olması için audit izini tasarlar.
+- **Governance:** Kabul edilebilir kullanım politikasının ve AI kullanım kaydının sahibidir, risk katmanlarını belirler ve hangi kullanımların yayına çıkmadan önce onay geçidi ya da insan gözetimi gerektirdiğine karar verir.
+- **Security Engineer:** Teknik kontrolleri uygular — erişim kapsamlandırma, PII redaksiyonu, secret yönetimi — ve gizli veriyle kimlik bilgilerini harici araçların dışında tutar.
+- **Project Manager:** Projedeki her AI kullanımını dokunduğu veriye ve geçerli düzenlemelere eşler ve governance kapılarını proje riski olarak takip eder.
+- **Developer:** Günlükleme, erişim kapsamlandırma ve redaksiyonu sisteme bağlar; böylece politika kodda gerçekten uygulanır.
+- **Enterprise Architect:** Audit izini ve gözetim noktalarını tasarlar; böylece AI kararları açıklanabilir ve hesap verebilir kalır.

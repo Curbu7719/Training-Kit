@@ -42,13 +42,7 @@ insanlardır.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Öncü göstergeleri ve birim başına maliyeti donatır, böylece business
-  case sürekli ölçülür ve birim ekonomisi hacim büyüdükçe geçerli kalan sistemler tasarlar.
-- **İş Analisti:** Gözetim ve değişim yönetimi maliyeti dahil baseline-ve-delta-eksi-toplam-maliyet
-  case'ini oluşturur ve ölçeklendir-ya-da-durdur geçidine bağlı öncü göstergeleri tanımlar.
-- **PM/Ürün Sahibi:** Portföyü yürütür — pilot araf'ından kaçınmak için durdurma kriterlerini
-  uygular, durdurulan bahislerden bütçeyi yeniden tahsis eder ve yalnızca pilotta değil, ölçekte
-  adoption'a sahiptir.
-- **QA & Mimar:** Kalitenin ve değer birimi başına maliyetin ölçeklendirmeden sağ çıktığını
-  doğrular ve taahhütten önce vanity güdümlü ölçeklendirme ve adoption çöküşü için case'i
-  red-team eder.
+- **Portfolio Manager:** Portföyü yürütür — pilot araf'ından kaçınmak için durdurma kriterlerini uygular, durdurulan bahislerden bütçeyi yeniden tahsis eder ve yalnızca pilotta değil ölçekte adoption'a sahiptir.
+- **Project Manager:** Gözetim ve değişim yönetimi maliyeti dahil baseline-ve-delta-eksi-toplam-maliyet case'ini oluşturur ve ölçeklendir-ya-da-durdur geçidine bağlı öncü göstergeleri tanımlar.
+- **Developer:** Öncü göstergeleri ve birim başına maliyeti donatır; böylece business case sürekli ölçülür ve birim ekonomisi hacim büyüdükçe geçerli kalan sistemler kurar.
+- **Enterprise Architect:** Kalitenin ve değer birimi başına maliyetin ölçeklendirmeden sağ çıktığını doğrular ve taahhütten önce vanity güdümlü ölçeklendirmeye karşı case'i red-team eder.

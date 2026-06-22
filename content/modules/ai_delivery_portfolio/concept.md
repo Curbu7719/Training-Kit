@@ -59,11 +59,17 @@ its code volume and ship no faster if review and rework become the new bottlenec
 
 ## How each role uses this
 
-- **Developer/Engineer:** Shifts from writing every line to specifying intent, reviewing and
-  verifying AI output, and owning correctness, security, and tests for what merges.
-- **Business Analyst:** Writes intent and acceptance clearly enough that AI-assisted work targets
-  the right outcome, and helps separate real delivery from output vanity.
-- **PM/Product Owner:** Estimates the review/integration/verification work (not just generation),
-  plans for the last-10% trap, and tracks cycle time and defect escape rather than raw output.
-- **QA & Architect:** Designs the quality gates (review, tests, security/type checks) and the
-  enforced patterns that keep AI-generated code correct, secure, and architecturally consistent.
+- **Project Manager:** Tracks the project, builds the plan, and identifies and owns the risks —
+  estimating the review/integration/verification work (not just the fast generation), planning for
+  the last-10% trap, and tracking cycle time and defect escape instead of raw output.
+- **Portfolio Manager:** Sizes incoming demands with the tech team, sequences them across teams by
+  company priority, and builds the roadmap — folding the real (often cheaper-to-start, costlier-to-
+  finish) economics of AI-driven delivery into those estimates.
+- **Release Manager:** Owns the test environments and plans the release of interdependent work, so
+  AI-generated changes clear review and test gates before they ship.
+- **Developer:** Shifts from writing every line to specifying intent, reviewing and verifying AI
+  output, and owning correctness, security, and tests for what merges.
+- **Designer:** Designs the feature and joins the high-level estimation/cost work, turning a request
+  into clear intent the team — and its AI assistants — can build against.
+- **Tester & Enterprise Architect:** Set the quality gates (review, tests, security/type checks) and
+  the enforced patterns that keep AI-generated code correct, secure, and architecturally consistent.

@@ -40,11 +40,7 @@ the constraint on value is usually process and people, not the model.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Instruments leading indicators and per-unit cost so the business case
-  is measured continuously, and architects systems whose unit economics hold as volume grows.
-- **Business Analyst:** Builds the baseline-vs-delta-vs-total-cost case, including oversight and
-  change-management cost, and defines the leading indicators tied to the scale-or-kill gate.
-- **PM/Product Owner:** Runs the portfolio — enforces kill criteria to avoid pilot purgatory,
-  reallocates budget from killed bets, and owns adoption at scale, not just at pilot.
-- **QA & Architect:** Validates that quality and cost per unit of value survive scaling, and
-  red-teams the case for vanity-driven scaling and adoption collapse before commitment.
+- **Portfolio Manager:** Runs the portfolio — enforces kill criteria to avoid pilot purgatory, reallocates budget from killed bets, and owns adoption at scale, not just at pilot.
+- **Project Manager:** Builds the baseline-vs-delta-vs-total-cost case (including oversight and change-management cost) and defines the leading indicators tied to the scale-or-kill gate.
+- **Developer:** Instruments leading indicators and per-unit cost so the business case is measured continuously, and builds systems whose unit economics hold as volume grows.
+- **Enterprise Architect:** Validates that quality and cost per unit of value survive scaling, and red-teams the case against vanity-driven scaling before commitment.

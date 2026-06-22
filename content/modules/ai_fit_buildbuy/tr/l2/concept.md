@@ -43,11 +43,7 @@ ile azaltın.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** AI yüzeyini minimize eder, onu taşınabilir prompt'lar ve eval'larla
-  bir soyutlamaya sarar ve gerçek-hacimde maliyeti, gecikmeyi ve kaliteyi sürekli ölçer.
-- **İş Analisti:** Adım başına doğruluk ve non-determinizm toleransını belirtir ve her temin
-  etme seçeneğini bir gereksinime ve bir risk katmanına izler.
-- **PM/Ürün Sahibi:** Build-vs-buy kararını, pazara çıkış süresine karşı bir TCO-ve-lock-in
-  dengesi olarak yönetir ve hacim, veri ve farklılaşma geliştikçe onu yeniden ele alır.
-- **QA & Mimar:** Non-deterministik bir özellik için değerlendirme tasarlar, soyutlamanın
-  switching cost'ları düşük tuttuğunu doğrular ve taahhütten önce çıkış planını baskı testine tabi tutar.
+- **Portfolio Manager:** Build-vs-buy kararını, pazara çıkış süresine karşı bir TCO-ve-lock-in dengesi olarak sahiplenir ve hacim, veri ve farklılaşma geliştikçe roadmap genelinde yeniden ele alır.
+- **Project Manager:** Her adımın ihtiyaç duyduğu doğruluğu ve toleransı belirtir, her temin seçeneğini bir gereksinime ve risk katmanına bağlar ve kararı planlar.
+- **Enterprise Architect:** AI yüzeyini minimize eder, prompt/eval'ları bir soyutlama arkasında taşınabilir tutar ve taahhütten önce çıkış planını baskı testine sokar.
+- **Developer:** Gerçek-hacimde maliyeti, gecikmeyi ve kaliteyi sürekli ölçer; böylece temin kararı sayılara dayalı kalır.

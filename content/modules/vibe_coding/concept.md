@@ -33,11 +33,8 @@ something no one on the team can reason about.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Drives the prompt → run → verify → refine loop in small diffs, reads
-  every generated line, and commits working states so nothing they don't understand reaches main.
-- **Business Analyst:** Turns fuzzy requests into the clear intent and acceptance criteria that
-  make a good prompt — and a checkable result.
-- **PM/Product Owner:** Sets expectations that "fast" still means reviewed and tested, not
-  unread AI output shipped on vibes; protects time for the verify step.
-- **QA/Tester & Architect:** Treats AI-written code as untrusted until tested, guards against
-  plausible-but-broken output, and keeps the system architecturally coherent as it grows.
+- **Developer:** Drives the prompt → run → verify → refine loop in small diffs, reads every generated line, and commits working states so nothing they don't understand reaches main.
+- **Tester:** Treats AI-written code as untrusted until tested, and guards against plausible-but-broken output with real assertions.
+- **Project Manager:** Sets the expectation that "fast" still means reviewed and tested — not unread AI output shipped on vibes — and protects time for the verify step.
+- **Designer:** Turns a fuzzy request into the clear intent and acceptance criteria that make a good prompt and a checkable result.
+- **Enterprise Architect:** Keeps the system architecturally coherent as AI-assisted code grows, so it doesn't drift into something no one can reason about.

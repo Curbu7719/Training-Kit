@@ -31,11 +31,8 @@ maintenance. Favor an **abstraction layer** so you can swap providers later.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Spots when deterministic code beats a model, wraps any AI behind
-  an abstraction so the provider can be swapped, and measures real per-call cost and latency.
-- **Business Analyst:** Frames the accuracy the task actually needs and which data and
-  workflows constrain build-vs-buy, mapping each option to a requirement.
-- **PM/Product Owner:** Decides whether AI is a differentiator worth building or a commodity
-  to buy, and owns the TCO and lock-in trade-off against time-to-market.
-- **QA & Architect:** Defines how a non-deterministic feature is tested and accepted, and
-  designs the integration so vendor switching costs stay low.
+- **Portfolio Manager:** Decides whether an incoming demand is worth AI at all and whether to build, buy, fine-tune, or call an API — weighing total cost with the tech team against company priorities and the roadmap.
+- **Project Manager:** Frames the accuracy the task really needs and the data/workflow constraints, plans the sourcing decision, and owns its risks and time-to-market.
+- **Enterprise Architect:** Judges AI-vs-deterministic fit, designs a provider abstraction, and keeps switching costs and lock-in low.
+- **Developer:** Spots when plain code beats a model, wraps any AI behind that abstraction, and measures real per-call cost and latency.
+- **Governance:** Flags the vendor, IP/licensing, and compliance constraints that can gate a build/buy choice.

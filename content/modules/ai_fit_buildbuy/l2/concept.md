@@ -42,11 +42,7 @@ prompts and features. Mitigate with an **abstraction layer**, portable prompts/e
 
 ## How each role uses this
 
-- **Developer/Engineer:** Minimizes the AI surface, wraps it in an abstraction with portable
-  prompts and evals, and measures real-volume cost, latency, and quality continuously.
-- **Business Analyst:** Specifies the accuracy and non-determinism tolerance per step and
-  traces each sourcing option to a requirement and a risk tier.
-- **PM/Product Owner:** Owns the build-vs-buy call as a TCO-and-lock-in trade-off against
-  time-to-market, and revisits it as volume, data, and differentiation evolve.
-- **QA & Architect:** Designs evaluation for a non-deterministic feature, verifies the
-  abstraction keeps switching costs low, and pressure-tests the exit plan before commitment.
+- **Portfolio Manager:** Owns the build-vs-buy call as a TCO-and-lock-in trade-off against time-to-market, and revisits it across the roadmap as volume, data, and differentiation evolve.
+- **Project Manager:** Specifies the accuracy and tolerance each step needs, ties each sourcing option to a requirement and a risk tier, and plans the decision.
+- **Enterprise Architect:** Minimises the AI surface, keeps prompts/evals portable behind an abstraction, and pressure-tests the exit plan before commitment.
+- **Developer:** Measures real-volume cost, latency, and quality continuously so the sourcing call stays grounded in numbers.

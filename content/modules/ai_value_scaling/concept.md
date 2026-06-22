@@ -34,11 +34,7 @@ people, not just models.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Instruments the AI system so real value metrics (time saved, error
-  rate) and adoption are measured, and builds it to scale only once value is proven.
-- **Business Analyst:** Defines the success metric and threshold up front, and separates real
-  value from vanity metrics when reporting results.
-- **PM/Product Owner:** Owns the scale-or-kill decision, the adoption plan, and the change
-  management needed for people to actually use the system.
-- **QA & Architect:** Validates the system is reliable enough for production and designs it to
-  scale without cost or quality collapsing as usage grows.
+- **Portfolio Manager:** Owns the scale-or-kill decision and the budget reallocation, separating real value from vanity metrics when reporting to leadership.
+- **Project Manager:** Defines the success metric and threshold up front, runs the pilot, and owns the adoption and change-management plan so people actually use the system.
+- **Developer:** Instruments the system so real value metrics (time saved, error rate) and adoption are measured, and builds it to scale only once value is proven.
+- **Enterprise Architect:** Validates the system is reliable enough for production and designs it so cost and quality don't collapse as usage grows.

@@ -37,12 +37,7 @@ Olgunluk yalnızca modellerle değil, süreç ve insanlarla ilgilidir.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** AI sistemini gerçek değer metrikleri (tasarruf edilen zaman, hata
-  oranı) ve adoption ölçülecek şekilde donatır ve onu yalnızca değer kanıtlandığında
-  ölçeklenecek biçimde inşa eder.
-- **İş Analisti:** Başarı metriğini ve eşiği baştan tanımlar ve sonuçları raporlarken gerçek
-  değeri vanity metriklerinden ayırır.
-- **PM/Ürün Sahibi:** Ölçeklendir-ya-da-durdur kararına, adoption planına ve insanların sistemi
-  gerçekten kullanması için gereken değişim yönetimine sahiptir.
-- **QA & Mimar:** Sistemin production için yeterince güvenilir olduğunu doğrular ve kullanım
-  arttıkça maliyet veya kalite çökmeden ölçeklenecek şekilde tasarlar.
+- **Portfolio Manager:** Ölçeklendir-ya-da-durdur kararının ve bütçe yeniden tahsisinin sahibidir; liderliğe raporlarken gerçek değeri vanity metriklerinden ayırır.
+- **Project Manager:** Başarı metriğini ve eşiği baştan tanımlar, pilotu yürütür ve insanların sistemi gerçekten kullanması için adoption ve değişim yönetimi planını sahiplenir.
+- **Developer:** Sistemi gerçek değer metrikleri (kazanılan zaman, hata oranı) ve adoption ölçülecek şekilde donatır ve yalnızca değer kanıtlandığında ölçeklenecek biçimde inşa eder.
+- **Enterprise Architect:** Sistemin production için yeterince güvenilir olduğunu doğrular ve kullanım büyüdükçe maliyet ve kalite çökmeyecek biçimde tasarlar.

@@ -41,13 +41,7 @@ borçlanmaktır.
 
 ## Her rol bunu nasıl kullanır
 
-- **Geliştirici/Mühendis:** Her disiplini sınırladığı hata moduna eşler, makul-ama-bozuk mantık için
-  okur, halüsinasyon API'leri ortaya çıkarmak için çalıştırır ve sistemi tutarlı tutan zihinsel
-  modeli korur.
-- **İş Analisti:** Niyeti, "sessiz yanlış kod"un karşı yakalanacağı bir davranışsal spec'i olacak
-  kadar kesin yazar ve AI'ın yanlış ele alma olasılığı yüksek kenar durumları işaretler.
-- **PM/Ürün Sahibi:** Aşınan anlayışı bedava hız değil biriken risk olarak tanır ve okunmamış
-  çıktıyı ödüllendirmek yerine review ve test adımları için bütçe ayırır.
-- **QA/Tester & Mimar:** Sessiz yanlış kodu yakalamak için davranışı doğrulayan test'ler tasarlar,
-  makul-ama-bozuk kenar durumlarını red-team eder, kapsam kaymasını izler ve mimari tutarlılığı
-  sapmaya karşı korur.
+- **Developer:** Her disiplini sınırladığı hata moduna eşler, makul-ama-bozuk mantık için okur, halüsinasyon API'leri ortaya çıkarmak için çalıştırır ve sistemi tutarlı tutan zihinsel modeli korur.
+- **Tester:** Sessiz yanlış kodu yakalamak için davranışı doğrulayan test'ler tasarlar ve AI'ın yanlış ele alma olasılığı yüksek makul-ama-bozuk kenar durumlarını red-team eder.
+- **Enterprise Architect:** AI kodun daha çoğunu üretirken kapsam kaymasını izler ve mimari tutarlılığı sapmaya karşı korur.
+- **Project Manager:** Aşınan anlayışı bedava hız değil biriken risk olarak tanır ve okunmamış çıktıyı ödüllendirmek yerine review ve test için bütçe ayırır.

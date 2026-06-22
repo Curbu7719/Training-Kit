@@ -39,13 +39,7 @@ repay with interest when something breaks.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Maps each discipline to the failure mode it contains, reads for
-  plausible-but-broken logic, runs to expose hallucinated APIs, and protects the mental model that
-  keeps the system coherent.
-- **Business Analyst:** Writes intent precise enough that "silent wrong code" has a behavioural
-  spec to be caught against, and flags edge cases the AI is likely to mishandle.
-- **PM/Product Owner:** Recognizes eroded understanding as accumulating risk, not free speed, and
-  budgets for the review and test steps rather than rewarding unread output.
-- **QA/Tester & Architect:** Designs tests that assert behaviour to catch silent wrong code,
-  red-teams plausible-but-broken edge cases, watches for scope creep, and guards architectural
-  coherence against drift.
+- **Developer:** Maps each discipline to the failure mode it contains, reads for plausible-but-broken logic, runs to expose hallucinated APIs, and protects the mental model that keeps the system coherent.
+- **Tester:** Designs tests that assert behaviour to catch silent wrong code, and red-teams plausible-but-broken edge cases the AI is likely to mishandle.
+- **Enterprise Architect:** Watches for scope creep and guards architectural coherence against drift as AI generates more of the code.
+- **Project Manager:** Recognises eroded understanding as accumulating risk, not free speed, and budgets for review and test rather than rewarding unread output.

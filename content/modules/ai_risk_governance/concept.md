@@ -37,11 +37,8 @@ it and reviews the whole as the technology and rules evolve.
 
 ## How each role uses this
 
-- **Developer/Engineer:** Implements the technical controls — logging, access scoping, PII
-  redaction — and keeps confidential data and credentials out of external tools.
-- **Business Analyst:** Maps each AI use to the data it touches and the regulations that
-  apply, feeding the AI use register and the risk tiering.
-- **PM/Product Owner:** Owns the acceptable-use policy and decides which uses need an
-  approval gate or human oversight before they ship.
-- **QA & Architect:** Tests for bias, reliability, and leakage, and designs the audit trail
-  so AI decisions are explainable and accountable.
+- **Governance:** Owns the acceptable-use policy and the AI use register, sets the risk tiers, and decides which uses need an approval gate or human oversight before they ship.
+- **Security Engineer:** Implements the technical controls — access scoping, PII redaction, secret handling — and keeps confidential data and credentials out of external tools.
+- **Project Manager:** Maps each AI use in the project to the data it touches and the regulations that apply, and tracks the governance gates as project risks.
+- **Developer:** Wires logging, access scoping, and redaction into the system so the policy is actually enforced in code.
+- **Enterprise Architect:** Designs the audit trail and oversight points so AI decisions stay explainable and accountable.
