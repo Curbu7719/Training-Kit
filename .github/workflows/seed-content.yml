@@ -1,0 +1,38 @@
+name: Seed content
+
+# Reseeds lesson content (concept / worked example / quiz / exercise) into the
+# live Supabase database whenever content changes on main. Content lives in
+# content/modules/** and is pushed to the DB by scripts/seed-content.mjs — it is
+# data, not a schema migration, so it is handled separately from db push.
+#
+# Required repository secret:
+#   SUPABASE_SERVICE_ROLE_KEY — the project's service-role key
+#                               (Dashboard → Project Settings → API → service_role)
+# SUPABASE_URL is the public project URL, so it is set inline below.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'scripts/seed-content.mjs'
+      - 'scripts/validate-content.mjs'
+  workflow_dispatch:
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: https://ymliczohkmksptbxtpah.supabase.co
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install --no-audit --no-fund
+      - name: Validate content
+        run: node scripts/validate-content.mjs
+      - name: Seed content into the database
+        run: node scripts/seed-content.mjs
