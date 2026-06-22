@@ -37,7 +37,7 @@ next decision.
 
 **Guardrails** keep these in check: a **maximum-iteration limit** to stop loops, **timeouts
 and budgets**, **human approval** for risky actions like pushing or deleting, and **validating
-tool inputs** before running them. Autonomy is powerful only when it has limits.
+tool inputs** before running them. Autonomy is powerful only when it has limits. Our **internal AI Agent platform** is where this comes together for every role: it provides the agents and approved tools with these limits — iteration caps, approval gates, input validation — already built in, so you build on safe defaults instead of wiring them up per project.
 
 ## How each role uses this
 
