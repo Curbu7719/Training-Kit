@@ -38,47 +38,47 @@ const m = (code: string, level: Level = 'L1'): RoleModule => ({ code, level });
 
 export const ROLE_PATHS: Record<RoleKey, RolePath> = {
   portfolio_manager: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('ai_delivery_portfolio', 'L2'), m('ai_value_scaling'), m('ai_fit_buildbuy'), m('ai_risk_governance')],
-    recommended: [m('evaluation'), m('ai_operations_sre')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy', 'L2'), m('ai_risk_governance', 'L2'), m('ai_value_scaling', 'L2'), m('ai_delivery_portfolio', 'L2'), m('vibe_coding')],
+    recommended: [],
   },
   project_manager: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('ai_delivery_portfolio'), m('ai_value_scaling'), m('ai_risk_governance')],
-    recommended: [m('tokens'), m('evaluation'), m('vibe_coding'), m('ai_fit_buildbuy')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance', 'L2'), m('ai_value_scaling', 'L2'), m('ai_delivery_portfolio', 'L2'), m('vibe_coding')],
+    recommended: [],
   },
   governance: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('ai_risk_governance'), m('security_privacy'), m('guardrails')],
-    recommended: [m('evaluation'), m('ai_fit_buildbuy'), m('ai_delivery_portfolio'), m('tool_use_agents')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails', 'L2'), m('security_privacy', 'L2'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance', 'L2'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
   developer: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('prompting'), m('context_management'), m('tool_use_agents'), m('rag'), m('evaluation'), m('vibe_coding')],
-    recommended: [m('guardrails'), m('cost_latency'), m('security_privacy'), m('ai_architecture')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens', 'L2'), m('context_management', 'L2'), m('prompting', 'L2'), m('guardrails'), m('security_privacy'), m('tool_use_agents', 'L2'), m('rag', 'L2'), m('evaluation', 'L2'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding', 'L2')],
+    recommended: [],
   },
   designer: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('prompting'), m('context_management'), m('guardrails')],
-    recommended: [m('tokens'), m('evaluation'), m('vibe_coding'), m('ai_value_scaling')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management', 'L2'), m('prompting', 'L2'), m('guardrails', 'L2'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
   enterprise_architect: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('ai_architecture'), m('ai_fit_buildbuy'), m('rag'), m('tool_use_agents'), m('security_privacy'), m('cost_latency')],
-    recommended: [m('tokens'), m('ai_risk_governance'), m('evaluation'), m('ai_operations_sre'), m('ai_delivery_portfolio'), m('context_management')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy', 'L2'), m('tool_use_agents', 'L2'), m('rag', 'L2'), m('evaluation'), m('cost_latency', 'L2'), m('ai_architecture', 'L2'), m('ai_operations_sre'), m('ai_fit_buildbuy', 'L2'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
   tester: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('evaluation'), m('guardrails'), m('prompting')],
-    recommended: [m('security_privacy'), m('tool_use_agents'), m('context_management'), m('rag')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting', 'L2'), m('guardrails', 'L2'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation', 'L2'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
   release_manager: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('ai_operations_sre'), m('evaluation'), m('ai_delivery_portfolio')],
-    recommended: [m('cost_latency'), m('guardrails'), m('ai_risk_governance')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation', 'L2'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre', 'L2'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio', 'L2'), m('vibe_coding')],
+    recommended: [],
   },
   devops_engineer: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('ai_operations_sre'), m('cost_latency'), m('evaluation')],
-    recommended: [m('tool_use_agents'), m('guardrails'), m('security_privacy'), m('ai_architecture')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens', 'L2'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation', 'L2'), m('cost_latency', 'L2'), m('ai_architecture'), m('ai_operations_sre', 'L2'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
   infrastructure_engineer: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('cost_latency'), m('ai_operations_sre'), m('ai_architecture')],
-    recommended: [m('security_privacy'), m('tool_use_agents'), m('rag'), m('context_management')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens', 'L2'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency', 'L2'), m('ai_architecture', 'L2'), m('ai_operations_sre', 'L2'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
   security_engineer: {
-    core: [m('using_ai_safely'), m('llm_foundations'), m('security_privacy'), m('guardrails'), m('ai_risk_governance')],
-    recommended: [m('tool_use_agents'), m('rag'), m('evaluation'), m('ai_architecture'), m('ai_operations_sre')],
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails', 'L2'), m('security_privacy', 'L2'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance', 'L2'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
+    recommended: [],
   },
 };
