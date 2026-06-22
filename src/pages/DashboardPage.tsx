@@ -40,13 +40,17 @@ const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scali
 
 const VIBE_CODES = ['vibe_coding'] as const;
 
-const MODULE_CODES = [...SDLC_CODES, ...STRATEGY_CODES, ...VIBE_CODES] as const;
+// Universal safety core — shown first, required for every role.
+const FOUNDATION_CODES = ['using_ai_safely'] as const;
+
+const MODULE_CODES = [...FOUNDATION_CODES, ...SDLC_CODES, ...STRATEGY_CODES, ...VIBE_CODES] as const;
 
 type ModuleCode = (typeof MODULE_CODES)[number];
 
 // Draft estimated minutes per level (L1 = foundations, L2 = deep dive).
 // Language-agnostic; rendered with a localized "~N min" suffix.
 const MODULE_MINUTES: Record<ModuleCode, { l1: number; l2: number }> = {
+  using_ai_safely:      { l1: 12, l2: 12 },
   llm_foundations:      { l1: 15, l2: 15 },
   tokens:               { l1: 12, l2: 15 },
   context_management:   { l1: 15, l2: 15 },
@@ -67,6 +71,7 @@ const MODULE_MINUTES: Record<ModuleCode, { l1: number; l2: number }> = {
 };
 
 const SECTIONS = [
+  { titleKey: 'section.foundations.title', codes: FOUNDATION_CODES },
   { titleKey: 'section.sdlc.title', codes: SDLC_CODES },
   { titleKey: 'section.strategy.title', codes: STRATEGY_CODES },
   { titleKey: 'section.vibe.title', codes: VIBE_CODES },

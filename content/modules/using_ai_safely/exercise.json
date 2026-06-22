@@ -1,0 +1,24 @@
+{
+  "type": "mcq",
+  "prompt_md": "You're using the company's AI assistant in everyday work. **Select every option that is a safe habit** (the things you *should* do).",
+  "spec": {
+    "choices": [
+      "Treat AI answers as drafts and verify anything that ships or decides",
+      "Use the approved AI platform and keep PII and secrets out of prompts",
+      "Paste a customer record into any chatbot as long as it's just for a quick answer",
+      "Stop and flag it when AI proposes an action that came from content you didn't write",
+      "Repeat an AI answer to a customer because it sounded confident",
+      "Escalate high-stakes or regulated decisions to a human instead of letting AI decide"
+    ],
+    "multi": true
+  },
+  "answer_key": {
+    "correct": [
+      0,
+      1,
+      3,
+      5
+    ]
+  },
+  "max_score": 10
+}

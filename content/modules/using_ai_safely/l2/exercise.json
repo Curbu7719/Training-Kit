@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "A teammate pastes a customer's full support record (name, email, account ID) into a public chatbot to get a quick summary, and is about to forward the AI's summary — which includes a refund figure — straight to the customer.",
+  "spec": {
+    "decision_choices": [
+      "Stop: the record shouldn't go to an unapproved tool, and the refund figure must be verified before it reaches the customer",
+      "Let it go — it's just a summary and speed matters",
+      "Only fix the chatbot choice; the refund figure is fine to send as-is",
+      "Only verify the figure; the tool choice doesn't matter"
+    ],
+    "reason_choices": [
+      "Confidential PII must stay on the approved platform, and any customer-facing number is high-stakes and needs a trusted-source check",
+      "Summaries are always safe to forward without checking",
+      "Public chatbots are fine as long as the output looks reasonable",
+      "AI figures are reliable enough to send to customers without verification"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

@@ -42,7 +42,7 @@ const en = {
   // ---------------------------------------------------------------------------
   'dashboard.learningPath': 'Your learning path',
   'dashboard.modulesPassed': '{passed}/{total} modules passed',
-  'dashboard.summary': '17 modules · two levels each · complete L1 to unlock L2',
+  'dashboard.summary': '18 modules · two levels each · complete L1 to unlock L2',
   'dashboard.badges': 'Your badges',
   'dashboard.loadingProgress': 'Loading progress…',
   'dashboard.newToAi': 'New to AI? Read “AI in 5 minutes” first',
@@ -265,6 +265,8 @@ const en = {
   // Dashboard module titles and descriptions
   // Keyed as module.<code>.title / .desc
   // ---------------------------------------------------------------------------
+  'module.using_ai_safely.title': 'Using AI Safely — for Everyone',
+  'module.using_ai_safely.desc': 'The shared habits for safely USING the company’s AI tools and agents: treat output as a draft to verify, keep PII and secrets out of prompts, watch for hidden instructions in fetched content, and escalate high-stakes decisions. No coding needed.',
   'module.llm_foundations.title': 'How LLMs Work',
   'module.llm_foundations.desc': 'What an LLM is and does; capabilities and limits; choosing the right model for a task.',
 
@@ -302,6 +304,7 @@ const en = {
   'module.ai_operations_sre.desc': 'Operating AI agents that take actions across your SDLC and ops: bounding blast radius, approval gates, action audit trails, agentic FinOps, and incident response with and about agents.',
 
   // Section headings
+  'section.foundations.title': 'Start here — for everyone',
   'section.sdlc.title': 'AI in the SDLC',
   'section.strategy.title': 'AI Strategy Literacy',
   'section.vibe.title': 'Vibe Coding',

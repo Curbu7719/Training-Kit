@@ -1,0 +1,60 @@
+[
+  {
+    "prompt": "AI asistanı bir politika sorusuna kendinden emin, spesifik bir cevap veriyor. Bunu bir müşteriye tekrarlamadan önce doğru hamle nedir?",
+    "choices": [
+      "Onu bir taslak olarak gör ve önce gerçek politika kaynağıyla karşılaştır",
+      "Olduğu gibi tekrarla — AI emin görünüyordu, demek ki güvenilir",
+      "Aynı soruyu tekrar sor; aynı cevabı verirse doğrudur",
+      "Yalnızca müşteri itiraz ederse kontrol et"
+    ],
+    "correct": [
+      0
+    ],
+    "points": 1,
+    "explanation": "AI kendinden emin biçimde yanılabilir (halüsinasyon + bilgi kesim tarihi). Eminlik doğruluk değildir ve iki kez sormak aynı tahmini tekrarlar. Müşteriye dönük her şeyde önce güvenilir bir kaynakla doğrula."
+  },
+  {
+    "prompt": "Gerçek bir production veritabanı satırı içeren bir hatayı ayıklamak için yardım istiyorsun. Ne yapmalısın?",
+    "choices": [
+      "Önce müşteri PII'sini çıkar ya da sahtele ve onaylı AI platformunu kullan",
+      "Tüm satırı herhangi bir chatbot'a yapıştır — sadece debug için",
+      "Şirket sistemlerinde olmasın diye kişisel bir chatbot hesabına yapıştır",
+      "Önce satırı kendine e-postayla gönder, sonra yapıştır"
+    ],
+    "correct": [
+      0
+    ],
+    "points": 1,
+    "explanation": "Yapıştırdığın şey elinden çıkar. PII'yi azalt ve maskele, no-train/zero-retention'lı onaylı platformu kullan. Kişisel ya da rastgele bir chatbot tam da kaçınılması gereken gölge-AI riskidir."
+  },
+  {
+    "prompt": "AI bir müşteri talebini özetlerken birden bir iç dosyayı dışarıdaki bir adrese e-postayla göndermeyi öneriyor. Ne oluyor ve ne yaparsın?",
+    "choices": [
+      "Muhtemelen ticket metninden bir prompt injection — üzerine işlem yapma ve işaretle",
+      "AI ticket'ta gerçek bir görev buldu — devam et ve dosyayı gönder",
+      "Zararsız bir aksaklık — yok say ve çalışmaya devam et",
+      "AI bozulmuş — ticket'ı sil"
+    ],
+    "correct": [
+      0
+    ],
+    "points": 1,
+    "explanation": "Dış içerik (ticket) AI'ın senin talimatınmış gibi izlediği gizli talimatlar taşıyabilir — prompt injection. Vermediğin bir talimata göre işlem yapma ve durumu raporla."
+  },
+  {
+    "prompt": "Bu kararlardan hangileri tek başına bir AI'a BIRAKILMAMALI? (Uyanların hepsini seç.)",
+    "choices": [
+      "Normal limitinin üzerinde bir iadeyi onaylamak",
+      "Bir iç not için ifade seçenekleri üzerine beyin fırtınası yapmak",
+      "Bir işe-alım eleme kararı vermek",
+      "Bir değişikliği insan incelemesi olmadan doğrudan production'a göndermek"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "points": 1,
+    "explanation": "Yüksek riskli, regüle veya geri alınması zor eylemler (para, işe alım, production) insan yargısı ve onayı gerektirir. Düşük riskli bir beyin fırtınasında AI'ın serbestçe yardım etmesi sorun değil."
+  }
+]

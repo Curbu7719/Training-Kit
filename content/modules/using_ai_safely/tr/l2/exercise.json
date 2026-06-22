@@ -1,0 +1,23 @@
+{
+  "type": "scenario",
+  "prompt_md": "Bir ekip arkadaşın, hızlı bir özet almak için bir müşterinin tüm destek kaydını (ad, e-posta, hesap ID) bir public chatbot'a yapıştırıyor ve AI'ın — bir iade rakamı da içeren — özetini doğrudan müşteriye iletmek üzere.",
+  "spec": {
+    "decision_choices": [
+      "Dur: kayıt onaylanmamış bir araca gitmemeli ve iade rakamı müşteriye ulaşmadan önce doğrulanmalı",
+      "Bırak gitsin — sadece bir özet ve hız önemli",
+      "Yalnızca chatbot seçimini düzelt; iade rakamı olduğu gibi gönderilebilir",
+      "Yalnızca rakamı doğrula; araç seçimi önemli değil"
+    ],
+    "reason_choices": [
+      "Confidential PII onaylı platformda kalmalı ve müşteriye dönük her sayı yüksek risklidir, güvenilir-kaynak kontrolü ister",
+      "Özetler her zaman kontrolsüz iletilebilir",
+      "Çıktı makul göründüğü sürece public chatbot'lar sorun değildir",
+      "AI rakamları, doğrulamadan müşteriye gönderilecek kadar güvenilirdir"
+    ]
+  },
+  "answer_key": {
+    "decision": 0,
+    "reason": 0
+  },
+  "max_score": 10
+}

@@ -43,7 +43,7 @@ const tr = {
   // ---------------------------------------------------------------------------
   'dashboard.learningPath': 'Öğrenme yolunuz',
   'dashboard.modulesPassed': '{passed}/{total} modül tamamlandı',
-  'dashboard.summary': '17 modül · her biri iki seviye · L2\'yi açmak için L1\'i tamamlayın',
+  'dashboard.summary': '18 modül · her biri iki seviye · L2\'yi açmak için L1\'i tamamlayın',
   'dashboard.badges': 'Rozetleriniz',
   'dashboard.loadingProgress': 'İlerleme yükleniyor…',
   'dashboard.newToAi': 'AI\'a yeni misin? Önce "5 dakikada AI"yı oku',
@@ -265,6 +265,8 @@ const tr = {
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions
   // ---------------------------------------------------------------------------
+  'module.using_ai_safely.title': 'AI\'ı Güvenle Kullanmak — Herkes İçin',
+  'module.using_ai_safely.desc': 'Şirketin AI araçlarını ve agent\'larını güvenle KULLANMAK için ortak alışkanlıklar: çıktıyı doğrulanacak bir taslak gör, PII ve secret\'ları prompt\'lardan uzak tut, çekilen içerikteki gizli talimatlara dikkat et ve yüksek riskli kararları yükselt. Kod gerekmez.',
   'module.llm_foundations.title': 'LLM\'ler Nasıl Çalışır?',
   'module.llm_foundations.desc': 'LLM nedir ve ne yapar; yetenekleri ve sınırlılıkları; görev için doğru modeli seçmek.',
 
@@ -302,6 +304,7 @@ const tr = {
   'module.ai_operations_sre.desc': 'SDLC ve ops genelinde aksiyon alan AI agent\'larını işletmek: blast radius\'u sınırlama, onay kapıları, action audit trail\'ler, agentic FinOps ve agent\'larla/agent\'lar hakkında olay müdahalesi.',
 
   // Bölüm başlıkları
+  'section.foundations.title': 'Buradan başla — herkes için',
   'section.sdlc.title': 'SDLC\'de AI',
   'section.strategy.title': 'AI Strateji Okuryazarlığı',
   'section.vibe.title': 'Vibe Coding',

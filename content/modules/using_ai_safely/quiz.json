@@ -1,0 +1,60 @@
+[
+  {
+    "prompt": "An AI assistant gives you a confident, specific answer to a policy question. Before you repeat it to a customer, what's the right move?",
+    "choices": [
+      "Treat it as a draft and check it against the real policy source first",
+      "Repeat it as-is — the AI sounded sure, so it's reliable",
+      "Ask the same question again; if it answers the same way, it must be correct",
+      "Only check it if the customer pushes back"
+    ],
+    "correct": [
+      0
+    ],
+    "points": 1,
+    "explanation": "AI can be confidently wrong (hallucination + knowledge cutoff). Confidence is not correctness, and repeating it twice just repeats the same guess. For anything customer-facing, verify against a trusted source first."
+  },
+  {
+    "prompt": "You want help debugging an error that includes a real production database row. What should you do?",
+    "choices": [
+      "Remove or fake the customer PII first, and use the approved AI platform",
+      "Paste the whole row into any chatbot — it's just for debugging",
+      "Paste it into a personal chatbot account so it's not on company systems",
+      "Email the row to yourself first, then paste it"
+    ],
+    "correct": [
+      0
+    ],
+    "points": 1,
+    "explanation": "What you paste leaves your control. Minimise and redact PII, and use the sanctioned platform with no-train/zero-retention. A personal or random chatbot is exactly the shadow-AI risk to avoid."
+  },
+  {
+    "prompt": "While the AI is summarising a customer ticket, it suddenly proposes emailing an internal file to an outside address. What's happening, and what do you do?",
+    "choices": [
+      "Likely a prompt injection from the ticket text — don't act on it and flag it",
+      "The AI found a real task in the ticket — go ahead and send the file",
+      "A harmless glitch — just ignore it and keep working",
+      "The AI is broken — delete the ticket"
+    ],
+    "correct": [
+      0
+    ],
+    "points": 1,
+    "explanation": "Outside content (the ticket) can carry hidden instructions the AI follows as if they were yours — prompt injection. Don't act on an instruction you didn't give, and report it."
+  },
+  {
+    "prompt": "Which of these decisions should NOT be left to an AI acting on its own? (Select all that apply.)",
+    "choices": [
+      "Approving a refund above your normal limit",
+      "Brainstorming wording options for an internal note",
+      "Making a hiring screening decision",
+      "Pushing a change straight to production with no human review"
+    ],
+    "correct": [
+      0,
+      2,
+      3
+    ],
+    "points": 1,
+    "explanation": "High-stakes, regulated, or hard-to-undo actions (money, hiring, production) need human judgment and approval. A low-stakes brainstorm is fine to let AI help with freely."
+  }
+]
