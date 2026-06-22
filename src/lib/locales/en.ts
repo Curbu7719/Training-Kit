@@ -298,7 +298,7 @@ const en = {
   'module.ai_architecture.title': 'AI System Architecture',
   'module.ai_architecture.desc': 'Reading and drawing a full AI system architecture; identifying security and privacy risks.',
 
-  'module.ai_operations_sre.title': 'AI in Operations — Agent-Driven SRE & Ops',
+  'module.ai_operations_sre.title': 'AI in Operations — SRE & Ops',
   'module.ai_operations_sre.desc': 'Operating AI agents that take actions across your SDLC and ops: bounding blast radius, approval gates, action audit trails, agentic FinOps, and incident response with and about agents.',
 
   // Section headings

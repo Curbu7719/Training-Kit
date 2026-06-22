@@ -298,7 +298,7 @@ const tr = {
   'module.ai_architecture.title': 'AI Sistem Mimarisi',
   'module.ai_architecture.desc': 'Tam bir AI sistem mimarisini okumak ve çizmek; güvenlik ve gizlilik risklerini belirlemek.',
 
-  'module.ai_operations_sre.title': 'Operasyonda AI — Agent Güdümlü SRE & Ops',
+  'module.ai_operations_sre.title': 'Operasyonda AI — SRE & Ops',
   'module.ai_operations_sre.desc': 'SDLC ve ops genelinde aksiyon alan AI agent\'larını işletmek: blast radius\'u sınırlama, onay kapıları, action audit trail\'ler, agentic FinOps ve agent\'larla/agent\'lar hakkında olay müdahalesi.',
 
   // Bölüm başlıkları

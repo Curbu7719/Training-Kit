@@ -1,5 +1,5 @@
 -- ============================================================
--- TrainingKit — Agent-Driven SRE & Ops module (SDLC section)
+-- TrainingKit — SRE & Ops module (SDLC section)
 -- Migration: 0010_ai_operations_sre_module.sql
 --
 -- Adds one module to the operational 'sdlc' section: operating AI agents
@@ -12,7 +12,7 @@
 -- ============================================================
 
 insert into public.modules (code, title, sort_order, category) values
-  ('ai_operations_sre', 'AI in Operations — Agent-Driven SRE & Ops', 15, 'sdlc');
+  ('ai_operations_sre', 'AI in Operations — SRE & Ops', 15, 'sdlc');
 
 insert into public.badges (code, title, criteria) values
   ('badge_ai_operations',
