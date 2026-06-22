@@ -1,37 +1,13 @@
-# Worked Example: Hardening and Rolling Out a Model Upgrade
+# Worked Example: Make Your AI Helper Survive a Bad Day
 
-An established support assistant runs on "Model A" through an orchestration layer. The
-team wants to upgrade to a newer, cheaper "Model B" without risking a quality regression
-or an outage. The L1 architecture is in place; now they harden it.
+Your release-notes helper works — until the model provider has an outage, rate-limits you, or returns garbage mid-release. At depth, architecture is about how the pieces *fail* and how you keep working anyway. Here's how a few reliability patterns mean a provider's bad day isn't yours.
 
-**Step 1 — Make the provider truly swappable.** The orchestrator already calls an
-internal `answer()` interface, but Model A's SDK details have leaked into a few spots.
-They clean this up so the interface returns a uniform result (text, token usage,
-normalized error type). Now selecting A or B is a single config value.
+**The abstraction earns its keep on failure.** Because the model sits behind an internal interface, you can add a **fallback** — primary provider down, fail over to a secondary — without touching the feature. *Why does this make your day easier?* Your release doesn't stop because one vendor is having an incident; the helper quietly switches and keeps drafting.
 
-**Step 2 — Add reliability around the call.** They wrap `answer()` with:
+**Design for the remote call to misbehave.** Provider APIs time out, rate-limit, and sometimes return malformed output. *The patterns:* a **timeout** on every call, **retries with backoff** for transient errors, a **circuit breaker** so a failing provider doesn't cascade. *Why bother?* Without them, one slow call hangs your tool; with them, it degrades gracefully instead of freezing.
 
-- a **timeout** (fail fast instead of hanging the user),
-- **retry with backoff** on transient errors, capped at 2 attempts to bound cost/latency,
-- a **circuit breaker** that, after repeated failures, stops calling the provider for a
-  short window and serves a **degraded** "please retry shortly" message.
+**Have a degraded mode.** When everything's struggling, you fall back to a cheaper backup model or a cached answer rather than a hard error. *Why use AI this way?* A slightly-less-polished draft beats a red error screen on release day — the helper stays useful at its worst, not just its best.
 
-**Step 3 — Evaluate offline before any user sees Model B.** They run a fixed **eval set**
-of 200 real questions with known-good answers through both models and compare
-groundedness (does the answer cite a retrieved passage?), refusal rate, and cost.
-Model B matches quality at ~40% lower cost — but they spot it occasionally drops
-citations, so they tighten the **output guardrail** to reject uncited answers.
+**Roll out changes safely.** A new prompt or model goes out behind a flag, to a fraction of runs first, watched against your evals. *Why?* So a regression hits one canary release note, not every team's, and you can roll back in one switch.
 
-**Step 4 — Shadow run.** For a week, every live request still goes to Model A (the user
-sees A's answer), but a copy is sent to Model B and logged. Comparing logs confirms B
-behaves well on real traffic, not just the eval set.
-
-**Step 5 — Gradual rollout behind a flag.** They flip a feature flag to route **5%** of
-traffic to Model B, watch the observability dashboards (groundedness, latency, error
-rate), then expand to 25%, 50%, and finally 100%. A regression at any step is a one-line
-**rollback**: flip the flag back to Model A.
-
-**Why this works.** Every risky change is reversible and observable. The provider
-abstraction made the swap a config change; reliability patterns contained provider
-failures; offline eval plus a shadow run caught quality issues before users did; and the
-flagged, gradual rollout kept the blast radius small with an instant rollback path.
+**The takeaway:** at depth, the question isn't "does it work?" but "what happens when the provider doesn't?" Fallbacks, timeouts, retries, a degraded mode, and safe rollout are what turn a helper that works on good days into one you trust on bad ones.

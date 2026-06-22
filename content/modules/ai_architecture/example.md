@@ -1,38 +1,13 @@
-# Worked Example: Architecting an Internal Policy Assistant
+# Worked Example: Build Your AI Helper So It Doesn't Fall Over
 
-A company wants an internal assistant that answers employee questions about HR and IT
-policies, citing the relevant policy document. The team sketches the architecture before
-writing code.
+You want to wrap a model into a small internal tool — say, one that drafts release notes from merged PRs for you. The temptation is "just call the model API from the button." That works in the demo and falls over in real use. Here's how a little architecture around the model makes the helper something you actually rely on.
 
-**The request flow they design.**
+**Keep your logic off the client.** The button shouldn't build the prompt and call the model directly. *Why?* Put an **orchestration layer** in between — it builds the prompt, picks the model, enforces your rules. *Why does this make your day easier?* When you want to tweak the prompt or swap models, you change one server-side place, not every button — and your API key never ships to the browser.
 
-1. **Client** — a chat box in the internal portal. It only captures the question and
-   renders the answer; it holds no API keys and runs no business logic.
-2. **App / orchestration layer** — a server-side service receives the question. This is
-   where everything important happens.
-3. **Retrieval (vector store)** — the orchestrator embeds the question and searches a
-   vector store of policy documents, pulling the 3 most relevant passages.
-4. **Guardrail (input)** — it checks the question isn't asking for something off-limits
-   (e.g., another employee's salary) before proceeding.
-5. **Model provider** — the orchestrator builds a prompt containing the retrieved
-   passages plus the question and calls the LLM, instructing it to answer *only* from the
-   supplied passages and to cite them.
-6. **Guardrail (output)** — it verifies the answer cites a real retrieved passage and
-   contains no obvious PII leak before returning it.
-7. **Observability** — the whole exchange (question, retrieved docs, model response,
-   latency, tokens) is logged for evaluation.
+**Treat the model as swappable.** You call it behind an internal interface, not hard-wired. *Why use AI this way?* When a cheaper or better model lands next quarter, you switch it in one place — the helper doesn't care which model writes the notes, only that something does.
 
-**Key decisions and why.**
+**Add the supporting pieces as you need them.** Want it to ground notes in your actual changelog? Add a **vector store** and retrieve. Want it to pull the real ticket titles? Give it a **tool**. Want to block a malformed draft? Add a **guardrail**. *Why does this matter?* The model alone is a text predictor — these components are what turn it into a helper that uses *your* facts.
 
-- **Secrets stay server-side.** The model API key lives in the orchestration layer's
-  environment, never in the browser, so it can't be stolen from client code.
-- **The model is behind an abstraction.** The orchestrator calls an internal
-  `answer()` interface, so swapping providers or routing to a cheaper model later is a
-  config change, not a rewrite.
-- **Grounding via retrieval** reduces hallucination: the model answers from real policy
-  text instead of its own memory, and citations make answers verifiable.
-- **Fallback.** If the provider call fails, the orchestrator retries once, then returns a
-  graceful "try again shortly" message rather than crashing.
+**See what it did.** You log each run — prompt, model, output. *Why?* When a release note comes out wrong, you can look at what actually happened instead of guessing.
 
-**Rollout.** They ship behind a feature flag to the IT team first, watch the evaluation
-logs for wrong or uncited answers, then expand company-wide once quality holds.
+**The takeaway:** a useful AI helper is almost never "just the model." A thin orchestration layer, a swappable model, the few supporting pieces you need, and basic logging are what turn a flaky demo into a tool you trust on every release.

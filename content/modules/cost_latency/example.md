@@ -1,42 +1,13 @@
-# Worked Example: Tuning an AI PR-Reviewer in CI
+# Worked Example: Add an AI Reviewer to CI Without It Becoming a Tax
 
-A platform team ships an **AI code reviewer** that runs on every pull request and posts
-inline comments. The first version sends each changed file *plus its whole parent module*
-and the team's full style guide to a large model, then asks for a detailed prose review.
+You want an AI code reviewer that leaves inline comments on every PR — it would catch the nits you're tired of catching by hand. But wire it up naively and it runs dozens of times a day, the CI bill climbs every sprint, and everyone waits 30 seconds before they can merge. Here's how cost and latency thinking keeps the help from turning into a tax.
 
-**Baseline per PR.**
+**The chore it removes: nitpicking every diff.** You're tired of flagging the same style and edge-case misses. *Why use AI here?* An always-on reviewer does that grind on every PR so you review for design, not commas — but only if it's cheap and fast enough that nobody dreads it.
 
-| Part | Approx. tokens | Notes |
-|---|---|---|
-| Input (full files + style guide + diff) | 9,000 | Most files are unchanged context |
-| Output (long prose review) | 1,500 | Restates code before each point |
+**Cost: you pay per token, twice.** Send the whole diff *plus* thousands of lines of surrounding files and you pay for all of it — and **output is priced higher than input**. *The lever:* send only the diff and the few files it touches, and ask for "top issues only," not an essay. The trimmed output cuts the bill more than trimming input does.
 
-With the large model at **$5 per million input tokens** and **$15 per million output
-tokens**, one review costs roughly:
+**Latency: people wait on the merge.** A big model that reasons for 30 seconds blocks the merge. *The lever:* route routine PRs to a faster, smaller model and reserve the big one for the scary refactors. *Why does this make your day easier?* The check clears in seconds, so the reviewer speeds you up instead of standing between you and merge.
 
-`(9,000 × $5 + 1,500 × $15) ÷ 1,000,000 = $0.045 + $0.0225 = $0.0675`
+**The triangle you can't cheat.** Quality, cost, and latency trade off — you can't max all three. *Why does naming it help?* You decide on purpose: "good enough and fast on every PR, deep and slow only when escalated," instead of paying for max quality on a typo fix.
 
-Across ~600 PRs/month that's about **$40**, and each review takes ~11 seconds — long
-enough that developers tab away and lose flow waiting for the merge gate.
-
-**Applying levers.** The team makes three changes:
-
-1. **Trim context** — send only the changed hunks plus a few lines around them, not whole
-   files, cutting input from 9,000 to **3,000 tokens**.
-2. **Cache the prefix** — the style guide and review rubric are identical on every PR, so
-   they prefix-cache it instead of re-sending it raw each time.
-3. **Shorter output** — instruct for "top 5 issues as terse bullets," dropping output to
-   **400 tokens**, and **stream** so comments appear as they're written.
-
-**After tuning.**
-
-`(3,000 × $5 + 400 × $15) ÷ 1,000,000 = $0.015 + $0.006 ≈ $0.021`
-
-Cost per review drops from **$0.0675 to ~$0.021** (about 70% cheaper, before counting the
-extra prefix-cache saving), and latency falls to roughly **4 seconds**, with the first
-comment streaming in under a second.
-
-**The trade-off check.** Terse bullets on changed hunks catch slightly fewer cross-file
-issues than the full-context review. The team confirms that for routine PRs this is the
-right balance, and keeps a heavier full-context pass — large model, whole module — for
-release branches only. A deliberate, per-check point on the quality/cost/latency triangle.
+**The takeaway:** an AI step that runs on every commit lives or dies on cost and latency. Trim the input, cap the output, match the model to the PR — and the reviewer becomes a help you keep, not a tax you rip out next sprint.

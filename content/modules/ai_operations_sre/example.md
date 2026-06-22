@@ -1,62 +1,13 @@
-# Worked Example: Putting an On-Call Agent Into Production
+# Worked Example: Let an Agent Take the 3 a.m. Page — Within Limits
 
-Your team has built an **on-call agent**: it receives alerts, investigates with read-only tools
-(logs, metrics, traces), and can remediate. Building it is done; now you have to **operate** it
-safely. Here's how a team stands it up — and survives the first incident the agent itself causes.
+It's 3 a.m. and an alert fires. The dream is an on-call agent that picks it up, investigates, and fixes it before you wake. The nightmare is the same agent confidently restarting the wrong service at 3 a.m. The difference is entirely in how you bound it. Here's how to get the sleep without the blast radius.
 
-## Step 1 — Classify the agent's actions by blast radius
+**The shift that changes everything: tool vs actor.** A chatbot returns text and *you* act on it. An **on-call agent takes the action** — it restarts the service, pushes the config, scales the cluster. *Why does this make your day easier?* It does the investigate-and-remediate grind while you sleep — but because it *acts*, a wrong move is a wrong *action*, not just a wrong answer.
 
-Before granting any autonomy, the team sorts every action the agent can take and sets a
-human-in-the-loop level for each class:
+**Bound the blast radius first.** Before autonomy, you decide what it's *allowed* to touch: read-only investigation freely, low-risk remediations on its own, high-impact actions (touching prod data, scaling spend, deleting) only behind a human gate. *Why use the agent at all then?* Because the vast majority of pages are routine — restart a stuck worker, clear a queue — and the agent clears those instantly, escalating to you only the rare call that needs judgment.
 
-| Action class | Example | Autonomy level |
-|---|---|---|
-| Read-only | Read logs, metrics, traces | Autonomous |
-| Reversible, low-blast | Restart a stateless service, scale up a replica | Autonomous (with rate limit) |
-| Production-facing, risky | Roll back a deploy, change a DB connection | Approve-then-act |
-| Destructive / irreversible | Delete data, drop a resource, run arbitrary shell | Suggest-only |
+**Make every action observable.** The agent logs what it saw, what it decided, and what it did. *Why does this matter?* At 3 a.m. you need to read its actions like a runbook trail — "alert → checked X → restarted Y" — not guess what a black box did to prod.
 
-## Step 2 — Bound it: least privilege, dry-run, approval gates
+**Stay accountable.** A human still owns the outcome. The agent acts within bounds *you* set; you review what it did. *Why?* Autonomy doesn't remove responsibility — it moves your job from doing every step to setting the limits and checking the trail.
 
-The agent gets **read-only** credentials by default; write scopes are granted **per class**, and
-it has no production action without passing a gate. Every write is **plan-then-apply** — the agent
-states the exact change and expected effect first. A **kill-switch** can pause all autonomy in one
-click, and an **action-rate limit** caps how many actions it may take in a window.
-
-## Step 3 — Instrument the action audit trail
-
-Every step the agent takes emits a record: the alert it picked up, the tools it called, what it
-observed, the decision and **why**, and the action taken (or proposed). This trail is correlatable
-to the incident — so a human can later see exactly what the agent did and on what reasoning. App
-dashboards stay green either way; the audit trail is how you know the agent acted *correctly*.
-
-## Step 4 — The first incident is the agent's own
-
-Two weeks in, a "high memory" alert fires on a stateless service. The agent is allowed autonomous
-restarts for that reversible class, so it restarts the service. Memory climbs again; it restarts
-again. A real **memory leak** is the cause — but the agent is treating the symptom, **confident and
-wrong**, and slides into a **restart loop** that masks the leak.
-
-What saves it is the bounding from Step 2:
-
-1. **The action-rate limit trips** — "5 restart actions on one service in 10 minutes" → the agent
-   stops and **escalates** to a human instead of restarting a sixth time.
-2. **The on-call human hits the kill-switch** for that agent's autonomy.
-3. **The audit trail** shows the repeated identical remediation, so the human sees instantly the
-   agent was symptom-fighting, finds the leak, and ships a real fix.
-
-No data was lost and no destructive action ran — because a restart was reversible *and* rate-limited,
-not because the agent was right.
-
-## Step 5 — Close the loop
-
-A **blameless postmortem**: the trigger (memory leak), what worked (rate limit + kill-switch +
-audit trail), and two improvements — add a guard so "same remediation N times → stop and escalate"
-is built in, and move "repeated restart" out of the autonomous class. That guard becomes a
-permanent part of the agent's policy.
-
-**The lesson.** None of this was about a smarter agent. The system stayed safe because the agent
-was **bounded** (least privilege, reversible-only autonomy), **rate-limited and kill-switchable**
-(the loop was caught), **observed** (the audit trail explained the misfire), and **operated** (a
-human stayed accountable and closed the loop). That's the difference between building an agent and
-running one in production.
+**The takeaway:** an acting agent is the difference between a page that wakes you and one that fixes itself. Bound the blast radius, log every action, keep a human accountable — and you get the help of an actor without handing it the keys to break prod unsupervised.

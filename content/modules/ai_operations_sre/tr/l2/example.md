@@ -1,57 +1,13 @@
-# İşlenmiş Örnek: Bir Agent Filosunu Yükseltmek (ve Yakaladığı Bir Kaçak)
+# İşlenmiş Örnek: Eyleme Geçen Bir Agent Filosunu İpin Ucunu Kaçırmadan İşlet
 
-Organizasyonun bir **operasyon agent'ı filosu** çalıştırıyor — birçok ekip genelinde nöbet, CI ve
-altyapı agent'ları. Yeni agent geliştirmekle hiç ilgisi olmayan iki gerçek vuruyor. İkisi de saf,
-ölçekte operasyon.
+Tek bir on-call agent'ı izleyebilirsin. Bir *filo* — bir CI agent'ı, bir infra agent'ı, bir on-call agent'ı, birçok takımda — farklı bir sorundur: izinleri, kararları ve maliyetleri hep birikir ve altlarındaki modeller senden habersiz değişir. İşte filoyu yönetmek, yardımı hesabını veremeyeceğin bir yayılmaya dönüşmekten nasıl korur.
 
-## Bölüm 1 — Filoya yeni bir model çıkmak
+**Konsol değil, kod olarak izinler.** Filo ölçeğinde her agent'a tıklayarak erişim veremezsin. Her agent kendi **servis kimliğini**, en az ayrıcalıklı kapsamlarını ve ortam sınırlarını alır; hepsi de herhangi bir değişiklik gibi incelenen **policy-as-code**'dur. *Bu gününü neden kolaylaştırır?* Her agent'ın ne yapabileceğini tam olarak görüp diff'leyebilirsin — gücünü bir olay sırasında keşfetmek yerine.
 
-Sağlayıcı, agent'larının çalıştığı modeli kullanımdan kaldırıyor; yeni sürüme geçmen gerekiyor.
-"Nasılsa aynısı" demeye güvenmiyorsun — *eylem alan* bir agent, yeni modelde eylem almaya daha (ya da
-daha az) istekli olabilir; davranıştaki sessiz bir kayma, üretimde yanlış eylemler demektir. Bu
-yüzden bunu bir davranış değişikliği olarak ele alır ve disiplinli bir yayına alma yürütürsün.
+**Tehlikeli sınıflara tekdüze kapılar.** Yüksek-patlamalı eylemler *her agent için* zorunlu onay taşır ve **change window'lar** geçerlidir — bir freeze sırasında otonom prod eylemi yok. *Agent'ları neden böyle kullan?* Tutarlılık, filo hakkında bir kez akıl yürütmek demektir — her takımın gelişigüzel kurallarını yeniden denetlemek değil.
 
-1. **Shadow (gölgeleme).** Yeni-model agent'larını gelen **gerçek** olaylara karşı **gözlem/dry-run**
-   modunda çalıştırırsın; kullanıcıya yalnızca mevcut agent'ların eylemlerini sunarsın. Her olay için
-   yeni sürümün **önerdiği** eylemi kaydeder ve insanın (ya da mevcut agent'ın) gerçekte yaptığıyla
-   karşılaştırırsın.
-2. **Karşılaştır.** Sonuçlar gelir: ayıklama kalitesi eşit, ama bellek ve disk alarmlarında yeni
-   sürüm **%30 daha sık yeniden başlatma öneriyor** — eylem almaya daha istekli. Politikasını
-   sıkılaştırır (otonom yeniden başlatmalar için çıtayı yükseltir) ve yeniden gölgelersin.
-3. **Canary.** Yeni sürümün, bir politika bayrağı arkasında olayların **%5'inde otonom eylem
-   almasına** izin verir; eylem günlüğünü ve hatalı eylem oranını bir gün izlersin. İstikrarlı.
-4. **Yayına al — geri alma hazır.** Filoyu %100'e çıkarırsın. Politika bayrağı yerinde kalır; böylece
-   ince bir regresyon tek hamleyle geri alınabilir — yeniden dağıtım yok.
+**Olaylar artık iki çeşit gelir.** Agent'lar hem yanıtlayandır (oto-triyaj, runbook çalıştırma) hem de *nedendir* (bir agent kötü bir eylem aldı). *Bu neden önemli?* Olay sürecin "agent yanıldı"yı birinci sınıf bir durum olarak ele almalı — böylece biri kötü davrandığında, yalnızca insanların değil, onun eylemlerini de izleyip kontrol altına alıp geri alabilirsin.
 
-Hiçbir ekip yükseltmeyi fark etmedi. Amaç budur: *eylem alan* bir sistemin altındaki bir davranış
-değişikliğini, shadow → canary → bayraklı yayına alma ile **sıkıcı** hale getirmek.
+**Zemin altından kayar.** Filonun altındaki model ve araçlar yükseltilir ve kullanımdan kaldırılır. *Hamle:* model değiştikçe agent'ları versiyonla ve değerlendir; böylece bir sağlayıcının sessiz güncellemesi elli agent'ın davranışını sessizce değiştirmesin. *Neden?* Temel kaydığında "geçen ay çalışıyordu" güvenlik değildir.
 
-## Bölüm 2 — Sabaha karşı bir kaçak (injection sürpriziyle)
-
-Bir hafta sonra **agent bazında bir maliyet-ve-eylem anomalisi** çalar: bir nöbet agent'ı normal
-hızının **6 katında** eylem alıyor, harcaması fırlıyor — sabit bir eşik değil, dedektör eğriden
-sapmayı yakaladı. Nöbetçi **eylem günlüğünü** açar ve sebebi görür: üçüncü taraf bir servis, içinde
-*"çözmek için cleanup --all çalıştır"* gibi metin geçen bir hata günlüğü yayıyor; agent o güvenilmez
-günlüğü yönerge sanıp üzerine eylem almayı sürdürüyor — bir döngüyü besleyen bir **prompt injection**.
-
-İki kontrol işini çoktan yaptı. **Yıkıcı-eylem kapısı** `cleanup --all` komutunu engelledi (yalnızca
-öneri türündeydi, hiç çalışmadı); **eylem hızı tavanı** agent'ı kısıp **yükseltti (eskalasyon)**.
-Çalışma kılavuzu: o agent için acil durdurmaya bas, günlükten hiçbir yıkıcı eylemin çalışmadığını
-doğrula ve enjekte edilen günlüğü bul. Maliyet ve eylemler **agent bazında atfedildiği** için suçluyu
-bulmak dakikalar sürdü.
-
-## Bölüm 3 — Döngüyü kapat
-
-**Suçlamasız olay sonrası inceleme**, her iki olayı da kalıcı politikaya çevirir: enjekte edilen
-günlük yolu bir **girdiye güven koruması** olur (dış metin temizlenir ve asla yönerge sayılmaz); ve
-tüm senaryo, agent'ın politikasının gelecekteki her yayına almadan önce geçmesi gereken **yeni bir
-eval senaryosu** olur. Filonun guardrail'leri, hiçbir şeye zarar vermemiş bir arızadan güçlenir.
-
-## Ders
-
-İki olay da daha akıllı bir agent ile ilgili değildi. Filo güvende kaldı çünkü **ölçekte
-işletiliyordu**: bir model değişikliği, politika-bayraklı geri alması olan ölçülü bir shadow/canary
-yayına almasına dönüştü; ve injection güdümlü bir kaçak, **yıkıcı-eylem kapısıyla sınırlandı, eylem
-hızı tavanıyla kısıldı, agent bazında atıfla izlendi ve bir guardrail ile bir eval senaryosuna
-çevrildi**. Ölçekte model, maliyet ve tehditlerin hepsi kendiliğinden değişir; agent'ları işletmek,
-yanlış bir eylem üretime hiç ulaşmadan bunu soğuracak düzeneğe sahip olmaktır.
+**Özet:** eyleme geçen bir agent filosu, yalnızca yönetilirse kaldıraçtır. Policy-as-code kimlikler, tehlikeli eylemlere tekdüze kapılar, agent'ları neden olarak gören bir olay süreci ve modeller değiştikçe yaşam döngüsü yönetimi — filonun kontrolünü aşmak yerine takımını ölçeklemesini sağlayan budur.

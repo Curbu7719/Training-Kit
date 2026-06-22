@@ -1,45 +1,13 @@
-# Çözümlü Örnek: CI'da Bir AI PR İnceleyicisini Ayarlamak
+# İşlenmiş Örnek: CI'a AI İncelemeci Ekle ama Vergiye Dönüşmesin
 
-Bir platform ekibi, her pull request'te çalışan ve satır içi yorumlar gönderen bir **AI kod
-inceleyici** yayınlar. İlk sürüm, her değişen dosyayı *artı onun tüm üst modülünü* ve
-ekibin tam stil kılavuzunu büyük bir modele gönderir, ardından ayrıntılı bir düzyazı
-inceleme ister.
+Her PR'a satır içi yorum bırakan bir AI kod incelemecisi istiyorsun — elle yakalamaktan bıktığın ufak hataları yakalardı. Ama düşünmeden bağlarsan günde onlarca kez çalışır, CI faturası her sprint tırmanır ve herkes merge'den önce 30 saniye bekler. İşte maliyet ve gecikme düşüncesi, yardımı vergiye dönüşmekten nasıl korur.
 
-**PR başına temel (baseline).**
+**Kaldırdığı angarya: her diff'i didiklemek.** Aynı stil ve uç-durum kaçaklarını işaretlemekten bıktın. *Neden AI?* Hep-açık bir incelemeci bu çileyi her PR'da yapar, böylece sen virgülü değil tasarımı incelersin — ama yalnızca kimsenin korkmayacağı kadar ucuz ve hızlıysa.
 
-| Bölüm | Yaklaşık token | Notlar |
-|---|---|---|
-| Input (tüm dosyalar + stil kılavuzu + diff) | 9.000 | Çoğu dosya değişmemiş context'tir |
-| Output (uzun düzyazı inceleme) | 1.500 | Her noktadan önce kodu yeniden ifade eder |
+**Maliyet: token başına, iki kez ödersin.** Tüm diff'i *artı* binlerce satır çevre dosyayı gönder, hepsini ödersin — ve **çıktı, girdiden daha pahalı fiyatlanır**. *Kaldıraç:* yalnızca diff'i ve dokunduğu birkaç dosyayı gönder ve bir deneme değil, "yalnızca en önemli sorunlar" iste. Kırpılan çıktı, faturayı girdiyi kırpmaktan daha çok düşürür.
 
-Büyük model **milyon input token başına 5$** ve **milyon output token başına 15$** ile, bir
-inceleme yaklaşık olarak şu kadara mal olur:
+**Gecikme: insanlar merge için bekler.** 30 saniye akıl yürüten büyük bir model merge'i bloke eder. *Kaldıraç:* rutin PR'ları daha hızlı, küçük bir modele yönlendir ve büyüğü korkutucu refactor'lara sakla. *Bu gününü neden kolaylaştırır?* Kontrol saniyede biter, böylece incelemeci seninle merge arasında durmak yerine seni hızlandırır.
 
-`(9.000 × 5$ + 1.500 × 15$) ÷ 1.000.000 = 0,045$ + 0,0225$ = 0,0675$`
+**Hile yapamayacağın üçgen.** Kalite, maliyet ve gecikme birbiriyle takas edilir — üçünü birden maksimuma çıkaramazsın. *Adını koymak neden işe yarar?* Bilerek karar verirsin: "her PR'da yeterince iyi ve hızlı, yalnızca yükseltildiğinde derin ve yavaş" — bir yazım düzeltmesine maksimum kalite ödemek yerine.
 
-Ayda ~600 PR genelinde bu yaklaşık **40$** eder ve her inceleme ~11 saniye sürer — bir
-geliştiricinin başka sekmeye geçip merge kapısını beklerken akışını kaybetmesine yetecek
-kadar uzun.
-
-**Kaldıraçları uygulamak.** Ekip üç değişiklik yapar:
-
-1. **Context'i kırp** — tüm dosyalar yerine yalnızca değişen parçaları (hunk) artı
-   etraflarındaki birkaç satırı gönderin, input'u 9.000'den **3.000 token'a** düşürerek.
-2. **Ön eki cache'le** — stil kılavuzu ve inceleme kriterleri her PR'de aynıdır, bu yüzden
-   her seferinde ham olarak yeniden göndermek yerine ön ek olarak prefix-cache yaparlar.
-3. **Daha kısa output** — "en önemli 5 sorunu kısa madde işaretleri olarak" talimatı vererek
-   output'u **400 token'a** düşürün ve yorumlar yazıldıkça görünsün diye **stream** edin.
-
-**Ayarlamadan sonra.**
-
-`(3.000 × 5$ + 400 × 15$) ÷ 1.000.000 = 0,015$ + 0,006$ ≈ 0,021$`
-
-İnceleme başına maliyet **0,0675$'dan ~0,021$'a** düşer (prefix-cache tasarrufunu saymadan
-önce yaklaşık %70 daha ucuz) ve latency kabaca **4 saniyeye** iner, ilk yorum bir saniyenin
-altında stream olarak gelir.
-
-**Denge kontrolü.** Değişen parçalar üzerindeki kısa madde işaretleri, tam context'li
-incelemeye göre dosyalar arası sorunları biraz daha az yakalar. Ekip, rutin PR'ler için
-bunun doğru denge olduğunu doğrular ve yalnızca sürüm dallarında daha ağır bir tam context'li
-geçiş — büyük model, tüm modül — saklar. Kalite/maliyet/latency üçgeninde bilinçli, kontrol
-başına bir nokta.
+**Özet:** her commit'te çalışan bir AI adımı, maliyet ve gecikmeyle yaşar ya da ölür. Girdiyi kırp, çıktıyı sınırla, modeli PR'a eşle — incelemeci, gelecek sprint söküp atacağın bir vergi değil, koruyacağın bir yardım olsun.

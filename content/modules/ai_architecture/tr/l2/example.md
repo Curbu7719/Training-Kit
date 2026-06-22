@@ -1,43 +1,13 @@
-# Çözümlü Örnek: Bir Model Yükseltmesini Sağlamlaştırmak ve Yayınlamak
+# İşlenmiş Örnek: AI Yardımcın Kötü Bir Günü Atlatsın
 
-Yerleşik bir destek asistanı, bir orkestrasyon katmanı üzerinden "Model A" üzerinde çalışıyor.
-Ekip, bir kalite regresyonu veya bir kesinti riski almadan daha yeni, daha ucuz bir "Model
-B"ye yükseltmek istiyor. L1 mimarisi yerinde; şimdi onu sağlamlaştırıyorlar.
+Sürüm-notu yardımcın çalışır — ta ki model sağlayıcıda kesinti olana, seni rate-limit'leyene ya da sürümün ortasında çöp döndürene kadar. Derinlikte mimari, parçaların *nasıl* başarısız olduğu ve yine de nasıl çalışmaya devam ettiğinle ilgilidir. İşte birkaç güvenilirlik deseni, bir sağlayıcının kötü gününün senin günün olmaması demektir.
 
-**Adım 1 — Sağlayıcıyı gerçekten takas edilebilir kıl.** Orkestratör zaten dahili bir
-`answer()` arayüzünü çağırıyor, ama Model A'nın SDK ayrıntıları birkaç yere sızmış. Bunu
-temizleyip arayüzün tekdüze bir sonuç (metin, token kullanımı, normalize edilmiş hata türü)
-döndürmesini sağlıyorlar. Artık A veya B'yi seçmek tek bir config değeri.
+**Soyutlama, değerini başarısızlıkta kanıtlar.** Model bir iç arayüzün arkasında durduğundan, özelliğe dokunmadan bir **fallback** ekleyebilirsin — birincil sağlayıcı çökerse ikincile geç. *Bu gününü neden kolaylaştırır?* Sürümün bir tedarikçinin olayı yüzünden durmaz; yardımcı sessizce geçiş yapar ve taslamayı sürdürür.
 
-**Adım 2 — Çağrının etrafına güvenilirlik ekle.** `answer()`'ı şunlarla sarıyorlar:
+**Uzak çağrının yaramazlık yapacağını varsayarak tasarla.** Sağlayıcı API'leri zaman aşımına uğrar, rate-limit yapar ve bazen hatalı çıktı döndürür. *Desenler:* her çağrıda bir **timeout**, geçici hatalar için **geri çekilmeli yeniden deneme** ve başarısız bir sağlayıcının çığ gibi yayılmaması için bir **devre kesici (circuit breaker)**. *Neden uğraşmalı?* Onlar olmadan tek bir yavaş çağrı aracını askıda bırakır; onlarla donmak yerine zarifçe geriler.
 
-- bir **timeout** (kullanıcıyı askıda bırakmak yerine hızlı başarısız ol),
-- geçici hatalarda **backoff'lu retry**, maliyet/latency'yi sınırlamak için en fazla 2
-  denemeyle,
-- tekrarlanan başarısızlıklardan sonra kısa bir süre için sağlayıcıyı çağırmayı durduran ve
-  **degraded** bir "lütfen kısa süre sonra tekrar deneyin" mesajı sunan bir **circuit
-  breaker**.
+**Bir degraded mode'un olsun.** Her şey zorlanırken, sert bir hata yerine daha ucuz bir yedek modele ya da önbelleğe alınmış bir cevaba düşersin. *AI'ı neden böyle kullan?* Sürüm günü, birazcık daha az cilalı bir taslak, kırmızı bir hata ekranını döver — yardımcı yalnızca en iyisinde değil, en kötüsünde de yararlı kalır.
 
-**Adım 3 — Herhangi bir kullanıcı Model B'yi görmeden önce çevrimdışı değerlendir.** Bilinen
-doğru yanıtlara sahip 200 gerçek sorudan oluşan sabit bir **eval setini** her iki modelden
-geçirir ve temellendirmeyi (yanıt getirilen bir pasaja atıfta bulunuyor mu?), reddetme
-oranını ve maliyeti karşılaştırırlar. Model B, ~%40 daha düşük maliyetle kaliteyi eşliyor —
-ama zaman zaman atıfları düşürdüğünü fark ediyorlar, bu yüzden atıfsız yanıtları reddetmek
-için **output guardrail'ini** sıkılaştırıyorlar.
+**Değişiklikleri güvenle yay.** Yeni bir prompt ya da model önce bir flag arkasında, koşuların bir kısmına, eval'lerine karşı izlenerek çıkar. *Neden?* Böylece bir regresyon her takımın değil, tek bir canary sürüm notuna çarpar ve tek bir anahtarla geri alabilirsin.
 
-**Adım 4 — Shadow çalıştırması.** Bir hafta boyunca her canlı istek hâlâ Model A'ya gidiyor
-(kullanıcı A'nın yanıtını görüyor), ama bir kopya Model B'ye gönderilip loglanıyor. Logları
-karşılaştırmak, B'nin yalnızca eval setinde değil, gerçek trafikte de iyi davrandığını
-doğruluyor.
-
-**Adım 5 — Bir flag'in arkasında kademeli yayılım.** Trafiğin **%5'ini** Model B'ye
-yönlendirmek için bir feature flag'i çeviriyorlar, gözlemlenebilirlik panolarını
-(temellendirme, latency, hata oranı) izliyorlar, ardından %25, %50 ve nihayet %100'e
-genişliyorlar. Herhangi bir adımdaki bir regresyon tek satırlık bir **rollback'tir**: flag'i
-Model A'ya geri çevir.
-
-**Bu neden işe yarar.** Her riskli değişiklik geri alınabilir ve gözlemlenebilirdir. Sağlayıcı
-soyutlaması takası bir config değişikliği yaptı; güvenilirlik desenleri sağlayıcı
-başarısızlıklarını kapsadı; çevrimdışı eval artı bir shadow çalıştırması kalite sorunlarını
-kullanıcılardan önce yakaladı; ve flag'li, kademeli yayılım, anlık bir rollback yoluyla etki
-yarıçapını küçük tuttu.
+**Özet:** derinlikte soru "çalışıyor mu?" değil, "sağlayıcı çalışmayınca ne olur?"dur. Fallback'ler, timeout'lar, yeniden denemeler, bir degraded mode ve güvenli yayma; iyi günlerde çalışan bir yardımcıyı kötü günlerde güvendiğin birine çeviren şeydir.

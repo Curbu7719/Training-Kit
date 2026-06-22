@@ -1,65 +1,13 @@
-# İşlenmiş Örnek: Bir Nöbet Agent'ını Üretime Almak
+# İşlenmiş Örnek: Sabah 3'teki Çağrıyı Bir Agent Alsın — Sınırlar İçinde
 
-Ekibiniz bir **nöbet (on-call) agent'ı** geliştirdi: alarmları alır, salt-okunur araçlarla
-(günlükler, metrikler, izler) inceler ve çözüm uygulayabilir. Geliştirmek bitti; şimdi onu güvenle
-**işletmeniz** gerekiyor. İşte bir ekip onu nasıl ayağa kaldırır — ve agent'ın *kendi* yol açtığı
-ilk olaydan nasıl sağ çıkar.
+Saat sabah 3, bir alarm çalıyor. Hayal, onu alan, araştıran ve sen uyanmadan düzelten bir on-call agent. Kâbus ise aynı agent'ın sabah 3'te yanlış servisi kendinden emin biçimde yeniden başlatması. Fark tamamen onu nasıl sınırladığında. İşte blast radius olmadan uykuyu nasıl alırsın.
 
-## Adım 1 — Agent'ın eylemlerini etki alanına göre sınıflandırın
+**Her şeyi değiştiren kayma: araç mı, aktör mü?** Bir chatbot metin döndürür ve onun üzerine *sen* eyleme geçersin. Bir **on-call agent eylemi alır** — servisi yeniden başlatır, config'i push'lar, cluster'ı ölçekler. *Bu gününü neden kolaylaştırır?* Sen uyurken araştır-ve-düzelt çilesini o yapar — ama *eyleme geçtiği* için yanlış bir hamle yalnızca yanlış bir cevap değil, yanlış bir *eylemdir*.
 
-Herhangi bir otonomi vermeden önce ekip, agent'ın yapabileceği her eylemi sıralar ve her tür için
-bir insan denetimi düzeyi belirler:
+**Önce blast radius'u sınırla.** Otonomiden önce, neye *dokunabileceğine* karar verirsin: salt-okunur araştırma serbestçe, düşük riskli düzeltmeler kendi başına, yüksek etkili eylemler (prod verisine dokunma, harcama ölçekleme, silme) yalnızca bir insan kapısı arkasında. *Peki o zaman neden agent?* Çünkü çağrıların büyük çoğunluğu rutindir — takılı bir worker'ı yeniden başlat, bir kuyruğu temizle — ve agent bunları anında halleder, yalnızca yargı gereken nadir çağrıyı sana yükseltir.
 
-| Eylem türü | Örnek | Otonomi düzeyi |
-|---|---|---|
-| Salt-okunur | Günlük, metrik, iz okuma | Otonom |
-| Geri alınabilir, düşük etkili | Stateless servis yeniden başlatma, replica ölçekleme | Otonom (hız sınırlı) |
-| Üretime dokunan, riskli | Bir dağıtımı geri alma, DB bağlantısını değiştirme | Onayla ve uygula |
-| Yıkıcı / geri alınamaz | Veri silme, kaynak kaldırma, gelişigüzel komut çalıştırma | Yalnızca öneri |
+**Her eylemi gözlemlenebilir kıl.** Agent ne gördüğünü, neye karar verdiğini ve ne yaptığını loglar. *Bu neden önemli?* Sabah 3'te onun eylemlerini bir runbook izi gibi okuman gerekir — "alarm → X kontrol edildi → Y yeniden başlatıldı" — bir kara kutunun prod'a ne yaptığını tahmin etmek değil.
 
-## Adım 2 — Sınırlayın: en az yetki, önce planla, onay kapıları
+**Sorumlu kal.** Sonuç hâlâ bir insanındır. Agent *senin* koyduğun sınırlar içinde eyleme geçer; sen ne yaptığını incelersin. *Neden?* Otonomi sorumluluğu kaldırmaz — işini her adımı yapmaktan, sınırları koyup izi kontrol etmeye taşır.
 
-Agent varsayılan olarak **salt-okunur** yetki alır; yazma izinleri **tür bazında** verilir ve bir
-kapıdan geçmeden üretim eylemi yapılmaz. Her yazma **önce planla, sonra uygula** ilkesine tabidir —
-agent önce yapacağı tam değişikliği ve beklenen etkisini söyler. Bir **acil durdurma (kill-switch)**
-tüm otonomiyi tek tıkla durdurabilir; bir **eylem hızı sınırı** ise belirli bir sürede kaç eylem
-alabileceğini kısıtlar.
-
-## Adım 3 — Eylem günlüğünü kurun
-
-Agent'ın attığı her adım bir kayıt bırakır: aldığı alarm, çağırdığı araçlar, gözlemlediği şey,
-kararı ve **nedeni**, bir de alınan (ya da önerilen) eylem. Bu kayıt ilgili olaya bağlanabilir —
-böylece bir insan sonradan agent'ın tam olarak ne yaptığını ve hangi gerekçeyle yaptığını görebilir.
-Uygulama panoları her iki durumda da yeşil kalır; agent'ın *doğru* eylemi aldığını ancak eylem
-günlüğüyle anlarsınız.
-
-## Adım 4 — İlk olay agent'ın kendisidir
-
-İki hafta sonra, stateless bir serviste "yüksek bellek" alarmı çalar. Agent'ın o geri alınabilir tür
-için otonom yeniden başlatma izni vardır, bu yüzden servisi yeniden başlatır. Bellek yine tırmanır;
-tekrar başlatır. Sebep gerçek bir **bellek sızıntısıdır** — ama agent belirtiyi tedavi ediyor,
-**kendinden emin ama yanlış**, ve sızıntıyı gizleyen bir **yeniden başlatma döngüsüne** giriyor.
-
-Onu kurtaran şey Adım 2'deki sınırlamadır:
-
-1. **Eylem hızı sınırı devreye girer** — "10 dakikada aynı serviste 5 yeniden başlatma" → agent
-   altıncı kez başlatmak yerine durur ve bir insana **yükseltir (eskalasyon)**.
-2. **Nöbetçi**, o agent'ın otonomisi için **acil durdurmaya basar**.
-3. **Eylem günlüğü** tekrarlanan aynı müdahaleyi gösterir; insan agent'ın belirtiyle uğraştığını
-   anında görür, sızıntıyı bulur ve gerçek bir düzeltme gönderir.
-
-Hiç veri kaybolmadı, yıkıcı bir eylem çalışmadı — çünkü yeniden başlatma geri alınabilir *ve* hız
-sınırlıydı; agent haklı olduğu için değil.
-
-## Adım 5 — Döngüyü kapatın
-
-Bir **suçlamasız olay sonrası inceleme (postmortem)**: tetikleyici (bellek sızıntısı), işe yarayan
-(hız sınırı + acil durdurma + eylem günlüğü) ve iki iyileştirme — "aynı çözüm N kez denendiyse → dur
-ve yükselt" korumasını yerleşik hale getirmek ve "tekrarlanan yeniden başlatma"yı otonom türden
-çıkarmak. Bu koruma, agent'ın politikasının kalıcı bir parçası olur.
-
-**Ders.** Bunların hiçbiri daha akıllı bir agent ile ilgili değildi. Sistem güvende kaldı çünkü agent
-**sınırlıydı** (en az yetki, yalnızca geri-alınabilir otonomi), **hız sınırlı ve acil
-durdurulabilirdi** (döngü yakalandı), **izleniyordu** (eylem günlüğü yanlış eylemi açıkladı) ve
-**işletiliyordu** (bir insan sorumluluğu taşıdı ve döngüyü kapattı). Bir agent geliştirmekle onu
-üretimde çalıştırmak arasındaki fark budur.
+**Özet:** eyleme geçen bir agent, seni uyandıran çağrı ile kendini düzelten çağrı arasındaki farktır. Blast radius'u sınırla, her eylemi logla, bir insanı sorumlu tut — gözetimsiz prod'u kırma anahtarlarını ona vermeden bir aktörün yardımını al.

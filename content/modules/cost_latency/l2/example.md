@@ -1,46 +1,13 @@
-# Worked Example: A Cascade for an AI Test-Generator in CI
+# Worked Example: Tune the AI Reviewer for Real Team Scale
 
-A team runs an **AI test-generator** in their pipeline: on every pull request it proposes
-unit tests for the changed functions. Volume is **500,000 changed-function reviews per
-month** across the org. The first design sends every function to a large model.
+Your AI reviewer works, but now it runs across thousands of PRs a month and the bill and the wait both matter at scale. At depth, "fast and cheap" splits into specific numbers you can move. Here's how the deeper levers keep the tool helpful when the whole team leans on it.
 
-**All-large baseline (per function).** Input ~300 tokens (the function plus a prompt),
-output ~10 tokens — a quick "needs tests / already covered" triage label before any test
-is drafted. At $5 / million input and $15 / million output:
+**Latency is two numbers.** You measure **time-to-first-token** (how long until the first comment appears) and **tokens-per-second** after that. *Why does this make your day easier?* Streaming gives a low TTFT so you see feedback fast — and you realize a check that dumps 2,000 tokens of prose feels slow even with a great TTFT, so you shorten the review itself.
 
-`(300 × $5 + 10 × $15) ÷ 1,000,000 = $0.00150 + $0.00015 = $0.00165`
+**Caching turns repetition into savings.** Your coding standards and few-shot review examples are the same on every PR. *The lever:* prefix caching reuses that stable prefix at a reduced rate. *Why use AI this way?* You're paying full price to re-send the identical preamble thousands of times — caching it is free money once you notice it.
 
-Monthly: `500,000 × $0.00165 = $825`. TTFT averages ~600 ms — fine for a background CI
-step, but the team wants to cut cost.
+**Route by risk, not by reflex.** A docs typo and an auth refactor don't deserve the same model. *Why does this matter at scale?* Sending everything to the big model multiplies the bill for no extra catch on the routine 90% — tiered routing puts spend where the risk is.
 
-**Designing a cascade.** They add a small model priced at **$0.30 / million input** and
-**$1.20 / million output**, with a confidence check: if the small model's triage label
-clears a confidence threshold, accept it; otherwise escalate the function to the large
-model.
+**Measure before you optimize.** You profile real PRs — token counts in and out, TTFT, where the seconds go — before changing anything. *Why?* The slow step is often a pipeline stage (fetching files, a linter call), not the model — optimizing the wrong one wastes effort.
 
-Measured on a sample, the small model confidently and correctly triages **80%** of changed
-functions (trivial getters, renames, formatting); the remaining **20%** — genuinely new
-logic — escalate.
-
-**Cost per function on the small model:**
-`(300 × $0.30 + 10 × $1.20) ÷ 1,000,000 = $0.00009 + $0.000012 ≈ $0.000102`
-
-**Blended cost per function:**
-- 80% small only: `0.80 × $0.000102 = $0.0000816`
-- 20% small **then** large (both calls): `0.20 × ($0.000102 + $0.00165) = $0.00035`
-- Total ≈ **$0.00043 per function**
-
-Monthly: `500,000 × $0.00043 ≈ $215` — down from **$825**, roughly a **74% saving**, while
-quality on the hard 20% of real logic is preserved because those still reach the large model.
-
-**The trade-offs the team checks.**
-
-- **Latency:** escalated functions now make *two* calls, raising their tail latency. Since
-  test generation is an asynchronous CI step, this is acceptable; for an interactive
-  merge-gate review it might not be.
-- **Threshold tuning:** set the confidence bar too low and the small model skips functions
-  that needed tests (quality drops); too high and too much escalates (savings shrink). They
-  tune it against a labelled validation set of past PRs.
-- **Observability:** they log escalation rate and per-tier accuracy, because if the code mix
-  shifts — say a feature sprint with lots of new logic — the 80/20 split, and the whole cost
-  model, changes.
+**The takeaway:** at team scale, "tune the reviewer" becomes concrete: watch TTFT and token rate, cache the stable prefix, route by risk, and profile before you cut. That's what keeps an every-PR AI step fast and affordable as the whole org leans on it.
