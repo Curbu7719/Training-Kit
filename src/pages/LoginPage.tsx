@@ -12,10 +12,10 @@ export function LoginPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
 
-  // Already authenticated — go straight to the dashboard.
+  // Already authenticated — let the root redirect decide Welcome vs dashboard.
   useEffect(() => {
     if (!loading && user) {
-      navigate('/dashboard', { replace: true });
+      navigate('/', { replace: true });
     }
   }, [user, loading, navigate]);
 
@@ -30,7 +30,7 @@ export function LoginPage() {
   if (user) return null; // redirecting — don't flash the form
 
   function handleSuccess() {
-    navigate('/dashboard', { replace: true });
+    navigate('/', { replace: true });
   }
 
   return (

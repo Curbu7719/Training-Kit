@@ -386,6 +386,20 @@ const tr = {
   'admin.reflections.empty': 'Henüz refleksiyon gönderilmedi.',
   'admin.reflections.work': 'İşinde ne yapacağı',
   'admin.reflections.value': 'Beklenen değer / kazanım',
+
+  // ---------------------------------------------------------------------------
+  // Karşılama / onboarding (CIO mesajı + rol seçimi)
+  // ---------------------------------------------------------------------------
+  'welcome.cio.eyebrow': 'CIO’dan bir mesaj',
+  'welcome.cio.title': 'AI ile inşa etmeyi birlikte öğreniyoruz',
+  'welcome.cio.body1': 'AI; yazılımı tasarlama, geliştirme ve işletme şeklimizi değiştiriyor. Bunun bizim için ne anlama geldiğini net söyleyeyim: bu, gününüzdeki tekrarlayan yükü alıp zamanınızı yalnızca sizin getirebileceğiniz muhakemeye ayırmanızı sağlayan bir araçtır — o işi yapan insanların yerine geçecek bir şey değil.',
+  'welcome.cio.body2': 'Bu eğitim ortak başlangıç noktamız. Pratik ve gerçek, günlük işinizin etrafında kurulu: AI’ın gerçekten yardımcı olduğu yerler, olmadığı yerler ve onu güvenle nasıl kullanacağınız. Burada yanlış soru yoktur — ve AI’ın bazen yanılması beklenen bir durumdur. Onun işini kontrol etmek bir başarısızlık değil, becerinin bir parçasıdır.',
+  'welcome.cio.body3': 'Lütfen ciddiye alın ve tamamlayın. Sonunda, kendi kelimelerinizle işinizde neyi farklı yapacağınızı bize anlatacaksınız. Bir kursu, inşa etme şeklimizde gerçek bir değişime böyle çeviririz.',
+  'welcome.cio.signature': '— CIO’nuz',
+  'welcome.role.title': 'Başlamak için rolünü seç',
+  'welcome.role.help': 'Öğrenme patikanı rolüne göre uyarlayacağız. Daha sonra ana sayfandan değiştirebilirsin.',
+  'welcome.start': 'Başla',
+  'welcome.start.hint': 'Devam etmek için rolünü seç.',
 } as const;
 
 export default tr;

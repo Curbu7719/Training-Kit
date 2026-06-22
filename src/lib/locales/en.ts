@@ -386,6 +386,20 @@ const en = {
   'admin.reflections.empty': 'No reflections submitted yet.',
   'admin.reflections.work': 'What they will do in their work',
   'admin.reflections.value': 'Expected value / gain',
+
+  // ---------------------------------------------------------------------------
+  // Welcome / onboarding (CIO message + role picker)
+  // ---------------------------------------------------------------------------
+  'welcome.cio.eyebrow': 'A message from your CIO',
+  'welcome.cio.title': 'We’re learning to build with AI — together',
+  'welcome.cio.body1': 'AI is changing how we design, build, and run software. Let me be clear about what that means for us: it is a tool to take the repetitive weight off your day so you can spend your time on the judgment only you can bring — not a replacement for the people who do that work.',
+  'welcome.cio.body2': 'This training is our shared starting point. It is practical and built around your real, day-to-day work: where AI genuinely helps, where it does not, and how to use it safely. There are no wrong questions here — and it is expected that AI sometimes gets things wrong. Checking its work is part of the skill, not a failure.',
+  'welcome.cio.body3': 'Please take it seriously and finish it. At the end you will tell us, in your own words, what you will do differently in your work. That is how we turn a course into a real change in how we build.',
+  'welcome.cio.signature': '— Your CIO',
+  'welcome.role.title': 'Choose your role to start',
+  'welcome.role.help': 'We’ll tailor your learning path to your role. You can change it later from your dashboard.',
+  'welcome.start': 'Start',
+  'welcome.start.hint': 'Pick your role to continue.',
 } as const;
 
 export type TranslationKey = keyof typeof en;
