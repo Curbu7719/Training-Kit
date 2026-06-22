@@ -10,6 +10,7 @@ import { Progress } from '@/components/ui/progress';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
+import { hasPassedExam, getMyReflection } from '@/lib/api';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, ROLE_ORDER, type RoleKey, type RoleModule } from '@/lib/rolePaths';
 
@@ -243,6 +244,8 @@ export function DashboardPage() {
   const [moduleIdByCode, setModuleIdByCode] = useState<Record<string, string>>({});
   const [progressByModule, setProgressByModule] = useState<Record<string, Partial<Record<Level, ProgressRow>>>>({});
   const [loading, setLoading] = useState(true);
+  // Mandatory completion reflection: due once the exam is passed but not yet written.
+  const [reflectionDue, setReflectionDue] = useState(false);
 
   const load = useCallback(async () => {
     if (!profile) return;
@@ -264,6 +267,14 @@ export function DashboardPage() {
     }
     setProgressByModule(byModule);
     setLoading(false);
+
+    // Surface the mandatory reflection once the exam is passed and unwritten.
+    try {
+      const [passed, reflection] = await Promise.all([hasPassedExam(), getMyReflection()]);
+      setReflectionDue(passed && !reflection);
+    } catch {
+      setReflectionDue(false);
+    }
   }, [profile]);
 
   useEffect(() => {
@@ -339,6 +350,28 @@ export function DashboardPage() {
 
       {/* Body */}
       <main className="mx-auto max-w-4xl px-6 py-8 space-y-8">
+        {/* Mandatory completion reflection — due after passing the exam */}
+        {reflectionDue && (
+          <button
+            type="button"
+            data-testid="reflection-banner"
+            onClick={() => navigate('/reflection')}
+            className="flex w-full items-center justify-between gap-3 rounded-lg border border-amber-400/60 bg-amber-50 px-4 py-3 text-left transition-colors hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-950/50"
+          >
+            <span>
+              <span className="block text-sm font-semibold text-amber-900 dark:text-amber-200">
+                {t('dashboard.reflection.title')}
+              </span>
+              <span className="block text-xs text-amber-800/80 dark:text-amber-200/70">
+                {t('dashboard.reflection.body')}
+              </span>
+            </span>
+            <span className="shrink-0 rounded-md bg-amber-500 px-3 py-1.5 text-xs font-medium text-white">
+              {t('dashboard.reflection.cta')}
+            </span>
+          </button>
+        )}
+
         {/* Positioning — what this training is and how to use it */}
         <section className="rounded-lg border border-border bg-card px-5 py-4">
           <h2 className="text-sm font-semibold">{t('dashboard.about.title')}</h2>

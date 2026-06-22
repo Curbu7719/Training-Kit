@@ -10,6 +10,7 @@ import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { AdminRoute } from '@/components/auth/AdminRoute';
 import { ExamPage } from '@/pages/ExamPage';
+import { ReflectionPage } from '@/pages/ReflectionPage';
 import { GlossaryPage } from '@/pages/GlossaryPage';
 import { IntroPage } from '@/pages/IntroPage';
 
@@ -76,6 +77,16 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ExamPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Mandatory end-of-training reflection */}
+          <Route
+            path="/reflection"
+            element={
+              <ProtectedRoute>
+                <ReflectionPage />
               </ProtectedRoute>
             }
           />

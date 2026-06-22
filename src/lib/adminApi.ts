@@ -173,6 +173,24 @@ export async function getProgressReport(): Promise<ProgressReport> {
 }
 
 // ---------------------------------------------------------------------------
+// Completion reflections (mandatory end-of-training writeups — admin-only)
+// ---------------------------------------------------------------------------
+
+export interface ReflectionEntry {
+  user_id: string;
+  display_name: string | null;
+  learning_role: string | null;
+  work_application: string;
+  expected_value: string;
+  lang: 'en' | 'tr';
+  updated_at: string;
+}
+
+export async function listReflections(): Promise<ReflectionEntry[]> {
+  return invokeAdmin<ReflectionEntry[]>('list_reflections');
+}
+
+// ---------------------------------------------------------------------------
 // Leaderboard (any authed user — separate edge function)
 // ---------------------------------------------------------------------------
 

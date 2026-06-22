@@ -346,6 +346,54 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
 }
 
 // ---------------------------------------------------------------------------
+// list_reflections — every learner's mandatory end-of-training writeup.
+// Admin-only (the dispatcher already enforces admin). Service role bypasses the
+// own-row RLS so this is a cross-user read.
+// ---------------------------------------------------------------------------
+
+async function listReflections(db: ReturnType<typeof createServiceClient>): Promise<HandlerResult> {
+  const { data: reflections, error } = await db
+    .from('completion_reflections')
+    .select('user_id, work_application, expected_value, lang, updated_at')
+    .order('updated_at', { ascending: false });
+
+  if (error) {
+    return { status: 500, payload: { ok: false, error: error.message } };
+  }
+
+  if (!reflections || reflections.length === 0) {
+    return { status: 200, payload: { ok: true, data: [] } };
+  }
+
+  const userIds = reflections.map((r) => r.user_id);
+  const { data: profiles, error: pErr } = await db
+    .from('profiles')
+    .select('id, display_name, learning_role')
+    .in('id', userIds);
+
+  if (pErr) {
+    return { status: 500, payload: { ok: false, error: pErr.message } };
+  }
+
+  const profById = new Map((profiles ?? []).map((p) => [p.id, p]));
+
+  const data = reflections.map((r) => {
+    const p = profById.get(r.user_id);
+    return {
+      user_id:          r.user_id,
+      display_name:     p?.display_name ?? null,
+      learning_role:    p?.learning_role ?? null,
+      work_application: r.work_application,
+      expected_value:   r.expected_value,
+      lang:             r.lang,
+      updated_at:       r.updated_at,
+    };
+  });
+
+  return { status: 200, payload: { ok: true, data } };
+}
+
+// ---------------------------------------------------------------------------
 // progress_report — per-user development across all sections + the exam.
 //
 // A "unit" is one (module, level) that has lessons. For each section
@@ -503,6 +551,9 @@ Deno.serve(async (req: Request) => {
       break;
     case 'progress_report':
       result = await progressReport(db);
+      break;
+    case 'list_reflections':
+      result = await listReflections(db);
       break;
     default:
       result = { status: 400, payload: { ok: false, error: `Unknown action: ${action}` } };

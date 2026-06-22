@@ -15,6 +15,7 @@ import {
   updateExercise,
   listUsers,
   getProgressReport,
+  listReflections,
   type ModuleSummary,
   type ModuleFull,
   type LessonRow,
@@ -22,6 +23,7 @@ import {
   type ExerciseRow,
   type UserSummary,
   type ProgressUser,
+  type ReflectionEntry,
 } from '@/lib/adminApi';
 
 // ---------------------------------------------------------------------------
@@ -624,6 +626,77 @@ function ProgressTab() {
 }
 
 // ---------------------------------------------------------------------------
+// ReflectionsTab — learners' mandatory end-of-training writeups (admin-only)
+// ---------------------------------------------------------------------------
+
+function ReflectionsTab() {
+  const { t } = useLanguage();
+  const [items, setItems] = useState<ReflectionEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchErr, setFetchErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    listReflections()
+      .then(setItems)
+      .catch((e: Error) => setFetchErr(e.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-12">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (fetchErr) {
+    return <p className="text-sm text-destructive py-4">{fetchErr}</p>;
+  }
+
+  if (items.length === 0) {
+    return <p className="text-sm text-muted-foreground py-4">{t('admin.reflections.empty')}</p>;
+  }
+
+  return (
+    <div className="space-y-4">
+      <p className="text-xs text-muted-foreground">{t('admin.reflections.intro')}</p>
+      {items.map((r) => (
+        <Card key={r.user_id}>
+          <CardHeader className="pb-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <CardTitle className="text-sm">{r.display_name ?? r.user_id}</CardTitle>
+              <div className="flex items-center gap-2">
+                {r.learning_role && (
+                  <Badge variant="outline" className="text-xs">{r.learning_role}</Badge>
+                )}
+                <span className="text-xs text-muted-foreground">
+                  {new Date(r.updated_at).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {t('admin.reflections.work')}
+              </p>
+              <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed">{r.work_application}</p>
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {t('admin.reflections.value')}
+              </p>
+              <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed">{r.expected_value}</p>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // AdminPage
 // ---------------------------------------------------------------------------
 
@@ -661,6 +734,7 @@ export function AdminPage() {
             <TabsTrigger value="content">{t('admin.tab.content')}</TabsTrigger>
             <TabsTrigger value="users">{t('admin.tab.users')}</TabsTrigger>
             <TabsTrigger value="progress">{t('admin.tab.progress')}</TabsTrigger>
+            <TabsTrigger value="reflections">{t('admin.tab.reflections')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="content">
@@ -673,6 +747,10 @@ export function AdminPage() {
 
           <TabsContent value="progress">
             <ProgressTab />
+          </TabsContent>
+
+          <TabsContent value="reflections">
+            <ReflectionsTab />
           </TabsContent>
         </Tabs>
       </main>

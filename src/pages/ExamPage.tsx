@@ -313,6 +313,21 @@ export function ExamPage() {
             </CardContent>
           </Card>
 
+          {/* Mandatory final step after passing: the completion reflection */}
+          {results.passed && (
+            <Card className="border-primary/50 bg-primary/5">
+              <CardHeader>
+                <CardTitle className="text-base">{t('exam.reflection.title')}</CardTitle>
+                <CardDescription>{t('exam.reflection.body')}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button data-testid="exam-reflection-btn" onClick={() => navigate('/reflection')}>
+                  {t('exam.reflection.button')}
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Per-question breakdown */}
           <div className="space-y-4">
             {results.results.map((r) => {

@@ -351,6 +351,41 @@ const en = {
   // Exam CTA on dashboard
   'exam.cta.blurb': 'A general assessment across all modules (independent of your role). Measure what you’ve learned with case-based scenario questions, and earn your certificate.',
   'exam.cta.button': 'Start',
+
+  // ---------------------------------------------------------------------------
+  // Completion reflection (mandatory end-of-training writeup)
+  // ---------------------------------------------------------------------------
+  'reflection.title': 'One last step: put it to work',
+  'reflection.intro': 'You finished the training. Before you wrap up, tell us what you can now do in your own day-to-day work with what you learned — and the value it will bring. This is a required step.',
+  'reflection.privacy': 'Your answer is private. Only the training admins can see it; other learners cannot.',
+  'reflection.q1.label': 'What will you do differently in your own work with what you learned?',
+  'reflection.q1.placeholder': 'Be concrete: a task you will hand to AI, a habit you will change, a check you will add. E.g. "I will draft my PR descriptions and edge-case lists with a small model, and review every diff before merging."',
+  'reflection.q2.label': 'What value or gain will this bring — to you and to the team?',
+  'reflection.q2.placeholder': 'E.g. "A few hours a week back from routine writeups, fewer missed edge cases in review, faster onboarding for new code."',
+  'reflection.required': 'Please answer both questions (a sentence or two each) to finish.',
+  'reflection.submit': 'Submit & finish',
+  'reflection.saving': 'Saving…',
+  'reflection.saved': 'Thank you — your reflection is saved.',
+  'reflection.savedNote': 'You have completed the training. You can revise your answer any time.',
+  'reflection.revise': 'Revise my answer',
+  'reflection.editExisting': 'You already submitted this. Editing will update your saved answer.',
+
+  // Exam pass → reflection CTA
+  'exam.reflection.title': 'Final step to complete the training',
+  'exam.reflection.body': 'You passed. Now write a short, required note on what you will do with this in your own work.',
+  'exam.reflection.button': 'Write my completion note',
+
+  // Dashboard reflection banner
+  'dashboard.reflection.title': 'Finish your training — one step left',
+  'dashboard.reflection.body': 'You passed the exam. Write a short note on what you will do with what you learned.',
+  'dashboard.reflection.cta': 'Complete',
+
+  // Admin — reflections tab
+  'admin.tab.reflections': 'Reflections',
+  'admin.reflections.intro': 'Each learner’s required end-of-training note: what they will do in their own work and the value they expect. Visible to admins only.',
+  'admin.reflections.empty': 'No reflections submitted yet.',
+  'admin.reflections.work': 'What they will do in their work',
+  'admin.reflections.value': 'Expected value / gain',
 } as const;
 
 export type TranslationKey = keyof typeof en;

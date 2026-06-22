@@ -128,6 +128,52 @@ export async function submitExam(
   return data;
 }
 
+// ---------------------------------------------------------------------------
+// Completion reflection (mandatory end-of-training writeup) + exam status
+// ---------------------------------------------------------------------------
+
+export interface CompletionReflection {
+  work_application: string;
+  expected_value: string;
+}
+
+/** Load the current user's reflection, or null if they haven't written one. */
+export async function getMyReflection(): Promise<CompletionReflection | null> {
+  const { data, error } = await supabase
+    .from('completion_reflections')
+    .select('work_application, expected_value')
+    .maybeSingle();
+  if (error) throw error;
+  return data ?? null;
+}
+
+/** Insert or update the current user's reflection (one row per user). */
+export async function saveReflection(
+  user_id: string,
+  work_application: string,
+  expected_value: string,
+  lang: 'en' | 'tr'
+): Promise<void> {
+  const { error } = await supabase
+    .from('completion_reflections')
+    .upsert(
+      { user_id, work_application, expected_value, lang, updated_at: new Date().toISOString() },
+      { onConflict: 'user_id' }
+    );
+  if (error) throw error;
+}
+
+/** True if the current user has at least one passing exam result. */
+export async function hasPassedExam(): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('exam_results')
+    .select('id')
+    .eq('passed', true)
+    .limit(1);
+  if (error) throw error;
+  return (data?.length ?? 0) > 0;
+}
+
 /** Refresh progress state after completing a lesson; returns newly-earned badges. */
 export async function refreshProgress(
   module_id?: string,

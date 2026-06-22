@@ -351,6 +351,41 @@ const tr = {
   // Sınav CTA (ana sayfa)
   'exam.cta.blurb': 'Tüm modülleri kapsayan (rolünden bağımsız) genel bir değerlendirme. Öğrendiklerini vaka bazlı senaryo sorularıyla ölç ve sertifikanı kazan.',
   'exam.cta.button': 'Başla',
+
+  // ---------------------------------------------------------------------------
+  // Tamamlama refleksiyonu (eğitim sonu zorunlu yazı)
+  // ---------------------------------------------------------------------------
+  'reflection.title': 'Son bir adım: işine uygula',
+  'reflection.intro': 'Eğitimi bitirdin. Kapatmadan önce, öğrendiklerinle kendi günlük işinde artık ne yapabileceğini ve bunun sağlayacağı değeri yaz. Bu adım zorunludur.',
+  'reflection.privacy': 'Cevabın özeldir. Yalnızca eğitim adminleri görebilir; diğer katılımcılar göremez.',
+  'reflection.q1.label': 'Öğrendiklerinle kendi işinde neyi farklı yapacaksın?',
+  'reflection.q1.placeholder': 'Somut ol: AI’a devredeceğin bir iş, değiştireceğin bir alışkanlık, ekleyeceğin bir kontrol. Örn: "PR açıklamalarımı ve uç-durum listelerimi küçük bir modelle taslaklayacağım ve merge öncesi her diff’i inceleyeceğim."',
+  'reflection.q2.label': 'Bu sana ve ekibe ne değer / kazanım sağlayacak?',
+  'reflection.q2.placeholder': 'Örn: "Rutin yazımlardan haftada birkaç saat geri kazanım, incelemede daha az kaçan uç durum, yeni koda daha hızlı adapte olma."',
+  'reflection.required': 'Bitirmek için lütfen iki soruyu da (birer-ikişer cümle) yanıtla.',
+  'reflection.submit': 'Gönder ve bitir',
+  'reflection.saving': 'Kaydediliyor…',
+  'reflection.saved': 'Teşekkürler — refleksiyonun kaydedildi.',
+  'reflection.savedNote': 'Eğitimi tamamladın. Cevabını istediğin zaman güncelleyebilirsin.',
+  'reflection.revise': 'Cevabımı düzenle',
+  'reflection.editExisting': 'Bunu daha önce gönderdin. Düzenlemek kayıtlı cevabını güncelleyecek.',
+
+  // Sınav geçildi → refleksiyon CTA
+  'exam.reflection.title': 'Eğitimi tamamlamak için son adım',
+  'exam.reflection.body': 'Geçtin. Şimdi bunu kendi işinde nasıl kullanacağına dair kısa, zorunlu bir not yaz.',
+  'exam.reflection.button': 'Tamamlama notumu yaz',
+
+  // Ana sayfa refleksiyon bandı
+  'dashboard.reflection.title': 'Eğitimini bitir — tek adım kaldı',
+  'dashboard.reflection.body': 'Sınavı geçtin. Öğrendiklerinle ne yapacağına dair kısa bir not yaz.',
+  'dashboard.reflection.cta': 'Tamamla',
+
+  // Admin — refleksiyonlar sekmesi
+  'admin.tab.reflections': 'Refleksiyonlar',
+  'admin.reflections.intro': 'Her katılımcının zorunlu eğitim-sonu notu: kendi işinde ne yapacağı ve beklediği değer. Yalnızca adminler görebilir.',
+  'admin.reflections.empty': 'Henüz refleksiyon gönderilmedi.',
+  'admin.reflections.work': 'İşinde ne yapacağı',
+  'admin.reflections.value': 'Beklenen değer / kazanım',
 } as const;
 
 export default tr;
