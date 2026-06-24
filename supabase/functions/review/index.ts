@@ -114,6 +114,7 @@ Deno.serve(async (req: Request) => {
         correct: att ? (q.correct as number[]) : null,
         explanation: att ? (q.explanation ?? null) : null,
       });
+      questionsByLesson.set(q.lesson_id, arr);
     }
   }
 
