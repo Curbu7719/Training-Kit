@@ -118,11 +118,12 @@ interface ModuleCardProps {
   index: number;
   l1Status: CellStatus;
   l2Status: CellStatus;
-  required?: boolean;
+  /** Whether this module's L2 is recommended for the user's role. */
+  l2Recommended?: boolean;
   onOpen: (level: 'L1' | 'L2') => void;
 }
 
-function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: ModuleCardProps) {
+function ModuleCard({ code, index, l1Status, l2Status, l2Recommended, onOpen }: ModuleCardProps) {
   const { t } = useLanguage();
   const minutes = MODULE_MINUTES[code];
 
@@ -147,11 +148,6 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
           <div>
             <CardTitle className="text-base leading-snug">
               {t(`module.${code}.title` as TranslationKey)}
-              {required && (
-                <span className="ml-2 inline-block rounded-full bg-primary/10 px-2 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wide text-primary">
-                  {t('role.required')}
-                </span>
-              )}
             </CardTitle>
             <CardDescription className="mt-0.5">
               {t(`module.${code}.desc` as TranslationKey)}
@@ -167,9 +163,12 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
           onClick={() => onOpen('L1')}
           className="flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-left transition-colors hover:border-primary/50 hover:bg-muted/50"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">L1</span>
             <span className="text-sm">{t('dashboard.level.foundations')}</span>
+            <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+              {t('role.required')}
+            </span>
             <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l1 })}</span>
           </div>
           <StatusBadge status={l1Status} />
@@ -185,9 +184,14 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
             l2Status === 'locked' ? 'opacity-50' : 'hover:border-primary/50 hover:bg-muted/50'
           )}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">L2</span>
             <span className="text-sm">{t('dashboard.level.deepDive')}</span>
+            {l2Recommended && (
+              <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                {t('path.recommended')}
+              </span>
+            )}
             <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l2 })}</span>
           </div>
           <StatusBadge status={l2Status} />
@@ -283,7 +287,13 @@ export function DashboardPage() {
   }, [profile, navigate]);
 
   const path = dbPath ?? (role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null);
-  const coreCodes = new Set(path?.core.map((rm) => rm.code) ?? []);
+  // Modules whose L2 the role recommends (the role's L2 deep dives). Every
+  // module's L1 is mandatory for everyone, so that tag is shown unconditionally.
+  const l2RecommendedCodes = new Set(
+    [...(path?.core ?? []), ...(path?.recommended ?? [])]
+      .filter((rm) => rm.level === 'L2')
+      .map((rm) => rm.code)
+  );
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -367,7 +377,7 @@ export function DashboardPage() {
                     index={i}
                     l1Status={l1}
                     l2Status={l2}
-                    required={coreCodes.has(code)}
+                    l2Recommended={l2RecommendedCodes.has(code)}
                     onOpen={(lv) => navigate(`/learn/${code}?level=${lv}`)}
                   />
                 );
