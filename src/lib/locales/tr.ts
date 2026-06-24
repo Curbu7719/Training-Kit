@@ -109,6 +109,7 @@ const tr = {
   'lesson.completeModule': 'Modülü tamamla',
   'lesson.saving': 'Kaydediliyor…',
   'lesson.saveError': 'İlerleme kaydedilemedi',
+  'lesson.retry': 'Tekrar dene',
   'lesson.goToLesson': 'Derse git: {title}',
   'lesson.l1Passed.title': 'L1 tamamlandı — tebrikler!',
   'lesson.l1Passed.desc': 'Bu modülün L2 derinlemesine bölümü açıldı. Hızını koru.',

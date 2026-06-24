@@ -108,6 +108,7 @@ const en = {
   'lesson.completeModule': 'Complete module',
   'lesson.saving': 'Saving…',
   'lesson.saveError': 'Could not save progress',
+  'lesson.retry': 'Retry',
   'lesson.goToLesson': 'Go to lesson: {title}',
   'lesson.l1Passed.title': 'L1 complete — nice work!',
   'lesson.l1Passed.desc': 'You’ve unlocked the L2 deep dive for this module. Keep the momentum going.',

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, BookOpen, FlaskConical, HelpCircle, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -265,6 +265,10 @@ export function LessonPlayerPage() {
   const [allDoneSaved, setAllDoneSaved] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(false);
+  // Re-entry guard for the auto-save effect. A ref (not `saving` state in the
+  // deps) so starting the save doesn't re-trigger the effect and cancel itself.
+  const savingRef = useRef(false);
 
   const load = useCallback(async () => {
     if (!moduleCode || !profile) return;
@@ -277,6 +281,8 @@ export function LessonPlayerPage() {
     setAllDoneSaved(false);
     setLevelPassed(false);
     setFinishing(false);
+    setSaveError(false);
+    savingRef.current = false;
 
     try {
       // 1. Resolve module row
@@ -449,13 +455,17 @@ export function LessonPlayerPage() {
   }
 
   // Once every lesson is visited, persist progress and record whether this
-  // level passed — that decides which continue CTA to show.
+  // level passed — that decides which continue CTA to show. The re-entry guard
+  // is a ref (not `saving` state in the deps), otherwise setSaving(true) would
+  // re-run this effect and cancel the very save it just started.
   useEffect(() => {
     if (reviewMode) return; // nothing to save when just reviewing past answers
     const allVisited = lessons.length > 0 && completedIdxs.size === lessons.length;
-    if (!allVisited || !moduleRow || allDoneSaved || saving) return;
+    if (!allVisited || !moduleRow || allDoneSaved || savingRef.current) return;
     let cancelled = false;
+    savingRef.current = true;
     setSaving(true);
+    setSaveError(false);
     refreshProgress(moduleRow.id, userLevel, lang)
       .then((res) => {
         if (cancelled) return;
@@ -470,15 +480,26 @@ export function LessonPlayerPage() {
         setAllDoneSaved(true);
       })
       .catch(() => {
-        if (!cancelled) toast({ title: t('lesson.saveError'), variant: 'destructive' });
+        if (cancelled) return;
+        // Surface a retry path instead of spinning forever on "saving…".
+        toast({ title: t('lesson.saveError'), variant: 'destructive' });
+        setSaveError(true);
+        setAllDoneSaved(true);
       })
       .finally(() => {
+        savingRef.current = false;
         if (!cancelled) setSaving(false);
       });
     return () => {
       cancelled = true;
     };
-  }, [reviewMode, lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, saving, t]);
+  }, [reviewMode, lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, t]);
+
+  // Retry a failed progress save (clears the error so the effect runs again).
+  function retrySave() {
+    setSaveError(false);
+    setAllDoneSaved(false);
+  }
 
   // Plain advance used in review mode (no completion / save semantics).
   function goNext(idx: number) {
@@ -697,10 +718,22 @@ export function LessonPlayerPage() {
         {/* Completion CTA — contextual: L2 deep-dive, next core module, or retry */}
         {!reviewMode && allDone && (
           <div className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
-            {saving || !allDoneSaved ? (
+            {saving || (!allDoneSaved && !saveError) ? (
               <>
                 <Spinner size="sm" />
                 <p className="text-sm text-muted-foreground">{t('lesson.saving')}</p>
+              </>
+            ) : saveError ? (
+              <>
+                <p className="font-semibold">{t('lesson.saveError')}</p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Button onClick={retrySave} data-testid="retry-save-btn">
+                    {t('lesson.retry')}
+                  </Button>
+                  <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
+                    {t('nav.backToDashboard')}
+                  </Button>
+                </div>
               </>
             ) : !levelPassed ? (
               <>
