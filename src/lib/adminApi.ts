@@ -134,6 +134,10 @@ export interface UserSummary {
   id: string;
   display_name: string | null;
   role: 'user' | 'admin';
+  /** Login email + activity from auth.users (admin-only). */
+  email: string | null;
+  last_sign_in_at: string | null;
+  created_at: string | null;
   modules_passed: number;
   total_score: number;
   badge_count: number;

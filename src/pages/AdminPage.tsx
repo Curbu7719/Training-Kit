@@ -426,10 +426,15 @@ function ContentTab() {
 // No track labels — single shared curriculum, no per-user track.
 
 function UsersTab() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [users, setUsers] = useState<UserSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState<string | null>(null);
+
+  const fmtLogin = (iso: string | null) =>
+    iso
+      ? new Date(iso).toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' })
+      : t('admin.users.never');
 
   useEffect(() => {
     listUsers()
@@ -456,16 +461,19 @@ function UsersTab() {
         <thead>
           <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
             <th className="pb-2 pr-4">{t('admin.users.col.name')}</th>
+            <th className="pb-2 pr-4">{t('admin.users.col.email')}</th>
             <th className="pb-2 pr-4">{t('admin.users.col.role')}</th>
             <th className="pb-2 pr-4 text-right">{t('admin.users.col.modules')}</th>
             <th className="pb-2 pr-4 text-right">{t('admin.users.col.score')}</th>
-            <th className="pb-2 text-right">{t('admin.users.col.badges')}</th>
+            <th className="pb-2 pr-4 text-right">{t('admin.users.col.badges')}</th>
+            <th className="pb-2 text-right">{t('admin.users.col.lastLogin')}</th>
           </tr>
         </thead>
         <tbody>
           {users.map((u) => (
             <tr key={u.id} className="border-b border-border/50 last:border-0">
               <td className="py-2 pr-4 font-medium">{u.display_name ?? '—'}</td>
+              <td className="py-2 pr-4 text-muted-foreground">{u.email ?? '—'}</td>
               <td className="py-2 pr-4">
                 <Badge variant={u.role === 'admin' ? 'accent' : 'outline'} className="text-xs">
                   {u.role}
@@ -473,12 +481,13 @@ function UsersTab() {
               </td>
               <td className="py-2 pr-4 text-right tabular-nums">{u.modules_passed}</td>
               <td className="py-2 pr-4 text-right tabular-nums">{u.total_score}</td>
-              <td className="py-2 text-right tabular-nums">{u.badge_count}</td>
+              <td className="py-2 pr-4 text-right tabular-nums">{u.badge_count}</td>
+              <td className="py-2 text-right tabular-nums text-muted-foreground whitespace-nowrap">{fmtLogin(u.last_sign_in_at)}</td>
             </tr>
           ))}
           {users.length === 0 && (
             <tr>
-              <td colSpan={5} className="py-6 text-center text-muted-foreground">
+              <td colSpan={7} className="py-6 text-center text-muted-foreground">
                 {t('admin.users.empty')}
               </td>
             </tr>

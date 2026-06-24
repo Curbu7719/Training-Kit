@@ -329,16 +329,38 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
     if (entry) entry.badge_count += 1;
   }
 
+  // Auth metadata (email + login activity) lives in auth.users — only the
+  // service role can read it, via the Admin API. Paginate so all users are
+  // covered. A failure here shouldn't sink the whole list.
+  type AuthInfo = { email: string | null; last_sign_in_at: string | null; created_at: string | null };
+  const authById = new Map<string, AuthInfo>();
+  for (let page = 1; ; page++) {
+    const { data: authData, error: authErr } = await db.auth.admin.listUsers({ page, perPage: 200 });
+    if (authErr || !authData) break;
+    for (const u of authData.users) {
+      authById.set(u.id, {
+        email: u.email ?? null,
+        last_sign_in_at: u.last_sign_in_at ?? null,
+        created_at: u.created_at ?? null,
+      });
+    }
+    if (authData.users.length < 200) break;
+  }
+
   const data = profiles.map((p) => {
     const a = agg.get(p.id) ?? { modules_passed: 0, total_score: 0, badge_count: 0 };
+    const auth = authById.get(p.id) ?? { email: null, last_sign_in_at: null, created_at: null };
     return {
-      id:             p.id,
-      display_name:   p.display_name,
-      role:           p.role,
-      active_track:   p.active_track,
-      modules_passed: a.modules_passed,
-      total_score:    a.total_score,
-      badge_count:    a.badge_count,
+      id:               p.id,
+      display_name:     p.display_name,
+      role:             p.role,
+      active_track:     p.active_track,
+      email:            auth.email,
+      last_sign_in_at:  auth.last_sign_in_at,
+      created_at:       auth.created_at,
+      modules_passed:   a.modules_passed,
+      total_score:      a.total_score,
+      badge_count:      a.badge_count,
     };
   });
 
