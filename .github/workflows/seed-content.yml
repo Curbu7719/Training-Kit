@@ -9,6 +9,15 @@ name: Seed content
 #   SUPABASE_SERVICE_ROLE_KEY — the project's service-role key
 #                               (Dashboard → Project Settings → API → service_role)
 # SUPABASE_URL is the public project URL, so it is set inline below.
+#
+# Without the secret the seed step skips cleanly (a green no-op) instead of
+# failing. NOTE: seed-content.mjs deletes and re-inserts lessons per
+# (module, level, lang), which cascades to quiz_questions/exercises and therefore
+# WIPES learners' quiz_attempts and exercise_subs for the reseeded content. Only
+# add the secret (enabling auto-reseed on content pushes) if losing attempt
+# history on every content change is acceptable; otherwise apply content updates
+# in place (as done for the answer-shuffle change) and run this manually via
+# workflow_dispatch when a full reseed is intended.
 
 on:
   push:
@@ -17,6 +26,7 @@ on:
       - 'content/**'
       - 'scripts/seed-content.mjs'
       - 'scripts/validate-content.mjs'
+      - '.github/workflows/seed-content.yml'
   workflow_dispatch:
 
 jobs:
@@ -35,4 +45,9 @@ jobs:
       - name: Validate content
         run: node scripts/validate-content.mjs
       - name: Seed content into the database
-        run: node scripts/seed-content.mjs
+        run: |
+          if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "::warning::SUPABASE_SERVICE_ROLE_KEY not set — skipping seed. Add it in Settings → Secrets and variables → Actions to enable (see the data-loss note in this workflow's header first)."
+            exit 0
+          fi
+          node scripts/seed-content.mjs

@@ -10,6 +10,10 @@ name: Deploy Supabase
 #   SUPABASE_DB_PASSWORD   — the project's database password
 #                            (Dashboard → Project Settings → Database → Password)
 #
+# When those secrets are absent each job skips cleanly (a green no-op) instead
+# of failing, so the Actions tab stays green until automated deploys are opted
+# into by adding the secrets.
+#
 # Migration history was baselined (0001–0014 marked applied), so `db push`
 # only applies migrations added after that.
 
@@ -20,6 +24,7 @@ on:
       - 'supabase/migrations/**'
       - 'supabase/functions/**'
       - 'supabase/config.toml'
+      - '.github/workflows/deploy-supabase.yml'
   workflow_dispatch:
 
 env:
@@ -38,6 +43,10 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
         run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ] || [ -z "$SUPABASE_DB_PASSWORD" ]; then
+            echo "::warning::SUPABASE_ACCESS_TOKEN / SUPABASE_DB_PASSWORD not set — skipping db push. Add them in Settings → Secrets and variables → Actions to enable automated migrations."
+            exit 0
+          fi
           supabase link --project-ref "$SUPABASE_PROJECT_REF"
           supabase db push
 
@@ -51,4 +60,9 @@ jobs:
       - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-        run: supabase functions deploy --project-ref "$SUPABASE_PROJECT_REF"
+        run: |
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "::warning::SUPABASE_ACCESS_TOKEN not set — skipping function deploy. Add it in Settings → Secrets and variables → Actions to enable."
+            exit 0
+          fi
+          supabase functions deploy --project-ref "$SUPABASE_PROJECT_REF"
