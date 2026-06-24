@@ -179,6 +179,15 @@ function LessonCard({
   const Icon = KIND_ICONS[lesson.kind];
   const kindKey = `lesson.kind.${lesson.kind}` as const;
 
+  // In review mode, only show the read-only review for items the learner has
+  // actually attempted. Un-attempted ones (e.g. a newly-added lab) — or ones the
+  // learner chooses to redo — fall back to the interactive widget.
+  const [redo, setRedo] = useState(false);
+  const quizAttempted = (reviewQuestions ?? []).some((q) => q.chosen !== null);
+  const exerciseAttempted = reviewExercise?.answer != null;
+  const showReviewQuiz = !!reviewMode && quizAttempted && !redo;
+  const showReviewExercise = !!reviewMode && exerciseAttempted && !redo;
+
   // For concept/example lessons, strip the hint section from body_md before rendering.
   const displayMd =
     lesson.kind === 'concept' || lesson.kind === 'example'
@@ -204,14 +213,14 @@ function LessonCard({
       )}
 
       {lesson.kind === 'quiz' && (
-        reviewMode
-          ? <ReviewQuiz questions={reviewQuestions ?? []} />
+        showReviewQuiz
+          ? <ReviewQuiz questions={reviewQuestions ?? []} onRedo={() => setRedo(true)} />
           : <QuizRunner questions={questions as QuizQuestionRow[]} onComplete={onQuizComplete} />
       )}
 
       {lesson.kind === 'exercise' && (
-        reviewMode
-          ? (reviewExercise ? <ReviewExercise exercise={reviewExercise} /> : null)
+        showReviewExercise && reviewExercise
+          ? <ReviewExercise exercise={reviewExercise} onRedo={() => setRedo(true)} />
           : (exercise && <ExerciseWidget exercise={exercise} onDone={onExerciseDone} />)
       )}
     </div>

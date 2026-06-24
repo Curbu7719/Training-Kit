@@ -1,7 +1,8 @@
-import { CheckCircle2, XCircle, MinusCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, MinusCircle, RotateCcw } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 import { Markdown } from '@/lib/markdown';
+import { Button } from '@/components/ui/button';
 import type { ReviewQuizQuestion, ReviewExerciseData } from '@/lib/api';
 
 // ---------------------------------------------------------------------------
@@ -60,10 +61,18 @@ function StatusPill({ state }: { state: 'correct' | 'incorrect' | 'skipped' }) {
   );
 }
 
-export function ReviewQuiz({ questions }: { questions: ReviewQuizQuestion[] }) {
+export function ReviewQuiz({ questions, onRedo }: { questions: ReviewQuizQuestion[]; onRedo?: () => void }) {
   const { t } = useLanguage();
   return (
     <div className="space-y-6">
+      {onRedo && (
+        <div className="flex justify-end">
+          <Button variant="outline" size="sm" onClick={onRedo} className="gap-1.5" data-testid="redo-quiz-btn">
+            <RotateCcw className="h-3.5 w-3.5" />
+            {t('lesson.retry')}
+          </Button>
+        </div>
+      )}
       {questions.map((q, qi) => {
         const chosen = q.chosen ?? [];
         const correct = q.correct ?? [];
@@ -115,7 +124,7 @@ function asNums(v: unknown): number[] {
   return Array.isArray(v) ? (v as number[]) : [];
 }
 
-export function ReviewExercise({ exercise }: { exercise: ReviewExerciseData }) {
+export function ReviewExercise({ exercise, onRedo }: { exercise: ReviewExerciseData; onRedo?: () => void }) {
   const { t } = useLanguage();
   const { type, spec, answer, answer_key: key, score, max_score, passed } = exercise;
   const attempted = answer !== null;
@@ -234,17 +243,25 @@ export function ReviewExercise({ exercise }: { exercise: ReviewExerciseData }) {
   return (
     <div className="space-y-4">
       <Markdown>{exercise.prompt_md}</Markdown>
-      {attempted && (
-        <div
-          className={cn(
-            'inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium',
-            passed ? 'border-success/20 bg-success/10 text-success' : 'border-destructive/20 bg-destructive/10 text-destructive'
-          )}
-        >
-          {passed ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-          {t('review.yourScore', { score: score ?? 0, max: max_score })}
-        </div>
-      )}
+      <div className="flex flex-wrap items-center gap-3">
+        {attempted && (
+          <div
+            className={cn(
+              'inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium',
+              passed ? 'border-success/20 bg-success/10 text-success' : 'border-destructive/20 bg-destructive/10 text-destructive'
+            )}
+          >
+            {passed ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
+            {t('review.yourScore', { score: score ?? 0, max: max_score })}
+          </div>
+        )}
+        {onRedo && (
+          <Button variant="outline" size="sm" onClick={onRedo} className="gap-1.5" data-testid="redo-exercise-btn">
+            <RotateCcw className="h-3.5 w-3.5" />
+            {t('lesson.retry')}
+          </Button>
+        )}
+      </div>
       {body()}
     </div>
   );
