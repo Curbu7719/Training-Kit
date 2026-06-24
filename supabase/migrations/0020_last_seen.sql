@@ -9,3 +9,7 @@
 -- ============================================================
 
 alter table public.profiles add column if not exists last_seen_at timestamptz;
+
+-- Reload PostgREST's schema cache so the new column is immediately writable via
+-- the REST API (raw applies don't refresh it the way `supabase db push` does).
+notify pgrst, 'reload schema';
