@@ -14,6 +14,7 @@ import { ReflectionPage } from '@/pages/ReflectionPage';
 import { GlossaryPage } from '@/pages/GlossaryPage';
 import { IntroPage } from '@/pages/IntroPage';
 import { WelcomePage } from '@/pages/WelcomePage';
+import { LearningPathPage } from '@/pages/LearningPathPage';
 import { Spinner } from '@/components/ui/spinner';
 
 // Post-login landing: always the Welcome page (CIO message). It offers
@@ -103,6 +104,16 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <WelcomePage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Role learning path — shown after role selection (core/recommended) */}
+          <Route
+            path="/path"
+            element={
+              <ProtectedRoute>
+                <LearningPathPage />
               </ProtectedRoute>
             }
           />

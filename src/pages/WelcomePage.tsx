@@ -32,7 +32,7 @@ export function WelcomePage() {
       await refreshProfile();
     } finally {
       setSaving(false);
-      navigate('/dashboard', { replace: true });
+      navigate('/path', { replace: true });
     }
   }
 
@@ -81,7 +81,7 @@ export function WelcomePage() {
             <Button
               className="mt-4"
               data-testid="welcome-continue-btn"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/path')}
             >
               {t('welcome.continue')}
             </Button>
