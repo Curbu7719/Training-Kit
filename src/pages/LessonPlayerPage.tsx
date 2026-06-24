@@ -278,6 +278,9 @@ export function LessonPlayerPage() {
   // Re-entry guard for the auto-save effect. A ref (not `saving` state in the
   // deps) so starting the save doesn't re-trigger the effect and cancel itself.
   const savingRef = useRef(false);
+  // The completion banner — scrolled into view when it appears so the learner
+  // doesn't miss the continue/back CTA below the lesson card.
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   const load = useCallback(async () => {
     if (!moduleCode || !profile) return;
@@ -452,22 +455,28 @@ export function LessonPlayerPage() {
     void load();
   }, [load]);
 
-  function markComplete(idx: number) {
-    setCompletedIdxs((prev) => new Set([...prev, idx]));
-  }
-
   function advanceOrComplete(idx: number) {
-    markComplete(idx);
+    const next = new Set([...completedIdxs, idx]);
+    setCompletedIdxs(next);
+
     if (idx + 1 < lessons.length) {
       setCurrentIdx(idx + 1);
-    } else if (reviewMode) {
-      // Review mode shows no completion banner, so finishing the last item
-      // (e.g. a just-added lab) would otherwise leave the "continue" button
-      // doing nothing. Take the learner back to the dashboard.
-      navigate('/dashboard');
+      return;
     }
-    // Non-review: reaching the last lesson flips `allDone`, which surfaces the
-    // completion CTA banner — no navigation needed here.
+    // Finished the last lesson.
+    if (reviewMode) {
+      // Review mode shows no completion banner, so "continue" would otherwise do
+      // nothing — take the learner back to the dashboard.
+      navigate('/dashboard');
+      return;
+    }
+    // Non-review: if an earlier lesson is still incomplete (e.g. the learner
+    // jumped straight to a lab), send them there to finish. Otherwise every
+    // lesson is done → the completion banner takes over (and scrolls into view).
+    const firstIncomplete = lessons.findIndex((_, i) => !next.has(i));
+    if (firstIncomplete !== -1 && firstIncomplete !== idx) {
+      setCurrentIdx(firstIncomplete);
+    }
   }
 
   // Once every lesson is visited, persist progress and record whether this
@@ -510,6 +519,16 @@ export function LessonPlayerPage() {
       cancelled = true;
     };
   }, [reviewMode, lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, t]);
+
+  // When all lessons are done the completion banner renders below the (still
+  // visible) lesson card — scroll it into view so its continue/back CTA isn't
+  // missed. Fires as soon as the banner appears (even while it's still saving).
+  useEffect(() => {
+    const done = lessons.length > 0 && completedIdxs.size === lessons.length;
+    if (!reviewMode && done) {
+      bannerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [reviewMode, completedIdxs.size, lessons.length]);
 
   // Retry a failed progress save (clears the error so the effect runs again).
   function retrySave() {
@@ -733,7 +752,7 @@ export function LessonPlayerPage() {
 
         {/* Completion CTA — contextual: L2 deep-dive, next core module, or retry */}
         {!reviewMode && allDone && (
-          <div className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
+          <div ref={bannerRef} className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
             {saving || (!allDoneSaved && !saveError) ? (
               <>
                 <Spinner size="sm" />
