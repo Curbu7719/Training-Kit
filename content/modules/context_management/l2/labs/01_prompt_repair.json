@@ -1,0 +1,24 @@
+{
+  "title": "Lab: Repair a Context-Heavy Prompt",
+  "type": "prompt_repair",
+  "prompt_md": "**Hands-on lab.** The starter prompt below dumps the entire conversation and every file into the context — it will blow the token budget and bury the model in noise. Edit it so it manages the context window: satisfy every requirement, then submit. Grading is automatic and deterministic — each requirement is checked by rule, no model is run, so you get instant feedback on what's still missing.",
+  "spec": {
+    "starter": "Here is our entire chat history and all of the project's files pasted below. Read everything and answer my next question using all of it.",
+    "requirements": [
+      { "id": "summarize", "label": "Summarize the earlier conversation instead of pasting all of it" },
+      { "id": "relevant", "label": "Include only the files or snippets relevant to the current question; drop the rest" },
+      { "id": "pin", "label": "Pin the key facts/decisions that must not be lost (e.g. the API contract, the chosen library)" },
+      { "id": "budget", "label": "Set an explicit token or length budget so the context stays within a limit" }
+    ]
+  },
+  "answer_key": {
+    "checks": [
+      { "id": "summarize", "anyOf": ["summar", "compress", "condense", "recap", "tl;dr", "gist"] },
+      { "id": "relevant", "anyOf": ["relevant", "only include", "only the", "exclude", "drop", "irrelevant", "omit"] },
+      { "id": "pin", "anyOf": ["pin", "preserve", "retain", "must keep", "don't drop", "do not drop", "don't lose", "key fact", "key constraint", "keep the"] },
+      { "id": "budget", "anyOf": ["token", "budget", "under", "word limit", "character", "concise", "max "] }
+    ],
+    "pass_ratio": 0.7
+  },
+  "max_score": 10
+}

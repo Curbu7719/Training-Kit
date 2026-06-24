@@ -20,13 +20,11 @@ name: Seed content
 # workflow_dispatch when a full reseed is intended.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'content/**'
-      - 'scripts/seed-content.mjs'
-      - 'scripts/validate-content.mjs'
-      - '.github/workflows/seed-content.yml'
+  # Manual only. A full reseed DELETES and re-inserts lessons, which cascades to
+  # and WIPES quiz_attempts/exercise_subs for every module. Do NOT auto-run it on
+  # content pushes — apply incremental content changes in place (e.g. insert a
+  # single new lab lesson) and trigger this deliberately via the Actions "Run
+  # workflow" button only when a clean full reseed is actually intended.
   workflow_dispatch:
 
 jobs:

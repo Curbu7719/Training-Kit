@@ -1,0 +1,24 @@
+{
+  "title": "Lab: Context Yükü Ağır Bir Prompt'u Onar",
+  "type": "prompt_repair",
+  "prompt_md": "**Uygulamalı lab.** Aşağıdaki başlangıç prompt'u tüm konuşmayı ve her dosyayı context'e döküyor — token bütçesini patlatır ve modeli gürültüye boğar. Onu context penceresini yönetecek şekilde düzenle: her gereksinimi karşıla, sonra gönder. Puanlama otomatik ve deterministik — her gereksinim kuralla kontrol edilir, model çalışmaz, böylece neyin eksik olduğuna dair anında geri bildirim alırsın.",
+  "spec": {
+    "starter": "Aşağıya tüm sohbet geçmişimizi ve projenin bütün dosyalarını yapıştırdım. Hepsini oku ve bir sonraki sorumu hepsini kullanarak yanıtla.",
+    "requirements": [
+      { "id": "summarize", "label": "Önceki konuşmayı tamamını yapıştırmak yerine özetle" },
+      { "id": "relevant", "label": "Yalnızca mevcut soruyla ilgili dosya veya parçaları dahil et; gerisini çıkar" },
+      { "id": "pin", "label": "Kaybolmaması gereken kilit gerçekleri/kararları sabitle (örn. API sözleşmesi, seçilen kütüphane)" },
+      { "id": "budget", "label": "Açık bir token veya uzunluk bütçesi koy ki context bir sınır içinde kalsın" }
+    ]
+  },
+  "answer_key": {
+    "checks": [
+      { "id": "summarize", "anyOf": ["özet", "sıkıştır", "kısalt", "tl;dr", "summar"] },
+      { "id": "relevant", "anyOf": ["ilgili", "yalnızca", "sadece", "ilgisiz", "alakasız", "çıkar", "dahil etme"] },
+      { "id": "pin", "anyOf": ["sabitle", "koru", "kaybetme", "kilit gerçek", "kilit karar", "muhafaza", "önemli"] },
+      { "id": "budget", "anyOf": ["token", "bütçe", "altında", "sınır", "kelime", "karakter", "kısa", "en fazla"] }
+    ],
+    "pass_ratio": 0.7
+  },
+  "max_score": 10
+}
