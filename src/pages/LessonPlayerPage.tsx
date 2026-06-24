@@ -460,7 +460,14 @@ export function LessonPlayerPage() {
     markComplete(idx);
     if (idx + 1 < lessons.length) {
       setCurrentIdx(idx + 1);
+    } else if (reviewMode) {
+      // Review mode shows no completion banner, so finishing the last item
+      // (e.g. a just-added lab) would otherwise leave the "continue" button
+      // doing nothing. Take the learner back to the dashboard.
+      navigate('/dashboard');
     }
+    // Non-review: reaching the last lesson flips `allDone`, which surfaces the
+    // completion CTA banner — no navigation needed here.
   }
 
   // Once every lesson is visited, persist progress and record whether this
