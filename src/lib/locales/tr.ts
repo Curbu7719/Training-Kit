@@ -64,15 +64,15 @@ const tr = {
 
   // Öğrenim patikası ekranı (rol seçiminden sonra gösterilir)
   'path.title': 'Öğrenim patikan',
-  'path.intro': 'Rolün için her çekirdek modülün L1’i zorunlu, role özel L2 derinlemesine bölümleri ise önerilir. Yine de istediğin modülü istediğin seviyede alabilirsin.',
+  'path.intro': 'Rolün için her modülün L1’i ve rolüne özel L2 derinlemesine bölümleri zorunlu; geri kalan L2 derinlemesine bölümleri ise önerilir. Yine de istediğin modülü istediğin seviyede alabilirsin.',
   'path.none': 'Rolün için henüz bir patika tanımlı değil.',
   'path.startLearning': 'Öğrenmeye başla',
   'path.browseAll': 'Tüm modüller',
   'path.freeChoice': 'İsteyen istediğini alabilir.',
   'path.mustSection': 'Zorunlu',
-  'path.mustHelp': 'Bunların her birinin L1 temeli rolün için zorunludur.',
+  'path.mustHelp': 'Her modülün L1’i, artı rolünün ihtiyaç duyduğu L2 derinlemesine bölümleri.',
   'path.recommendedSection': 'Önerilen',
-  'path.recommendedHelp': 'Sırada önerdiğimiz role özel L2 derinlemesine bölümleri.',
+  'path.recommendedHelp': 'Geri kalan modüllerdeki opsiyonel L2 derinlemesine bölümleri.',
   'path.must': 'Zorunlu',
   'path.recommended': 'Önerilen',
   'role.required': 'Zorunlu',

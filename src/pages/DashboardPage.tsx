@@ -118,12 +118,12 @@ interface ModuleCardProps {
   index: number;
   l1Status: CellStatus;
   l2Status: CellStatus;
-  /** Whether this module's L2 is recommended for the user's role. */
-  l2Recommended?: boolean;
+  /** Whether this module's L2 is mandatory (a role deep-dive) vs. recommended. */
+  l2Mandatory?: boolean;
   onOpen: (level: 'L1' | 'L2') => void;
 }
 
-function ModuleCard({ code, index, l1Status, l2Status, l2Recommended, onOpen }: ModuleCardProps) {
+function ModuleCard({ code, index, l1Status, l2Status, l2Mandatory, onOpen }: ModuleCardProps) {
   const { t } = useLanguage();
   const minutes = MODULE_MINUTES[code];
 
@@ -187,7 +187,11 @@ function ModuleCard({ code, index, l1Status, l2Status, l2Recommended, onOpen }: 
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">L2</span>
             <span className="text-sm">{t('dashboard.level.deepDive')}</span>
-            {l2Recommended && (
+            {l2Mandatory ? (
+              <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                {t('role.required')}
+              </span>
+            ) : (
               <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                 {t('path.recommended')}
               </span>
@@ -287,9 +291,9 @@ export function DashboardPage() {
   }, [profile, navigate]);
 
   const path = dbPath ?? (role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null);
-  // Modules whose L2 the role recommends (the role's L2 deep dives). Every
-  // module's L1 is mandatory for everyone, so that tag is shown unconditionally.
-  const l2RecommendedCodes = new Set(
+  // Modules the role goes deep on → their L2 is mandatory. Every module's L1 is
+  // mandatory for everyone; the L2 of the remaining modules is recommended.
+  const l2MandatoryCodes = new Set(
     [...(path?.core ?? []), ...(path?.recommended ?? [])]
       .filter((rm) => rm.level === 'L2')
       .map((rm) => rm.code)
@@ -377,7 +381,7 @@ export function DashboardPage() {
                     index={i}
                     l1Status={l1}
                     l2Status={l2}
-                    l2Recommended={l2RecommendedCodes.has(code)}
+                    l2Mandatory={l2MandatoryCodes.has(code)}
                     onOpen={(lv) => navigate(`/learn/${code}?level=${lv}`)}
                   />
                 );

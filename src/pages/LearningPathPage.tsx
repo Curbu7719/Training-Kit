@@ -22,19 +22,27 @@ const STATUS_ICON: Record<CellStatus, { icon: typeof Lock; cls: string }> = {
   passed: { icon: CheckCircle2, cls: 'text-success' },
 };
 
-// Split a role path into the user's framing: the L1 foundation of every module
-// is mandatory; the role's L2 deep dives are recommended. (The stored data marks
-// everything `core` with the level the role needs — kind isn't used here.)
+// Split a role path into the user's framing:
+//   Mandatory  = the L1 of every module (baseline for all roles) PLUS the role's
+//                own L2 deep dives (the modules it needs at L2).
+//   Recommended = the L2 of every other module (optional deeper study).
+// (The stored data marks everything `core` with the level the role needs.)
 function derivePath(p: RolePath): { mandatory: RoleModule[]; recommended: RoleModule[] } {
   const all = [...p.core, ...p.recommended];
+  // Unique module codes, in path order.
+  const codes: string[] = [];
+  const seen = new Set<string>();
+  for (const e of all) if (!seen.has(e.code)) { seen.add(e.code); codes.push(e.code); }
+  // Modules the role goes deep on → their L2 is mandatory.
+  const l2Codes = new Set(all.filter((e) => e.level === 'L2').map((e) => e.code));
+
   const mandatory: RoleModule[] = [];
+  for (const code of codes) mandatory.push({ code, level: 'L1' });                 // every L1
+  for (const code of codes) if (l2Codes.has(code)) mandatory.push({ code, level: 'L2' }); // role's L2s
+
   const recommended: RoleModule[] = [];
-  const seenM = new Set<string>();
-  const seenR = new Set<string>();
-  for (const e of all) {
-    if (!seenM.has(e.code)) { seenM.add(e.code); mandatory.push({ code: e.code, level: 'L1' }); }
-    if (e.level === 'L2' && !seenR.has(e.code)) { seenR.add(e.code); recommended.push({ code: e.code, level: 'L2' }); }
-  }
+  for (const code of codes) if (!l2Codes.has(code)) recommended.push({ code, level: 'L2' }); // other L2s
+
   return { mandatory, recommended };
 }
 

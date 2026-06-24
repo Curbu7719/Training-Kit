@@ -63,15 +63,15 @@ const en = {
 
   // Learning path screen (shown after role selection)
   'path.title': 'Your learning path',
-  'path.intro': 'For your role, the L1 of each core module is mandatory and the role-specific L2 deep dives are recommended. You can still take any module at any level.',
+  'path.intro': 'For your role, every module’s L1 plus your role’s own L2 deep dives are mandatory; the remaining L2 deep dives are recommended. You can still take any module at any level.',
   'path.none': 'No path is configured for your role yet.',
   'path.startLearning': 'Start learning',
   'path.browseAll': 'Browse all modules',
   'path.freeChoice': 'Anyone can take anything.',
   'path.mustSection': 'Mandatory',
-  'path.mustHelp': 'The L1 foundation of each of these is required for your role.',
+  'path.mustHelp': 'Every module’s L1, plus the L2 deep dives your role needs.',
   'path.recommendedSection': 'Recommended',
-  'path.recommendedHelp': 'Role-specific L2 deep dives we suggest next.',
+  'path.recommendedHelp': 'Optional L2 deep dives on the remaining modules.',
   'path.must': 'Must',
   'path.recommended': 'Recommended',
   'role.required': 'Required',
