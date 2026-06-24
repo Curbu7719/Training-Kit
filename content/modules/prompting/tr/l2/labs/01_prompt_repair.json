@@ -18,7 +18,8 @@
       { "id": "output_format", "anyOf": ["diff", "tek dosya", "tek bir dosya", "test dosyası", "json", "format"] },
       { "id": "delimiters", "regex": "```|<code>|~~~" }
     ],
-    "pass_ratio": 0.7
+    "pass_ratio": 0.7,
+    "sample": "Aşağıdaki fonksiyon için pytest kullanarak unit testler yaz. Mutlu yolu ve şu uç durumları kapsa: boş girdi, sınır değerler, null ve geçersiz türler. Sonucu tek bir test dosyası (tek bir .py dosyası) olarak, yalnızca kod döndür — açıklama yazma. Fonksiyon:\n```python\n# fonksiyonu buraya yapıştır\n```"
   },
   "max_score": 10
 }

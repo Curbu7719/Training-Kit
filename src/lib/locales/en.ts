@@ -241,6 +241,7 @@ const en = {
   'exercise.promptRepair.instruction': 'Edit the prompt below so it satisfies every requirement, then submit.',
   'exercise.promptRepair.editorLabel': 'Editable prompt',
   'exercise.promptRepair.requirements': 'Your prompt should:',
+  'exercise.promptRepair.sample': 'Example answer (one good version)',
   'exercise.promptRepair.result': '{score}/{max} points — {met}/{total} requirements met',
 
   // ---------------------------------------------------------------------------

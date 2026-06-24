@@ -18,7 +18,8 @@
       { "id": "pin", "anyOf": ["pin", "preserve", "retain", "must keep", "don't drop", "do not drop", "don't lose", "key fact", "key constraint", "keep the"] },
       { "id": "budget", "anyOf": ["token", "budget", "under", "word limit", "character", "concise", "max "] }
     ],
-    "pass_ratio": 0.7
+    "pass_ratio": 0.7,
+    "sample": "Here is a 3-bullet summary of our earlier conversation instead of the full log. Below it I've included only the two files relevant to my current question and dropped the rest. Key facts to keep (do not drop these): the API is REST/JSON and we chose FastAPI. Keep the whole context under ~2,000 tokens; if you must trim, drop older history first. My question: <your question>."
   },
   "max_score": 10
 }

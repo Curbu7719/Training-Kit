@@ -242,6 +242,7 @@ const tr = {
   'exercise.promptRepair.instruction': 'Aşağıdaki prompt\'u her gereksinimi karşılayacak şekilde düzenle, sonra gönder.',
   'exercise.promptRepair.editorLabel': 'Düzenlenebilir prompt',
   'exercise.promptRepair.requirements': 'Prompt\'un şunları içermeli:',
+  'exercise.promptRepair.sample': 'Örnek cevap (iyi bir versiyon)',
   'exercise.promptRepair.result': '{score}/{max} puan — {total} gereksinimden {met} tanesi karşılandı',
 
   // ---------------------------------------------------------------------------

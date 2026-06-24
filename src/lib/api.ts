@@ -26,6 +26,8 @@ export interface ExerciseSubmitResponse {
     order?: number[];
     pairs?: [number, number][];
     accept?: string[][];
+    /** prompt_repair: a model answer that satisfies every requirement. */
+    sample?: string;
   };
 }
 

@@ -122,6 +122,14 @@ export function PromptRepairExercise({ spec, onSubmit }: Props) {
         </div>
       )}
 
+      {/* Model answer — revealed after grading */}
+      {result?.correct?.sample && (
+        <div className="rounded-md border border-border bg-muted/40 px-4 py-3">
+          <p className="mb-1 text-sm font-semibold">{t('exercise.promptRepair.sample')}</p>
+          <p className="whitespace-pre-wrap font-mono text-sm text-muted-foreground">{result.correct.sample}</p>
+        </div>
+      )}
+
       {!result && (
         <Button
           onClick={handleSubmit}

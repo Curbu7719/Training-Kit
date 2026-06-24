@@ -226,6 +226,13 @@ export function ReviewExercise({ exercise, onRedo }: { exercise: ReviewExerciseD
               {(ans.text as string) || '—'}
             </div>
           </AnswerBlock>
+          {typeof ak.sample === 'string' && ak.sample && (
+            <AnswerBlock label={t('exercise.promptRepair.sample')}>
+              <div className="whitespace-pre-wrap rounded-md border border-border bg-muted/40 px-3 py-2 font-mono text-muted-foreground">
+                {ak.sample}
+              </div>
+            </AnswerBlock>
+          )}
           {reqs.length > 0 && (
             <AnswerBlock label={t('review.requirements')}>
               <ul className="list-disc space-y-0.5 pl-5 text-muted-foreground">

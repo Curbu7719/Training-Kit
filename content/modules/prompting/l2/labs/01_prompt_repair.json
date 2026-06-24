@@ -18,7 +18,8 @@
       { "id": "output_format", "anyOf": ["diff", "single file", "one file", "test file", "json", "format"] },
       { "id": "delimiters", "regex": "```|<code>|~~~" }
     ],
-    "pass_ratio": 0.7
+    "pass_ratio": 0.7,
+    "sample": "Write unit tests for the function below using pytest. Cover the happy path and these edge cases: empty input, boundary values, null, and invalid types. Return the result as a single test file (one .py file), code only — no prose. Here is the function:\n```python\n# paste the function here\n```"
   },
   "max_score": 10
 }

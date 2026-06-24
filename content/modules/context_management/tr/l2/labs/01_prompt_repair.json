@@ -18,7 +18,8 @@
       { "id": "pin", "anyOf": ["sabitle", "koru", "kaybetme", "kilit gerçek", "kilit karar", "muhafaza", "önemli"] },
       { "id": "budget", "anyOf": ["token", "bütçe", "altında", "sınır", "kelime", "karakter", "kısa", "en fazla"] }
     ],
-    "pass_ratio": 0.7
+    "pass_ratio": 0.7,
+    "sample": "Tüm log yerine önceki konuşmamızın 3 maddelik özeti aşağıda. Yalnızca mevcut sorumla ilgili iki dosyayı ekledim, gerisini çıkardım. Korunması gereken kilit gerçekler (bunları düşürme): API REST/JSON ve FastAPI seçtik. Tüm context'i ~2.000 token altında tut; kırpman gerekirse önce eski geçmişi at. Sorum: <sorun>."
   },
   "max_score": 10
 }
