@@ -7,7 +7,7 @@ paginate: true
 # TrainingKit — "AI in the SDLC"
 ### Kuruma açacağımız AI Agent platformunun hazırlık eğitimi
 
-**Kimin için?** Tüm SDLC rolleri (11 rol) — yalnızca geliştiriciler değil; Portfolio/Project Manager, Governance, Designer, Release/DevOps/Infra, Security, Architect, Tester.
+**Kimin için?** Tüm SDLC rolleri (11 rol) — yalnızca geliştiriciler değil; Portfolio/Project Manager, Governance, Solution Designer, Release/DevOps/Infra, Security, Architect, Tester.
 
 **Neden?** Platformu açmadan önce herkese **ortak AI okuryazarlığı + güvenli kullanım**. Amaç AI ile yazılım inşa etmeyi *ve* AI'ı günlük işte güvenle kullanmayı öğretmek — bir tehdit değil, kapasite olarak.
 

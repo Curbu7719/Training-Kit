@@ -60,6 +60,6 @@ boundary covered in Guardrails.
 
 - **Developer:** Writes the JSON-schema output contract with validation, parameterises and version-controls the prompt, and iterates it against an eval set in CI.
 - **Tester:** Builds the eval/regression set and tests output against the schema and for prompt-injection robustness.
-- **Designer:** Supplies representative and edge-case examples and defines what a "good" output contains, so few-shot and the eval set reflect real needs.
+- **Solution Designer:** Supplies representative and edge-case examples and defines what a "good" output contains, so few-shot and the eval set reflect real needs.
 - **Project Manager:** Treats the prompt as a maintained asset (versioned, reviewed) and sets the quality bar the eval set must clear before a change ships.
 - **Enterprise Architect:** Designs the prompt-versioning and validation seams so prompts stay dependable as they change.

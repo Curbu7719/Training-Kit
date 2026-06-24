@@ -18,5 +18,5 @@ You don't have to build AI to use it well. Most of us will *use* the company's A
 - **Project Manager:** Checks AI-drafted plans, updates, and stories against the real facts before sharing them as decisions.
 - **Portfolio Manager:** Uses AI to speed up analysis but verifies numbers and claims before they inform a budget or roadmap.
 - **Governance:** Sets and models the rules — approved tools, what data may be sent, and when human sign-off is required.
-- **Designer:** Treats AI drafts and content as a starting point, checking facts and tone before they reach a user.
+- **Solution Designer:** Treats AI drafts and content as a starting point, checking facts and tone before they reach a user.
 - **Release Manager:** Never lets an AI-suggested change ship without the normal human review and approval.

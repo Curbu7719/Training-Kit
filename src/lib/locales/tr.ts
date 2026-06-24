@@ -65,7 +65,7 @@ const tr = {
   'role.project_manager': 'Proje Yöneticisi',
   'role.governance': 'Yönetişim',
   'role.developer': 'Geliştirici',
-  'role.designer': 'Tasarımcı',
+  'role.solution_designer': 'Çözüm Tasarımcısı',
   'role.enterprise_architect': 'Kurumsal Mimar',
   'role.tester': 'Test Uzmanı',
   'role.release_manager': 'Sürüm Yöneticisi',

@@ -22,6 +22,6 @@ Bir **prompt**, bir dil modeline çıktısını yönlendirmek için verdiğiniz 
 
 - **Developer:** Test framework'ünü ve kodlama standartlarını sabitleyen bir system mesajı yazar, modele birim testleri ya da bir diff olarak refactor ürettirir ve ilk başta yanlış yaptığı durumlara karşı yineler.
 - **Tester:** Sabit bir bölüm şablonuyla bir spesifikasyondan test planı taslağı hazırlayan bir prompt kurar; böylece çıktı tutarlı ve kontrol edilebilir olur.
-- **Designer:** Bulanık bir isteği, iyi bir prompt — ve karşı kontrol edebileceğin bir sonuç — yapan açık niyete ve kabul kriterlerine çevirir.
+- **Solution Designer:** Bulanık bir isteği, iyi bir prompt — ve karşı kontrol edebileceğin bir sonuç — yapan açık niyete ve kabul kriterlerine çevirir.
 - **Project Manager:** İstenen kapsamı, tonu ve çıktı biçimini baştan tanımlar; özellik kalitesini yalnızca model seçiminin değil prompt kalitesinin de yönlendirdiğini bilir.
 - **Enterprise Architect:** System/user ayrımını ve sınırlayıcıları, prompt'lar ekip genelinde yeniden kullanılabilir ve güvenli kalacak biçimde tasarlar.

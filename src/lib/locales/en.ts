@@ -64,7 +64,7 @@ const en = {
   'role.project_manager': 'Project Manager',
   'role.governance': 'Governance',
   'role.developer': 'Developer',
-  'role.designer': 'Designer',
+  'role.solution_designer': 'Solution Designer',
   'role.enterprise_architect': 'Enterprise Architect',
   'role.tester': 'Tester',
   'role.release_manager': 'Release Manager',

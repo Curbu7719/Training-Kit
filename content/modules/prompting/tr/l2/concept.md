@@ -60,6 +60,6 @@ işlenen prompt injection sınırı.
 
 - **Developer:** Doğrulamalı JSON şeması çıktı sözleşmesini yazar, prompt'u parametreler ve sürüm kontrolüne alır ve CI'da bir değerlendirme setine karşı yineler.
 - **Tester:** Değerlendirme/regresyon setini kurar ve çıktıyı şemaya karşı ve prompt-injection sağlamlığı için test eder.
-- **Designer:** Temsili ve uç durum örnekleri sağlar ve "iyi" bir çıktının ne içerdiğini tanımlar; böylece few-shot ve değerlendirme seti gerçek ihtiyaçları yansıtır.
+- **Solution Designer:** Temsili ve uç durum örnekleri sağlar ve "iyi" bir çıktının ne içerdiğini tanımlar; böylece few-shot ve değerlendirme seti gerçek ihtiyaçları yansıtır.
 - **Project Manager:** Prompt'u bakımı yapılan bir varlık olarak görür (versiyonlu, incelenmiş) ve bir değişiklik yayınlanmadan önce değerlendirme setinin geçmesi gereken kalite çıtasını koyar.
 - **Enterprise Architect:** Prompt versiyonlama ve doğrulama noktalarını, prompt'lar evrildikçe güvenilir kalacak biçimde tasarlar.

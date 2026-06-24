@@ -18,5 +18,5 @@ AI'ı iyi kullanmak için onu inşa etmen gerekmez. Çoğumuz günlük işte şi
 - **Project Manager:** AI'ın taslakladığı planları, güncellemeleri ve story'leri karar olarak paylaşmadan önce gerçek olgularla karşılaştırır.
 - **Portfolio Manager:** Analizi hızlandırmak için AI kullanır ama sayıları ve iddiaları bir bütçeyi ya da yol haritasını beslemeden önce doğrular.
 - **Governance:** Kuralları koyar ve örnekler — onaylı araçlar, hangi verinin gönderilebileceği ve ne zaman insan onayı gerektiği.
-- **Designer:** AI taslaklarını ve içeriğini bir başlangıç noktası olarak görür; bir kullanıcıya ulaşmadan önce olguları ve tonu kontrol eder.
+- **Solution Designer:** AI taslaklarını ve içeriğini bir başlangıç noktası olarak görür; bir kullanıcıya ulaşmadan önce olguları ve tonu kontrol eder.
 - **Release Manager:** AI'ın önerdiği bir değişikliğin, normal insan incelemesi ve onayı olmadan yayına çıkmasına asla izin vermez.

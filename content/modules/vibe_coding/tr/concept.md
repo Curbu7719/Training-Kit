@@ -39,5 +39,5 @@ kimsenin akıl yürütemeyeceği bir şeye dönüşmesine izin vermeyin.
 - **Developer:** prompt → çalıştır → doğrula → düzelt döngüsünü küçük diff'lerle yürütür, üretilen her satırı okur ve çalışan durumları commit eder; böylece anlamadığı hiçbir şey main'e ulaşmaz.
 - **Tester:** AI tarafından yazılan kodu test edilene kadar güvenilmez sayar ve makul-ama-bozuk çıktıya karşı gerçek assertion'larla korur.
 - **Project Manager:** "Hızlı"nın hâlâ review edilmiş ve test edilmiş demek olduğu — vibe üzerine gönderilmiş okunmamış AI çıktısı değil — beklentisini koyar ve doğrulama adımı için zaman korur.
-- **Designer:** Bulanık bir isteği, iyi bir prompt ve kontrol edilebilir bir sonuç yapan açık niyete ve kabul kriterlerine çevirir.
+- **Solution Designer:** Bulanık bir isteği, iyi bir prompt ve kontrol edilebilir bir sonuç yapan açık niyete ve kabul kriterlerine çevirir.
 - **Enterprise Architect:** AI destekli kod büyürken sistemi mimari olarak tutarlı tutar; böylece kimsenin akıl yürütemeyeceği bir şeye sapmaz.

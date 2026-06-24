@@ -23,7 +23,7 @@ export const ROLE_ORDER = [
   'project_manager',
   'governance',
   'developer',
-  'designer',
+  'solution_designer',
   'enterprise_architect',
   'tester',
   'release_manager',
@@ -53,7 +53,7 @@ export const ROLE_PATHS: Record<RoleKey, RolePath> = {
     core: [m('using_ai_safely'), m('llm_foundations'), m('tokens', 'L2'), m('context_management', 'L2'), m('prompting', 'L2'), m('guardrails'), m('security_privacy'), m('tool_use_agents', 'L2'), m('rag', 'L2'), m('evaluation', 'L2'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding', 'L2')],
     recommended: [],
   },
-  designer: {
+  solution_designer: {
     core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management', 'L2'), m('prompting', 'L2'), m('guardrails', 'L2'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance'), m('ai_value_scaling'), m('ai_delivery_portfolio'), m('vibe_coding')],
     recommended: [],
   },

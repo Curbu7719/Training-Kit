@@ -22,6 +22,6 @@ A **prompt** is the text you give a language model to steer its output. The mode
 
 - **Developer:** Writes a system message that pins the test framework and coding standards, prompts the model to generate unit tests or a refactor as a diff, and iterates against cases it first gets wrong.
 - **Tester:** Builds a prompt that drafts a test plan from a spec with a fixed section template, so the output is consistent and easy to check.
-- **Designer:** Turns a fuzzy request into the clear intent and acceptance criteria that make a good prompt — and a result you can check against.
+- **Solution Designer:** Turns a fuzzy request into the clear intent and acceptance criteria that make a good prompt — and a result you can check against.
 - **Project Manager:** Defines the desired scope, tone, and output format up front, knowing that prompt quality — not just model choice — drives feature quality.
 - **Enterprise Architect:** Designs the system/user split and delimiters so prompts stay reusable and safe across the team.

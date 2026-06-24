@@ -75,7 +75,7 @@ code volume and ship no faster if review and rework become the new bottleneck.
   other, so AI-generated changes clear review and test gates before they ship.
 - **Developer:** Shifts from writing every line to specifying intent, reviewing and verifying AI
   output, and owning correctness, security, and tests for what merges.
-- **Designer:** Designs the feature and joins the high-level estimation/cost work, turning a request
+- **Solution Designer:** Designs the feature and joins the high-level estimation/cost work, turning a request
   into clear intent the team — and its AI assistants — can build against.
 - **Tester & Enterprise Architect:** Set the quality gates (review, tests, security/type checks) and
   the enforced patterns that keep AI-generated code correct, secure, and consistent across the system.

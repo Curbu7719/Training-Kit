@@ -46,5 +46,5 @@ consistent way.)
 - **Developer:** Runs the prompt → run → verify → refine loop in small diffs, reads every generated line, and saves working states so nothing they don't understand reaches main.
 - **Tester:** Treats AI-written code as untrusted until it is tested, and guards against output that looks right but is broken by writing real checks.
 - **Project Manager:** Makes clear that "fast" still means reviewed and tested — not unread AI output shipped on vibes — and protects time for the verify step.
-- **Designer:** Turns a fuzzy request into the clear intent and acceptance criteria that make a good prompt and a checkable result.
+- **Solution Designer:** Turns a fuzzy request into the clear intent and acceptance criteria that make a good prompt and a checkable result.
 - **Enterprise Architect:** Keeps the system fitting together as AI-assisted code grows, so it doesn't drift into something no one can make sense of.
