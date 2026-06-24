@@ -159,10 +159,13 @@ interface LessonCardProps {
   exercise: ExerciseDbRow | null;
   onQuizComplete: (score: number, max: number) => void;
   onExerciseDone: () => void;
-  // Review mode: show the learner's previous answers instead of interactive widgets.
-  reviewMode?: boolean;
+  // Whether to show the read-only review (previous answers + correct) instead of
+  // the interactive widget — decided per item by the player based on prior attempts.
   reviewQuestions?: ReviewQuizQuestion[];
   reviewExercise?: ReviewExerciseData | null;
+  showReviewQuiz?: boolean;
+  showReviewExercise?: boolean;
+  onRedo?: () => void;
 }
 
 function LessonCard({
@@ -171,22 +174,15 @@ function LessonCard({
   exercise,
   onQuizComplete,
   onExerciseDone,
-  reviewMode,
   reviewQuestions,
   reviewExercise,
+  showReviewQuiz,
+  showReviewExercise,
+  onRedo,
 }: LessonCardProps) {
   const { t } = useLanguage();
   const Icon = KIND_ICONS[lesson.kind];
   const kindKey = `lesson.kind.${lesson.kind}` as const;
-
-  // In review mode, only show the read-only review for items the learner has
-  // actually attempted. Un-attempted ones (e.g. a newly-added lab) — or ones the
-  // learner chooses to redo — fall back to the interactive widget.
-  const [redo, setRedo] = useState(false);
-  const quizAttempted = (reviewQuestions ?? []).some((q) => q.chosen !== null);
-  const exerciseAttempted = reviewExercise?.answer != null;
-  const showReviewQuiz = !!reviewMode && quizAttempted && !redo;
-  const showReviewExercise = !!reviewMode && exerciseAttempted && !redo;
 
   // For concept/example lessons, strip the hint section from body_md before rendering.
   const displayMd =
@@ -214,13 +210,13 @@ function LessonCard({
 
       {lesson.kind === 'quiz' && (
         showReviewQuiz
-          ? <ReviewQuiz questions={reviewQuestions ?? []} onRedo={() => setRedo(true)} />
+          ? <ReviewQuiz questions={reviewQuestions ?? []} onRedo={onRedo} />
           : <QuizRunner questions={questions as QuizQuestionRow[]} onComplete={onQuizComplete} />
       )}
 
       {lesson.kind === 'exercise' && (
         showReviewExercise && reviewExercise
-          ? <ReviewExercise exercise={reviewExercise} onRedo={() => setRedo(true)} />
+          ? <ReviewExercise exercise={reviewExercise} onRedo={onRedo} />
           : (exercise && <ExerciseWidget exercise={exercise} onDone={onExerciseDone} />)
       )}
     </div>
@@ -259,6 +255,8 @@ export function LessonPlayerPage() {
   // previous answers (read-only) instead of the interactive widgets.
   const [reviewMode, setReviewMode] = useState(false);
   const [reviewByLesson, setReviewByLesson] = useState<Record<string, ReviewLesson>>({});
+  // Lessons the learner chose to redo (answer again) despite a prior attempt.
+  const [redoLessons, setRedoLessons] = useState<Set<string>>(new Set());
 
   // Whether this module has L2 content in the current language (so we know
   // whether to offer "Continue to L2" after L1 passes).
@@ -295,6 +293,7 @@ export function LessonPlayerPage() {
     setFinishing(false);
     setSaveError(false);
     savingRef.current = false;
+    setRedoLessons(new Set());
 
     try {
       // 1. Resolve module row
@@ -362,17 +361,16 @@ export function LessonPlayerPage() {
         .eq('level', 'L2');
       setL2Available((l2Count ?? 0) > 0);
 
-      // In review mode, load the learner's previous answers + the correct ones.
-      if (selectedPassed) {
-        try {
-          const rev = await getReview(modData.id, resolvedLevel, lang);
-          const map: Record<string, ReviewLesson> = {};
-          for (const rl of rev.lessons) map[rl.lesson_id] = rl;
-          setReviewByLesson(map);
-        } catch {
-          setReviewByLesson({});
-        }
-      } else {
+      // Always load the learner's previous answers + the correct ones, so any
+      // item they've already attempted shows as review (their answer + correct)
+      // instead of asking them to solve it again — regardless of level pass.
+      // The function only reveals correct answers for items actually attempted.
+      try {
+        const rev = await getReview(modData.id, resolvedLevel, lang);
+        const map: Record<string, ReviewLesson> = {};
+        for (const rl of rev.lessons) map[rl.lesson_id] = rl;
+        setReviewByLesson(map);
+      } catch {
         setReviewByLesson({});
       }
 
@@ -463,16 +461,9 @@ export function LessonPlayerPage() {
       setCurrentIdx(idx + 1);
       return;
     }
-    // Finished the last lesson.
-    if (reviewMode) {
-      // Review mode shows no completion banner, so "continue" would otherwise do
-      // nothing — take the learner back to the dashboard.
-      navigate('/dashboard');
-      return;
-    }
-    // Non-review: if an earlier lesson is still incomplete (e.g. the learner
-    // jumped straight to a lab), send them there to finish. Otherwise every
-    // lesson is done → the completion banner takes over (and scrolls into view).
+    // Finished the last lesson. If an earlier one is still incomplete (e.g. the
+    // learner jumped straight to a lab), send them there to finish. Otherwise
+    // every lesson is done → the completion banner takes over (and scrolls in).
     const firstIncomplete = lessons.findIndex((_, i) => !next.has(i));
     if (firstIncomplete !== -1 && firstIncomplete !== idx) {
       setCurrentIdx(firstIncomplete);
@@ -484,7 +475,6 @@ export function LessonPlayerPage() {
   // is a ref (not `saving` state in the deps), otherwise setSaving(true) would
   // re-run this effect and cancel the very save it just started.
   useEffect(() => {
-    if (reviewMode) return; // nothing to save when just reviewing past answers
     const allVisited = lessons.length > 0 && completedIdxs.size === lessons.length;
     if (!allVisited || !moduleRow || allDoneSaved || savingRef.current) return;
     let cancelled = false;
@@ -518,27 +508,22 @@ export function LessonPlayerPage() {
     return () => {
       cancelled = true;
     };
-  }, [reviewMode, lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, t]);
+  }, [lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, t]);
 
   // When all lessons are done the completion banner renders below the (still
   // visible) lesson card — scroll it into view so its continue/back CTA isn't
   // missed. Fires as soon as the banner appears (even while it's still saving).
   useEffect(() => {
     const done = lessons.length > 0 && completedIdxs.size === lessons.length;
-    if (!reviewMode && done) {
+    if (done) {
       bannerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [reviewMode, completedIdxs.size, lessons.length]);
+  }, [completedIdxs.size, lessons.length]);
 
   // Retry a failed progress save (clears the error so the effect runs again).
   function retrySave() {
     setSaveError(false);
     setAllDoneSaved(false);
-  }
-
-  // Plain advance used in review mode (no completion / save semantics).
-  function goNext(idx: number) {
-    if (idx + 1 < lessons.length) setCurrentIdx(idx + 1);
   }
 
   // Switch the shown level (review or continue) via the URL ?level= param.
@@ -615,6 +600,21 @@ export function LessonPlayerPage() {
 
   const currentLesson = lessons[currentIdx];
   const allDone = completedIdxs.size === lessons.length;
+
+  // Per-item review decision: an already-attempted quiz/exercise shows the
+  // learner's previous answer + the correct one (no re-solving), unless they
+  // chose to redo it. Un-attempted items stay interactive.
+  const curReview = reviewByLesson[currentLesson.id];
+  const curIsRedo = redoLessons.has(currentLesson.id);
+  const showReviewQuiz =
+    currentLesson.kind === 'quiz' && !curIsRedo &&
+    (curReview?.questions ?? []).some((q) => q.chosen !== null);
+  const showReviewExercise =
+    currentLesson.kind === 'exercise' && !curIsRedo && curReview?.exercise?.answer != null;
+  // "Static" lessons (no interactive widget driving its own advance) get a Next button.
+  const isStaticLesson =
+    currentLesson.kind === 'concept' || currentLesson.kind === 'example' || showReviewQuiz || showReviewExercise;
+  const markRedo = () => setRedoLessons((prev) => new Set(prev).add(currentLesson.id));
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -722,36 +722,27 @@ export function LessonPlayerPage() {
             exercise={exercises[currentLesson.id] ?? null}
             onQuizComplete={(_score, _max) => advanceOrComplete(currentIdx)}
             onExerciseDone={() => advanceOrComplete(currentIdx)}
-            reviewMode={reviewMode}
             reviewQuestions={reviewByLesson[currentLesson.id]?.questions}
             reviewExercise={reviewByLesson[currentLesson.id]?.exercise ?? null}
+            showReviewQuiz={showReviewQuiz}
+            showReviewExercise={showReviewExercise}
+            onRedo={markRedo}
           />
 
-          {/* Advance controls */}
-          {reviewMode ? (
-            <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
-              <Button variant="ghost" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
-                {t('nav.backToDashboard')}
+          {/* Advance control — static lessons (concept/example or an already-answered
+              quiz/exercise shown as review) get a Next button; interactive widgets
+              advance themselves on completion. */}
+          {isStaticLesson && (
+            <div className="mt-6 flex justify-end border-t border-border pt-4">
+              <Button onClick={() => advanceOrComplete(currentIdx)} data-testid="lesson-next-btn">
+                {currentIdx + 1 < lessons.length ? t('lesson.next') : t('lesson.markComplete')}
               </Button>
-              {currentIdx + 1 < lessons.length && (
-                <Button onClick={() => goNext(currentIdx)} data-testid="lesson-next-btn">
-                  {t('lesson.next')}
-                </Button>
-              )}
             </div>
-          ) : (
-            (currentLesson.kind === 'concept' || currentLesson.kind === 'example') && (
-              <div className="mt-6 flex justify-end border-t border-border pt-4">
-                <Button onClick={() => advanceOrComplete(currentIdx)} data-testid="lesson-next-btn">
-                  {currentIdx + 1 < lessons.length ? t('lesson.next') : t('lesson.markComplete')}
-                </Button>
-              </div>
-            )
           )}
         </div>
 
         {/* Completion CTA — contextual: L2 deep-dive, next core module, or retry */}
-        {!reviewMode && allDone && (
+        {allDone && (
           <div ref={bannerRef} className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
             {saving || (!allDoneSaved && !saveError) ? (
               <>
