@@ -68,6 +68,14 @@ async function seedLevel(moduleId, code, level, lang, baseDir) {
     await insertLesson(moduleId, 'example', level, lang, 'Worked Example', read(examplePath), (sort += 1));
   }
 
+  // Optional non-graded interactive demo (e.g. "same prompt, different models").
+  // The whole JSON is stored as body_md; the player renders it with ModelCompare.
+  const demoPath = join(baseDir, 'demo.json');
+  if (existsSync(demoPath)) {
+    const demo = readJson(demoPath);
+    await insertLesson(moduleId, 'demo', level, lang, demo.title ?? 'Demo', JSON.stringify(demo), (sort += 1));
+  }
+
   const quizPath = join(baseDir, 'quiz.json');
   if (existsSync(quizPath)) {
     const lessonId = await insertLesson(moduleId, 'quiz', level, lang, 'Quiz', null, (sort += 1));

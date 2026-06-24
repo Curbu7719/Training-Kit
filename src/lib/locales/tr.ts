@@ -153,6 +153,13 @@ const tr = {
   'lesson.kind.example': 'Çözümlü örnek',
   'lesson.kind.quiz': 'Quiz',
   'lesson.kind.exercise': 'Alıştırma',
+  'lesson.kind.demo': 'Demo',
+
+  // Model karşılaştırma demosu
+  'demo.pickPrompt': 'Bir prompt seç',
+  'demo.prompt': 'Prompt',
+  'demo.promptLabel': 'Prompt',
+  'demo.note': 'Neyi fark et:',
 
   // ---------------------------------------------------------------------------
   // Badge shelf

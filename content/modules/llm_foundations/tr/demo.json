@@ -1,0 +1,39 @@
+{
+  "title": "Demo: Aynı Prompt, Farklı Modeller",
+  "intro": "Burada çözülecek bir şey yok — sadece keşfet. Bir prompt seç ve üç modelin AYNI isteğe nasıl yanıt verdiğini karşılaştır. Aşağıdaki yanıtlar tipik davranışı gösteren temsili örneklerdir (canlı çağrı değil); amaç, modellerin NASIL farklılaştığını görüp doğru modeli seçmeyi ve farklılıklara dayanıklı promptlar yazmayı öğrenmek.",
+  "items": [
+    {
+      "id": "recursion",
+      "label": "Basitçe anlat",
+      "prompt": "Özyinelemeyi (recursion) bir 10 yaşındakine iki cümlede anlat.",
+      "responses": [
+        { "model": "Claude Opus (büyük)", "text": "Özyineleme, bir şeyin büyük bir işi minik bir parçasını yapıp gerisini kendisinin daha küçük bir kopyasından istemesidir. İki aynanın arasında durmak gibidir — her yansıma içinde daha küçük bir yansıma barındırır, en dibe kadar." },
+        { "model": "Claude Haiku (küçük, hızlı)", "text": "Özyineleme, bir fonksiyonun basit bir durma noktasına ulaşana kadar aynı problemin daha küçük sürümlerini çözmek için kendini çağırmasıdır. Rus iç içe bebeklerini düşün — her bebeğin içinde daha küçüğü var." },
+        { "model": "GPT-4o (farklı sağlayıcı)", "text": "Özyineleme, bir dizi talimatın her seferinde problemin daha küçük bir parçası üzerinde kendini tekrarlamasıdır. Durmasını söyleyen bir 'temel duruma' (base case) ulaşana dek süren sonsuz ayna yansımaları gibi düşün." }
+      ],
+      "note": "Üçü de doğru ama seçilen benzetme (ayna vs iç içe bebek), uzunluk ve seviye farklı. Büyük model çocuk dostu ve iki cümlede tutuyor; diğerleri 'fonksiyon' veya 'base case' gibi jargon katıyor. Aynı prompt — farklı ton, uzunluk ve hedef kitleye uyum."
+    },
+    {
+      "id": "format",
+      "label": "Formata uy",
+      "prompt": "AI ile kod yazmanın 3 riskini, bir string'lerden oluşan JSON dizisi olarak listele. SADECE JSON çıktısı ver.",
+      "responses": [
+        { "model": "Claude Opus (büyük)", "text": "[\"AI ilk bakışta doğru görünen ince hatalar veya güvenlik açıkları katabilir\", \"Var olmayan API veya kütüphaneler uydurabilir\", \"Aşırı bağımlılık ekibin kod tabanına dair kendi anlayışını aşındırır\"]" },
+        { "model": "Claude Haiku (küçük, hızlı)", "text": "[\"Üretilen kod güvenlik açıkları içerebilir\", \"Model güncel olmayan veya var olmayan fonksiyonlar kullanabilir\", \"Geliştiriciler tam anlamadıkları kodu merge edebilir\"]" },
+        { "model": "GPT-4o (farklı sağlayıcı)", "text": "Tabii! İşte üç risk:\n```json\n[\"Güvensiz kod\", \"Uydurma API'ler\", \"Azalan geliştirici anlayışı\"]\n```" }
+      ],
+      "note": "Talimat 'SADECE JSON' diyordu. İki model uydu; biri yine de dostça bir cümle ve kod bloğu ekledi. Format uyumu modele göre değişir — makine-okunur çıktı gerektiğinde, model ne kadar konuşkan/küçükse promptun (ve parse mantığın) o kadar açık ve savunmacı olmalı."
+    },
+    {
+      "id": "reasoning",
+      "label": "Dikkatli düşün",
+      "prompt": "Bir sopa ve bir top birlikte 1,10 TL. Sopa, toptan 1,00 TL daha pahalı. Top kaç para?",
+      "responses": [
+        { "model": "Claude Opus (büyük)", "text": "Top 0,05 TL. Top = x, sopa = x + 1,00 olsun; 2x + 1,00 = 1,10 → x = 0,05 (sopa da 1,05 TL)." },
+        { "model": "Claude Haiku (küçük, hızlı)", "text": "Top 0,10 TL." },
+        { "model": "GPT-4o (farklı sağlayıcı)", "text": "Top 0,05 TL. Çoğu kişi 0,10 tahmin eder ama o zaman toplam 1,20 olurdu. Çözünce top = 0,05, sopa = 1,05 çıkar." }
+      ],
+      "note": "Bu klasik bir akıl yürütme tuzağı: sezgisel cevap (0,10) yanlış — doğrusu 0,05. Hızlı/küçük model tuzağa düştü, büyük modeller çözdü. Modeller en çok çok-adımlı akıl yürütmede ayrışır; bu yüzden modeli işe göre seç ve önemli olanları doğrula."
+    }
+  ]
+}

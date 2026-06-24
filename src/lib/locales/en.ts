@@ -152,6 +152,13 @@ const en = {
   'lesson.kind.example': 'Worked example',
   'lesson.kind.quiz': 'Quiz',
   'lesson.kind.exercise': 'Exercise',
+  'lesson.kind.demo': 'Demo',
+
+  // Model-comparison demo
+  'demo.pickPrompt': 'Pick a prompt',
+  'demo.prompt': 'Prompt',
+  'demo.promptLabel': 'The prompt',
+  'demo.note': 'What differs:',
 
   // ---------------------------------------------------------------------------
   // Badge shelf

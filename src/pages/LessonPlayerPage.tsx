@@ -1,12 +1,13 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, BookOpen, FlaskConical, HelpCircle, FileText } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, BookOpen, FlaskConical, HelpCircle, FileText, Columns3 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { submitExercise, refreshProgress, getReview } from '@/lib/api';
 import type { ExerciseAnswer, ReviewLesson, ReviewQuizQuestion, ReviewExerciseData } from '@/lib/api';
 import { ReviewQuiz, ReviewExercise } from '@/components/lesson/ReviewWidgets';
+import { ModelCompare, type ModelCompareData } from '@/components/lesson/ModelCompare';
 import { ROLE_PATHS, type RoleKey } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 import { Markdown } from '@/lib/markdown';
@@ -32,7 +33,7 @@ import { cn } from '@/lib/utils';
 interface LessonRow {
   id: string;
   module_id: string;
-  kind: 'concept' | 'example' | 'quiz' | 'exercise';
+  kind: 'concept' | 'example' | 'quiz' | 'exercise' | 'demo';
   title: string;
   body_md: string;
   sort_order: number;
@@ -71,6 +72,7 @@ const KIND_ICONS = {
   example:  FileText,
   quiz:     HelpCircle,
   exercise: FlaskConical,
+  demo:     Columns3,
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -207,6 +209,16 @@ function LessonCard({
           {lesson.kind === 'concept' && <HintPanel bodyMd={lesson.body_md} />}
         </>
       )}
+
+      {lesson.kind === 'demo' && (() => {
+        let data: ModelCompareData | null = null;
+        try {
+          data = JSON.parse(lesson.body_md ?? '{}') as ModelCompareData;
+        } catch {
+          data = null;
+        }
+        return data && Array.isArray(data.items) ? <ModelCompare data={data} /> : null;
+      })()}
 
       {lesson.kind === 'quiz' && (
         showReviewQuiz
@@ -613,7 +625,8 @@ export function LessonPlayerPage() {
     currentLesson.kind === 'exercise' && !curIsRedo && curReview?.exercise?.answer != null;
   // "Static" lessons (no interactive widget driving its own advance) get a Next button.
   const isStaticLesson =
-    currentLesson.kind === 'concept' || currentLesson.kind === 'example' || showReviewQuiz || showReviewExercise;
+    currentLesson.kind === 'concept' || currentLesson.kind === 'example' || currentLesson.kind === 'demo' ||
+    showReviewQuiz || showReviewExercise;
   const markRedo = () => setRedoLessons((prev) => new Set(prev).add(currentLesson.id));
 
   return (

@@ -1,0 +1,39 @@
+{
+  "title": "Demo: Same Prompt, Different Models",
+  "intro": "Nothing to solve here — just explore. Pick a prompt and compare how three models answer the SAME request. The responses below are illustrative of typical behaviour (not live calls); the point is to notice HOW models differ, so you learn to pick the right one and to write prompts that survive the differences.",
+  "items": [
+    {
+      "id": "recursion",
+      "label": "Explain simply",
+      "prompt": "Explain recursion to a 10-year-old in two sentences.",
+      "responses": [
+        { "model": "Claude Opus (large)", "text": "Recursion is when something solves a big job by doing one tiny piece of it and then asking a smaller copy of itself to finish the rest. It's like standing between two mirrors — each reflection holds another, smaller reflection, all the way down." },
+        { "model": "Claude Haiku (small, fast)", "text": "Recursion is when a function calls itself to solve smaller versions of the same problem until it reaches a simple stopping point. Think of Russian nesting dolls — each doll has a smaller one inside." },
+        { "model": "GPT-4o (other provider)", "text": "Recursion is when a set of instructions repeats itself on a smaller part of the problem each time. Picture endless mirror reflections that keep going until they hit a 'base case' that says stop." }
+      ],
+      "note": "All three are correct, but the analogy (mirrors vs nesting dolls), the length, and the reading level all differ. The larger model keeps it kid-friendly and to two sentences; others slip in jargon like 'function' or 'base case'. Same prompt — different tone, length, and audience fit."
+    },
+    {
+      "id": "format",
+      "label": "Follow a format",
+      "prompt": "List 3 risks of using AI to write code, as a JSON array of strings. Output ONLY the JSON.",
+      "responses": [
+        { "model": "Claude Opus (large)", "text": "[\"AI can introduce subtle bugs or security flaws that look correct at a glance\", \"It may invent APIs or libraries that don't actually exist\", \"Over-reliance erodes the team's own understanding of the codebase\"]" },
+        { "model": "Claude Haiku (small, fast)", "text": "[\"Generated code may contain security vulnerabilities\", \"The model might use outdated or non-existent functions\", \"Developers may merge code they don't fully understand\"]" },
+        { "model": "GPT-4o (other provider)", "text": "Sure! Here are three risks:\n```json\n[\"Insecure code\", \"Hallucinated APIs\", \"Reduced developer understanding\"]\n```" }
+      ],
+      "note": "The instruction said 'output ONLY the JSON.' Two models obeyed; one added friendly prose and a code fence anyway. Format-following varies — when you need machine-readable output, the chattier or smaller the model, the more explicit your prompt (and the more defensive your parsing) needs to be."
+    },
+    {
+      "id": "reasoning",
+      "label": "Reason carefully",
+      "prompt": "A bat and a ball cost $1.10 together. The bat costs $1.00 more than the ball. How much does the ball cost?",
+      "responses": [
+        { "model": "Claude Opus (large)", "text": "The ball costs $0.05. Let the ball = x and the bat = x + 1.00, so 2x + 1.00 = 1.10, which gives x = 0.05 (and the bat is $1.05)." },
+        { "model": "Claude Haiku (small, fast)", "text": "The ball costs $0.10." },
+        { "model": "GPT-4o (other provider)", "text": "The ball costs $0.05. Many people guess $0.10, but that would make the total $1.20. Solving it gives ball = $0.05, bat = $1.05." }
+      ],
+      "note": "This is a classic reasoning trap: the intuitive answer ($0.10) is wrong — the correct one is $0.05. The faster/smaller model fell for it while the larger models worked it out. Multi-step reasoning is where models differ most, which is why you match the model to the task and verify on the ones that matter."
+    }
+  ]
+}
