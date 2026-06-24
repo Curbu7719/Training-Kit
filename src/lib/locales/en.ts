@@ -120,6 +120,17 @@ const en = {
   'lesson.notPassed.title': 'Almost there',
   'lesson.notPassed.desc': 'You scored below 70% for this level. Revisit the quiz or exercise and retry to pass.',
 
+  // Review mode (revisiting a passed level)
+  'review.reviewing': 'Reviewing your answers',
+  'review.switchLevel': 'Switch level',
+  'review.correct': 'Correct',
+  'review.incorrect': 'Incorrect',
+  'review.notAttempted': 'Not answered',
+  'review.yourAnswer': 'Your answer',
+  'review.correctAnswer': 'Correct answer',
+  'review.yourScore': 'Your score: {score}/{max}',
+  'review.requirements': 'Requirements',
+
   // Lesson kind labels
   'lesson.kind.concept': 'Concept',
   'lesson.kind.example': 'Worked example',

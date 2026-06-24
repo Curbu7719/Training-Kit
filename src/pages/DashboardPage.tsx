@@ -120,7 +120,7 @@ interface ModuleCardProps {
   l1Status: CellStatus;
   l2Status: CellStatus;
   required?: boolean;
-  onOpen: () => void;
+  onOpen: (level: 'L1' | 'L2') => void;
 }
 
 function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: ModuleCardProps) {
@@ -133,6 +133,10 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
       : l1Status === 'in_progress' || l1Status === 'passed'
         ? t('dashboard.cta.continue')
         : t('dashboard.cta.start');
+
+  // Where the main CTA lands: continue into L2 only when L1 is passed but L2
+  // isn't yet; otherwise open L1 (start, or review from the beginning).
+  const ctaLevel: 'L1' | 'L2' = l1Status === 'passed' && l2Status !== 'passed' ? 'L2' : 'L1';
 
   return (
     <Card data-testid={`module-card-${code}`}>
@@ -158,21 +162,28 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
       </CardHeader>
 
       <CardContent className="flex flex-col gap-2">
-        {/* L1 row */}
-        <div className="flex items-center justify-between rounded-md border border-border px-3 py-2">
+        {/* L1 row — click to open L1 directly */}
+        <button
+          type="button"
+          onClick={() => onOpen('L1')}
+          className="flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-left transition-colors hover:border-primary/50 hover:bg-muted/50"
+        >
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">L1</span>
             <span className="text-sm">{t('dashboard.level.foundations')}</span>
             <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l1 })}</span>
           </div>
           <StatusBadge status={l1Status} />
-        </div>
+        </button>
 
-        {/* L2 row — dimmed while locked */}
-        <div
+        {/* L2 row — click to open L2 (locked until L1 passes) */}
+        <button
+          type="button"
+          onClick={() => onOpen('L2')}
+          disabled={l2Status === 'locked'}
           className={cn(
-            'flex items-center justify-between rounded-md border border-border px-3 py-2',
-            l2Status === 'locked' && 'opacity-50'
+            'flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-left transition-colors',
+            l2Status === 'locked' ? 'opacity-50' : 'hover:border-primary/50 hover:bg-muted/50'
           )}
         >
           <div className="flex items-center gap-2">
@@ -181,9 +192,9 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
             <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l2 })}</span>
           </div>
           <StatusBadge status={l2Status} />
-        </div>
+        </button>
 
-        <Button size="sm" className="mt-1 w-full" onClick={onOpen}>
+        <Button size="sm" className="mt-1 w-full" onClick={() => onOpen(ctaLevel)}>
           {ctaLabel}
         </Button>
       </CardContent>
@@ -204,7 +215,7 @@ function PathList({
   titleKey: TranslationKey;
   items: RoleModule[];
   statusFor: (code: string) => { l1: CellStatus; l2: CellStatus; l1Passed: boolean };
-  onOpen: (code: string) => void;
+  onOpen: (code: string, level: 'L1' | 'L2') => void;
 }) {
   const { t } = useLanguage();
   if (items.length === 0) return null;
@@ -219,7 +230,7 @@ function PathList({
             <li key={`${rm.code}-${rm.level}`}>
               <button
                 type="button"
-                onClick={() => onOpen(rm.code)}
+                onClick={() => onOpen(rm.code, rm.level)}
                 className="flex w-full items-center justify-between gap-2 rounded-md border border-border px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
               >
                 <span className="flex items-center gap-2">
@@ -484,8 +495,8 @@ export function DashboardPage() {
               )}
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <PathList titleKey="role.panel.core" items={path.core} statusFor={statusFor} onOpen={(c) => navigate(`/learn/${c}`)} />
-                <PathList titleKey="role.panel.recommended" items={path.recommended} statusFor={statusFor} onOpen={(c) => navigate(`/learn/${c}`)} />
+                <PathList titleKey="role.panel.core" items={path.core} statusFor={statusFor} onOpen={(c, lv) => navigate(`/learn/${c}?level=${lv}`)} />
+                <PathList titleKey="role.panel.recommended" items={path.recommended} statusFor={statusFor} onOpen={(c, lv) => navigate(`/learn/${c}?level=${lv}`)} />
               </div>
 
               <p className="text-xs text-muted-foreground">{t('role.panel.note')}</p>
@@ -528,7 +539,7 @@ export function DashboardPage() {
                     l1Status={l1}
                     l2Status={l2}
                     required={coreCodes.has(code)}
-                    onOpen={() => navigate(`/learn/${code}`)}
+                    onOpen={(lv) => navigate(`/learn/${code}?level=${lv}`)}
                   />
                 );
               })}

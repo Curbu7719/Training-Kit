@@ -1,11 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, BookOpen, FlaskConical, HelpCircle, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
-import { submitExercise, refreshProgress } from '@/lib/api';
-import type { ExerciseAnswer } from '@/lib/api';
+import { submitExercise, refreshProgress, getReview } from '@/lib/api';
+import type { ExerciseAnswer, ReviewLesson, ReviewQuizQuestion, ReviewExerciseData } from '@/lib/api';
+import { ReviewQuiz, ReviewExercise } from '@/components/lesson/ReviewWidgets';
 import { ROLE_PATHS, type RoleKey } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 import { Markdown } from '@/lib/markdown';
@@ -158,6 +159,10 @@ interface LessonCardProps {
   exercise: ExerciseDbRow | null;
   onQuizComplete: (score: number, max: number) => void;
   onExerciseDone: () => void;
+  // Review mode: show the learner's previous answers instead of interactive widgets.
+  reviewMode?: boolean;
+  reviewQuestions?: ReviewQuizQuestion[];
+  reviewExercise?: ReviewExerciseData | null;
 }
 
 function LessonCard({
@@ -166,6 +171,9 @@ function LessonCard({
   exercise,
   onQuizComplete,
   onExerciseDone,
+  reviewMode,
+  reviewQuestions,
+  reviewExercise,
 }: LessonCardProps) {
   const { t } = useLanguage();
   const Icon = KIND_ICONS[lesson.kind];
@@ -196,11 +204,15 @@ function LessonCard({
       )}
 
       {lesson.kind === 'quiz' && (
-        <QuizRunner questions={questions as QuizQuestionRow[]} onComplete={onQuizComplete} />
+        reviewMode
+          ? <ReviewQuiz questions={reviewQuestions ?? []} />
+          : <QuizRunner questions={questions as QuizQuestionRow[]} onComplete={onQuizComplete} />
       )}
 
-      {lesson.kind === 'exercise' && exercise && (
-        <ExerciseWidget exercise={exercise} onDone={onExerciseDone} />
+      {lesson.kind === 'exercise' && (
+        reviewMode
+          ? (reviewExercise ? <ReviewExercise exercise={reviewExercise} /> : null)
+          : (exercise && <ExerciseWidget exercise={exercise} onDone={onExerciseDone} />)
       )}
     </div>
   );
@@ -215,6 +227,8 @@ export function LessonPlayerPage() {
   const { profile } = useAuth();
   const { lang, t } = useLanguage();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const levelParam = searchParams.get('level');
 
   const [moduleRow, setModuleRow] = useState<ModuleRow | null>(null);
   const [lessons, setLessons] = useState<LessonRow[]>([]);
@@ -229,6 +243,13 @@ export function LessonPlayerPage() {
   // The level the user is currently working on (L1 default; L2 once L1 is passed).
   // Determined from user_progress — no track required.
   const [userLevel, setUserLevel] = useState<'L1' | 'L2'>('L1');
+  // Whether L1 is passed (L2 is accessible) — drives the L1/L2 level switcher.
+  const [l1Passed, setL1Passed] = useState(false);
+
+  // Review mode: the selected level is already passed, so show the learner's
+  // previous answers (read-only) instead of the interactive widgets.
+  const [reviewMode, setReviewMode] = useState(false);
+  const [reviewByLesson, setReviewByLesson] = useState<Record<string, ReviewLesson>>({});
 
   // Whether this module has L2 content in the current language (so we know
   // whether to offer "Continue to L2" after L1 passes).
@@ -255,6 +276,7 @@ export function LessonPlayerPage() {
     setCompletedIdxs(new Set());
     setAllDoneSaved(false);
     setLevelPassed(false);
+    setFinishing(false);
 
     try {
       // 1. Resolve module row
@@ -274,11 +296,26 @@ export function LessonPlayerPage() {
         .eq('user_id', profile.id)
         .eq('module_id', modData.id);
 
-      const l1Passed = (progressRows ?? []).some(
+      const isL1Passed = (progressRows ?? []).some(
         (r: { level: string; status: string }) => r.level === 'L1' && r.status === 'passed'
       );
-      const resolvedLevel: 'L1' | 'L2' = l1Passed ? 'L2' : 'L1';
+      const isL2Passed = (progressRows ?? []).some(
+        (r: { level: string; status: string }) => r.level === 'L2' && r.status === 'passed'
+      );
+      setL1Passed(isL1Passed);
+
+      // Resolve which level to show. An explicit ?level= wins (L2 only if L1 is
+      // passed); otherwise default to the level the learner should act on next.
+      const wanted = levelParam === 'L2' ? 'L2' : levelParam === 'L1' ? 'L1' : null;
+      const resolvedLevel: 'L1' | 'L2' =
+        wanted === 'L2' && isL1Passed ? 'L2'
+          : wanted === 'L1' ? 'L1'
+          : isL1Passed ? 'L2' : 'L1';
       setUserLevel(resolvedLevel);
+
+      // Review mode when the level being shown is already passed.
+      const selectedPassed = resolvedLevel === 'L2' ? isL2Passed : isL1Passed;
+      setReviewMode(selectedPassed);
 
       // 3. Load lessons for the CURRENT level only, filtered by the UI language.
       //    L2 shows just the L2 concept/example/quiz/exercise — not a repeat of
@@ -306,6 +343,20 @@ export function LessonPlayerPage() {
         .eq('lang', lang)
         .eq('level', 'L2');
       setL2Available((l2Count ?? 0) > 0);
+
+      // In review mode, load the learner's previous answers + the correct ones.
+      if (selectedPassed) {
+        try {
+          const rev = await getReview(modData.id, resolvedLevel, lang);
+          const map: Record<string, ReviewLesson> = {};
+          for (const rl of rev.lessons) map[rl.lesson_id] = rl;
+          setReviewByLesson(map);
+        } catch {
+          setReviewByLesson({});
+        }
+      } else {
+        setReviewByLesson({});
+      }
 
       // 4. Load quiz questions for quiz lessons
       const quizLessonIds = fetchedLessons
@@ -380,7 +431,7 @@ export function LessonPlayerPage() {
     } finally {
       setLoading(false);
     }
-  }, [moduleCode, profile, lang]);
+  }, [moduleCode, profile, lang, levelParam]);
 
   useEffect(() => {
     void load();
@@ -400,6 +451,7 @@ export function LessonPlayerPage() {
   // Once every lesson is visited, persist progress and record whether this
   // level passed — that decides which continue CTA to show.
   useEffect(() => {
+    if (reviewMode) return; // nothing to save when just reviewing past answers
     const allVisited = lessons.length > 0 && completedIdxs.size === lessons.length;
     if (!allVisited || !moduleRow || allDoneSaved || saving) return;
     let cancelled = false;
@@ -426,7 +478,18 @@ export function LessonPlayerPage() {
     return () => {
       cancelled = true;
     };
-  }, [lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, saving, t]);
+  }, [reviewMode, lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, saving, t]);
+
+  // Plain advance used in review mode (no completion / save semantics).
+  function goNext(idx: number) {
+    if (idx + 1 < lessons.length) setCurrentIdx(idx + 1);
+  }
+
+  // Switch the shown level (review or continue) via the URL ?level= param.
+  function switchLevel(lv: 'L1' | 'L2') {
+    if (lv === userLevel) return;
+    setSearchParams(moduleCode ? { level: lv } : {});
+  }
 
   // The next not-yet-passed core module after the current one (wrapping to the
   // start so an out-of-order finish still finds remaining work). null = none left.
@@ -447,11 +510,11 @@ export function LessonPlayerPage() {
     return null;
   }
 
-  // L1 just passed → re-resolve this same module in place; load() now picks L2.
-  async function continueToL2() {
+  // L1 just passed → open L2 of the same module. Set the level explicitly (not
+  // a bare reload) so an entry via ?level=L1 doesn't resolve back to L1.
+  function continueToL2() {
     setFinishing(true);
-    await load();
-    setFinishing(false);
+    setSearchParams(moduleCode ? { level: 'L2' } : {});
   }
 
   function continueToNext() {
@@ -515,10 +578,33 @@ export function LessonPlayerPage() {
             <p className="truncate text-sm font-semibold">{moduleRow?.title}</p>
             <p className="text-xs text-muted-foreground">
               {t('lesson.level', { level: userLevel })} &middot;{' '}
-              {t('lesson.progress', { done: completedIdxs.size, total: lessons.length })}
+              {reviewMode
+                ? t('review.reviewing')
+                : t('lesson.progress', { done: completedIdxs.size, total: lessons.length })}
             </p>
           </div>
-          <Badge variant={userLevel === 'L2' ? 'accent' : 'default'}>{userLevel}</Badge>
+          {l1Passed && l2Available ? (
+            <div className="flex gap-1" role="group" aria-label={t('review.switchLevel')}>
+              {(['L1', 'L2'] as const).map((lv) => (
+                <button
+                  key={lv}
+                  type="button"
+                  onClick={() => switchLevel(lv)}
+                  data-testid={`level-switch-${lv}`}
+                  className={cn(
+                    'rounded-md border px-2.5 py-1 text-xs font-semibold transition-colors',
+                    userLevel === lv
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-border text-muted-foreground hover:border-primary/50'
+                  )}
+                >
+                  {lv}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <Badge variant={userLevel === 'L2' ? 'accent' : 'default'}>{userLevel}</Badge>
+          )}
         </div>
 
         {/* Lesson progress bar */}
@@ -580,20 +666,36 @@ export function LessonPlayerPage() {
             exercise={exercises[currentLesson.id] ?? null}
             onQuizComplete={(_score, _max) => advanceOrComplete(currentIdx)}
             onExerciseDone={() => advanceOrComplete(currentIdx)}
+            reviewMode={reviewMode}
+            reviewQuestions={reviewByLesson[currentLesson.id]?.questions}
+            reviewExercise={reviewByLesson[currentLesson.id]?.exercise ?? null}
           />
 
-          {/* Advance controls for non-interactive lessons */}
-          {(currentLesson.kind === 'concept' || currentLesson.kind === 'example') && (
-            <div className="mt-6 flex justify-end border-t border-border pt-4">
-              <Button onClick={() => advanceOrComplete(currentIdx)} data-testid="lesson-next-btn">
-                {currentIdx + 1 < lessons.length ? t('lesson.next') : t('lesson.markComplete')}
+          {/* Advance controls */}
+          {reviewMode ? (
+            <div className="mt-6 flex items-center justify-between border-t border-border pt-4">
+              <Button variant="ghost" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
+                {t('nav.backToDashboard')}
               </Button>
+              {currentIdx + 1 < lessons.length && (
+                <Button onClick={() => goNext(currentIdx)} data-testid="lesson-next-btn">
+                  {t('lesson.next')}
+                </Button>
+              )}
             </div>
+          ) : (
+            (currentLesson.kind === 'concept' || currentLesson.kind === 'example') && (
+              <div className="mt-6 flex justify-end border-t border-border pt-4">
+                <Button onClick={() => advanceOrComplete(currentIdx)} data-testid="lesson-next-btn">
+                  {currentIdx + 1 < lessons.length ? t('lesson.next') : t('lesson.markComplete')}
+                </Button>
+              </div>
+            )
           )}
         </div>
 
         {/* Completion CTA — contextual: L2 deep-dive, next core module, or retry */}
-        {allDone && (
+        {!reviewMode && allDone && (
           <div className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
             {saving || !allDoneSaved ? (
               <>
@@ -614,7 +716,7 @@ export function LessonPlayerPage() {
                 <p className="font-semibold">{t('lesson.l1Passed.title')}</p>
                 <p className="text-sm text-muted-foreground">{t('lesson.l1Passed.desc')}</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
-                  <Button onClick={() => void continueToL2()} disabled={finishing} data-testid="continue-l2-btn">
+                  <Button onClick={continueToL2} disabled={finishing} data-testid="continue-l2-btn">
                     {finishing ? t('lesson.saving') : t('lesson.continueL2')}
                   </Button>
                   <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">

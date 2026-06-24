@@ -121,6 +121,17 @@ const tr = {
   'lesson.notPassed.title': 'Az kaldı',
   'lesson.notPassed.desc': 'Bu seviyede %70’in altında kaldın. Quiz veya alıştırmayı tekrar deneyip geçebilirsin.',
 
+  // Review mode (geçilmiş bir seviyeyi tekrar gözden geçirme)
+  'review.reviewing': 'Cevaplarını gözden geçiriyorsun',
+  'review.switchLevel': 'Seviye değiştir',
+  'review.correct': 'Doğru',
+  'review.incorrect': 'Yanlış',
+  'review.notAttempted': 'Cevaplanmadı',
+  'review.yourAnswer': 'Senin cevabın',
+  'review.correctAnswer': 'Doğru cevap',
+  'review.yourScore': 'Puanın: {score}/{max}',
+  'review.requirements': 'Gereksinimler',
+
   // Lesson kind labels
   'lesson.kind.concept': 'Kavram',
   'lesson.kind.example': 'Çözümlü örnek',

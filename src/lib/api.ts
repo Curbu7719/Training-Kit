@@ -174,6 +174,63 @@ export async function hasPassedExam(): Promise<boolean> {
   return (data?.length ?? 0) > 0;
 }
 
+// ---------------------------------------------------------------------------
+// Review — a learner revisiting a level they've worked on, with their own
+// previous answers shown next to the correct ones.
+// ---------------------------------------------------------------------------
+
+export interface ReviewQuizQuestion {
+  id: string;
+  prompt: string;
+  choices: string[];
+  points: number;
+  /** The user's most recent submission, or null if never attempted. */
+  chosen: number[] | null;
+  is_correct: boolean | null;
+  /** Correct indexes — present only once the user has attempted the question. */
+  correct: number[] | null;
+  explanation: string | null;
+}
+
+export interface ReviewExerciseData {
+  id: string;
+  type: 'mcq' | 'order' | 'match' | 'fill' | 'scenario' | 'prompt_repair';
+  prompt_md: string;
+  spec: Record<string, unknown>;
+  max_score: number;
+  /** The user's best submission answer, or null if never submitted. */
+  answer: unknown | null;
+  score: number | null;
+  passed: boolean | null;
+  /** Answer key — present only once the user has submitted the exercise. */
+  answer_key: ExerciseSubmitResponse['correct'] | null;
+}
+
+export interface ReviewLesson {
+  lesson_id: string;
+  kind: 'quiz' | 'exercise';
+  questions?: ReviewQuizQuestion[];
+  exercise?: ReviewExerciseData | null;
+}
+
+export interface ReviewResponse {
+  lessons: ReviewLesson[];
+}
+
+/** Load the user's previous answers + the correct answers for a worked level. */
+export async function getReview(
+  module_id: string,
+  level: 'L1' | 'L2',
+  lang: 'en' | 'tr',
+): Promise<ReviewResponse> {
+  const { data, error } = await supabase.functions.invoke<ReviewResponse>('review', {
+    body: { module_id, level, lang },
+  });
+  if (error) throw error;
+  if (!data) throw new Error('review returned no data');
+  return data;
+}
+
 /** Refresh progress state after completing a lesson; returns newly-earned badges. */
 export async function refreshProgress(
   module_id?: string,
