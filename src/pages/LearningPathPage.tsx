@@ -341,6 +341,27 @@ export function LearningPathPage() {
                 </ul>
               </section>
             )}
+
+            {/* SDLC exam — directly reachable from the path */}
+            <section className="rounded-lg border border-border bg-card px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('section.exam.title')}</h2>
+                  <p className="mt-1 text-xs text-muted-foreground">{t('exam.cta.blurb')}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {examPassed && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 text-xs font-medium text-success">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      {t('status.passed')}
+                    </span>
+                  )}
+                  <Button onClick={() => navigate('/exam')} data-testid="path-exam-btn">
+                    {t('exam.cta.button')}
+                  </Button>
+                </div>
+              </div>
+            </section>
           </>
         )}
       </main>
