@@ -2,37 +2,49 @@
   {
     "prompt": "A team redacts every prompt an agent types, but they embedded the full raw ticket history (with customer PII) into a vector store, and they log the assembled prompt including retrieved ticket text. Which statements correctly explain why PII is still leaking? Select ALL that apply.",
     "choices": [
-      "The vector store holds raw PII ingested upstream, so redacting the typed prompt does not protect it",
-      "Retrieved context is appended after redaction, so un-redacted PII flows into the logs",
       "Privacy must be controlled at every data flow, not only at the typed prompt",
-      "Redacting the typed prompt is sufficient because all other surfaces inherit that redaction"
+      "Redacting the typed prompt is sufficient because all other surfaces inherit that redaction",
+      "Retrieved context is appended after redaction, so un-redacted PII flows into the logs",
+      "The vector store holds raw PII ingested upstream, so redacting the typed prompt does not protect it"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1,
-    "explanation": "PII leaks because the vector store and the logs are separate data flows that never inherited the prompt redaction, so privacy must be enforced at each surface. The last option is false: redaction is local to where it is applied and does not propagate to retrieval or logging."
+    "explanation": "PII leaks because the vector store and the logs are separate data flows that never inherited the prompt redaction, so privacy must be enforced at each surface. The option claiming prompt redaction automatically propagates is false: redaction is local to where it is applied and does not reach retrieval or logging."
   },
   {
     "prompt": "Your team assumed an AI provider offered zero-retention and no-train. Before sending confidential source code, what must you actually verify? Select ALL that apply.",
     "choices": [
-      "Whether the signed agreement and API configuration truly disable retention and training",
       "The processing region, to confirm it meets your data-residency obligations",
       "Any abuse-monitoring retention window and which sub-processors can see prompts",
+      "Whether the signed agreement and API configuration truly disable retention and training",
       "Nothing — the free and enterprise tiers of a product always share the same terms"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
-    "explanation": "You must confirm the actual contract and config, the processing region, and any abuse-monitoring retention or sub-processor access, because each can expose confidential code. The last option is wrong: free and enterprise tiers routinely differ on exactly these retention and training terms."
+    "explanation": "You must confirm the actual contract and config, the processing region, and any abuse-monitoring retention or sub-processor access, because each can expose confidential code. The option assuming free and enterprise tiers share the same terms is wrong: they routinely differ on exactly these retention and training terms."
   },
   {
     "prompt": "Why is binding AI usage rules to a data-classification scheme (public / confidential / regulated) stronger than telling developers to 'be careful'? Select ALL that apply.",
     "choices": [
-      "You cannot enforce a rule you cannot express; classification turns judgement into policy",
-      "Each tier can carry specific rules (e.g. regulated data is never sent, confidential needs zero-retention)",
       "Classification lets controls like redaction and tool-routing be applied automatically per tier",
-      "Classification guarantees that prompt injection and log leaks can never occur"
+      "You cannot enforce a rule you cannot express; classification turns judgement into policy",
+      "Classification guarantees that prompt injection and log leaks can never occur",
+      "Each tier can carry specific rules (e.g. regulated data is never sent, confidential needs zero-retention)"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
-    "explanation": "Classification makes the rule explicit, lets each tier carry concrete requirements, and enables automatic per-tier controls, which 'be careful' cannot do. The last option overstates it: classification governs what data goes where but does not by itself eliminate injection or logging leaks."
+    "explanation": "Classification makes the rule explicit, lets each tier carry concrete requirements, and enables automatic per-tier controls, which 'be careful' cannot do. The option claiming classification alone eliminates every leak overstates it: classification governs what data goes where but does not by itself eliminate injection or logging leaks."
   }
 ]

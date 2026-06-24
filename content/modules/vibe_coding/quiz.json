@@ -3,12 +3,12 @@
     "prompt": "Which statement best captures what it means to do vibe coding *right* (directing an AI to write code well rather than recklessly)?",
     "choices": [
       "Accept whatever the AI generates as long as the code runs and looks right",
-      "Start from clear intent, work in small reviewable steps, and read and understand every diff before accepting it",
+      "Let the AI commit and merge its own changes to save time",
       "Write the largest possible prompt so the AI produces the whole feature in one go",
-      "Let the AI commit and merge its own changes to save time"
+      "Start from clear intent, work in small reviewable steps, and read and understand every diff before accepting it"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Doing vibe coding well means staying in control: clear intent plus small, reviewed steps lets you catch errors early. Accepting code just because it runs ignores that AI output can be plausible-but-broken."
@@ -16,15 +16,15 @@
   {
     "prompt": "Select ALL of the following that are disciplines of doing vibe coding well.",
     "choices": [
-      "Read and understand the AI's output before accepting it",
-      "Use tests and version control as a safety net, committing working states often",
+      "Ship code you don't fully understand as long as it compiles",
       "Keep secrets and sensitive data out of prompts",
-      "Ship code you don't fully understand as long as it compiles"
+      "Read and understand the AI's output before accepting it",
+      "Use tests and version control as a safety net, committing working states often"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Reading the output, leaning on tests and version control, and keeping secrets out of prompts each guard against a real risk. Shipping code you don't understand is the opposite of a discipline, since compiling says nothing about correctness."
@@ -47,14 +47,14 @@
     "prompt": "A QA/Tester is asked to sign off on a feature a teammate vibe-coded by pasting a large unread block of AI output. Which approach reflects doing this right? Select ALL that apply.",
     "choices": [
       "Treat the AI-written code as untrusted until it is read and tested",
+      "Review the diff for hard-coded secrets and missing auth checks before approving",
       "Run the tests (or write them) so plausible-but-broken logic surfaces before merge",
-      "Approve it because the app starts up without crashing",
-      "Review the diff for hard-coded secrets and missing auth checks before approving"
+      "Approve it because the app starts up without crashing"
     ],
     "correct": [
       0,
       1,
-      3
+      2
     ],
     "points": 1,
     "explanation": "Treating the code as untrusted, testing it, and reviewing for secrets and missing auth all catch defects before merge. The app starting without crashing proves nothing, since silent wrong code still runs."
@@ -62,13 +62,13 @@
   {
     "prompt": "While vibe coding, the AI is about 80% of the way to a fix but keeps looping on the last 20%, re-suggesting variants. Which *trade-off* between continuing and intervening is right?",
     "choices": [
-      "Keep prompting; with enough tries the model always converges",
       "Accept the 80% version and move on, since most of it works",
       "Take the wheel and finish the hard 20% yourself — the looping cost now exceeds just writing it",
-      "Restart the whole task from a blank prompt to reset its 'mood'"
+      "Restart the whole task from a blank prompt to reset its 'mood'",
+      "Keep prompting; with enough tries the model always converges"
     ],
     "correct": [
-      2
+      1
     ],
     "points": 1,
     "explanation": "Once the model loops, the time spent re-prompting outweighs the effort of finishing the hard part yourself, so taking the wheel is the right trade-off. Accepting the 80% version ships an incomplete fix, and the model is not guaranteed to converge."

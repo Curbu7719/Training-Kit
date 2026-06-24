@@ -3,23 +3,31 @@
     "prompt": "Bir özellik faturalar yüklüyor ve şunları yapmalı: (a) çeşitli, yeni düzenlerden alanları okumak ve (b) faturada zaten basılı olan aritmetik toplamları yeniden kontrol etmek. 'Uygunluk bir spektrumdur' fikrini uygulayarak, hangi ifadeler doğrudur? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
       "Çeşitli-düzen alan okuma, gerçekten AI'ya uyan indirgenemez belirsiz çekirdektir",
-      "Bilinen aritmetik toplamları yeniden kontrol etmek, deterministik kodda en iyi yapılan kesin iştir",
+      "Teknoloji tek tip kalsın diye her iki adım da modele gönderilmelidir",
       "AI yüzeyini yalnızca belirsiz adıma daraltmak sistemi daha ucuz, daha test edilebilir ve daha değiştirilebilir yapar",
-      "Teknoloji tek tip kalsın diye her iki adım da modele gönderilmelidir"
+      "Bilinen aritmetik toplamları yeniden kontrol etmek, deterministik kodda en iyi yapılan kesin iştir"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Çeşitli düzenleri okumak gerçekten belirsizdir ve AI'ya uyar; aritmetiği yeniden kontrol etmek ise kesindir ve deterministik koda aittir; AI yüzeyini daraltmak maliyeti düşürür ve test edilebilirliği artırır. Yalnızca tek tip kalmak için her iki adımı modele göndermek, kesin kodun güvenilirliğini boşa harcar."
   },
   {
     "prompt": "Bir ekibin barındırılan-API çıkarma özelliği ayda 2.000'den 900.000 çağrıya büyüdü, doğruluk ihtiyaçları yükseldi ve şimdi bir yıllık etiketli veriye sahipler. Fine-tune edilmiş bir modele doğru yeniden temin etmek neden haklı olabilir? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "Gerçek hacimde çağrı başına API fiyatı en büyük maliyet kalemi olmuştur, bir TCO endişesi",
+      "Daha büyük bir çağrı başına fiyat her zaman tercih edilir çünkü daha yüksek kaliteyi işaret eder",
       "Biriktirilen etiketli veri, daha önce mümkün olmayan fine-tune'u şimdi uygulanabilir kılıyor",
       "Temin etme geri alınabilir ve hacim, doğruluk ihtiyaçları ve veri değiştikçe yeniden ele alınmalıdır",
-      "Daha büyük bir çağrı başına fiyat her zaman tercih edilir çünkü daha yüksek kaliteyi işaret eder"
+      "Gerçek hacimde çağrı başına API fiyatı en büyük maliyet kalemi olmuştur, bir TCO endişesi"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Yüksek hacim, çağrı başına fiyatı büyük bir TCO etkenine dönüştürür; biriken etiketli veri fine-tune'u artık uygulanabilir kılar; ve koşullar değiştikçe temin etme yeniden ele alınmalıdır. Daha yüksek çağrı başına fiyat kaliteyi işaret etmez, bu yüzden o seçenek yanlıştır."
   },
@@ -31,7 +39,11 @@
       "Ekibin gerçekten yürütebileceği bir çıkış planı sürdürün",
       "Switching cost'ları maksimize etmek için mevcut en tescilli vendor biçimini benimseyin"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Bir soyutlama katmanı, taşınabilir prompt'lar ve eval'ler ve gerçek bir çıkış planı; kararı geri alınabilir ve lock-in'i düşük tutar. En tescilli biçimi benimsemek switching cost'ları maksimize eder ki bu hedefin tam tersidir."
   }

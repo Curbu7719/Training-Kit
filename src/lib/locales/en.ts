@@ -109,6 +109,16 @@ const en = {
   'lesson.saving': 'Saving…',
   'lesson.saveError': 'Could not save progress',
   'lesson.goToLesson': 'Go to lesson: {title}',
+  'lesson.l1Passed.title': 'L1 complete — nice work!',
+  'lesson.l1Passed.desc': 'You’ve unlocked the L2 deep dive for this module. Keep the momentum going.',
+  'lesson.continueL2': 'Continue to L2 — Deep dive',
+  'lesson.modulePassed.title': 'Module complete!',
+  'lesson.modulePassed.desc': 'Your progress is saved and any new badges awarded.',
+  'lesson.continueNext': 'Continue: {title}',
+  'lesson.allCoreDone.title': 'All core modules complete!',
+  'lesson.allCoreDone.desc': 'You’ve finished every core module for your role. Next up: the exam.',
+  'lesson.notPassed.title': 'Almost there',
+  'lesson.notPassed.desc': 'You scored below 70% for this level. Revisit the quiz or exercise and retry to pass.',
 
   // Lesson kind labels
   'lesson.kind.concept': 'Concept',

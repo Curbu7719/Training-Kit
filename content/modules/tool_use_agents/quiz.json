@@ -2,13 +2,13 @@
   {
     "prompt": "A coding assistant 'uses' a run_tests tool to check a fix. What actually happens?",
     "choices": [
-      "The model emits a structured request, and the application runs the real test command and returns the result",
+      "The application asks the model to write a shell script that the developer runs manually",
       "The model runs the test suite itself inside its weights",
       "The tool replaces the model entirely for that turn",
-      "The application asks the model to write a shell script that the developer runs manually"
+      "The model emits a structured request, and the application runs the real test command and returns the result"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "A tool call is just a structured request the model emits; the application is what actually executes the test command and feeds the result back. The model cannot run anything inside its weights, and the tool augments rather than replaces the model."
@@ -16,15 +16,15 @@
   {
     "prompt": "Which steps make up one iteration of the agent loop while it fixes a failing test? Select all that apply.",
     "choices": [
+      "Permanently retrain the model on the test output",
       "Plan the next step (e.g. decide it needs to see the failure)",
       "Act by requesting a tool (e.g. run_tests or apply_patch)",
-      "Observe the returned result (the traceback or pass/fail)",
-      "Permanently retrain the model on the test output"
+      "Observe the returned result (the traceback or pass/fail)"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "One iteration of the loop is plan, act, observe, repeated until done. Retraining the model is not part of the loop; the model's weights are fixed at inference time and only the prompt context changes."
@@ -32,13 +32,13 @@
   {
     "prompt": "A PM is deciding between a single model call and a full agent for a new dev-tooling feature. Which situation most justifies an agent?",
     "choices": [
+      "Producing a single deterministic label for a log line every time",
       "Fixing a bug, which is multi-step and depends on re-running tests after each edit",
-      "Summarizing a single pull-request description into one paragraph",
       "Reducing per-request cost as much as possible",
-      "Producing a single deterministic label for a log line every time"
+      "Summarizing a single pull-request description into one paragraph"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "An agent earns its overhead when the task is multi-step and each step depends on the result of the last, like fixing a bug and re-running tests. A one-shot summary or a single deterministic label needs no loop, and minimizing cost argues against an agent's extra calls."
@@ -47,14 +47,14 @@
     "prompt": "Which of these are real failure modes of giving a coding agent autonomy, and the guardrails that address them? Select all correct statements.",
     "choices": [
       "Runaway edit-and-retry loops can be capped with a maximum-iteration limit",
+      "Adding more tools always eliminates the risk of runaway loops",
       "A destructive tool like force-push or delete-branch should sit behind a human-approval gate",
-      "An early misread of a test failure can compound through later edits",
-      "Adding more tools always eliminates the risk of runaway loops"
+      "An early misread of a test failure can compound through later edits"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Iteration caps, approval gates for destructive actions, and the risk of compounding early errors are all real concerns with matching guardrails. The last is false: adding tools widens what the agent can do but does nothing to stop runaway loops, and can make them worse."
@@ -64,8 +64,8 @@
     "choices": [
       "A fully autonomous agent loop, since agents are the modern approach",
       "A simple scripted pipeline (or single call) — a deterministic 2-step task doesn't need open-ended agency",
-      "Give the agent unlimited steps so it can't get stuck",
-      "Add three more tools so it has options"
+      "Add three more tools so it has options",
+      "Give the agent unlimited steps so it can't get stuck"
     ],
     "correct": [
       1

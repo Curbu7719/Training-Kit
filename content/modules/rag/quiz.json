@@ -2,13 +2,13 @@
   {
     "prompt": "A team wants an assistant that answers questions about their own codebase and internal wiki without inventing endpoints. What core problem does RAG solve for them?",
     "choices": [
+      "Embeddings cannot be stored without retraining the model on the repo",
       "A model can only answer from its training data and has never seen the team's repo or wiki, so it must be supplied that context at question time",
       "Models are too slow to generate code without retrieval",
-      "Embeddings cannot be stored without retraining the model on the repo",
       "Language models cannot produce grammatically correct sentences"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "RAG exists because the model never saw the private repo or wiki during training, so the relevant context must be retrieved and supplied at question time. The other options misstate the problem: it is about missing knowledge, not speed, storage, or grammar."
@@ -16,14 +16,14 @@
   {
     "prompt": "When indexing a repository and wiki for a codebase Q&A assistant, which steps happen BEFORE any developer asks a question? (Select all that apply.)",
     "choices": [
-      "Chunking the repo and wiki into passages",
       "Embedding each chunk into a vector",
       "Embedding the developer's question and retrieving top-k chunks",
-      "Storing the chunk vectors in a vector index"
+      "Storing the chunk vectors in a vector index",
+      "Chunking the repo and wiki into passages"
     ],
     "correct": [
       0,
-      1,
+      2,
       3
     ],
     "points": 1,
@@ -32,13 +32,13 @@
   {
     "prompt": "Why can the assistant retrieve a wiki page titled 'Backoff and re-queue policy' for the question 'How do I retry a failed job?' even though they share no keywords?",
     "choices": [
-      "Because embeddings place text with similar meaning at nearby points in vector space, so retrieval ranks by semantic similarity",
       "Because the model was fine-tuned on that specific wiki page",
+      "Because the chunk was manually tagged with the word 'retry'",
       "Because keyword search always strips out common words like 'how' and 'do'",
-      "Because the chunk was manually tagged with the word 'retry'"
+      "Because embeddings place text with similar meaning at nearby points in vector space, so retrieval ranks by semantic similarity"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Embeddings capture meaning, so 'retry a failed job' lands near 'backoff and re-queue' even with no shared words, which is exactly what keyword search cannot do. The other options describe fine-tuning, keyword tricks, or manual tagging, none of which are happening here."
@@ -47,13 +47,13 @@
     "prompt": "A QA engineer is testing a RAG-based codebase assistant before the team adopts it. Which checks most directly verify that answers are properly grounded in the real code and docs?",
     "choices": [
       "Confirm each answer cites a real file or wiki page that actually contains the claim",
-      "Confirm the assistant says it could not find an answer when no relevant chunk is retrieved",
       "Confirm the answer text matches the model's output character-for-character on every rerun",
-      "Confirm the answer does not assert APIs or fields that are absent from the retrieved chunks"
+      "Confirm the answer does not assert APIs or fields that are absent from the retrieved chunks",
+      "Confirm the assistant says it could not find an answer when no relevant chunk is retrieved"
     ],
     "correct": [
       0,
-      1,
+      2,
       3
     ],
     "points": 1,
@@ -62,13 +62,13 @@
   {
     "prompt": "Larger retrieval chunks give more surrounding context but dilute relevance and waste prompt space; smaller chunks are precise but can split a thought. For retrieving short, self-contained config snippets, which *trade-off* is better?",
     "choices": [
-      "The largest possible chunks, so context is never missing",
       "One chunk per whole file, regardless of size",
-      "Disable chunking and embed entire documents",
-      "Smaller, self-contained chunks — config snippets are short and discrete, so precision beats surrounding context here"
+      "Smaller, self-contained chunks — config snippets are short and discrete, so precision beats surrounding context here",
+      "The largest possible chunks, so context is never missing",
+      "Disable chunking and embed entire documents"
     ],
     "correct": [
-      3
+      1
     ],
     "points": 1,
     "explanation": "Config snippets are short and self-contained, so small precise chunks retrieve the right one without diluting relevance. Maximally large chunks, whole-file chunks, or embedding entire documents all add noise that hurts ranking for this kind of discrete content."

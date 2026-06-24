@@ -2,48 +2,57 @@
   {
     "prompt": "IDE'de yüksek hacimli satır içi kod tamamlama için hangi model seçimi genellikle en uygunudur?",
     "choices": [
-      "Tamamlamalar olabildiğince akıllı olsun diye her tuş vuruşunda akıl yürüten bir model",
-      "Küçük, hızlı bir model; daha güçlü modelleri gerçekten zor görevlere sakla",
       "Mevcut en büyük model, çünkü büyük her zaman daha iyidir",
-      "Bir temel (talimata göre eğitilmemiş) model, çünkü o sadece metni sürdürür"
+      "Bir temel (talimata göre eğitilmemiş) model, çünkü o sadece metni sürdürür",
+      "Küçük, hızlı bir model; daha güçlü modelleri gerçekten zor görevlere sakla",
+      "Tamamlamalar olabildiğince akıllı olsun diye her tuş vuruşunda akıl yürüten bir model"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Tamamlama rutin ve aşırı yüksek hacimlidir, bu yüzden küçük hızlı bir model ucuza hızlı öneriler verir. Akıl yürüten ya da en büyük model burada gerçek fayda olmadan gecikme ve maliyet ekler; temel model ise talimat izlemek için ayarlı değildir."
   },
   {
     "prompt": "Bir bilgi çıkarma görevi, sonraki adımdaki bir aracın ayrıştırabileceği yapılandırılmış bir sonuç döndürmeli. En güvenilir yaklaşım hangisi?",
     "choices": [
-      "Modelin her çalıştırmada birebir aynı metni döndürdüğünü varsay ve çıktıyı doğrudan ayrıştır",
-      "Katı bir çıktı biçimi (örn. JSON) iste ve doğrula, çünkü çıktı çalıştırmadan çalıştırmaya değişebilir",
       "Biçim hiç değişmesin diye her zaman en büyük modeli kullan",
+      "Katı bir çıktı biçimi (örn. JSON) iste ve doğrula, çünkü çıktı çalıştırmadan çalıştırmaya değişebilir",
+      "Modelin her çalıştırmada birebir aynı metni döndürdüğünü varsay ve çıktıyı doğrudan ayrıştır",
       "Nerede biteceğine model karar versin diye durdurma dizisini kaldır"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "LLM çıktısı çalıştırmadan çalıştırmaya birebir aynı değildir, bu yüzden tam metin yerine katı, doğrulanmış bir biçime güven. Daha büyük bir model kararlı bir biçim garanti etmez ve durdurma dizisini kaldırmak yalnızca çıktının nerede bittiğini etkiler, ayrıştırılabilir olup olmadığını değil."
   },
   {
     "prompt": "Bir akıl yürüten model (cevaptan önce daha uzun 'düşünen') seçmek ne zaman gerçekten işe yarar? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Yüzeysel cevapların nedeni kaçırmaya devam ettiği ince, çok adımlı bir hatayı teşhis etmek",
       "Karmaşık bir mimari ya da tasarım dengesini tartmak",
-      "Günde binlerce rutin satır içi tamamlama üretmek",
-      "Bir metni küçük harfe çevirmek ya da basit bir alanı biçimlendirmek"
+      "Yüzeysel cevapların nedeni kaçırmaya devam ettiği ince, çok adımlı bir hatayı teşhis etmek",
+      "Bir metni küçük harfe çevirmek ya da basit bir alanı biçimlendirmek",
+      "Günde binlerce rutin satır içi tamamlama üretmek"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "points": 1,
     "explanation": "Akıl yürüten modeller fazladan gecikme ve maliyetlerini gerçekten zor, çok adımlı problemlerde — çetrefilli hata ayıklama ve tasarım dengeleri — hak eder. Yüksek hacimli rutin tamamlamalar veya basit biçimlendirme için saf yüktür; doğru seçim küçük hızlı bir modeldir."
   },
   {
     "prompt": "Bir araç zinciri genelinde, zor durumlarda kaliteden ödün vermeden maliyet ve gecikmeyi en çok hangi tasarım seçimi kontrol eder?",
     "choices": [
-      "Yönlendirme — rutin yolda küçük ucuz bir model çalıştır, yalnızca zor veya belirsiz durumları daha güçlü bir modele yükselt",
       "Her yerde en yeni modeli varsayılan ayarlarıyla çağırmak",
-      "Hiçbir görev eksik kalmasın diye her zaman en büyük modeli kullanmak",
-      "Garanti olsun diye her çağrıda mümkün olan en büyük bağlamı göndermek"
+      "Garanti olsun diye her çağrıda mümkün olan en büyük bağlamı göndermek",
+      "Yönlendirme — rutin yolda küçük ucuz bir model çalıştır, yalnızca zor veya belirsiz durumları daha güçlü bir modele yükselt",
+      "Hiçbir görev eksik kalmasın diye her zaman en büyük modeli kullanmak"
     ],
-    "correct": [0],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Yönlendirme, her isteği halledebilecek en ucuz modele eşler ve yalnızca zor durumları yükseltir; bu, bir araç zinciri genelinde maliyet ve gecikme üzerindeki en büyük kaldıraçtır. En yeni ya da en büyük modele varsayılan vermek ya da bağlamı şişirmek sadece maliyet ve gecikme artırır."
   }

@@ -2,36 +2,46 @@
   {
     "prompt": "A vibe-coded function compiles, runs without error, and reads like clean idiomatic code, but returns the wrong total for a negative-discount edge case. Which failure modes does this illustrate, and what reliably contains them? Select ALL that apply.",
     "choices": [
-      "It is plausible-but-broken: fluent, confident code that mishandles an edge case",
       "It is silent wrong code: it runs and returns a value, but the value is wrong",
+      "It is plausible-but-broken: fluent, confident code that mishandles an edge case",
       "Reading the diff against the spec's edge cases plus a behavioural test reliably catches it",
       "Confirming 'it runs without crashing' is sufficient to rule the code correct"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "The code is both plausible-but-broken and silent wrong code, and only reading the diff against the spec plus a behavioural test reliably exposes the bad edge case. 'Runs without crashing' is no proof of correctness, because wrong code still returns a value."
   },
   {
     "prompt": "Why is each vibe-coding discipline best understood as a defense against a specific failure mode rather than a generic ritual? Select ALL that apply.",
     "choices": [
-      "Behavioural tests target silent wrong code, while reading the diff targets plausible-but-broken logic",
-      "Small, single-purpose diffs isolate scope creep, and the 'never ship what you don't understand' rule contains eroded understanding",
       "The disciplines compose like layered defenses, so dropping one lets the failure it contained walk through",
+      "Small, single-purpose diffs isolate scope creep, and the 'never ship what you don't understand' rule contains eroded understanding",
+      "Behavioural tests target silent wrong code, while reading the diff targets plausible-but-broken logic",
       "Any one discipline alone guarantees no AI-generated bug can ever reach production"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Each discipline maps to a distinct failure mode and they stack as layered defenses, so dropping one reopens the gap it covered. No single discipline is a guarantee, since each one only contains its own specific risk."
   },
   {
     "prompt": "An architect reviews a sprint where the team accepted many large, unread AI diffs to move fast, and now no one can fully explain how a core module works. What is the right way to frame and address this?",
     "choices": [
+      "This is harmless because version control means the code can always be reverted later",
       "This is eroded understanding accumulating as risk; restore the mental model by reading, testing, and refactoring toward coherence",
       "This is ideal velocity; keep accepting unread diffs as long as the app still starts",
-      "This is purely a tooling problem; switch AI models and the understanding returns",
-      "This is harmless because version control means the code can always be reverted later"
+      "This is purely a tooling problem; switch AI models and the understanding returns"
     ],
-    "correct": [0],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "Accepting unread diffs erodes the team's mental model, which is accumulating risk that you repay by reading, testing, and refactoring toward coherence. Switching models or trusting version control does not rebuild the understanding that was lost."
   }

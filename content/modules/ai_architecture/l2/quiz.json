@@ -2,36 +2,48 @@
   {
     "prompt": "A team wants to upgrade from one model provider to another with minimal risk. Which practices reduce the chance of a quality regression reaching users? (Select all that apply.)",
     "choices": [
-      "Run the new model against a fixed offline eval set before any rollout",
-      "Shadow the new model against live traffic, logging its answers without showing them to users",
       "Roll out behind a feature flag gradually (e.g., 5% then 25% then 100%) with a fast rollback",
+      "Shadow the new model against live traffic, logging its answers without showing them to users",
+      "Run the new model against a fixed offline eval set before any rollout",
       "Deploy the new model to 100% of users immediately and watch for complaints"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Offline evals, shadowing, and a gradual feature-flag rollout with fast rollback each catch regressions before or while limiting user exposure. Deploying to 100% immediately exposes every user to a regression at once with no safety net, which is exactly the risk being avoided."
   },
   {
     "prompt": "A provider's API intermittently times out and occasionally returns malformed output. Which reliability patterns directly address these failure modes? (Select all that apply.)",
     "choices": [
-      "Per-call timeouts so a slow provider doesn't hang the user",
-      "Capped retries with backoff for transient errors",
+      "Removing the output guardrail so malformed output passes straight through",
       "A circuit breaker plus a degraded mode (backup model or graceful message)",
-      "Removing the output guardrail so malformed output passes straight through"
+      "Capped retries with backoff for transient errors",
+      "Per-call timeouts so a slow provider doesn't hang the user"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Timeouts, capped retries with backoff, and a circuit breaker with a degraded mode directly contain slow and transient provider failures. Removing the output guardrail does the opposite — it lets malformed output reach users instead of catching it."
   },
   {
     "prompt": "An architect says provider abstraction is a prerequisite for several other capabilities, not just cleaner code. Which capabilities does a well-designed model abstraction directly enable? (Select all that apply.)",
     "choices": [
-      "Failing over from a primary provider to a secondary one without changing feature code",
+      "Guaranteeing the model never hallucinates",
       "Routing easy requests to a cheaper model and hard ones to a larger model",
-      "Centralizing where fallbacks and reliability logic wrap the model call",
-      "Guaranteeing the model never hallucinates"
+      "Failing over from a primary provider to a secondary one without changing feature code",
+      "Centralizing where fallbacks and reliability logic wrap the model call"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "A model abstraction directly enables failover, routing by difficulty, and a central place to wrap fallback and reliability logic around the call. It cannot guarantee the model never hallucinates — that is an inherent model behavior the abstraction has no control over."
   }

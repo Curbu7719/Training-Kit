@@ -3,15 +3,23 @@
   "prompt_md": "A team is wiring an AI coding agent into their development pipeline. The agent can edit files, run shell commands, and open pull requests. **Select every option that is a legitimate guardrail control** (acting on the agent's input, its actions, or its output).",
   "spec": {
     "choices": [
-      "Validating and sanitizing issue/PR text before the agent treats it as a task",
-      "Running the agent in a sandbox with scoped file, command, and network permissions",
       "Maintaining an allow/deny list so safe commands run but 'rm -rf' and force-push are blocked",
-      "Scanning the agent's diff for secrets or PII before it can commit",
+      "Running the agent in a sandbox with scoped file, command, and network permissions",
+      "Validating and sanitizing issue/PR text before the agent treats it as a task",
       "Choosing a model with a larger context window so it can read more of the codebase",
+      "Scanning the agent's diff for secrets or PII before it can commit",
       "Requiring a human review/approval gate before an AI-generated change merges or deploys"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3, 5] },
+  "answer_key": {
+    "correct": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ]
+  },
   "max_score": 10
 }

@@ -3,35 +3,47 @@
     "prompt": "A bank approved an AI loan-assessment tool at launch, then over eight months the vendor updated the model and the team added new data fields (age, postal code) without a re-review. Which statements correctly explain the governance failure? Select ALL that apply.",
     "choices": [
       "The use was tiered once and never re-tiered, so newly added bias-prone fields went un-assessed",
-      "Treating governance as a one-time launch gate let unreviewed risk hide behind the old approval",
+      "The launch approval automatically covers any later model or data change, so no re-review was ever needed",
       "Because every decision was audit-logged, the bank could still reconstruct which model version and fields drove each decision",
-      "The launch approval automatically covers any later model or data change, so no re-review was ever needed"
+      "Treating governance as a one-time launch gate let unreviewed risk hide behind the old approval"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Governance must be continuous: a one-time tiering let new bias-prone fields and a changed model go un-assessed, while audit logging still let the bank trace each decision. The claim that a launch approval automatically covers later changes is exactly the failure here, not a valid defence."
   },
   {
     "prompt": "A company makes its AI approval process so heavy that staff quietly use unsanctioned tools off the books. In trade-off terms, what has happened and how should it be addressed? Select ALL that apply.",
     "choices": [
-      "Risk reduction was over-weighted versus speed of adoption, producing 'shadow AI' that runs unrecorded",
       "Shadow AI makes the AI use register go stale, so real exposure becomes invisible",
       "Making the sanctioned path faster than the workaround helps bring uses back under governance",
-      "Shadow AI is harmless because staff are still getting work done"
+      "Shadow AI is harmless because staff are still getting work done",
+      "Risk reduction was over-weighted versus speed of adoption, producing 'shadow AI' that runs unrecorded"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
     "explanation": "Over-weighting risk reduction against adoption speed drives shadow AI, which leaves the use register stale and hides real exposure; making the sanctioned path easier than the workaround pulls usage back under governance. Calling shadow AI harmless ignores precisely that hidden, unmanaged exposure."
   },
   {
     "prompt": "Why are audit logging and a human-in-the-loop record described as non-optional for high-tier, regulated AI uses? Select ALL that apply.",
     "choices": [
-      "When an AI-influenced decision is challenged, you must show who decided, on what basis, and with what oversight",
       "They make the decision explainable and defensible to a regulator after the fact",
-      "A rubber-stamp review that records no real scrutiny still provides full accountability",
-      "Logging the model version and inputs lets you reconstruct how a specific decision was reached"
+      "Logging the model version and inputs lets you reconstruct how a specific decision was reached",
+      "When an AI-influenced decision is challenged, you must show who decided, on what basis, and with what oversight",
+      "A rubber-stamp review that records no real scrutiny still provides full accountability"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "For high-tier regulated uses, audit logs and a human-in-the-loop record let you show who decided and why, defend the decision to a regulator, and reconstruct how it was reached. A rubber-stamp review records no real scrutiny, so it provides the appearance of oversight rather than genuine accountability."
   }

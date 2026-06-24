@@ -2,13 +2,13 @@
   {
     "prompt": "Which statement best captures what AI governance is for in an organisation?",
     "choices": [
-      "It guarantees the AI model can never make a mistake",
-      "It makes the risks of AI use visible and assigns an owner and control to each one",
       "It is purely a technical task handled entirely by engineers",
-      "It replaces the need for any human review of AI output"
+      "It replaces the need for any human review of AI output",
+      "It makes the risks of AI use visible and assigns an owner and control to each one",
+      "It guarantees the AI model can never make a mistake"
     ],
     "correct": [
-      1
+      2
     ],
     "points": 1,
     "explanation": "Governance is about managing risk, not eliminating it: it surfaces each AI risk and assigns an owner and a control. It cannot guarantee a model never errs, and it is a shared business-and-technical responsibility rather than an engineers-only task."
@@ -16,9 +16,9 @@
   {
     "prompt": "Select ALL of the following that are legitimate AI governance controls.",
     "choices": [
-      "An acceptable-use policy stating what data and tasks AI may be used for",
       "An AI use register inventorying where AI is used, with what data and risk tier",
       "Audit logging of prompts, outputs, and decisions for accountability",
+      "An acceptable-use policy stating what data and tasks AI may be used for",
       "Choosing whichever AI vendor has the lowest price regardless of its data terms"
     ],
     "correct": [
@@ -34,8 +34,8 @@
     "choices": [
       "Data privacy / PII risk, answered by redaction, an acceptable-use policy, and a no-training contract clause",
       "IP & licensing / output-ownership risk, answered by reviewing the vendor contract",
-      "The risk that the model's context window is too small, answered by a larger model",
-      "Hardware failure risk, answered by buying faster servers"
+      "Hardware failure risk, answered by buying faster servers",
+      "The risk that the model's context window is too small, answered by a larger model"
     ],
     "correct": [
       0,
@@ -47,10 +47,10 @@
   {
     "prompt": "Someone in a Governance role is asked to support AI governance for a new hiring-screening tool. Which task is the BEST fit for that role??",
     "choices": [
-      "Writing the PII-redaction code that strips identifiers before prompts are sent",
-      "Mapping each AI use to the data it touches and the regulations that apply, feeding the AI use register and risk tiering",
       "Approving the final go-live decision for the whole product",
-      "Designing the model's neural network architecture"
+      "Mapping each AI use to the data it touches and the regulations that apply, feeding the AI use register and risk tiering",
+      "Designing the model's neural network architecture",
+      "Writing the PII-redaction code that strips identifiers before prompts are sent"
     ],
     "correct": [
       1
@@ -61,13 +61,13 @@
   {
     "prompt": "Heavy approval gates and audits reduce risk but slow delivery. For a low-risk, internal-only AI helper, which governance *trade-off* is appropriate?",
     "choices": [
+      "No governance at all, since it's internal",
       "Lightweight governance proportional to the low risk — don't gate an internal helper like a customer-facing, regulated system",
       "The same full approval board and audit trail you'd use for a public financial product",
-      "No governance at all, since it's internal",
       "Block the project until a company-wide AI policy is finished"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "Governance should be proportional to risk, so a low-risk internal helper warrants lightweight controls rather than the full apparatus of a regulated public product. Dropping governance entirely or blocking the project until a company-wide policy lands are both over-corrections."

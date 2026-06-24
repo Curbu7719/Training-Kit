@@ -2,13 +2,13 @@
   {
     "prompt": "Which statement best captures what guardrails do around an AI coding agent in the pipeline?",
     "choices": [
+      "They replace the agent entirely with scripted bug fixes",
       "They only validate the incoming issue text before the agent starts",
-      "They apply controls to both what the agent receives and what files, commands, and commits it produces",
       "They make the agent write code faster by reducing token counts",
-      "They replace the agent entirely with scripted bug fixes"
+      "They apply controls to both what the agent receives and what files, commands, and commits it produces"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Guardrails wrap the whole pipeline: they control both what the agent receives (inputs) and what it produces (files, commands, commits). They aren't only input checks, and they're about safety and control, not speed or replacing the agent."
@@ -17,14 +17,14 @@
     "prompt": "Select ALL of the following that are legitimate guardrails for an AI coding agent.",
     "choices": [
       "Sandboxing the agent with scoped file and command permissions",
+      "Choosing a model with a larger context window so it reads more code",
       "Scanning the agent's diff for secrets before it commits",
-      "A human review/approval gate before an AI change merges",
-      "Choosing a model with a larger context window so it reads more code"
+      "A human review/approval gate before an AI change merges"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Sandboxing, secret-scanning the diff, and a human approval gate are all real controls that constrain the agent's behavior. Picking a model with a larger context window is a capability choice, not a guardrail — it doesn't limit what the agent can do or leak."
@@ -34,8 +34,8 @@
     "choices": [
       "A jailbreak; caught first by a larger context window",
       "A prompt injection hidden in data the agent reads; caught first by input validation",
-      "A token-budget attack; caught first by chunking the diff",
-      "A hardware fault; caught first by a larger context window"
+      "A hardware fault; caught first by a larger context window",
+      "A token-budget attack; caught first by chunking the diff"
     ],
     "correct": [
       1
@@ -46,14 +46,14 @@
   {
     "prompt": "Why do well-designed AI pipelines combine several guardrail layers instead of relying on just one (defense in depth)? Select ALL that apply.",
     "choices": [
-      "Any single layer can be bypassed, so overlapping layers catch what others miss",
-      "Different layers act at different points (before, around, and after the agent acts)",
       "Using more layers guarantees the agent can never make a mistake",
+      "Different layers act at different points (before, around, and after the agent acts)",
+      "Any single layer can be bypassed, so overlapping layers catch what others miss",
       "If one control fails (e.g. a missed injection), another (sandbox, deny list, secret scan, human gate) can still block the harm"
     ],
     "correct": [
-      0,
       1,
+      2,
       3
     ],
     "points": 1,
@@ -62,13 +62,13 @@
   {
     "prompt": "A stricter output filter blocks more bad content but also rejects some legitimate answers (false positives). For an internal tool used only by trusted engineers, which *trade-off* fits?",
     "choices": [
-      "Lighter-touch guardrails — for trusted internal users, false positives hurt productivity more than the rare bad output",
       "Maximum strictness regardless of audience, to be safe",
-      "No guardrails at all, since engineers can handle anything",
-      "Block every response that contains code, just in case"
+      "Lighter-touch guardrails — for trusted internal users, false positives hurt productivity more than the rare bad output",
+      "Block every response that contains code, just in case",
+      "No guardrails at all, since engineers can handle anything"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "For a trusted internal audience, lighter-touch guardrails fit because false positives that block legitimate work cost more than the rare bad output, which trusted engineers can handle. Maximum strictness or blocking all code hurts productivity, but removing guardrails entirely is reckless even internally."

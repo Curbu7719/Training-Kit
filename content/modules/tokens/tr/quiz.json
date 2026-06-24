@@ -2,13 +2,13 @@
   {
     "prompt": "Bir AI kod inceleme botu bir pull-request diff'i okur. Bu diff neden eşit uzunlukta düz İngilizce metin bloğundan çok daha fazla token kullanabilir?",
     "choices": [
-      "Kaynak kod tokenizasyondan muaftır",
-      "Koddaki noktalama, girinti ve tanımlayıcıların her biri token harcar, bu yüzden kod düz metinden 'daha ağır' tokenize edilir",
       "Diff'ler her zaman tek bir token olarak sayılır",
-      "Düz metin kelime başına, kod ise satır başına faturalandırılır"
+      "Kaynak kod tokenizasyondan muaftır",
+      "Düz metin kelime başına, kod ise satır başına faturalandırılır",
+      "Koddaki noktalama, girinti ve tanımlayıcıların her biri token harcar, bu yüzden kod düz metinden 'daha ağır' tokenize edilir"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Tokenizer'lar koddaki noktalama, girinti ve tanımlayıcıları birçok küçük parçaya böler, bu yüzden kod aynı uzunluktaki düz metinden daha fazla token kullanma eğilimindedir. Kod tokenizasyondan muaf değildir ve faturalandırma kelime ya da satır başına değil, token başınadır."
@@ -16,15 +16,15 @@
   {
     "prompt": "Token'lar ve hattaki bir AI özelliğinin maliyeti hakkında doğru olan TÜM ifadeleri seçin.",
     "choices": [
+      "Bir modelin context window sınırı satırla değil, token cinsinden ölçülür",
       "LLM kullanımı tipik olarak token başına faturalandırılır",
       "Girdi token'ları (gönderdiğiniz diff/günlük) ve çıktı token'ları (AI'ın yanıtı) genellikle ayrı faturalandırılır",
-      "Bir kaynak kod satırı her zaman tam olarak bir token'a eşittir",
-      "Bir modelin context window sınırı satırla değil, token cinsinden ölçülür"
+      "Bir kaynak kod satırı her zaman tam olarak bir token'a eşittir"
     ],
     "correct": [
       0,
       1,
-      3
+      2
     ],
     "points": 1,
     "explanation": "Faturalandırma token başınadır, girdi ve çıktı genellikle ayrı fiyatlandırılır ve context window token cinsinden ölçülür. Bir kaynak kod satırı HER ZAMAN bir token'a eşit DEĞİLDİR — bir satır birçok token olabilir ya da nadiren tek bir token'ın parçası olabilir."
@@ -32,10 +32,10 @@
   {
     "prompt": "Bir geliştiricinin, 20.000 satırlık tek bir otomatik üretilmiş dosyayı incelemesi için bir AI aracına ihtiyacı var, ancak çağrı model yanıt vermeden başarısız oluyor. Token kavramlarını kullanarak, en olası neden ve çözüm nedir?",
     "choices": [
-      "Dosya sorunsuz; model sadece yanıt vermemeyi seçti, bu yüzden değiştirmeden yeniden deneyin",
+      "Diff'in çok az token'ı vardı, bu yüzden onu boşlukla doldurun",
       "Dosya, modelin context window'una sığamayacak kadar fazla girdi token'ı, bu yüzden onu parçalayın veya atlayın",
-      "Çıktı token'ları tükendi, bu yüzden token başına fiyatı düşürün",
-      "Diff'in çok az token'ı vardı, bu yüzden onu boşlukla doldurun"
+      "Dosya sorunsuz; model sadece yanıt vermemeyi seçti, bu yüzden değiştirmeden yeniden deneyin",
+      "Çıktı token'ları tükendi, bu yüzden token başına fiyatı düşürün"
     ],
     "correct": [
       1
@@ -46,13 +46,13 @@
   {
     "prompt": "Bir PM bir AI inceleyici bütçeliyor. Bir geliştirici, her PR'nin ortalama yaklaşık 9.300 girdi token'ı ve 550 çıktı token'ı olduğunu, ekibin ayda 1.500 PR birleştirdiğini ve sağlayıcının girdi ile çıktı için farklı oranlar uyguladığını bildiriyor. PM doğru bir aylık tahmin üretmek için ne yapmalı?",
     "choices": [
-      "Girdi ve çıktı token'larını toplayıp tek bir fiyat uygulayın, çünkü tüm token'lar aynı maliyetlidir",
       "Yalnızca girdi token'larını kullanın, çünkü AI'ın yorumları ücretsizdir",
-      "Girdi ve çıktı token'larını kendi oranlarında ayrı ayrı hesaplayın, ardından her birini 1.500 PR ile çarpın",
-      "Token sayılarını yok sayıp tahmini yalnızca PR sayısından yapın"
+      "Token sayılarını yok sayıp tahmini yalnızca PR sayısından yapın",
+      "Girdi ve çıktı token'larını toplayıp tek bir fiyat uygulayın, çünkü tüm token'lar aynı maliyetlidir",
+      "Girdi ve çıktı token'larını kendi oranlarında ayrı ayrı hesaplayın, ardından her birini 1.500 PR ile çarpın"
     ],
     "correct": [
-      2
+      3
     ],
     "points": 1,
     "explanation": "Girdi ve çıktı farklı oranlarda fiyatlandırıldığı için, bunları ayrı ayrı hesaplayıp ardından PR hacmiyle çarpmalısınız. Hepsini tek bir fiyatta toplamak, çıktıyı yok saymak ya da yalnızca PR sayısından tahmin etmek hatalı bir rakam verir."
@@ -60,8 +60,8 @@
   {
     "prompt": "Prompt'u kısaltmak token maliyetini düşürür ama modelin ihtiyaç duyduğu context'i atma riski taşır. Bir maddenin kaçması pahalıya patlayan, yüksek-riskli hukuki-özet özelliğinde hangi *trade-off* doğru?",
     "choices": [
-      "Her çağrıda maliyeti minimize etmek için olabildiğince agresif kısalt",
       "Hiçbir şey atlanmasın diye her zaman tüm belgeyi gönder",
+      "Her çağrıda maliyeti minimize etmek için olabildiğince agresif kısalt",
       "Görevin gerçekten ihtiyaç duyduğu context'i daha yüksek token maliyetine rağmen koru; yalnızca açıkça-alakasız metni kırp",
       "Token fiyatı önemini yitirsin diye en ucuz modele geç"
     ],

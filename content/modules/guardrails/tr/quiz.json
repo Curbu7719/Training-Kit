@@ -2,13 +2,13 @@
   {
     "prompt": "Hattaki bir AI kodlama agent'ı etrafındaki guardrail'lerin ne yaptığını en iyi hangi ifade özetler?",
     "choices": [
+      "Agent'ı tamamen scriptli hata düzeltmeleriyle değiştirirler",
       "Yalnızca agent başlamadan önce gelen issue metnini doğrularlar",
-      "Hem agent'ın aldığına hem de ürettiği dosyalara, komutlara ve commit'lere kontroller uygularlar",
       "Token sayılarını azaltarak agent'ın kodu daha hızlı yazmasını sağlarlar",
-      "Agent'ı tamamen scriptli hata düzeltmeleriyle değiştirirler"
+      "Hem agent'ın aldığına hem de ürettiği dosyalara, komutlara ve commit'lere kontroller uygularlar"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Guardrail'ler tüm hattı sarar: hem agent'ın aldığını (girdiler) hem de ürettiğini (dosyalar, komutlar, commit'ler) kontrol ederler. Yalnızca girdi kontrolleri değildirler ve hızla ya da agent'ı değiştirmekle değil, güvenlik ve kontrolle ilgilidirler."
@@ -17,14 +17,14 @@
     "prompt": "Aşağıdakilerden bir AI kodlama agent'ı için meşru guardrail olan TÜM seçenekleri işaretleyin.",
     "choices": [
       "Agent'ı kapsamlandırılmış dosya ve komut izinleriyle sandbox'a almak",
+      "Daha fazla kod okuyabilmesi için daha büyük context window'lu bir model seçmek",
       "Commit etmeden önce agent'ın diff'ini sır'lar için taramak",
-      "Bir AI değişikliği birleştirilmeden önce bir insan inceleme/onay geçidi",
-      "Daha fazla kod okuyabilmesi için daha büyük context window'lu bir model seçmek"
+      "Bir AI değişikliği birleştirilmeden önce bir insan inceleme/onay geçidi"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Sandboxing, diff'i secret için taramak ve bir insan onay geçidi; agent'ın davranışını kısıtlayan gerçek kontrollerdir. Daha büyük context window'lu bir model seçmek bir yetenek tercihidir, guardrail değil — agent'ın yapabileceğini ya da sızdırabileceğini sınırlamaz."
@@ -34,8 +34,8 @@
     "choices": [
       "Bir jailbreak; ilk olarak modelin sıcaklığını artırarak yakalanır",
       "Agent'ın okuduğu veride gizlenmiş bir prompt injection; ilk olarak girdi doğrulamayla yakalanır",
-      "Bir token-bütçe saldırısı; ilk olarak diff'i parçalayarak yakalanır",
-      "Bir donanım arızası; ilk olarak daha büyük bir context window ile yakalanır"
+      "Bir donanım arızası; ilk olarak daha büyük bir context window ile yakalanır",
+      "Bir token-bütçe saldırısı; ilk olarak diff'i parçalayarak yakalanır"
     ],
     "correct": [
       1
@@ -46,14 +46,14 @@
   {
     "prompt": "İyi tasarlanmış AI hatları neden yalnızca birine güvenmek yerine birkaç guardrail katmanını bir araya getirir (derinlemesine savunma)? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "Herhangi bir tek katman atlanabilir, bu yüzden örtüşen katmanlar diğerlerinin kaçırdığını yakalar",
-      "Farklı katmanlar farklı noktalarda çalışır (agent hareket etmeden önce, etrafında ve sonrasında)",
       "Daha fazla katman kullanmak agent'ın asla hata yapamayacağını garanti eder",
+      "Farklı katmanlar farklı noktalarda çalışır (agent hareket etmeden önce, etrafında ve sonrasında)",
+      "Herhangi bir tek katman atlanabilir, bu yüzden örtüşen katmanlar diğerlerinin kaçırdığını yakalar",
       "Bir kontrol başarısız olursa (örn. kaçırılan bir injection), bir diğeri (sandbox, reddetme listesi, secret tarama, insan geçidi) yine de zararı engelleyebilir"
     ],
     "correct": [
-      0,
       1,
+      2,
       3
     ],
     "points": 1,
@@ -62,13 +62,13 @@
   {
     "prompt": "Daha katı bir çıktı filtresi daha çok kötü içeriği engeller ama bazı meşru cevapları da reddeder (false positive). Yalnızca güvenilir mühendislerin kullandığı bir iç araçta hangi *trade-off* uygun?",
     "choices": [
-      "Daha hafif guardrail'ler — güvenilir iç kullanıcılarda false positive'ler, nadir kötü çıktıdan daha çok üretkenliği baltalar",
       "Kitleden bağımsız, güvende olmak için maksimum katılık",
-      "Hiç guardrail yok; mühendisler her şeyle başa çıkar",
-      "Her ihtimale karşı kod içeren her yanıtı engelle"
+      "Daha hafif guardrail'ler — güvenilir iç kullanıcılarda false positive'ler, nadir kötü çıktıdan daha çok üretkenliği baltalar",
+      "Her ihtimale karşı kod içeren her yanıtı engelle",
+      "Hiç guardrail yok; mühendisler her şeyle başa çıkar"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "Güvenilir bir iç kitle için daha hafif guardrail'ler uygundur çünkü meşru işi engelleyen false positive'ler, güvenilir mühendislerin başa çıkabileceği nadir kötü çıktıdan daha pahalıya patlar. Maksimum katılık ya da tüm kodu engellemek üretkenliği baltalar, ama guardrail'leri tamamen kaldırmak iç ortamda bile pervasızdır."

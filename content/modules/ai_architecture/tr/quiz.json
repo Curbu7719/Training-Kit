@@ -2,13 +2,13 @@
   {
     "prompt": "Tipik bir LLM uygulama mimarisinde, prompt'u kurmaktan, hangi modelin çağrılacağına karar vermekten ve kuralları uygulamaktan hangi katman sorumludur?",
     "choices": [
+      "Model sağlayıcı",
       "Client (tarayıcı/mobil uygulama)",
-      "Uygulama / orkestrasyon katmanı",
       "Vector store",
-      "Model sağlayıcı"
+      "Uygulama / orkestrasyon katmanı"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Prompt'ların kurulduğu, model routing kararlarının verildiği ve kuralların uygulandığı yer uygulama/orkestrasyon katmanıdır; client ve model sağlayıcı bilinçli olarak ince ve basit tutulur. Vector store yalnızca embedding'leri saklayıp getirir, bu yüzden bu mantığa sahip olamaz."
@@ -16,9 +16,9 @@
   {
     "prompt": "Aşağıdakilerden hangileri, tek bir bileşene değil, tüm AI sistemine uygulanan kesişen kaygılardır? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Sırları ve API anahtarlarını sunucu tarafında tutmak",
-      "PII için gizlilik ve veri yönetişimi",
       "Sağlayıcı başarısız olduğunda güvenilirlik ve fallback'ler",
+      "PII için gizlilik ve veri yönetişimi",
+      "Sırları ve API anahtarlarını sunucu tarafında tutmak",
       "Tek bir belirli prompt'un kesin ifadesini seçmek"
     ],
     "correct": [
@@ -32,13 +32,13 @@
   {
     "prompt": "Bir vector store, birçok mimariye öncelikle hangi yeteneği mümkün kılmak için dahil edilir?",
     "choices": [
-      "Modelin yanıtlarını temellendirmek için ilgili belgeleri getirmek (RAG)",
       "Daha hızlı çıkarım için modelin ağırlıklarını saklamak",
-      "Client'ın ağ trafiğini şifrelemek",
-      "Kullanıcıları otomatik olarak token başına faturalandırmak"
+      "Kullanıcıları otomatik olarak token başına faturalandırmak",
+      "Modelin yanıtlarını temellendirmek için ilgili belgeleri getirmek (RAG)",
+      "Client'ın ağ trafiğini şifrelemek"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Bir vector store, modelin yanıtlarını gerçek verilere temellendirmek için ilgili belgeleri getirerek RAG'i mümkün kılar. Model ağırlıklarını tutmaz (bunlar sağlayıcıda bulunur), trafiği şifrelemez veya faturalandırma yapmaz."
@@ -46,15 +46,15 @@
   {
     "prompt": "Bir mimar, ekibin LLM'i kod tabanı boyunca doğrudan sağlayıcının SDK'sini çağırmak yerine dahili bir arayüz üzerinden çağırması konusunda ısrar ediyor. Bu sağlayıcı-soyutlaması yaklaşımı hangi faydaları sağlar? (Geçerli olan hepsini seçin.)",
     "choices": [
+      "Herhangi bir guardrail veya output kontrolüne olan ihtiyacı ortadan kaldırır",
       "Sağlayıcıları veya modelleri takas etmek bir yeniden yazma değil bir yapılandırma değişikliği haline gelir",
-      "Routing eklemeyi kolaylaştırır (kolay görevler için küçük model, zor olanlar için büyük)",
       "Sağlayıcı başarısız olduğunda bir fallback eklemek için tek bir yeri merkezileştirir",
-      "Herhangi bir guardrail veya output kontrolüne olan ihtiyacı ortadan kaldırır"
+      "Routing eklemeyi kolaylaştırır (kolay görevler için küçük model, zor olanlar için büyük)"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Bir sağlayıcı soyutlaması, model takasını bir config değişikliği haline getirir, routing eklemek için tek bir yer verir ve bir fallback'in çağrıyı sardığı yeri merkezileştirir. Guardrail veya output kontrollerine olan ihtiyacı ortadan kaldırmaz — bunlar sağlayıcıdan bağımsız olarak hâlâ geçerli olan ayrı bir güvenlik kaygısıdır."
@@ -62,13 +62,13 @@
   {
     "prompt": "Doğrudan tek sağlayıcının SDK'sine kodlamak en hızlı yayınlar; sağlayıcı-soyutlama katmanı iş ekler ama sonradan geçişi mümkün kılar. Fikri doğrulamaya koşan erken bir MVP için hangi *trade-off* makul?",
     "choices": [
-      "Asla kilitlenmemek için baştan tam çok-sağlayıcılı bir soyutlama katmanı kur",
       "Sağlayıcıyı her yere hard-code et ve değişimi hiç planlama",
       "Şimdi tek sağlayıcıya doğrudan yayınla, ince bir seam bırak — PMF öncesi soyutlamayı aşırı mühendisleme",
+      "Asla kilitlenmemek için baştan tam çok-sağlayıcılı bir soyutlama katmanı kur",
       "Güvende olmak için ilk günden üç sağlayıcıyı destekle"
     ],
     "correct": [
-      2
+      1
     ],
     "points": 1,
     "explanation": "Erken bir MVP için, tek sağlayıcıya yayın yaparken ince bir seam bırakmak, aşırı mühendislik yapmadan hızı gelecekteki esneklikle dengeler. Baştan tam çok-sağlayıcılı bir katman kurmak veya üç sağlayıcıyı desteklemek PMF öncesi emek israfıdır; her yere hard-code etmek ise sonradan bir çıkış kapısı bırakmaz."

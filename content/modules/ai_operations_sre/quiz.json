@@ -3,47 +3,57 @@
     "prompt": "What fundamentally changes when an AI goes from a tool you call to an agent that takes actions in your systems (restarts services, pushes config, runs commands)?",
     "choices": [
       "Nothing changes; you operate it exactly like a read-only chatbot",
-      "The blast radius shifts from a wrong answer to a wrong action taken in production, so reliability becomes about bounding what the agent is allowed to do",
       "The agent can no longer make mistakes because it has tools",
+      "The blast radius shifts from a wrong answer to a wrong action taken in production, so reliability becomes about bounding what the agent is allowed to do",
       "Cost stops mattering because actions are free"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "A called tool returns text a human acts on; an agent takes the action itself, so a mistake is a wrong action in prod, not just a wrong answer. Operating it reliably is therefore about least privilege, dry-runs, and approval gates that bound the damage a confident-but-wrong action can cause."
   },
   {
     "prompt": "Why instrument an action audit trail (what the agent did, what it observed, and why) rather than relying on your normal application dashboards?",
     "choices": [
+      "Because it removes the need for any human approval",
       "Because application dashboards are always wrong",
       "Because a green app dashboard won't tell you the agent took the wrong action, and a postmortem and an audit need the agent's actions and reasoning to hold a human accountable",
-      "Because the audit trail makes the agent run faster",
-      "Because it removes the need for any human approval"
+      "Because the audit trail makes the agent run faster"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "'200 OK' tells you the service is up, not that the agent restarted the right one. You need a trail of the tools it called, what it observed, its reasoning, and the action taken — correlatable to the incident — so misfires are visible and a human stays accountable."
   },
   {
     "prompt": "Which of the following are agent-specific failure modes you must operate against? (Select all that apply.)",
     "choices": [
-      "Looping — retrying a failing action forever, burning cost or repeating damage",
+      "The monitoring dashboard being configured in dark mode",
       "Confident-but-wrong remediation that acts on a wrong diagnosis and makes the incident worse",
-      "Prompt injection via a crafted log line, ticket, or error message that steers the agent into a dangerous action",
-      "The monitoring dashboard being configured in dark mode"
+      "Looping — retrying a failing action forever, burning cost or repeating damage",
+      "Prompt injection via a crafted log line, ticket, or error message that steers the agent into a dangerous action"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Loops, confident-but-wrong actions, and prompt injection through untrusted text the agent reads are all real failure modes once the AI can act on your systems. A dashboard's colour theme has no operational effect and isn't a failure mode."
   },
   {
     "prompt": "How should you decide whether an ops agent may take an action autonomously or must get human approval first?",
     "choices": [
-      "By how fast the action is to execute",
-      "By blast radius and reversibility: read-only and low-risk reversible actions can be autonomous, while destructive, irreversible, or production-facing actions need approval — backed by a kill-switch and a human accountable",
       "By letting the agent decide its own permissions at runtime",
-      "By always requiring approval for everything, including reading logs"
+      "By always requiring approval for everything, including reading logs",
+      "By how fast the action is to execute",
+      "By blast radius and reversibility: read-only and low-risk reversible actions can be autonomous, while destructive, irreversible, or production-facing actions need approval — backed by a kill-switch and a human accountable"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Autonomy is set per action class by blast radius and reversibility. Reading logs or restarting a stateless service can be autonomous; deleting data or changing prod needs a human gate. A kill-switch and clear accountability backstop the whole scheme — gating even read-only actions would just add toil."
   },
@@ -51,11 +61,13 @@
     "prompt": "TRADE-OFF: You can give the on-call agent broad autonomy to act on most alerts (less human toil, faster resolution) or require human approval on most of its actions (slower, but a human reviews each one). What is the trade-off?",
     "choices": [
       "There is no trade-off; full autonomy is always correct because it is fastest",
-      "Broad autonomy cuts toil and resolves incidents faster but widens the blast radius of a confident-but-wrong action; approval-gating is safer but slower and reintroduces human toil — the right level depends on each action's reversibility and blast radius",
       "Approval on everything is always mandatory, so autonomy can never be used",
-      "Both choices behave identically, so it only affects how the dashboard looks"
+      "Both choices behave identically, so it only affects how the dashboard looks",
+      "Broad autonomy cuts toil and resolves incidents faster but widens the blast radius of a confident-but-wrong action; approval-gating is safer but slower and reintroduces human toil — the right level depends on each action's reversibility and blast radius"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "It's a real speed-vs-safety trade-off. Autonomy reduces toil and mean-time-to-resolution but lets a wrong action hit prod unreviewed; approval gates add safety at the cost of speed and human effort. You tune it per action class — autonomous for reversible low-blast actions, gated for destructive or irreversible ones."
   }

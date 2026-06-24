@@ -3,15 +3,22 @@
   "prompt_md": "You are putting an **on-call agent** into production — it receives alerts, investigates, and can take actions in your systems (restart services, scale infra, roll back deploys). You want the speed of automated ops without letting a confident-but-wrong action cause real damage. **Select every option that is a sound practice for operating an action-taking agent.**",
   "spec": {
     "choices": [
-      "Classify the agent's actions by blast radius and require human approval for destructive, irreversible, or production-facing actions",
-      "Give the agent least-privilege, environment-scoped credentials — read-only by default, write access granted per action class",
-      "Keep an action audit trail recording the tools it called, what it observed, its reasoning, and the action taken, correlatable to the incident",
+      "Treat 'the agent did it' as a sufficient explanation, with no human accountable for the action",
       "Provide a kill-switch to pause all agent autonomy instantly, plus action-rate limits to catch loops and runaway remediation",
       "Let the agent act autonomously on everything to maximise speed, since it is usually right",
-      "Treat 'the agent did it' as a sufficient explanation, with no human accountable for the action"
+      "Give the agent least-privilege, environment-scoped credentials — read-only by default, write access granted per action class",
+      "Classify the agent's actions by blast radius and require human approval for destructive, irreversible, or production-facing actions",
+      "Keep an action audit trail recording the tools it called, what it observed, its reasoning, and the action taken, correlatable to the incident"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3] },
+  "answer_key": {
+    "correct": [
+      1,
+      3,
+      4,
+      5
+    ]
+  },
   "max_score": 10
 }

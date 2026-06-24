@@ -2,13 +2,13 @@
   {
     "prompt": "Bir geliştirici, modelden 'fonksiyonum için biraz test yaz' diye istiyor ama hiç kod yapıştırmıyor. Bu neden bu kadar sık işe yaramaz çıktı üretir?",
     "choices": [
+      "İfade yalnızca tonu etkiler, modelin seçtiği framework'ü veya durumları asla etkilemez",
       "Model yalnızca gönderdiğiniz metni gördüğü için, kod ve framework olmadan bir imza uydurur ve testleri tahmin eder",
       "Daha uzun prompt'lar, içeriğinden bağımsız olarak her zaman daha doğru testler üretir",
-      "Model deponuzu ve CI yapılandırmanızı otomatik olarak okur",
-      "İfade yalnızca tonu etkiler, modelin seçtiği framework'ü veya durumları asla etkilemez"
+      "Model deponuzu ve CI yapılandırmanızı otomatik olarak okur"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "Model yalnızca prompt'a koyduğunuzu görür, bu yüzden gerçek kod ve framework olmadan bir imza uydurmak ve testleri tahmin etmek zorunda kalır. Deponuzu ya da CI'ı kendi başına okumaz ve ifade, tonun çok ötesinde şeyleri etkiler."
@@ -16,15 +16,15 @@
   {
     "prompt": "System (developer) mesajı ile user mesajı hakkındaki hangi ifadeler doğrudur? Uygun olanların tümünü seçin.",
     "choices": [
-      "Test framework'ü ve kodlama standartları gibi kalıcı kurallar system mesajına aittir ve turlar arasında kalıcıdır",
       "Bu fonksiyon veya bu kullanıcı hikayesi için belirli istek user mesajına aittir",
-      "User mesajı system mesajına göre öncelik kazanır",
-      "Güvenlik politikası ve kişilik en iyi system mesajına yerleştirilir"
+      "Test framework'ü ve kodlama standartları gibi kalıcı kurallar system mesajına aittir ve turlar arasında kalıcıdır",
+      "Güvenlik politikası ve kişilik en iyi system mesajına yerleştirilir",
+      "User mesajı system mesajına göre öncelik kazanır"
     ],
     "correct": [
       0,
       1,
-      3
+      2
     ],
     "points": 1,
     "explanation": "Kalıcı kurallar (framework, standartlar, güvenlik politikası, kişilik) system mesajına aittir ve turlar arasında kalır; belirli istek ise user mesajına gider. System mesajı user mesajına göre öncelik kazanır, bu yüzden user mesajının kazandığı iddiası yanlıştır."
@@ -32,13 +32,13 @@
   {
     "prompt": "Bir modele bir fonksiyonu refactor etmesi için prompt yazarken, var olan kodu neden üçlü ters tırnak veya XML tarzı etiketler gibi sınırlayıcılarla sararsınız?",
     "choices": [
-      "Talimatlarınızı modelin işlemesi gereken koddan ayırmak için, böylece koddaki bir yorum talimat olarak okunmaz",
       "Prompt'u daha kısa yapmak için",
-      "Kodu başka bir dile çevirmek için",
-      "Kodu otomatik olarak başka bir dile çevirmek için"
+      "Kodu otomatik olarak başka bir dile çevirmek için",
+      "Talimatlarınızı modelin işlemesi gereken koddan ayırmak için, böylece koddaki bir yorum talimat olarak okunmaz",
+      "Kodu başka bir dile çevirmek için"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Sınırlayıcılar, talimatlarınızı modelin işlemesi gereken koddan net biçimde ayırır, böylece koddaki bir yorum talimat sanılmaz. Prompt'u kısaltmaz, modeli hızlandırmaz ya da kodu çevirmezler."
@@ -46,13 +46,13 @@
   {
     "prompt": "Bir Project Manager, modelden bir paydaş isteğini kullanıcı hikayesine dönüştürmesini istiyor, ama çıktı sürekli kabul kriteri olmayan gevşek bir paragraf olarak geliyor ve ekibin backlog şablonunu bozuyor. Hangi prompt değişikliği bunu en doğrudan düzeltir?",
     "choices": [
-      "Tam çıktı şablonunu belirtin ('... olarak... istiyorum, böylece...' artı numaralandırılmış bir kabul kriteri listesi) ve o biçimde bir örnek hikaye gösterin",
+      "İyi biçimlendirilmiş bir hikaye çıkana kadar isteği tekrar tekrar gönderin",
       "Modele formatı nasıl isterse öyle yapmasını söyleyin",
-      "Modelden bir şablon vermeden 'biraz daha yapılandırılmış' olmasını isteyin",
-      "İyi biçimlendirilmiş bir hikaye çıkana kadar isteği tekrar tekrar gönderin"
+      "Tam çıktı şablonunu belirtin ('... olarak... istiyorum, böylece...' artı numaralandırılmış bir kabul kriteri listesi) ve o biçimde bir örnek hikaye gösterin",
+      "Modelden bir şablon vermeden 'biraz daha yapılandırılmış' olmasını isteyin"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Tam çıktı şablonunu belirtmek ve o biçimde bir örnek göstermek, modeli ihtiyacınız olan yapıya doğrudan yönlendirir. Belirsiz istekler ('daha yapılandırılmış ol' ya da 'nasıl istersen') şablonu güvenilir biçimde üretmez; aynı prompt'u tekrar göndermek de sorunu yineler."
@@ -60,9 +60,9 @@
   {
     "prompt": "Few-shot örnekleri format uyumunu artırır ama her çağrıya token ekler. Günde milyonlarca kez çalışan basit, net bir çıkarım görevinde hangi *trade-off* daha iyi?",
     "choices": [
-      "Maksimum güvenilirlik için her çağrıya birkaç few-shot örnek ekle",
-      "Model asla yanlış formatlamasın diye uzun, ayrıntılı tek bir örnek ekle",
       "Örnek vermek yerine daha büyük bir modele geç",
+      "Model asla yanlış formatlamasın diye uzun, ayrıntılı tek bir örnek ekle",
+      "Maksimum güvenilirlik için her çağrıya birkaç few-shot örnek ekle",
       "Net bir talimatla zero-shot git — görev basit, few-shot'ın çağrı-başına token maliyeti bu ölçekte değmez"
     ],
     "correct": [

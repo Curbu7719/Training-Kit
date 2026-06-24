@@ -170,12 +170,13 @@ test.describe('Learning flow — ai_architecture module', () => {
     // All lessons done banner must now be visible
     const doneBanner = page.getByTestId('all-lessons-done-banner');
     await expect(doneBanner).toBeVisible({ timeout: 10_000 });
-    await expect(doneBanner).toContainText('All lessons complete!');
 
-    // Click "Complete module" — triggers the /progress edge function
-    const completeBtn = page.getByTestId('complete-module-btn');
-    await expect(completeBtn).toBeEnabled();
-    await completeBtn.click();
+    // The banner auto-saves progress (the /progress edge function), then shows a
+    // contextual CTA (continue to L2 / next module / retry). Every branch offers a
+    // "back to dashboard" button — wait for the save to settle, then click it.
+    const returnBtn = page.getByTestId('dashboard-return-btn');
+    await expect(returnBtn).toBeVisible({ timeout: 30_000 });
+    await returnBtn.click();
 
     // Navigates back to the dashboard
     await expect(page).toHaveURL('/dashboard', { timeout: 30_000 });

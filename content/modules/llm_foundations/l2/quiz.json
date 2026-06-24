@@ -2,48 +2,57 @@
   {
     "prompt": "For high-volume inline code completion in an IDE, which model choice is usually the best fit?",
     "choices": [
-      "A reasoning model at every keystroke, so completions are as smart as possible",
-      "A small, fast model, reserving stronger models for genuinely hard tasks",
       "The largest available model, since bigger is always better",
-      "A base (non-instruction-tuned) model, because it just continues text"
+      "A base (non-instruction-tuned) model, because it just continues text",
+      "A small, fast model, reserving stronger models for genuinely hard tasks",
+      "A reasoning model at every keystroke, so completions are as smart as possible"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Completion is routine and extremely high-volume, so a small fast model gives quick suggestions cheaply. A reasoning or largest model adds latency and cost with no real benefit here; a base model isn't tuned to follow instructions."
   },
   {
     "prompt": "An extraction task must return a structured result that a downstream tool can parse. What's the most reliable approach?",
     "choices": [
-      "Assume the model returns identical text every run, so parse its output directly",
-      "Ask for a strict output format (e.g. JSON) and validate it, since output can vary run to run",
       "Always use the largest model so the format never varies",
+      "Ask for a strict output format (e.g. JSON) and validate it, since output can vary run to run",
+      "Assume the model returns identical text every run, so parse its output directly",
       "Remove the stop sequence so the model decides when to end"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "LLM output isn't identical run to run, so rely on a strict, validated format rather than exact text. A bigger model doesn't guarantee a stable format, and dropping the stop sequence only affects where the output ends, not whether it's parseable."
   },
   {
     "prompt": "When does choosing a reasoning model (one that 'thinks' longer before answering) actually pay off? (Select all that apply.)",
     "choices": [
-      "Diagnosing a subtle, multi-step bug where shallow answers keep missing the cause",
       "Weighing a complex architecture or design trade-off",
-      "Generating thousands of routine inline completions per day",
-      "Lowercasing a string or formatting a simple field"
+      "Diagnosing a subtle, multi-step bug where shallow answers keep missing the cause",
+      "Lowercasing a string or formatting a simple field",
+      "Generating thousands of routine inline completions per day"
     ],
-    "correct": [0, 1],
+    "correct": [
+      0,
+      1
+    ],
     "points": 1,
     "explanation": "Reasoning models earn their extra latency and cost on genuinely hard, multi-step problems like tricky debugging and design trade-offs. For high-volume routine completions or trivial formatting they're pure overhead — a small fast model is the right call."
   },
   {
     "prompt": "Across a toolchain, what single design choice most controls cost and latency without sacrificing quality on the hard cases?",
     "choices": [
-      "Routing — run a small cheap model on the routine path and escalate only hard or low-confidence cases to a stronger model",
       "Always calling the newest model with its default settings everywhere",
-      "Always using the largest model so no task is ever under-served",
-      "Sending the largest possible context on every call to be safe"
+      "Sending the largest possible context on every call to be safe",
+      "Routing — run a small cheap model on the routine path and escalate only hard or low-confidence cases to a stronger model",
+      "Always using the largest model so no task is ever under-served"
     ],
-    "correct": [0],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Routing matches each request to the cheapest model that can handle it and escalates only the hard cases, which is the biggest lever on cost and latency across a toolchain. Defaulting to the newest or largest model, or padding context, just inflates cost and latency."
   }

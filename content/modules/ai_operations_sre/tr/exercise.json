@@ -3,15 +3,22 @@
   "prompt_md": "Bir **nöbet (on-call) agent'ını** üretime alıyorsun — alarmları alır, inceler ve senin sistemlerinde eylem alabilir (servis yeniden başlatma, altyapı ölçekleme, dağıtım geri alma). Kendinden emin ama yanlış bir eylemin gerçek zarar vermesine izin vermeden otomatik operasyonun hızını istiyorsun. **Eylem alan bir agent'ı işletmek için sağlam bir uygulama olan her seçeneği seç.**",
   "spec": {
     "choices": [
-      "Agent'ın eylemlerini etki alanına göre sınıflandır ve yıkıcı, geri alınamaz ya da üretime dokunan eylemler için insan onayı iste",
-      "Agent'a en az yetki ve ortama göre kapsamlı izinler ver — varsayılan salt-okunur, yazma erişimi eylem türü bazında",
-      "Çağırdığı araçları, gözlemini, gerekçesini ve aldığı eylemi kaydeden, olaya bağlanabilir bir eylem günlüğü tut",
+      "Hiçbir insanın sorumlu olmadığı şekilde 'agent yaptı' açıklamasını yeterli say",
       "Tüm agent otonomisini anında durduran bir acil durdurma ve döngüleri, kaçak müdahaleyi yakalamak için eylem hızı sınırları sağla",
       "Hızı en üst düzeye çıkarmak için agent'ın her şeyde otonom eylem almasına izin ver, çünkü genelde haklıdır",
-      "Hiçbir insanın sorumlu olmadığı şekilde 'agent yaptı' açıklamasını yeterli say"
+      "Agent'a en az yetki ve ortama göre kapsamlı izinler ver — varsayılan salt-okunur, yazma erişimi eylem türü bazında",
+      "Agent'ın eylemlerini etki alanına göre sınıflandır ve yıkıcı, geri alınamaz ya da üretime dokunan eylemler için insan onayı iste",
+      "Çağırdığı araçları, gözlemini, gerekçesini ve aldığı eylemi kaydeden, olaya bağlanabilir bir eylem günlüğü tut"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3] },
+  "answer_key": {
+    "correct": [
+      1,
+      3,
+      4,
+      5
+    ]
+  },
   "max_score": 10
 }

@@ -2,36 +2,44 @@
   {
     "prompt": "A codebase RAG assistant returns a confident answer that cites a real source file, but the cited file is from the wrong service (payments instead of billing). What does this most strongly indicate?",
     "choices": [
-      "A retrieval failure: the wrong chunk was surfaced, and generation faithfully used what it was given",
+      "The generation model is too small",
       "A generation failure: the model ignored the provided context",
       "The embedding model needs to be retrained on the whole monorepo",
-      "The generation model is too small"
+      "A retrieval failure: the wrong chunk was surfaced, and generation faithfully used what it was given"
     ],
-    "correct": [0],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "The answer faithfully used its cited source, so generation worked; the fault is that retrieval surfaced the wrong service's chunk. It is not a generation failure (the model used what it was given), and model size or retraining do not explain a wrong-but-real citation."
   },
   {
     "prompt": "Which techniques specifically improve the RETRIEVAL stage of a codebase assistant (rather than the generation prompt)? (Select all that apply.)",
     "choices": [
-      "Hybrid search combining semantic and keyword matching so exact tokens like a service name are weighted",
-      "Metadata filtering to restrict candidates by service, branch, or doc-vs-code",
       "Re-ranking a candidate set with a more precise model before sending the top few onward",
+      "Metadata filtering to restrict candidates by service, branch, or doc-vs-code",
+      "Hybrid search combining semantic and keyword matching so exact tokens like a service name are weighted",
       "Instructing the model to answer only from the provided code"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Hybrid search, metadata filtering, and re-ranking all change which chunks get selected, so they improve retrieval. Instructing the model to answer only from the provided code is a generation-side guardrail and does not affect what was retrieved."
   },
   {
     "prompt": "Two chunks are nearly identical in meaning and differ only by a distinguishing token like a service name, and pure semantic search keeps retrieving the wrong one. Which combination best resolves this AND why?",
     "choices": [
-      "Add metadata filtering plus hybrid search, because filtering removes ineligible services and keyword matching weights the exact distinguishing token",
+      "Switch to a larger model, because a bigger model picks the right file",
       "Increase top-k to 50, because retrieving more chunks always raises accuracy",
       "Lower the chunk overlap to zero, because overlap is what causes duplicate retrieval",
-      "Switch to a larger model, because a bigger model picks the right file"
+      "Add metadata filtering plus hybrid search, because filtering removes ineligible services and keyword matching weights the exact distinguishing token"
     ],
-    "correct": [0],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "The problem is that semantic similarity ignores the one distinguishing token, so metadata filtering plus hybrid search both eliminate the wrong service and weight the exact token. Raising top-k adds noise, overlap is not the cause, and model size only affects generation, not which chunk is retrieved."
   }

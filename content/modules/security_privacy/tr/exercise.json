@@ -3,15 +3,23 @@
   "prompt_md": "Ekibiniz SDLC genelinde AI asistanları benimsiyor. **Gerçek bir güvenlik veya gizlilik riski OLAN, YA DA birine karşı sağlam bir önlem olan her seçeneği işaretleyin** (yani AI kullanımının güvenlik ve gizlilik incelemesine giren her seçenek).",
   "spec": {
     "choices": [
+      "Geliştiricilerin politikası veya kurumsal anlaşması olmayan onaylanmamış chatbot'lar kullanması — shadow AI (risk)",
       "Müşteri PII'si içeren bir üretim veritabanı satırını, prompt'ları saklayan bir tüketici chatbot'una yapıştırmak (risk)",
-      "Bir stack trace'i bir AI aracına göndermeden önce e-postaları, adresleri ve API anahtarlarını redact etmek (önlem)",
-      "Getirilen bir belgede gizlenmiş, hassas bağlamı dışarı sızdıran bir prompt injection (risk)",
       "Yalnızca zero-retention / no-train ayarları etkin onaylı araçlar kullanmak (önlem)",
-      "Bir modeli yalnızca en büyük context window'a sahip olduğu için seçmek (ne risk ne de önlem)",
-      "Geliştiricilerin politikası veya kurumsal anlaşması olmayan onaylanmamış chatbot'lar kullanması — shadow AI (risk)"
+      "Getirilen bir belgede gizlenmiş, hassas bağlamı dışarı sızdıran bir prompt injection (risk)",
+      "Bir stack trace'i bir AI aracına göndermeden önce e-postaları, adresleri ve API anahtarlarını redact etmek (önlem)",
+      "Bir modeli yalnızca en büyük context window'a sahip olduğu için seçmek (ne risk ne de önlem)"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3, 5] },
+  "answer_key": {
+    "correct": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
   "max_score": 10
 }

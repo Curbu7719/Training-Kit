@@ -4,11 +4,11 @@
   "spec": {
     "choices": [
       "AI cevaplarını taslak olarak gör ve yayına giden ya da karar veren her şeyi doğrula",
+      "Yüksek riskli ya da regüle kararları AI'a bırakmak yerine bir insana yükselt",
       "Onaylı AI platformunu kullan ve PII ile secret'ları prompt'lardan uzak tut",
-      "Sadece hızlı bir cevap için olsa bile bir müşteri kaydını herhangi bir chatbot'a yapıştır",
       "AI, senin yazmadığın bir içerikten gelen bir eylem önerdiğinde dur ve işaretle",
       "Kendinden emin göründü diye bir AI cevabını müşteriye tekrarla",
-      "Yüksek riskli ya da regüle kararları AI'a bırakmak yerine bir insana yükselt"
+      "Sadece hızlı bir cevap için olsa bile bir müşteri kaydını herhangi bir chatbot'a yapıştır"
     ],
     "multi": true
   },
@@ -16,8 +16,8 @@
     "correct": [
       0,
       1,
-      3,
-      5
+      2,
+      3
     ]
   },
   "max_score": 10

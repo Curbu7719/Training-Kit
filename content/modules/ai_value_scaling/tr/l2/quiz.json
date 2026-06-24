@@ -7,7 +7,11 @@
       "Toplam maliyet sayıldığında case, '10 saat tasarruf'un önerdiğinden çok daha incedir",
       "Gözetim maliyeti önemsizdir; business case'e yalnızca brüt tasarruf edilen saatler girer"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Gerçek değer, fayda eksi onu sunmanın tam maliyetidir; bu yüzden 8 saatlik inceleme, tasarruf edilen 10 saate karşı netleştirilmeli ve geriye çok daha ince bir case kalmalıdır. Gözetim maliyetini önemsiz saymak manşeti şişirir ve gerçek ROI'yi gizler."
   },
@@ -15,11 +19,15 @@
     "prompt": "Olgun bir AI programı, yalnızca ardıl sonuçları beklemek yerine ölçeklendir-ya-da-durdur geçidini neden öncü göstergelere (örn. adoption derinliği, taslak kabul oranı, ilk-değere-süre) bağlar? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
       "Üç aylık azaltılan maliyet gibi ardıl sonuçlar, bir dağıtımı onunla yönlendirmek için fazla geç gelir",
-      "Öncü göstergeler ardıl sonucun gerçekleşip gerçekleşmeyeceğini öngörür, bir dağıtım tıkanmadan önce müdahaleye izin verir",
+      "Öncü göstergelerin nihai iş sonucuna eşit olması garantilidir, dolayısıyla ardıl metriklere asla ihtiyaç duyulmaz",
       "Öncü göstergeler bir adoption sorununu erken ortaya çıkarabilir, eğitim veya iş akışı uyumu hâlâ düzeltilebilirken",
-      "Öncü göstergelerin nihai iş sonucuna eşit olması garantilidir, dolayısıyla ardıl metriklere asla ihtiyaç duyulmaz"
+      "Öncü göstergeler ardıl sonucun gerçekleşip gerçekleşmeyeceğini öngörür, bir dağıtım tıkanmadan önce müdahaleye izin verir"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Öncü göstergeler, ardıl sonucu öngörecek kadar erken gelir ve eğitim veya iş akışı uyumu hâlâ düzeltilebilirken müdahale etmenizi sağlar; üç aylık maliyet gibi ardıl metrikler buna izin veremeyecek kadar yavaştır. Bunlar kararı yönlendirir ama nihai sonucu garanti etmez, bu yüzden değeri doğrulamak için ardıl metriklere yine de ihtiyaç vardır."
   },
@@ -28,10 +36,12 @@
     "choices": [
       "Hemen onaylayın, çünkü pilot'un küçük ölçekli maliyetleri ihmal edilebilirdi",
       "Hedef hacimde değer birimi başına maliyeti modelleyin ve onaylamadan önce faydanın altında kaldığını doğrulayın, çünkü birim ekonomisi ölçekte tersine dönebilir",
-      "Onaylayın, çünkü ham kullanım büyümesi başlı başına değerin kanıtıdır",
-      "Tüm ölçeklendirmeyi reddedin, çünkü AI maliyetleri her zaman olası herhangi bir faydadan daha hızlı büyür"
+      "Tüm ölçeklendirmeyi reddedin, çünkü AI maliyetleri her zaman olası herhangi bir faydadan daha hızlı büyür",
+      "Onaylayın, çünkü ham kullanım büyümesi başlı başına değerin kanıtıdır"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "Hacimle artan maliyetler birim ekonomisini ölçekte tersine döndürebileceğinden, bu rol hedef hacimde değer birimi başına maliyeti modellemeli ve onaylamadan önce faydanın altında kaldığını doğrulamalıdır. Küçük ölçekli maliyetler veya ham kullanım büyümesi, hacim arttığında ekonominin tuttuğunu kanıtlamaz."
   }

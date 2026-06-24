@@ -2,13 +2,13 @@
   {
     "prompt": "Bir ekip, endpoint uydurmadan kendi kod tabanı ve dahili wiki'si hakkındaki soruları yanıtlayan bir asistan istiyor. RAG onlar için hangi temel sorunu çözer?",
     "choices": [
+      "Embedding'ler, model depo üzerinde yeniden eğitilmeden saklanamaz",
       "Bir model yalnızca eğitim verisinden yanıt verebilir ve ekibin deposunu veya wiki'sini hiç görmemiştir, bu yüzden bu bağlam soru anında ona sağlanmalıdır",
       "Modeller, retrieval olmadan kod üretemeyecek kadar yavaştır",
-      "Embedding'ler, model depo üzerinde yeniden eğitilmeden saklanamaz",
       "Dil modelleri dilbilgisi açısından doğru cümleler üretemez"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "RAG var çünkü model eğitim sırasında özel depoyu veya wiki'yi hiç görmedi, bu yüzden ilgili bağlam soru anında retrieve edilip sağlanmalıdır. Diğer seçenekler sorunu yanlış ifade eder: mesele eksik bilgi, hız, depolama veya dilbilgisi değil."
@@ -16,14 +16,14 @@
   {
     "prompt": "Bir kod tabanı Soru-Cevap asistanı için bir depo ve wiki indexlenirken, hangi adımlar herhangi bir geliştirici soru sormadan ÖNCE gerçekleşir? (Geçerli olanların tümünü seçin.)",
     "choices": [
-      "Depoyu ve wiki'yi pasajlara chunk'lamak",
       "Her chunk'ı bir vektöre embed etmek",
       "Geliştiricinin sorusunu embed etmek ve top-k chunk'ı retrieve etmek",
-      "Chunk vektörlerini bir vector index'te saklamak"
+      "Chunk vektörlerini bir vector index'te saklamak",
+      "Depoyu ve wiki'yi pasajlara chunk'lamak"
     ],
     "correct": [
       0,
-      1,
+      2,
       3
     ],
     "points": 1,
@@ -32,13 +32,13 @@
   {
     "prompt": "Asistan, 'Başarısız bir işi nasıl yeniden denerim?' sorusu için, hiçbir anahtar kelime paylaşmasalar bile 'Backoff ve yeniden kuyruğa alma politikası' başlıklı bir wiki sayfasını neden retrieve edebilir?",
     "choices": [
-      "Çünkü embedding'ler, benzer anlama sahip metni vektör uzayında yakın noktalara yerleştirir, böylece retrieval anlamsal benzerliğe göre sıralar",
       "Çünkü model o belirli wiki sayfası üzerinde fine-tune edilmiştir",
+      "Çünkü chunk, 'yeniden dene' kelimesiyle elle etiketlenmiştir",
       "Çünkü anahtar kelime araması her zaman 'nasıl' ve 'denerim' gibi yaygın kelimeleri çıkarır",
-      "Çünkü chunk, 'yeniden dene' kelimesiyle elle etiketlenmiştir"
+      "Çünkü embedding'ler, benzer anlama sahip metni vektör uzayında yakın noktalara yerleştirir, böylece retrieval anlamsal benzerliğe göre sıralar"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Embedding'ler anlamı yakalar, böylece 'başarısız bir işi yeniden dene' ortak kelime olmadan bile 'backoff ve yeniden kuyruğa alma'nın yakınına düşer, ki bu tam da keyword aramasının yapamadığı şeydir. Diğer seçenekler fine-tuning, keyword hileleri veya elle etiketlemeyi tarif eder, burada hiçbiri olmuyor."
@@ -47,13 +47,13 @@
     "prompt": "Bir QA mühendisi, ekip benimsemeden önce RAG tabanlı bir kod tabanı asistanını test ediyor. Hangi kontroller, yanıtların gerçek koda ve dokümanlara düzgünce grounded olduğunu en doğrudan doğrular?",
     "choices": [
       "Her yanıtın, iddiayı gerçekten içeren gerçek bir dosyaya veya wiki sayfasına atıf yaptığını teyit et",
-      "İlgili hiçbir chunk retrieve edilmediğinde asistanın bir yanıt bulamadığını söylediğini teyit et",
       "Yanıt metninin, her yeniden çalıştırmada modelin çıktısıyla karakteri karakterine eşleştiğini teyit et",
-      "Yanıtın, retrieve edilen chunk'larda bulunmayan API'leri veya alanları öne sürmediğini teyit et"
+      "Yanıtın, retrieve edilen chunk'larda bulunmayan API'leri veya alanları öne sürmediğini teyit et",
+      "İlgili hiçbir chunk retrieve edilmediğinde asistanın bir yanıt bulamadığını söylediğini teyit et"
     ],
     "correct": [
       0,
-      1,
+      2,
       3
     ],
     "points": 1,
@@ -62,13 +62,13 @@
   {
     "prompt": "Daha büyük retrieval parçaları daha çok çevresel context verir ama alakayı seyreltir ve prompt alanını harcar; küçük parçalar isabetlidir ama bir düşünceyi bölebilir. Kısa, kendi-içinde-bütün config parçacıkları getirmek için hangi *trade-off* daha iyi?",
     "choices": [
-      "Context hiç eksik olmasın diye olabildiğince büyük parçalar",
       "Boyuttan bağımsız, dosya başına tek parça",
-      "Chunking'i kapat ve tüm belgeleri embed et",
-      "Daha küçük, kendi-içinde-bütün parçalar — config parçacıkları kısa ve ayrık, burada isabet çevresel context'ten önemli"
+      "Daha küçük, kendi-içinde-bütün parçalar — config parçacıkları kısa ve ayrık, burada isabet çevresel context'ten önemli",
+      "Context hiç eksik olmasın diye olabildiğince büyük parçalar",
+      "Chunking'i kapat ve tüm belgeleri embed et"
     ],
     "correct": [
-      3
+      1
     ],
     "points": 1,
     "explanation": "Config parçacıkları kısa ve kendi-içinde-bütündür, bu yüzden küçük isabetli parçalar alakayı seyreltmeden doğru olanı retrieve eder. En büyük parçalar, dosya başına tek parça veya tüm belgeleri embed etmek, bu tür ayrık içerik için sıralamaya zarar veren gürültü ekler."

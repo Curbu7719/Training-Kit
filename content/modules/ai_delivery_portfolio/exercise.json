@@ -4,14 +4,21 @@
   "spec": {
     "choices": [
       "Estimate the review, integration, and verification work explicitly, budgeting for the last-10% edge cases — not just the fast generation",
-      "Make human review of generated code, automated tests, and security/type checks the definition of done before anything merges",
-      "Track real throughput (cycle time, defect-escape rate, value shipped) rather than output like lines generated or PR count",
-      "Keep a human accountable for reviewing, verifying, and owning correctness and security of whatever the AI generates",
       "Treat code as done once it compiles and the happy-path demo works, skipping review to preserve velocity",
-      "Quote a delivery date 3× sooner up front because the assistant writes most of the code"
+      "Keep a human accountable for reviewing, verifying, and owning correctness and security of whatever the AI generates",
+      "Quote a delivery date 3× sooner up front because the assistant writes most of the code",
+      "Track real throughput (cycle time, defect-escape rate, value shipped) rather than output like lines generated or PR count",
+      "Make human review of generated code, automated tests, and security/type checks the definition of done before anything merges"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3] },
+  "answer_key": {
+    "correct": [
+      0,
+      2,
+      4,
+      5
+    ]
+  },
   "max_score": 10
 }

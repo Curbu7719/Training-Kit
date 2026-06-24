@@ -2,13 +2,13 @@
   {
     "prompt": "Context window neyi ölçer ve neleri içerir?",
     "choices": [
+      "Dakika başına izin verilen ayrı API çağrısı sayısının üst sınırını",
       "Modelin aynı anda dikkate alabileceği maksimum token sayısını; hem girdiyi hem çıktıyı kapsar",
       "Yalnızca göndermenize izin verilen girdi token'larının sayısını",
-      "Modelin geçmiş tüm refactor'lara dair kalıcı uzun süreli belleğini",
-      "Dakika başına izin verilen ayrı API çağrısı sayısının üst sınırını"
+      "Modelin geçmiş tüm refactor'lara dair kalıcı uzun süreli belleğini"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "Context window, modelin aynı anda dikkate alabileceği toplam token sayısıdır ve hem gönderdiğiniz girdiyi hem de ürettiği çıktıyı kapsar. Yalnızca girdi değildir; kalıcı bir bellek ya da bir hız sınırı da değildir."
@@ -16,13 +16,13 @@
   {
     "prompt": "Uzun, çok dosyalı bir refactor sırasında AI aracı neden her çağrıda önceki bağlamı yeniden sağlamak zorundadır?",
     "choices": [
-      "Çünkü her API çağrısı durumsuzdur — model çağrılar arasında hiç bellek tutmaz",
       "Çünkü yeniden göndermek modeli daha hızlı yanıt vermeye iter",
+      "Çünkü her API çağrısı durumsuzdur — model çağrılar arasında hiç bellek tutmaz",
       "Çünkü sağlayıcı eski mesajları bir dakika sonra siler",
       "Sağlamaz — model daha önceki tüm dosyaları ve düzenlemeleri otomatik olarak hatırlar"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "Her API çağrısı durumsuzdur — model çağrılar arasında hiç bellek tutmaz, bu yüzden modelin 'görmesi' için araç önceki bağlamı her seferinde yeniden göndermelidir. Yeniden gönderme hızla ilgili değildir ve model daha önceki dosyaları otomatik olarak hatırlamaz."
@@ -31,14 +31,14 @@
     "prompt": "Büyük bir kod tabanında ya da uzun bir gereksinim dizisinde çalışırken context window içinde kalmak için aşağıdakilerden hangileri geçerli stratejilerdir? (Uygun olanların hepsini seçin.)",
     "choices": [
       "Daha önceki bir görüşmeyi ya da transkripti kısa bir özete sıkıştırmak",
+      "Daha hızlı bir modele geçmek",
       "Yalnızca mevcut düzenlemeyle ilgili birkaç dosyayı getirmek",
-      "Yalnızca son N turu tutmak (kayan pencere)",
-      "Daha hızlı bir modele geçmek"
+      "Yalnızca son N turu tutmak (kayan pencere)"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Özetlemek, yalnızca ilgili dosyaları getirmek ve son turların kayan bir penceresini tutmak; pencereye sığdırmanız gereken token sayısını azaltır. Daha hızlı bir model, içeriğinizin kaç token gerektirdiğini değiştirmez, bu yüzden burada yardımcı olmaz."
@@ -46,13 +46,13 @@
   {
     "prompt": "30 dosyalık bir refactor yapan bir AI asistanı, başlangıçta kendisine verilen 'eski kolon adını koru' kuralını yok saymaya başlar. Hangi gerçek, ekibe kök nedeni en iyi açıklar?",
     "choices": [
-      "Model daha küçük bir sürümle değiştirildi",
-      "Transkript pencere sınırını aştıkça, erken kural atıldı ve artık model tarafından görülmüyor",
+      "Retrieval her zaman düzenleme geçmişini bozar",
       "Modelin eğitimi bittiği için öğrenmeyi durdurdu",
-      "Retrieval her zaman düzenleme geçmişini bozar"
+      "Transkript pencere sınırını aştıkça, erken kural atıldı ve artık model tarafından görülmüyor",
+      "Model daha küçük bir sürümle değiştirildi"
     ],
     "correct": [
-      1
+      2
     ],
     "points": 1,
     "explanation": "Transkript pencere sınırını aştıkça, en eski içerik — başlangıçta belirtilen kural dahil — bağlamın dışına düştü, bu yüzden model artık onu göremiyor. Model boyutu ve eğitim bu düşüşle ilgisizdir."
@@ -60,9 +60,9 @@
   {
     "prompt": "Modelin, tam ayrıntıların önemli olduğu ve dosyaların birbirine atıf yaptığı büyük bir kod tabanında çalışması gerekiyor. Özetle-sonra-çalış mı, ilgili-parçaları-getir mi — hangi *trade-off*?",
     "choices": [
-      "Tüm kod tabanını bir kez özetle ve özetten çalış — en kompakt olan bu",
-      "Soru başına ilgili belirli parçaları getir — özet, ihtiyacın olan tam ayrıntıları kaybeder",
       "Hiçbir şey kaçmasın diye her çağrıda tüm kod tabanını yapıştır",
+      "Soru başına ilgili belirli parçaları getir — özet, ihtiyacın olan tam ayrıntıları kaybeder",
+      "Tüm kod tabanını bir kez özetle ve özetten çalış — en kompakt olan bu",
       "Daha küçük, daha hızlı bir modele geç ki daha iyi odaklansın"
     ],
     "correct": [

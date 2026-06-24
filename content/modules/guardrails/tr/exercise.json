@@ -3,15 +3,23 @@
   "prompt_md": "Bir ekip bir AI kodlama agent'ını geliştirme hattına bağlıyor. Agent dosyaları düzenleyebilir, shell komutları çalıştırabilir ve pull request açabilir. **Meşru bir guardrail kontrolü olan her seçeneği işaretleyin** (agent'ın girdisi, eylemleri veya çıktısı üzerinde çalışan).",
   "spec": {
     "choices": [
-      "Agent onu bir görev olarak ele almadan önce issue/PR metnini doğrulamak ve temizlemek",
-      "Agent'ı kapsamlandırılmış dosya, komut ve ağ izinleriyle bir sandbox içinde çalıştırmak",
       "Güvenli komutların çalıştığı ancak 'rm -rf' ve force-push'un engellendiği bir izin verme/reddetme listesi tutmak",
-      "Commit edebilmeden önce agent'ın diff'ini sır'lar veya PII için taramak",
+      "Agent'ı kapsamlandırılmış dosya, komut ve ağ izinleriyle bir sandbox içinde çalıştırmak",
+      "Agent onu bir görev olarak ele almadan önce issue/PR metnini doğrulamak ve temizlemek",
       "Kod tabanının daha fazlasını okuyabilmesi için daha büyük context window'lu bir model seçmek",
+      "Commit edebilmeden önce agent'ın diff'ini sır'lar veya PII için taramak",
       "Bir AI tarafından üretilen değişiklik birleştirilmeden veya dağıtılmadan önce bir insan inceleme/onay geçidi gerektirmek"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3, 5] },
+  "answer_key": {
+    "correct": [
+      0,
+      1,
+      2,
+      4,
+      5
+    ]
+  },
   "max_score": 10
 }

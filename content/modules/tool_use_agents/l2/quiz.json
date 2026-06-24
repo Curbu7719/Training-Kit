@@ -3,35 +3,45 @@
     "prompt": "An agent's tool returns a raw HTTP 500 when its backing service is briefly down. Why does this hurt the agent's reliability, and what is the better design? Select all that apply.",
     "choices": [
       "The model cannot distinguish a temporary outage from a genuinely missing record, so it may take the wrong action",
-      "A structured result like {\"status\":\"unavailable\",\"retryable\":true} lets the model retry instead of giving up",
       "Returning a typed, interpretable error makes the model's next decision more reliable",
+      "A structured result like {\"status\":\"unavailable\",\"retryable\":true} lets the model retry instead of giving up",
       "Raw errors are fine because the max-iteration cap will handle everything"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
-    "explanation": "A raw 500 is ambiguous, so the model may confuse an outage with missing data; a typed, retryable result lets it choose the right next action. The last option is wrong: an iteration cap only stops runaway loops, it does not tell the model how to interpret an error."
+    "explanation": "A raw 500 is ambiguous, so the model may confuse an outage with missing data; a typed, retryable result lets it choose the right next action. The option proposing an iteration cap is wrong here: a cap only stops runaway loops, it does not tell the model how to interpret an error."
   },
   {
     "prompt": "A refund agent's only safeguard against large erroneous refunds is a prompt instruction saying 'only refund valid orders,' yet it still issued a wrong $5,000 refund. What is the correct architectural fix?",
     "choices": [
-      "Put refunds over a threshold behind a human-approval gate enforced in the application, not the prompt",
       "Reword the prompt more firmly and add capital letters",
-      "Raise the max-iteration limit so the model has more chances to self-correct",
-      "Add a polite instruction asking the model to be careful"
+      "Put refunds over a threshold behind a human-approval gate enforced in the application, not the prompt",
+      "Add a polite instruction asking the model to be careful",
+      "Raise the max-iteration limit so the model has more chances to self-correct"
     ],
-    "correct": [0],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "A prompt instruction is a suggestion the model can ignore; high-impact actions need a hard gate enforced in application code. Rewording the prompt, adding iterations, or asking it politely all leave the unsafe action reachable without real authorization."
   },
   {
     "prompt": "A max-iteration cap is in place, yet an agent still wastes ten model calls when a service is down before giving up. Which improvements address this more gracefully? Select all that apply.",
     "choices": [
-      "Detect non-progress, such as the same tool called with the same arguments repeatedly",
+      "Remove the iteration cap entirely so the agent can keep trying",
       "Distinguish transient (retry with backoff) from permanent (stop and report) failures",
-      "Log each iteration's plan, tool, arguments, and observation so the run can be traced",
-      "Remove the iteration cap entirely so the agent can keep trying"
+      "Detect non-progress, such as the same tool called with the same arguments repeatedly",
+      "Log each iteration's plan, tool, arguments, and observation so the run can be traced"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Detecting non-progress, classifying transient vs permanent failures, and logging each step let the agent stop early and be debugged. Removing the cap does the opposite, letting it loop forever, which is the failure you are trying to avoid."
   }

@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { submitExercise, refreshProgress } from '@/lib/api';
 import type { ExerciseAnswer } from '@/lib/api';
+import { ROLE_PATHS, type RoleKey } from '@/lib/rolePaths';
+import type { TranslationKey } from '@/lib/locales/en';
 import { Markdown } from '@/lib/markdown';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
@@ -228,10 +230,31 @@ export function LessonPlayerPage() {
   // Determined from user_progress — no track required.
   const [userLevel, setUserLevel] = useState<'L1' | 'L2'>('L1');
 
+  // Whether this module has L2 content in the current language (so we know
+  // whether to offer "Continue to L2" after L1 passes).
+  const [l2Available, setL2Available] = useState(false);
+  // The user's ordered core modules + cross-module progress — used to pick the
+  // next core module to continue into once this one is fully done.
+  const [coreList, setCoreList] = useState<{ code: string; level: 'L1' | 'L2' }[]>([]);
+  const [idByCode, setIdByCode] = useState<Record<string, string>>({});
+  const [progByModule, setProgByModule] = useState<Record<string, { L1?: string; L2?: string }>>({});
+
+  // Completion banner: once all lessons are visited we persist progress, then
+  // surface the right continue CTA (L2 deep-dive, next core module, or retry).
+  const [allDoneSaved, setAllDoneSaved] = useState(false);
+  const [levelPassed, setLevelPassed] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   const load = useCallback(async () => {
     if (!moduleCode || !profile) return;
     setLoading(true);
     setLoadError(null);
+    // Reset per-module/level view state so navigating between modules or
+    // advancing L1→L2 starts from a clean slate.
+    setCurrentIdx(0);
+    setCompletedIdxs(new Set());
+    setAllDoneSaved(false);
+    setLevelPassed(false);
 
     try {
       // 1. Resolve module row
@@ -274,6 +297,16 @@ export function LessonPlayerPage() {
       const fetchedLessons = (lessonData ?? []) as LessonRow[];
       setLessons(fetchedLessons);
 
+      // Does this module have L2 content in the current language? Drives the
+      // "Continue to L2" offer after L1 is passed.
+      const { count: l2Count } = await supabase
+        .from('lessons')
+        .select('id', { count: 'exact', head: true })
+        .eq('module_id', modData.id)
+        .eq('lang', lang)
+        .eq('level', 'L2');
+      setL2Available((l2Count ?? 0) > 0);
+
       // 4. Load quiz questions for quiz lessons
       const quizLessonIds = fetchedLessons
         .filter((l) => l.kind === 'quiz')
@@ -309,6 +342,39 @@ export function LessonPlayerPage() {
         }
         setExercises(exMap);
       }
+
+      // 6. Load the user's ordered core path + cross-module progress so we can
+      //    point them at the next core module when this one is done.
+      const { data: allMods } = await supabase.from('modules').select('id, code');
+      const codeMap: Record<string, string> = {};
+      for (const mm of (allMods ?? []) as { id: string; code: string }[]) codeMap[mm.code] = mm.id;
+      setIdByCode(codeMap);
+
+      let core: { code: string; level: 'L1' | 'L2' }[] = [];
+      if (profile.learning_role) {
+        const { data: rp } = await supabase
+          .from('role_paths')
+          .select('module_code, level, sort_order')
+          .eq('role', profile.learning_role)
+          .eq('kind', 'core');
+        const rows = (rp ?? []) as { module_code: string; level: 'L1' | 'L2'; sort_order: number }[];
+        if (rows.length > 0) {
+          core = rows.sort((a, b) => a.sort_order - b.sort_order).map((r) => ({ code: r.module_code, level: r.level }));
+        } else if (profile.learning_role in ROLE_PATHS) {
+          core = ROLE_PATHS[profile.learning_role as RoleKey].core.map((rm) => ({ code: rm.code, level: rm.level }));
+        }
+      }
+      setCoreList(core);
+
+      const { data: allProg } = await supabase
+        .from('user_progress')
+        .select('module_id, level, status')
+        .eq('user_id', profile.id);
+      const pbm: Record<string, { L1?: string; L2?: string }> = {};
+      for (const r of (allProg ?? []) as { module_id: string; level: 'L1' | 'L2'; status: string }[]) {
+        (pbm[r.module_id] ??= {})[r.level] = r.status;
+      }
+      setProgByModule(pbm);
     } catch (e) {
       setLoadError(e instanceof Error ? e.message : 'Failed to load module.');
     } finally {
@@ -331,25 +397,67 @@ export function LessonPlayerPage() {
     }
   }
 
-  async function handleComplete() {
-    if (!moduleRow) return;
-    setFinishing(true);
-    try {
-      const res = await refreshProgress(moduleRow.id, userLevel, lang);
-      if (res.newBadges.length > 0) {
-        toast({
-          title: t('toast.newBadge.title'),
-          description: res.newBadges.join(', '),
-          variant: 'success',
-        });
-      }
-      navigate('/dashboard');
-    } catch {
-      toast({ title: t('lesson.saveError'), variant: 'destructive' });
-      navigate('/dashboard');
-    } finally {
-      setFinishing(false);
+  // Once every lesson is visited, persist progress and record whether this
+  // level passed — that decides which continue CTA to show.
+  useEffect(() => {
+    const allVisited = lessons.length > 0 && completedIdxs.size === lessons.length;
+    if (!allVisited || !moduleRow || allDoneSaved || saving) return;
+    let cancelled = false;
+    setSaving(true);
+    refreshProgress(moduleRow.id, userLevel, lang)
+      .then((res) => {
+        if (cancelled) return;
+        if (res.newBadges.length > 0) {
+          toast({
+            title: t('toast.newBadge.title'),
+            description: res.newBadges.join(', '),
+            variant: 'success',
+          });
+        }
+        setLevelPassed(res.progress.some((p) => p.level === userLevel && p.status === 'passed'));
+        setAllDoneSaved(true);
+      })
+      .catch(() => {
+        if (!cancelled) toast({ title: t('lesson.saveError'), variant: 'destructive' });
+      })
+      .finally(() => {
+        if (!cancelled) setSaving(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [lessons.length, completedIdxs.size, moduleRow, userLevel, lang, allDoneSaved, saving, t]);
+
+  // The next not-yet-passed core module after the current one (wrapping to the
+  // start so an out-of-order finish still finds remaining work). null = none left.
+  function nextCoreModuleCode(): string | null {
+    if (coreList.length === 0) return null;
+    const satisfied = (rm: { code: string; level: 'L1' | 'L2' }) => {
+      const id = idByCode[rm.code];
+      const r = id ? progByModule[id] : undefined;
+      return rm.level === 'L2' ? r?.L2 === 'passed' : r?.L1 === 'passed';
+    };
+    const idx = coreList.findIndex((c) => c.code === moduleCode);
+    for (let i = idx + 1; i < coreList.length; i++) {
+      if (!satisfied(coreList[i])) return coreList[i].code;
     }
+    for (let i = 0; i < coreList.length; i++) {
+      if (coreList[i].code !== moduleCode && !satisfied(coreList[i])) return coreList[i].code;
+    }
+    return null;
+  }
+
+  // L1 just passed → re-resolve this same module in place; load() now picks L2.
+  async function continueToL2() {
+    setFinishing(true);
+    await load();
+    setFinishing(false);
+  }
+
+  function continueToNext() {
+    const next = nextCoreModuleCode();
+    if (next && next !== moduleCode) navigate(`/learn/${next}`);
+    else navigate('/dashboard');
   }
 
   // ---------------------------------------------------------------------------
@@ -368,7 +476,7 @@ export function LessonPlayerPage() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="text-destructive">{loadError}</p>
-        <Button variant="outline" onClick={() => navigate('/dashboard')}>
+        <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
           {t('nav.backToDashboard')}
         </Button>
       </div>
@@ -379,7 +487,7 @@ export function LessonPlayerPage() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="text-muted-foreground">{t('lesson.noLessons')}</p>
-        <Button variant="outline" onClick={() => navigate('/dashboard')}>
+        <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
           {t('nav.backToDashboard')}
         </Button>
       </div>
@@ -484,15 +592,62 @@ export function LessonPlayerPage() {
           )}
         </div>
 
-        {/* Complete module CTA — shown when all lessons done */}
+        {/* Completion CTA — contextual: L2 deep-dive, next core module, or retry */}
         {allDone && (
           <div className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
-            <CheckCircle2 className="h-8 w-8 text-success" />
-            <p className="font-semibold">{t('lesson.allDone')}</p>
-            <p className="text-sm text-muted-foreground">{t('lesson.allDoneDesc')}</p>
-            <Button onClick={() => void handleComplete()} disabled={finishing} data-testid="complete-module-btn">
-              {finishing ? t('lesson.saving') : t('lesson.completeModule')}
-            </Button>
+            {saving || !allDoneSaved ? (
+              <>
+                <Spinner size="sm" />
+                <p className="text-sm text-muted-foreground">{t('lesson.saving')}</p>
+              </>
+            ) : !levelPassed ? (
+              <>
+                <p className="font-semibold">{t('lesson.notPassed.title')}</p>
+                <p className="text-sm text-muted-foreground">{t('lesson.notPassed.desc')}</p>
+                <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
+                  {t('nav.backToDashboard')}
+                </Button>
+              </>
+            ) : userLevel === 'L1' && l2Available ? (
+              <>
+                <CheckCircle2 className="h-8 w-8 text-success" />
+                <p className="font-semibold">{t('lesson.l1Passed.title')}</p>
+                <p className="text-sm text-muted-foreground">{t('lesson.l1Passed.desc')}</p>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                  <Button onClick={() => void continueToL2()} disabled={finishing} data-testid="continue-l2-btn">
+                    {finishing ? t('lesson.saving') : t('lesson.continueL2')}
+                  </Button>
+                  <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
+                    {t('nav.backToDashboard')}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              (() => {
+                const next = nextCoreModuleCode();
+                return (
+                  <>
+                    <CheckCircle2 className="h-8 w-8 text-success" />
+                    <p className="font-semibold">
+                      {next ? t('lesson.modulePassed.title') : t('lesson.allCoreDone.title')}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {next ? t('lesson.modulePassed.desc') : t('lesson.allCoreDone.desc')}
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {next && (
+                        <Button onClick={continueToNext} data-testid="continue-next-btn">
+                          {t('lesson.continueNext', { title: t(`module.${next}.title` as TranslationKey) })}
+                        </Button>
+                      )}
+                      <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
+                        {t('nav.backToDashboard')}
+                      </Button>
+                    </div>
+                  </>
+                );
+              })()
+            )}
           </div>
         )}
       </main>

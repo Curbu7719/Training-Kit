@@ -2,13 +2,13 @@
   {
     "prompt": "Bir geliştirici, gerçek müşteri e-postaları ve canlı bir API anahtarı içeren bir üretim stack trace'ini ücretsiz bir tüketici chatbot'una yapıştırıyor. Chatbot'un cevabı doğru olsa bile bu neden bir güvenlik ve gizlilik sorunudur?",
     "choices": [
-      "Çünkü prompt'un kendisi kontrolünüzden çıkar — PII ve secret saklanabilir, log'lanabilir, eğitim için kullanılabilir veya başka bir bölgede depolanabilir",
-      "Çünkü tüketici chatbot'ları kurumsal olanlardan daha az doğru hata ayıklama cevapları verir",
+      "Çünkü stack trace'ler telif hakkıyla korunur ve paylaşılamaz",
       "Çünkü uzun bir stack trace yapıştırmak çok fazla token kullanır ve modeli yavaşlatır",
-      "Çünkü stack trace'ler telif hakkıyla korunur ve paylaşılamaz"
+      "Çünkü tüketici chatbot'ları kurumsal olanlardan daha az doğru hata ayıklama cevapları verir",
+      "Çünkü prompt'un kendisi kontrolünüzden çıkar — PII ve secret saklanabilir, log'lanabilir, eğitim için kullanılabilir veya başka bir bölgede depolanabilir"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Cevabın doğru olması önemsizdir: PII ve canlı anahtar sınırınızın dışına çıktığında saklanabilir, log'lanabilir, eğitimde kullanılabilir veya bölgeler arasında taşınabilir; hepsi kontrolünüz dışında. Diğer seçenekler gizlilik ifşasıyla değil, kalite veya token maliyetiyle ilgilidir."
@@ -16,15 +16,15 @@
   {
     "prompt": "SDLC'de AI kullanırken aşağıdakilerden gerçek güvenlik veya gizlilik riski olan TÜM seçenekleri işaretleyin.",
     "choices": [
+      "Onaylı bir zero-retention aracı kullanarak, hassas veri içermeyen bir kod parçacığını biçimlendirmesini istemek",
       "Müşteri PII'sini veya tescilli kaynak kodunu, prompt'ları saklayan veya bunlarla eğitim yapan bir sağlayıcıya göndermek",
       "Bir belgede gizlenmiş, modeli veriyi dışarı sızdırması için kandıran bir prompt injection",
-      "Geliştiricilerin kodu onaylanmamış tüketici chatbot'larına yapıştırması (shadow AI)",
-      "Onaylı bir zero-retention aracı kullanarak, hassas veri içermeyen bir kod parçacığını biçimlendirmesini istemek"
+      "Geliştiricilerin kodu onaylanmamış tüketici chatbot'larına yapıştırması (shadow AI)"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "İlk üçü retention, injection veya yönetilmeyen shadow-AI kullanımı yoluyla hassas veriyi sızdırır veya ifşa eder. Sonuncusu güvenlidir çünkü hassas veri göndermez ve onaylı bir zero-retention aracı kullanır, bu yüzden risk değildir."
@@ -32,15 +32,15 @@
   {
     "prompt": "Ekibiniz, geliştiricilerin kodu sessizce rastgele chatbot'lara yapıştırmasını (shadow AI) durdurmak istiyor. Hangi yaklaşım bunu en iyi gün ışığına çıkarır? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "Bir kurumsal anlaşma ve zero-retention ayarlarıyla onaylı bir AI aracı sağlamak",
       "AI araçlarına hangi verinin gönderilip gönderilemeyeceği konusunda net bir politika yayınlamak",
-      "Yalnızca topyekûn bir yasağa güvenmek yerine geliştiricileri riskler konusunda eğitmek",
-      "Tüm AI araçlarını güvenlik duvarında engellemek ve sorunun çözüldüğünü varsaymak"
+      "Tüm AI araçlarını güvenlik duvarında engellemek ve sorunun çözüldüğünü varsaymak",
+      "Bir kurumsal anlaşma ve zero-retention ayarlarıyla onaylı bir AI aracı sağlamak",
+      "Yalnızca topyekûn bir yasağa güvenmek yerine geliştiricileri riskler konusunda eğitmek"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Güvenli onaylı bir araç, net bir politika ve eğitim sağlamak talebi yönetilebileceği açıklığa çıkarır. Yalnızca güvenlik duvarı yasağı geliştiricileri kişisel cihazlara iter, böylece shadow kullanım göz önünden uzakta devam eder."
@@ -48,13 +48,13 @@
   {
     "prompt": "Onaylı bir AI aracına bir hata ayıklama prompt'u göndermeden önce, hangi tek uygulama prompt'un gizlilik riskini en doğrudan azaltır?",
     "choices": [
-      "Metinden PII ve secret'ları redact ederek yalnızca hatayı teşhis etmek için gereken asgari bilgiyi göndermek",
+      "Nöbet rotasyonu gecikmesin diye tüm trace'i hızlıca göndermek",
       "Trace'in daha fazlasını okuması için daha büyük context window'lu bir model seçmek",
       "Cevabın daha yaratıcı olması için modelin sıcaklığını artırmak",
-      "Nöbet rotasyonu gecikmesin diye tüm trace'i hızlıca göndermek"
+      "Metinden PII ve secret'ları redact ederek yalnızca hatayı teşhis etmek için gereken asgari bilgiyi göndermek"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "PII ve secret'ları redact etmek veri minimizasyonu uygular, böylece onaylı bir araç bile yalnızca ihtiyaç duyduğunu görür. Daha büyük context window veya daha büyük bir model yeteneği değiştirir, ifşayı değil; tüm trace'i göndermek ise riski azaltmak yerine artırır."
@@ -62,13 +62,13 @@
   {
     "prompt": "Self-host veriyi içeride tutar ama daha pahalı ve model kalitesinde geride; no-retention anlaşmalı hosted API daha ucuz ve güçlü ama veri ağından çıkar. Vendor DPA kapsamındaki orta-hassasiyette iç belgeler için hangi *trade-off* makul?",
     "choices": [
-      "Her zaman self-host; hassas veri hiçbir şartla binadan çıkmamalı",
       "Herhangi bir public araca yapıştır — DPA her şeyi güvenli kılar",
-      "No-retention/DPA şartlarıyla hosted API'yi kullan — orta hassasiyet için orantılı; self-host burada aşırı olur",
-      "Vendor'a e-posta atıp sonradan silmesini iste"
+      "Vendor'a e-posta atıp sonradan silmesini iste",
+      "Her zaman self-host; hassas veri hiçbir şartla binadan çıkmamalı",
+      "No-retention/DPA şartlarıyla hosted API'yi kullan — orta hassasiyet için orantılı; self-host burada aşırı olur"
     ],
     "correct": [
-      2
+      3
     ],
     "points": 1,
     "explanation": "Zaten bir DPA kapsamındaki orta hassasiyet için hosted no-retention API orantılı bir kontroldür ve self-host maliyetli bir aşırılık olur. Topyekûn self-host kuralı sözleşmeyi yok sayar, DPA public araçları güvenli kılmaz ve sonradan silme talepleri ilk ifşayı önlemez."

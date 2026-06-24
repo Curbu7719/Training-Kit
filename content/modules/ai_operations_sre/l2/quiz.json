@@ -2,48 +2,60 @@
   {
     "prompt": "After a blameless postmortem for an ops agent that took a wrong action in production, what is the AI-specific follow-up that makes the agent fleet safer over time?",
     "choices": [
-      "Delete the agent's decision trace so the mistake isn't retained",
+      "Give the agent broader permissions so it can fix its own mistakes next time",
       "Turn the misfire into a new guardrail/policy and an offline eval case the agent's policy must pass, so the same wrong action can't silently recur",
-      "Switch off the action audit trail to reduce noise",
-      "Give the agent broader permissions so it can fix its own mistakes next time"
+      "Delete the agent's decision trace so the mistake isn't retained",
+      "Switch off the action audit trail to reduce noise"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "A unit test won't catch a non-deterministic wrong action, so the operational loop is to convert every misfire into a guardrail/policy and an eval case. That's how the fleet's policy grows teeth and the same wrong action can't quietly return."
   },
   {
     "prompt": "Why add per-agent cost anomaly detection and action-rate caps when agents act in production? (Select all that apply.)",
     "choices": [
-      "Each agent step is an LLM call and may spin up resources, so a looping agent burns money and compute fast",
       "Anomaly detection alerts on deviation from the trend, catching a runaway early — not just at a fixed threshold",
-      "It removes the need to attribute cost or actions to any specific agent",
-      "An action-rate cap bounds the damage of a loop and can force the agent to stop and escalate"
+      "Each agent step is an LLM call and may spin up resources, so a looping agent burns money and compute fast",
+      "An action-rate cap bounds the damage of a loop and can force the agent to stop and escalate",
+      "It removes the need to attribute cost or actions to any specific agent"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Agent actions compound cost and risk, so anomaly detection gives early warning of a runaway and the action-rate cap bounds it and forces escalation. Neither removes the need for per-agent attribution — that's exactly how you find which agent to stop."
   },
   {
     "prompt": "Which are sound ways to operate an agent fleet safely at scale and under attack? (Select all that apply.)",
     "choices": [
-      "A kill-switch that pauses all agent autonomy instantly, plus revert of the action",
       "Least-privilege identities and approval gates for high-blast actions, applied uniformly via policy-as-code",
+      "A kill-switch that pauses all agent autonomy instantly, plus revert of the action",
       "Treat logs, tickets, and error messages the agent reads as untrusted input that can't authorise high-blast actions",
       "Give every agent standing unlimited production write access so incidents resolve faster"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "A kill-switch, least-privilege policy-as-code with approval gates, and treating external text as untrusted input all bound what a misfiring or compromised agent can do. Standing unlimited prod write is the opposite of least privilege and turns one bad action — or one injection — into a fleet-wide catastrophe."
   },
   {
     "prompt": "Why version an agent's full policy (prompt + tools + permissions + model) and roll changes out via shadow then canary, instead of editing it live?",
     "choices": [
+      "Because live editing is required to enable autonomous actions",
       "Because versioning makes the agent run faster",
-      "Because the agent acts on the world, so a change can silently alter what actions it takes; shadow compares proposed actions on real events before any execute, canary limits blast radius, and a policy flag gives a one-flip rollback",
       "Because a versioned policy never needs to be updated again",
-      "Because live editing is required to enable autonomous actions"
+      "Because the agent acts on the world, so a change can silently alter what actions it takes; shadow compares proposed actions on real events before any execute, canary limits blast radius, and a policy flag gives a one-flip rollback"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Since the agent takes real actions, a policy or model change can quietly make it act differently. Treating the policy as a versioned artifact and rolling out by shadow (dry-run, compare to humans) → canary (small autonomous slice) → flagged rollout lets you catch wrong actions before prod and revert in one flip."
   }

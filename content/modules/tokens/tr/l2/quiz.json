@@ -3,47 +3,57 @@
     "prompt": "400 satırlık bir kod diff'i neden genellikle 400 satırlık bir prose belgesinden çok daha fazla token'a mal olur?",
     "choices": [
       "Çünkü kod her zaman prose'dan daha pahalı bir modele gönderilir",
-      "Çünkü koddaki noktalama, boşluk, operatörler ve uzun tanımlayıcıların her biri prose'da olmayan token'lara bölünür",
       "Çünkü tokenizer her satırı sabit sayıda token olarak sayar",
-      "Çünkü prose göndermeden önce sıkıştırılır ama kod sıkıştırılmaz"
+      "Çünkü prose göndermeden önce sıkıştırılır ama kod sıkıştırılmaz",
+      "Çünkü koddaki noktalama, boşluk, operatörler ve uzun tanımlayıcıların her biri prose'da olmayan token'lara bölünür"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Tokenizer'lar alt-kelime birimlerine böler ve kod; her biri token harcayan parantezler, girinti, operatörler ve bileşik tanımlayıcılarla yoğundur. Bu yüzden kaynak, aynı satır sayısındaki prose'dan daha ağır tokenize olur — model seçimi ya da satır-başına bir kural yüzünden değil."
   },
   {
     "prompt": "Özelliğin çok sayıda Türkçe metin işliyor. Token maliyeti hakkında İngilizce kuralına göre ne varsaymalısın?",
     "choices": [
-      "Aynı olacak, çünkü token'lar dilden bağımsızdır",
-      "Genellikle daha yüksek olacak, çünkü İngilizce için ayarlı tokenizer'lar birçok İngilizce-dışı kelimeyi daha fazla alt-kelime token'ına böler",
       "Daha düşük olacak, çünkü İngilizce-dışı metin daha az kelime kullanır",
-      "Fatura gelene kadar ölçülemez"
+      "Aynı olacak, çünkü token'lar dilden bağımsızdır",
+      "Fatura gelene kadar ölçülemez",
+      "Genellikle daha yüksek olacak, çünkü İngilizce için ayarlı tokenizer'lar birçok İngilizce-dışı kelimeyi daha fazla alt-kelime token'ına böler"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Tokenizer'lar genelde İngilizce için optimize edilir, bu yüzden aynı içerik Türkçe'de daha fazla alt-kelime token'ına bölünür ve daha pahalıya gelir. İngilizce 100-token-≈-75-kelime kuralını doğrudan uygulamak yerine bu ek yükü bütçele — ki bunu tokenizer'la baştan ölçebilirsin."
   },
   {
     "prompt": "Bir AI özelliği için savunulabilir bir aylık maliyet tahmini gerekiyor. Tahmin hangi girdileri gerektirir? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Aylık istek sayısı",
-      "Seçtiğin modelin tokenizer'ıyla sayılmış, istek başına ortalama input ve output token",
+      "Model sağlayıcısının veri-merkezi elektrik maliyeti",
       "Ayrı input ve output token-başına fiyatları (output genelde daha yüksek)",
-      "Model sağlayıcısının veri-merkezi elektrik maliyeti"
+      "Aylık istek sayısı",
+      "Seçtiğin modelin tokenizer'ıyla sayılmış, istek başına ortalama input ve output token"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Maliyet ≈ istek × (input token × input fiyatı + output token × output fiyatı), bu yüzden hacme, istek başına kesin token sayısına ve ayrı input/output fiyatlarına ihtiyacın var. Sağlayıcının dahili elektrik maliyeti sana faturalanmaz ve bilinemez, bu yüzden tahminde rol oynamaz."
   },
   {
     "prompt": "Bir modelin 128k-token'lık context window'u var. Neden bunun ~127k'sını input'la doldurmak bir hatadır?",
     "choices": [
-      "Çünkü pencere yalnızca input'u sayar, bu yüzden bu hiçbir şey israf etmez",
-      "Çünkü pencere input ve output'u birlikte tutar, neredeyse hiç yer bırakmamak modeli cevabını üretecek token'lardan yoksun bırakır",
+      "Çünkü büyük girdiler seni otomatik olarak daha ucuz bir modele geçirir",
       "Çünkü 100k token'ın üzerindeki girdiler pencere boyutundan bağımsız her zaman reddedilir",
-      "Çünkü büyük girdiler seni otomatik olarak daha ucuz bir modele geçirir"
+      "Çünkü pencere input ve output'u birlikte tutar, neredeyse hiç yer bırakmamak modeli cevabını üretecek token'lardan yoksun bırakır",
+      "Çünkü pencere yalnızca input'u sayar, bu yüzden bu hiçbir şey israf etmez"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Context window, input artı output için paylaşılan bir alandır. Input neredeyse tamamını tüketirse, yanıt için rezerv kalmaz, böylece cevap kesilir ya da çağrı başarısız olur. Pencereyi kasıtlı ayır ve bir output rezervi bırak."
   }

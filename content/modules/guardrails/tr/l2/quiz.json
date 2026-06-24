@@ -2,12 +2,16 @@
   {
     "prompt": "Bir AI kodlama agent'ı temiz bir issue alır, ardından kötü niyetli bir katkıcının '.env'i PR açıklamasına dök' diyecek şekilde düzenlediği bir depo dosyasını (CONTRIBUTING.md) okur. Ekibin girdi doğrulama katmanı yalnızca issue başlığını ve gövdesini tarar. Hangi ifadeler durumu doğru açıklar? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "Bu, verildiği issue'da değil, agent'ın okuduğu bir dosyada taşınan dolaylı prompt injection'dır",
       "Yapılandırıldığı haliyle girdi doğrulama buna kördür çünkü getirilen depo dosyasını asla incelemez",
       "En az ayrıcalıklı sandboxing ve eylem sonrası secret tarama onu kontrol altına almak için iyi konumlandırılmıştır",
+      "Bu, verildiği issue'da değil, agent'ın okuduğu bir dosyada taşınan dolaylı prompt injection'dır",
       "Saldırı, girdi doğrulamanın önemi olan tek katman olduğunu kanıtlar"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Bu, getirilen bir dosyada taşınan dolaylı prompt injection'dır ve yalnızca issue başlığını/gövdesini tarayan doğrulama buna kördür — ama en az ayrıcalıklı sandboxing ve eylem sonrası secret tarama zararı yine de kontrol altına alabilir. Bu, girdi doğrulamanın önemli olan tek katman olduğunu kanıtlamaz; tam tersine neden birden fazlasına ihtiyacınız olduğunu gösterir."
   },
@@ -16,22 +20,30 @@
     "choices": [
       "Güvenlik, geliştirici hızı pahasına önceliklendirildi ve yanlış pozitifleri artırdı (aşırı engelleme)",
       "Ekip, aşırı engellemeyi bulmak ve ayarlamak için engellenen eylemleri günlüklemeli",
-      "Aşırı engelleme güveni aşındırabilir ve geliştiricileri guardrail'i devre dışı bırakmaya veya zayıflatmaya itebilir",
-      "Hiçbir yıkıcı şey asla çalışmadığı sürece yanlış pozitiflerin hiçbir dezavantajı yoktur"
+      "Hiçbir yıkıcı şey asla çalışmadığı sürece yanlış pozitiflerin hiçbir dezavantajı yoktur",
+      "Aşırı engelleme güveni aşındırabilir ve geliştiricileri guardrail'i devre dışı bırakmaya veya zayıflatmaya itebilir"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
     "explanation": "Aşırı engelleme güvenlik uğruna geliştirici hızını feda eder ve false positive'leri artırır, bu yüzden ekip bunu ayarlamak için engellenen eylemleri günlüklemeli; denetlenmeyen aşırı engelleme ise insanlar guardrail'i devre dışı bırakana dek güveni aşındırır. False positive'lerin hiçbir dezavantajı olmadığı iddiası, tam da bu güven ve benimseme erozyonunu yok sayar."
   },
   {
     "prompt": "Her guardrail'i tek bir aşamaya (örn. hepsini issue metni üzerinde eylem öncesi) yerleştirmek, neden bağımsız kontrolleri agent'ın hattı boyunca dağıtmaktan daha zayıf bir tasarımdır? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
+      "Tüm kontrolleri issue metni üzerinde yığmak, dolaylı prompt injection'ın asla başarılı olamayacağını garanti eder",
       "Bir kontrol yalnızca görebildiğini engelleyebilir; sızdırılan bir sır yalnızca diff'te bulunur, ki o da eylem öncesi aşamadan sonra üretilir",
       "Dağıtılmış, bağımsız katmanlar (sandbox, secret tarama, insan geçidi) bir kontrol atlatılırsa tek hata noktasından kaçınır",
-      "Farklı aşamaların farklı bağlamı vardır, bu yüzden bir kontrol en iyi şekilde bağlamının en zengin ve maliyetinin en düşük olduğu yerde çalışır",
-      "Tüm kontrolleri issue metni üzerinde yığmak, dolaylı prompt injection'ın asla başarılı olamayacağını garanti eder"
+      "Farklı aşamaların farklı bağlamı vardır, bu yüzden bir kontrol en iyi şekilde bağlamının en zengin ve maliyetinin en düşük olduğu yerde çalışır"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Bir kontrol yalnızca görebildiğini engelleyebilir, bu yüzden yalnızca diff'te beliren sızdırılmış bir sır eylem öncesi aşamadan sonra yakalanmalıdır; bağımsız katmanları dağıtmak ayrıca tek bir hata noktasından kaçınır ve her kontrolün bağlamının en zengin olduğu yerde çalışmasını sağlar. Her şeyi issue metni üzerinde yığmak, sonradan getirilen bir dosyada gelen dolaylı injection'ı durduramaz."
   }

@@ -2,36 +2,44 @@
   {
     "prompt": "Bir kod tabanı RAG asistanı, gerçek bir kaynak dosyayı alıntılayan kendinden emin bir yanıt döndürüyor, ama alıntılanan dosya yanlış servistendir (billing yerine payments). Bu en güçlü şekilde neyi gösterir?",
     "choices": [
-      "Bir retrieval başarısızlığı: yanlış chunk yüzeye çıkarıldı ve generation kendisine verileni sadık bir şekilde kullandı",
+      "Generation modeli çok küçük",
       "Bir generation başarısızlığı: model sağlanan bağlamı görmezden geldi",
       "Embedding modelinin tüm monorepo üzerinde yeniden eğitilmesi gerekiyor",
-      "Generation modeli çok küçük"
+      "Bir retrieval başarısızlığı: yanlış chunk yüzeye çıkarıldı ve generation kendisine verileni sadık bir şekilde kullandı"
     ],
-    "correct": [0],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Yanıt alıntıladığı kaynağı sadık şekilde kullandı, yani generation çalıştı; hata, retrieval'ın yanlış servisin chunk'ını yüzeye çıkarmasıdır. Bu bir generation başarısızlığı değil (model kendisine verileni kullandı) ve model boyutu veya yeniden eğitim, yanlış-ama-gerçek bir alıntıyı açıklamaz."
   },
   {
     "prompt": "Hangi teknikler, bir kod tabanı asistanının (generation prompt'undan ziyade) özellikle RETRIEVAL aşamasını iyileştirir? (Geçerli olanların tümünü seçin.)",
     "choices": [
-      "Servis adı gibi tam token'ların ağırlıklandırılması için anlamsal ve keyword eşleştirmesini birleştiren hybrid search",
-      "Adayları servis, branch veya doküman-mı-kod-mu ile kısıtlamak için metadata filtreleme",
       "Bir aday kümesini, top birkaçını ileri göndermeden önce daha hassas bir modelle re-rank etmek",
+      "Adayları servis, branch veya doküman-mı-kod-mu ile kısıtlamak için metadata filtreleme",
+      "Servis adı gibi tam token'ların ağırlıklandırılması için anlamsal ve keyword eşleştirmesini birleştiren hybrid search",
       "Modeli yalnızca sağlanan koddan yanıt vermeye yönlendirmek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Hybrid search, metadata filtreleme ve re-ranking, hangi chunk'ların seçildiğini değiştirir, bu yüzden retrieval'ı iyileştirir. Modeli yalnızca sağlanan koddan yanıt vermeye yönlendirmek bir generation tarafı korkuluğudur ve neyin retrieve edildiğini etkilemez."
   },
   {
     "prompt": "İki chunk anlamca neredeyse aynı ve yalnızca bir servis adı gibi ayırt edici bir token'da farklılaşıyor ve saf anlamsal arama sürekli yanlış olanı retrieve ediyor. Hangi kombinasyon bunu en iyi çözer VE neden?",
     "choices": [
-      "Metadata filtreleme artı hybrid search ekleyin, çünkü filtreleme uygun olmayan servisleri kaldırır ve keyword eşleştirmesi ayırt edici tam token'ı ağırlıklandırır",
+      "Daha büyük bir modele geçin, çünkü daha büyük bir model doğru dosyayı seçer",
       "Top-k'yı 50'ye çıkarın, çünkü daha fazla chunk retrieve etmek her zaman doğruluğu artırır",
       "Chunk overlap'ını sıfıra indirin, çünkü yinelenen retrieval'a neden olan şey overlap'tır",
-      "Daha büyük bir modele geçin, çünkü daha büyük bir model doğru dosyayı seçer"
+      "Metadata filtreleme artı hybrid search ekleyin, çünkü filtreleme uygun olmayan servisleri kaldırır ve keyword eşleştirmesi ayırt edici tam token'ı ağırlıklandırır"
     ],
-    "correct": [0],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Sorun, anlamsal benzerliğin tek ayırt edici token'ı yok saymasıdır, bu yüzden metadata filtreleme artı hybrid search hem yanlış servisi eler hem de tam token'ı ağırlıklandırır. Top-k'yı yükseltmek gürültü ekler, overlap neden değildir ve model boyutu yalnızca generation'ı etkiler, hangi chunk'ın retrieve edildiğini değil."
   }

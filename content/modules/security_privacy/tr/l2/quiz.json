@@ -2,37 +2,49 @@
   {
     "prompt": "Bir ekip, bir temsilcinin yazdığı her prompt'u redact ediyor, ancak tüm ham ticket geçmişini (müşteri PII'siyle) bir vector store'a embed etti ve getirilen ticket metni dahil birleştirilmiş prompt'u log'luyor. PII'nin neden hâlâ sızdığını hangi ifadeler doğru açıklar? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "Vector store, yukarı akışta alınmış ham PII tutar, bu yüzden yazılan prompt'u redact etmek onu korumaz",
-      "Getirilen bağlam redaction'dan sonra eklenir, bu yüzden redact edilmemiş PII log'lara akar",
       "Gizlilik yalnızca yazılan prompt'ta değil, her veri akışında kontrol edilmelidir",
-      "Yazılan prompt'u redact etmek yeterlidir çünkü diğer tüm yüzeyler o redaction'ı devralır"
+      "Yazılan prompt'u redact etmek yeterlidir çünkü diğer tüm yüzeyler o redaction'ı devralır",
+      "Getirilen bağlam redaction'dan sonra eklenir, bu yüzden redact edilmemiş PII log'lara akar",
+      "Vector store, yukarı akışta alınmış ham PII tutar, bu yüzden yazılan prompt'u redact etmek onu korumaz"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1,
-    "explanation": "PII sızar çünkü vector store ve log'lar, prompt redaction'ını hiç devralmamış ayrı veri akışlarıdır, bu yüzden gizlilik her yüzeyde uygulanmalıdır. Son seçenek yanlıştır: redaction uygulandığı yere özeldir ve retrieval'a veya logging'e yayılmaz."
+    "explanation": "PII sızar çünkü vector store ve log'lar, prompt redaction'ını hiç devralmamış ayrı veri akışlarıdır, bu yüzden gizlilik her yüzeyde uygulanmalıdır. Redaction'ın otomatik yayıldığını öne süren seçenek yanlıştır: redaction uygulandığı yere özeldir ve retrieval'a veya logging'e yayılmaz."
   },
   {
     "prompt": "Ekibiniz bir AI sağlayıcısının zero-retention ve no-train sunduğunu varsaydı. Confidential kaynak kodu göndermeden önce gerçekte neyi doğrulamalısınız? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "İmzalı anlaşmanın ve API yapılandırmasının retention ve eğitimi gerçekten devre dışı bırakıp bırakmadığını",
       "Data-residency yükümlülüklerinizi karşıladığını onaylamak için işleme bölgesini",
       "Herhangi bir kötüye kullanım izleme retention penceresini ve prompt'ları hangi alt işleyicilerin görebileceğini",
+      "İmzalı anlaşmanın ve API yapılandırmasının retention ve eğitimi gerçekten devre dışı bırakıp bırakmadığını",
       "Hiçbir şey — bir ürünün ücretsiz ve kurumsal katmanları her zaman aynı şartları paylaşır"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
-    "explanation": "Gerçek sözleşmeyi ve config'i, işleme bölgesini ve her türlü kötüye kullanım izleme retention'ını veya alt işleyici erişimini doğrulamalısınız, çünkü her biri confidential kodu ifşa edebilir. Son seçenek yanlıştır: ücretsiz ve kurumsal katmanlar tam da bu retention ve eğitim şartlarında rutin olarak farklılaşır."
+    "explanation": "Gerçek sözleşmeyi ve config'i, işleme bölgesini ve her türlü kötüye kullanım izleme retention'ını veya alt işleyici erişimini doğrulamalısınız, çünkü her biri confidential kodu ifşa edebilir. Ücretsiz ve kurumsal katmanların aynı şartlara sahip olduğunu varsayan seçenek yanlıştır: tam da bu retention ve eğitim şartlarında rutin olarak farklılaşırlar."
   },
   {
     "prompt": "AI kullanım kurallarını bir veri sınıflandırma şemasına (public / confidential / regüle) bağlamak, geliştiricilere 'dikkatli ol' demekten neden daha güçlüdür? Geçerli olan TÜM seçenekleri seçin.",
     "choices": [
-      "İfade edemediğiniz bir kuralı uygulayamazsınız; sınıflandırma muhakemeyi politikaya dönüştürür",
-      "Her katman belirli kurallar taşıyabilir (örn. regüle veri asla gönderilmez, confidential zero-retention gerektirir)",
       "Sınıflandırma, redaction ve araç-yönlendirme gibi kontrollerin her katmana otomatik uygulanmasını sağlar",
-      "Sınıflandırma, prompt injection ve log sızıntılarının asla olamayacağını garanti eder"
+      "İfade edemediğiniz bir kuralı uygulayamazsınız; sınıflandırma muhakemeyi politikaya dönüştürür",
+      "Sınıflandırma, prompt injection ve log sızıntılarının asla olamayacağını garanti eder",
+      "Her katman belirli kurallar taşıyabilir (örn. regüle veri asla gönderilmez, confidential zero-retention gerektirir)"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
-    "explanation": "Sınıflandırma kuralı açık hale getirir, her katmanın somut gereksinimler taşımasını sağlar ve katman başına otomatik kontrolleri mümkün kılar; 'dikkatli ol' bunu yapamaz. Son seçenek abartılıdır: sınıflandırma hangi verinin nereye gideceğini yönetir ama tek başına injection veya logging sızıntılarını ortadan kaldırmaz."
+    "explanation": "Sınıflandırma kuralı açık hale getirir, her katmanın somut gereksinimler taşımasını sağlar ve katman başına otomatik kontrolleri mümkün kılar; 'dikkatli ol' bunu yapamaz. Sınıflandırmanın tek başına her sızıntıyı ortadan kaldırdığını öne süren seçenek abartılıdır: sınıflandırma hangi verinin nereye gideceğini yönetir ama tek başına injection veya logging sızıntılarını ortadan kaldırmaz."
   }
 ]

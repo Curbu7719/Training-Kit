@@ -2,13 +2,13 @@
   {
     "prompt": "Bir QA test uzmanı, bir AI sürüm-notları özelliğini, deterministik bir fonksiyon için yapacağı gibi normal bir assertEquals testiyle neden doğrulayamaz?",
     "choices": [
-      "Aynı prompt her çalıştırmada farklı ifadeler üretebilir ve nadiren tek bir doğru çıktı string'i vardır",
+      "Deterministik fonksiyonlar hiç test edilemez",
       "AI özellikleri asla yanlış çıktı üretmez, bu yüzden test edilecek bir şey yoktur",
       "AI özellikleri için latency veya maliyeti ölçmek imkansızdır",
-      "Deterministik fonksiyonlar hiç test edilemez"
+      "Aynı prompt her çalıştırmada farklı ifadeler üretebilir ve nadiren tek bir doğru çıktı string'i vardır"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "AI çıktısı deterministik değildir ve nadiren tek bir tam doğru string vardır, bu yüzden sabit bir değer üzerindeki assertEquals, cevap iyi olsa bile başarısız olur. Diğer seçenekler yanlıştır: AI hata üretir, latency ve maliyet ölçülebilir ve deterministik fonksiyonlar test edilebilir."
@@ -16,15 +16,15 @@
   {
     "prompt": "Aşağıdakilerden hangileri, metriklerin aksine, değerlendirme YAKLAŞIMLARIDIR (yargı toplama yolları)? (Geçerli olanların tümünü seçin.)",
     "choices": [
-      "Golden / offline veri kümeleri",
-      "Faithfulness / groundedness",
       "İnsan incelemesi",
-      "LLM-as-judge"
+      "LLM-as-judge",
+      "Golden / offline veri kümeleri",
+      "Faithfulness / groundedness"
     ],
     "correct": [
       0,
-      2,
-      3
+      1,
+      2
     ],
     "points": 1,
     "explanation": "Golden veri kümeleri, insan incelemesi ve LLM-as-judge, hepsi yargı toplama yollarıdır, bu yüzden yaklaşımlardır. Faithfulness/groundedness bir metriktir, yani ölçülen şeydir, yargıyı toplama yolu değil."
@@ -32,13 +32,13 @@
   {
     "prompt": "Bir AI özetleyici, bazen sürüm notuna hiçbir merge edilmiş PR'da görünmeyen bir özellik ekliyor. Hangi metrik bu sorunu en doğrudan yakalar?",
     "choices": [
-      "Faithfulness / groundedness",
-      "Latency",
       "Çağrı başına maliyet",
-      "Relevance"
+      "Relevance",
+      "Faithfulness / groundedness",
+      "Latency"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Hiçbir PR'da bulunmayan bir özellik uydurmak, desteksiz bir iddiadır, ki bu tam da faithfulness/groundedness'in ölçtüğü şeydir. Latency ve maliyet performans metrikleridir ve relevance içeriğin konuyla ilgili olup olmadığını sorar, gerçekten kaynak tarafından desteklenip desteklenmediğini değil."
@@ -46,14 +46,14 @@
   {
     "prompt": "Bir PM ve QA test uzmanı, kaliteyi sessizce düşürmeden bir AI özelliğine bir prompt değişikliği ship etmek istiyor. Hangi pratikler güvenli, kanıt-temelli iterasyonu destekler? (Geçerli olanların tümünü seçin.)",
     "choices": [
-      "Değişiklikten sonra bir golden-dataset eval paketini yeniden çalıştır ve yalnızca puanlar regresyon olmadan iyileşirse koru",
-      "Eval paketini, her sürümden önce çalışan bir regresyon geçidi olarak CI'a bağla",
       "Değişikliği, iki veya üç elle seçilmiş demo'da ne kadar iyi göründüğüyle değerlendir",
-      "Bir kalite kazanımının bir hız veya maliyet regresyonunu gizlememesi için latency ve maliyeti kaliteyle birlikte izle"
+      "Eval paketini, her sürümden önce çalışan bir regresyon geçidi olarak CI'a bağla",
+      "Bir kalite kazanımının bir hız veya maliyet regresyonunu gizlememesi için latency ve maliyeti kaliteyle birlikte izle",
+      "Değişiklikten sonra bir golden-dataset eval paketini yeniden çalıştır ve yalnızca puanlar regresyon olmadan iyileşirse koru"
     ],
     "correct": [
-      0,
       1,
+      2,
       3
     ],
     "points": 1,
@@ -62,13 +62,13 @@
   {
     "prompt": "İnsan incelemesi en güvenilir eval ama yavaş ve pahalı; LLM judge hızlı ve ucuz ama yanlı. *Her* pull request'te çalışması gereken bir kapı için hangi *trade-off* uygun — hangi güvenceyle?",
     "choices": [
-      "Hız için LLM-as-judge, skorlarına güvenmek için bir insan-etiket örneğine karşı doğrulanmış",
-      "Her PR'da tam insan incelemesi; kalite asla otomatikleştirilmemeli",
       "CI'da değerlendirmeyi atla ve production şikayetlerine güven",
+      "Her PR'da tam insan incelemesi; kalite asla otomatikleştirilmemeli",
+      "Hız için LLM-as-judge, skorlarına güvenmek için bir insan-etiket örneğine karşı doğrulanmış",
       "LLM judge'ın ham skorlarına, insanla hiç kıyaslamadan güven"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "PR başına bir kapı, bir LLM judge'ın hızına ihtiyaç duyar ve onu bir insan-etiket örneğine karşı kalibre etmek skorlarını güvenilir tutar. Her PR'da insan incelemesi ölçeklenmez, değerlendirmeyi atlamak kapıyı işlevsiz kılar ve ham judge skorlarına güvenmek onun bilinen önyargılarını yok sayar."

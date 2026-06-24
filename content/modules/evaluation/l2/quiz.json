@@ -2,36 +2,44 @@
   {
     "prompt": "An offline eval reports 92% accuracy, yet users complain heavily about one category of question. What is the most likely explanation, and the right first response?",
     "choices": [
-      "An aggregate score is hiding a failing subgroup; slice the score by category to expose it",
-      "The system has no real problem because 92% is above any reasonable threshold",
+      "Offline evaluation is useless and should be abandoned entirely",
       "A single overall accuracy number is enough to certify every category",
-      "Offline evaluation is useless and should be abandoned entirely"
+      "An aggregate score is hiding a failing subgroup; slice the score by category to expose it",
+      "The system has no real problem because 92% is above any reasonable threshold"
     ],
-    "correct": [0],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "A single 92% average can average over a category that performs terribly, so slicing by category exposes the failing subgroup. Trusting the aggregate ignores the complaints, and a single overall number or abandoning offline eval does not address a hidden per-category failure."
   },
   {
     "prompt": "Which of the following are known biases of an LLM-as-judge that must be mitigated for its scores to be trustworthy? (Select all that apply.)",
     "choices": [
-      "Position bias (favoring whichever option is presented first)",
-      "Verbosity bias (rating longer answers higher regardless of correctness)",
       "Self-preference (favoring outputs from its own model family)",
-      "Latency bias (rating faster responses as more accurate)"
+      "Verbosity bias (rating longer answers higher regardless of correctness)",
+      "Latency bias (rating faster responses as more accurate)",
+      "Position bias (favoring whichever option is presented first)"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
     "explanation": "Position, verbosity, and self-preference are documented LLM-judge biases that distort scores. 'Latency bias' is not a real judge bias, since the judge scores text content and never sees how fast a response was generated."
   },
   {
     "prompt": "A team optimizes their prompt hard against a single proxy metric until the metric is near-perfect, yet real user satisfaction does not improve. Which principle explains this, and what is the sound practice?",
     "choices": [
-      "Goodhart's law: when a measure becomes the target it stops being a good measure, so validate against real-world/online signals and multiple metrics",
-      "Regression testing: rerun the same metric more often until it converges",
       "Position bias: reorder the dataset so the metric stabilizes",
-      "Knowledge cutoff: the metric is stale because the model's training data is old"
+      "Regression testing: rerun the same metric more often until it converges",
+      "Knowledge cutoff: the metric is stale because the model's training data is old",
+      "Goodhart's law: when a measure becomes the target it stops being a good measure, so validate against real-world/online signals and multiple metrics"
     ],
-    "correct": [0],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Over-optimizing one proxy until it no longer reflects real quality is Goodhart's law, so you validate against real-world signals and several metrics. Rerunning the same metric, reordering data, or blaming the knowledge cutoff do not address the gap between the proxy and actual satisfaction."
   }

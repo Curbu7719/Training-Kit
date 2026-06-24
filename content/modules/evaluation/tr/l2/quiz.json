@@ -2,36 +2,44 @@
   {
     "prompt": "Bir offline eval %92 accuracy bildiriyor, ama kullanıcılar bir soru kategorisinden yoğun şekilde şikayet ediyor. En olası açıklama ve doğru ilk tepki nedir?",
     "choices": [
-      "Bir toplu puan başarısız bir alt grubu gizliyor; onu ortaya çıkarmak için puanı kategoriye göre dilimle",
-      "Sistemde gerçek bir sorun yok çünkü %92 herhangi bir makul eşiğin üzerinde",
+      "Offline değerlendirme işe yaramaz ve tamamen terk edilmeli",
       "Her kategoriyi onaylamak için tek bir genel doğruluk sayısı yeterlidir",
-      "Offline değerlendirme işe yaramaz ve tamamen terk edilmeli"
+      "Bir toplu puan başarısız bir alt grubu gizliyor; onu ortaya çıkarmak için puanı kategoriye göre dilimle",
+      "Sistemde gerçek bir sorun yok çünkü %92 herhangi bir makul eşiğin üzerinde"
     ],
-    "correct": [0],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Tek bir %92 ortalama, berbat performans gösteren bir kategorinin üzerinden ortalama alabilir, bu yüzden kategoriye göre dilimlemek başarısız alt grubu ortaya çıkarır. Toplu puana güvenmek şikayetleri yok sayar ve tek bir genel sayı veya offline eval'i terk etmek, gizli bir kategori-bazlı başarısızlığı ele almaz."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, puanlarının güvenilir olması için hafifletilmesi gereken bilinen LLM-as-judge önyargılarıdır? (Geçerli olanların tümünü seçin.)",
     "choices": [
-      "Position bias (ilk sunulan seçeneği kayırma)",
-      "Verbosity bias (doğruluktan bağımsız olarak daha uzun yanıtları daha yüksek derecelendirme)",
       "Self-preference (kendi model ailesinin çıktılarını kayırma)",
-      "Latency bias (daha hızlı yanıtları daha accurate olarak derecelendirme)"
+      "Verbosity bias (doğruluktan bağımsız olarak daha uzun yanıtları daha yüksek derecelendirme)",
+      "Latency bias (daha hızlı yanıtları daha accurate olarak derecelendirme)",
+      "Position bias (ilk sunulan seçeneği kayırma)"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
     "explanation": "Position, verbosity ve self-preference, puanları çarpıtan belgelenmiş LLM-judge önyargılarıdır. 'Latency bias' gerçek bir judge önyargısı değildir, çünkü judge metin içeriğini puanlar ve bir yanıtın ne kadar hızlı üretildiğini asla görmez."
   },
   {
     "prompt": "Bir ekip, prompt'unu tek bir proxy metriğe karşı metrik neredeyse-mükemmel olana kadar sıkıca optimize ediyor, ama gerçek kullanıcı memnuniyeti iyileşmiyor. Hangi ilke bunu açıklar ve sağlam pratik nedir?",
     "choices": [
-      "Goodhart yasası: bir ölçü hedef haline geldiğinde iyi bir ölçü olmaktan çıkar, bu yüzden gerçek-dünya/online sinyallere ve birden çok metriğe karşı doğrula",
-      "Regresyon testi: aynı metriği yakınsayana kadar daha sık yeniden çalıştır",
       "Position bias: metrik stabilize olsun diye veri kümesini yeniden sırala",
-      "Knowledge cutoff: metrik bayat çünkü modelin eğitim verisi eski"
+      "Regresyon testi: aynı metriği yakınsayana kadar daha sık yeniden çalıştır",
+      "Knowledge cutoff: metrik bayat çünkü modelin eğitim verisi eski",
+      "Goodhart yasası: bir ölçü hedef haline geldiğinde iyi bir ölçü olmaktan çıkar, bu yüzden gerçek-dünya/online sinyallere ve birden çok metriğe karşı doğrula"
     ],
-    "correct": [0],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Tek bir proxy'yi, artık gerçek kaliteyi yansıtmayana kadar aşırı optimize etmek Goodhart yasasıdır, bu yüzden gerçek-dünya sinyallerine ve birkaç metriğe karşı doğrularsınız. Aynı metriği yeniden çalıştırmak, veriyi yeniden sıralamak veya knowledge cutoff'u suçlamak, proxy ile gerçek memnuniyet arasındaki boşluğu ele almaz."
   }

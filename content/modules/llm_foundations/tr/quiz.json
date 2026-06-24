@@ -3,12 +3,12 @@
     "prompt": "En temel düzeyde, bir büyük dil modeli bir diff'ten commit mesajı taslağı hazırlarken ne yapar?",
     "choices": [
       "Mesajı bağlı bir gerçek veritabanından arar",
-      "Tekrar tekrar, her seferinde bir token olacak şekilde, bir sonraki token'ı tahmin eder",
+      "En iyi eşleşen mesaj için canlı interneti arar",
       "Diff'i program kodu olarak çalıştırır",
-      "En iyi eşleşen mesaj için canlı interneti arar"
+      "Tekrar tekrar, her seferinde bir token olacak şekilde, bir sonraki token'ı tahmin eder"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Bir LLM metni, o ana kadarki her şeye dayanarak tekrar tekrar bir sonraki en olası token'ı tahmin ederek üretir — bir veritabanından yanıt aramaz, kod çalıştırmaz veya canlı interneti taramaz."
@@ -17,8 +17,8 @@
     "prompt": "Aşağıdakilerden hangileri, bir yazılım iş akışında LLM kullanırken hesaba katmanız gereken gerçek sınırlamalardır? (Uygun olanların hepsini seçin.)",
     "choices": [
       "Halüsinasyon — var olmayan bir API metodunu kendinden emin biçimde önerebilir",
-      "Bilgi kesim tarihi — eğitimden sonra yayınlanan bir framework sürümünü bilmeyebilir",
       "Belirsizlik — aynı prompt çalıştırmadan çalıştırmaya farklı çıktı verebilir",
+      "Bilgi kesim tarihi — eğitimden sonra yayınlanan bir framework sürümünü bilmeyebilir",
       "Tek satırdan uzun hiçbir çıktı üretemez"
     ],
     "correct": [
@@ -32,10 +32,10 @@
   {
     "prompt": "Eğitim (training) ile çıkarım (inference) arasındaki fark nedir?",
     "choices": [
-      "Eğitim her API çağrısında gerçekleşir; çıkarım bir kez gerçekleşir",
+      "Çıkarım, her yeni soruyla modelin bilgisini kalıcı olarak günceller",
       "Eğitim, modelin ağırlıklarını bir kez öğrenir; çıkarım, araçlarınızın gönderdiği her prompt'a yanıt vermek için bu donmuş ağırlıkları kullanır",
-      "İkisi aynı sürecin iki adıdır",
-      "Çıkarım, her yeni soruyla modelin bilgisini kalıcı olarak günceller"
+      "Eğitim her API çağrısında gerçekleşir; çıkarım bir kez gerçekleşir",
+      "İkisi aynı sürecin iki adıdır"
     ],
     "correct": [
       1
@@ -46,13 +46,13 @@
   {
     "prompt": "Bir ekip kodlama aşaması için modeller seçiyor: (a) her push'ta commit mesajları üretmek ve (b) bir mimari öneriyi gizli bağımlılık açısından incelemek. Model seçimlerinin hangi eşleştirmesi en uygundur?",
     "choices": [
-      "Güvende olmak için her ikisinde de en büyük model",
-      "Commit mesajları için küçük/ucuz model; mimari inceleme için büyük/yetenekli model",
+      "Göreve bakılmaksızın maliyeti en aza indirmek için her ikisinde de en küçük model",
       "Commit mesajları için büyük/yetenekli model; mimari inceleme için küçük/ucuz model",
-      "Göreve bakılmaksızın maliyeti en aza indirmek için her ikisinde de en küçük model"
+      "Güvende olmak için her ikisinde de en büyük model",
+      "Commit mesajları için küçük/ucuz model; mimari inceleme için büyük/yetenekli model"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Modeli göreve göre eşleştirin: ucuz, hızlı bir model yüksek hacimli, düşük-riskli commit mesajlarını iyi karşılar; yetenekli bir model ise nüanslı mimari incelemenin maliyetine değer. Her şey için en büyük modeli kullanmak parayı boşa harcar, her şey için en küçüğünü kullanmak da önemli olan yerde kaliteyi feda eder."
@@ -60,13 +60,13 @@
   {
     "prompt": "Bir görev basit ama çok yüksek hacimli ve gecikmeye duyarlı; küçük bir hata oranını aşağı-akışta ucuza yakalayabiliyorsun. Burada hangi model seçimi daha iyi *trade-off*?",
     "choices": [
-      "Küçük, hızlı, ucuz model — hacim ve gecikme, marjinal doğruluk kazancından ağır basar",
-      "En büyük frontier model; çünkü daha fazla yetenek her zaman daha güvenlidir",
+      "Hataları ortalamak için her istekte farklı rastgele bir model",
       "Başlatmadan önce orta boy bir modeli göreve fine-tune et",
-      "Hataları ortalamak için her istekte farklı rastgele bir model"
+      "En büyük frontier model; çünkü daha fazla yetenek her zaman daha güvenlidir",
+      "Küçük, hızlı, ucuz model — hacim ve gecikme, marjinal doğruluk kazancından ağır basar"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Görev basit ve hatalar ucuza yakalanabiliyorsa, hacim ve gecikme baskın olduğu için küçük/hızlı/ucuz model trade-off'u kazanır. Bir frontier model, burada ihtiyaç duymadığınız marjinal bir doğruluk kazancı için maliyet ve gecikme ekler."

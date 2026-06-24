@@ -2,13 +2,13 @@
   {
     "prompt": "Bir kodlama asistanı, bir düzeltmeyi kontrol etmek için bir run_tests tool'u 'kullanıyor'. Aslında ne olur?",
     "choices": [
-      "Model yapılandırılmış bir istek yayınlar ve uygulama gerçek test komutunu çalıştırıp sonucu döndürür",
+      "Uygulama modelden, geliştiricinin elle çalıştıracağı bir shell script yazmasını ister",
       "Model test paketini kendi ağırlıklarının (weights) içinde kendisi çalıştırır",
       "Tool, o tur için modelin tamamen yerine geçer",
-      "Uygulama modelden, geliştiricinin elle çalıştıracağı bir shell script yazmasını ister"
+      "Model yapılandırılmış bir istek yayınlar ve uygulama gerçek test komutunu çalıştırıp sonucu döndürür"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Bir tool çağrısı yalnızca modelin yayınladığı yapılandırılmış bir istektir; test komutunu gerçekten çalıştıran ve sonucu geri besleyen şey uygulamadır. Model weights'inin içinde hiçbir şey çalıştıramaz ve tool, modelin yerini almaz, onu genişletir."
@@ -16,15 +16,15 @@
   {
     "prompt": "Bir agent başarısız bir testi düzeltirken, agent döngüsünün bir iterasyonunu hangi adımlar oluşturur? Uygun olanların tümünü seçin.",
     "choices": [
+      "Modeli test çıktısı üzerinde kalıcı olarak yeniden eğit",
       "Bir sonraki adımı planla (ör. hatayı görmesi gerektiğine karar ver)",
       "Bir tool isteyerek eyleme geç (ör. run_tests veya apply_patch)",
-      "Dönen sonucu gözlemle (traceback veya geçti/kaldı)",
-      "Modeli test çıktısı üzerinde kalıcı olarak yeniden eğit"
+      "Dönen sonucu gözlemle (traceback veya geçti/kaldı)"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Döngünün bir iterasyonu, bitene kadar tekrarlanan planla, eyle, gözlemle adımlarıdır. Modeli yeniden eğitmek döngünün parçası değildir; modelin weights'i çıkarım anında sabittir ve yalnızca prompt bağlamı değişir."
@@ -32,13 +32,13 @@
   {
     "prompt": "Bir PM, yeni bir geliştirme-araçları özelliği için tek bir model çağrısı ile tam bir agent arasında karar veriyor. Hangi durum bir agent'ı en çok haklı çıkarır?",
     "choices": [
+      "Bir log satırı için her seferinde tek bir deterministik etiket üretmek",
       "Bir hatayı düzeltmek, ki bu çok adımlıdır ve her düzenlemeden sonra testleri yeniden çalıştırmaya bağlıdır",
-      "Tek bir pull-request açıklamasını tek bir paragrafa özetlemek",
       "İstek başına maliyeti olabildiğince azaltmak",
-      "Bir log satırı için her seferinde tek bir deterministik etiket üretmek"
+      "Tek bir pull-request açıklamasını tek bir paragrafa özetlemek"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "Bir agent, görev çok adımlı olduğunda ve her adım bir öncekinin sonucuna bağlı olduğunda (bir hatayı düzeltip testleri yeniden çalıştırmak gibi) ek yükünü hak eder. Tek seferlik bir özet veya tek bir deterministik etiket döngü gerektirmez ve maliyeti en aza indirmek bir agent'ın ekstra çağrılarına karşı bir argümandır."
@@ -47,14 +47,14 @@
     "prompt": "Bunlardan hangileri bir kodlama agent'ına otonomi vermenin gerçek başarısızlık biçimleri ve bunları ele alan korkuluklardır? Doğru ifadelerin tümünü seçin.",
     "choices": [
       "Kontrolsüz düzenle-ve-tekrar-dene döngüleri bir maksimum-iterasyon sınırıyla sınırlandırılabilir",
+      "Daha fazla tool eklemek kontrolsüz döngü riskini her zaman ortadan kaldırır",
       "Force-push veya delete-branch gibi yıkıcı bir tool bir insan-onay kapısının arkasında durmalıdır",
-      "Bir test hatasının erken yanlış okunması sonraki düzenlemeler boyunca birikerek büyüyebilir",
-      "Daha fazla tool eklemek kontrolsüz döngü riskini her zaman ortadan kaldırır"
+      "Bir test hatasının erken yanlış okunması sonraki düzenlemeler boyunca birikerek büyüyebilir"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "İterasyon sınırları, yıkıcı eylemler için onay kapıları ve erken hataların birikme riski, eşleşen korkuluklarıyla birlikte gerçek endişelerdir. Sonuncusu yanlıştır: tool eklemek agent'ın yapabileceklerini genişletir ama kontrolsüz döngüleri durdurmaya hiçbir katkısı olmaz ve onları kötüleştirebilir."
@@ -64,8 +64,8 @@
     "choices": [
       "Tam otonom bir agent döngüsü; çünkü agent'lar modern yaklaşımdır",
       "Basit scriptli bir pipeline (veya tek çağrı) — deterministik 2-adımlı görev açık-uçlu otonomi gerektirmez",
-      "Takılmasın diye agent'a sınırsız adım ver",
-      "Seçeneği olsun diye üç tool daha ekle"
+      "Seçeneği olsun diye üç tool daha ekle",
+      "Takılmasın diye agent'a sınırsız adım ver"
     ],
     "correct": [
       1

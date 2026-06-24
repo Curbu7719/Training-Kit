@@ -3,12 +3,12 @@
     "prompt": "Vibe coding'i *doğru* yapmanın (bir AI'a kodu dikkatsizce değil iyi bir şekilde yazdırmaya yön vermenin) ne demek olduğunu en iyi hangi ifade yakalar?",
     "choices": [
       "Kod çalıştığı ve doğru göründüğü sürece AI'ın ürettiği her şeyi kabul etmek",
-      "Açık niyetten başlamak, küçük review edilebilir adımlarla çalışmak ve kabul etmeden önce her diff'i okuyup anlamak",
+      "Zaman kazanmak için AI'ın kendi değişikliklerini commit ve merge etmesine izin vermek",
       "AI'ın bütün özelliği tek seferde üretmesi için mümkün olan en büyük prompt'u yazmak",
-      "Zaman kazanmak için AI'ın kendi değişikliklerini commit ve merge etmesine izin vermek"
+      "Açık niyetten başlamak, küçük review edilebilir adımlarla çalışmak ve kabul etmeden önce her diff'i okuyup anlamak"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Vibe coding'i iyi yapmak kontrolde kalmak demektir: açık niyet artı küçük, review edilen adımlar hataları erken yakalamanızı sağlar. Kodu sırf çalıştığı için kabul etmek, AI çıktısının makul-ama-bozuk olabileceğini göz ardı eder."
@@ -16,15 +16,15 @@
   {
     "prompt": "Aşağıdakilerden vibe coding'i iyi yapmanın disiplinleri olan HER ŞEYİ seçin.",
     "choices": [
-      "Kabul etmeden önce AI'ın çıktısını okuyup anlamak",
-      "Çalışan durumları sık sık commit ederek test'leri ve version control'ü bir güvenlik ağı olarak kullanmak",
+      "Derlendiği sürece tam olarak anlamadığınız kodu göndermek",
       "Sır'ları ve hassas veriyi prompt'lardan uzak tutmak",
-      "Derlendiği sürece tam olarak anlamadığınız kodu göndermek"
+      "Kabul etmeden önce AI'ın çıktısını okuyup anlamak",
+      "Çalışan durumları sık sık commit ederek test'leri ve version control'ü bir güvenlik ağı olarak kullanmak"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Çıktıyı okumak, test'lere ve version control'e yaslanmak ve sır'ları prompt'lardan uzak tutmak her biri gerçek bir riske karşı koruma sağlar. Anlamadığınız kodu göndermek bir disiplinin tam tersidir, çünkü derlenmesi doğruluk hakkında hiçbir şey söylemez."
@@ -47,14 +47,14 @@
     "prompt": "Bir QA/Tester'dan, bir takım arkadaşının büyük okunmamış bir AI çıktı bloğunu yapıştırarak vibe-code ettiği bir özelliği onaylaması isteniyor. Hangi yaklaşımlar bunu doğru yapmayı yansıtır? Geçerli olan HER ŞEYİ seçin.",
     "choices": [
       "AI tarafından yazılan kodu okunup test edilene kadar güvenilmez olarak ele almak",
+      "Onaylamadan önce diff'i gömülü sır'lar ve eksik yetki kontrolleri için review etmek",
       "Makul-ama-bozuk mantığın merge'den önce ortaya çıkması için test'leri çalıştırmak (veya yazmak)",
-      "Uygulama çökmeden başladığı için onu onaylamak",
-      "Onaylamadan önce diff'i gömülü sır'lar ve eksik yetki kontrolleri için review etmek"
+      "Uygulama çökmeden başladığı için onu onaylamak"
     ],
     "correct": [
       0,
       1,
-      3
+      2
     ],
     "points": 1,
     "explanation": "Kodu güvenilmez olarak ele almak, test etmek ve sır'lar ile eksik yetki için review etmek hepsi kusurları merge'den önce yakalar. Uygulamanın çökmeden başlaması hiçbir şey kanıtlamaz, çünkü sessiz yanlış kod yine de çalışır."
@@ -62,13 +62,13 @@
   {
     "prompt": "Vibe coding sırasında AI bir düzeltmenin ~%80'ine geldi ama son %20'de döngüye girip varyantlar öneriyor. Devam etmek ile müdahale etmek arasında hangi *trade-off* doğru?",
     "choices": [
-      "Prompt'lamaya devam et; yeterli denemeyle model her zaman yakınsar",
       "%80'lik sürümü kabul et ve devam et; çoğu zaten çalışıyor",
       "Direksiyona geç ve zor %20'yi kendin bitir — döngü maliyeti artık onu yazmaktan fazla",
-      "'Modunu' sıfırlamak için tüm görevi boş bir prompt'tan yeniden başlat"
+      "'Modunu' sıfırlamak için tüm görevi boş bir prompt'tan yeniden başlat",
+      "Prompt'lamaya devam et; yeterli denemeyle model her zaman yakınsar"
     ],
     "correct": [
-      2
+      1
     ],
     "points": 1,
     "explanation": "Model döngüye girdiğinde, yeniden prompt'lamak için harcanan zaman zor kısmı kendiniz bitirmenin maliyetini aşar, bu yüzden direksiyona geçmek doğru trade-off'tur. %80'lik sürümü kabul etmek eksik bir düzeltme gönderir ve modelin yakınsayacağı garanti değildir."

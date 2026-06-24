@@ -2,60 +2,72 @@
   {
     "prompt": "In an AI-driven SDLC where assistants generate most of the code, where does the delivery bottleneck typically move to?",
     "choices": [
-      "To typing code faster, since that is still the main constraint",
+      "Nowhere; AI removes all bottlenecks so delivery is uniformly faster",
       "To specifying intent clearly, reviewing for correctness and security, and verifying the output — because generation is no longer the slow part",
-      "To buying more GPUs so the assistant runs faster",
-      "Nowhere; AI removes all bottlenecks so delivery is uniformly faster"
+      "To typing code faster, since that is still the main constraint",
+      "To buying more GPUs so the assistant runs faster"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "When code appears in seconds, writing it stops being the constraint. Throughput is then gated by how fast humans can specify precisely, review trustworthily, and verify — so that's where the bottleneck moves, and where a manager should focus."
   },
   {
     "prompt": "A feature looks '90% done in a day' with AI assistance but the last 10% takes a week. What does this teach about estimating an AI-driven project?",
     "choices": [
-      "That AI estimates are always wrong, so estimation should be abandoned",
-      "That generation gets much faster but edge cases, integration, and debugging plausible-but-wrong code don't shrink the same way, so you must estimate the review and verification work explicitly",
+      "That the last 10% should just be skipped to hit the date",
       "That the team is simply too slow and needs to be replaced",
-      "That the last 10% should just be skipped to hit the date"
+      "That AI estimates are always wrong, so estimation should be abandoned",
+      "That generation gets much faster but edge cases, integration, and debugging plausible-but-wrong code don't shrink the same way, so you must estimate the review and verification work explicitly"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "AI compresses the 'get something working' part, but edge cases, integration, and debugging confident-but-wrong output remain. Pricing the whole project as uniformly faster ignores the last-10% reality; you estimate the review/integration/verification work separately."
   },
   {
     "prompt": "Which of the following are risks specifically heightened by an AI-driven SDLC? (Select all that apply.)",
     "choices": [
-      "Automation bias — accepting plausible generated code without genuine review because it looks right",
-      "Security and IP/licensing exposure from generated code (insecure patterns, echoed or outdated dependencies)",
       "Architectural drift, as each locally-reasonable suggestion makes the codebase less consistent",
-      "The office coffee machine being broken on Mondays"
+      "Security and IP/licensing exposure from generated code (insecure patterns, echoed or outdated dependencies)",
+      "The office coffee machine being broken on Mondays",
+      "Automation bias — accepting plausible generated code without genuine review because it looks right"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
     "explanation": "Over-trusting confident output, security/IP risk in generated code, and architectural drift from unenforced patterns are all amplified when AI writes much of the code. A broken coffee machine isn't a delivery risk for the feature and doesn't belong on the register."
   },
   {
     "prompt": "When AI generates a large share of the code, how should the team's quality gates and definition of done change?",
     "choices": [
-      "Relax them, since the AI already wrote working code and review just slows everyone down",
-      "Strengthen them — human review of generated code, automated tests, type checks, and security scanning become the gates that make AI speed safe, and 'done' means clearing them",
       "Replace all gates with a single check that the code compiles",
+      "Strengthen them — human review of generated code, automated tests, type checks, and security scanning become the gates that make AI speed safe, and 'done' means clearing them",
+      "Relax them, since the AI already wrote working code and review just slows everyone down",
       "Define done as the number of lines or PRs the assistant produced"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "A fast stream of plausible, confident code raises the stakes on review, so gates get more important, not less. 'Done' shifts from 'it compiles / the demo works' to 'it passed human review, tests, and security/type checks,' with a human accountable for the merge."
   },
   {
     "prompt": "TRADE-OFF: A teammate proposes merging AI-generated code quickly with only a light skim to capture the velocity, instead of doing thorough human review plus tests on every change. What is the trade-off?",
     "choices": [
-      "There is no trade-off; light review is always better because it is faster",
+      "Both approaches produce identical quality, so the choice only affects paperwork",
       "Light review ships faster now but lets subtle, confident bugs and insecure patterns through, raising defect-escape and maintenance cost; thorough review is slower but catches what fast, plausible code hides — the right call depends on the stakes of the change",
       "Thorough review is always mandatory and light review can never be used for anything",
-      "Both approaches produce identical quality, so the choice only affects paperwork"
+      "There is no trade-off; light review is always better because it is faster"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "It's a real speed-vs-safety trade-off. Light review captures velocity but AI's plausible, confident output is exactly where subtle bugs and insecure patterns hide, so escapes and rework rise. The right balance depends on stakes — a throwaway prototype can skim; production or regulated code can't."
   }

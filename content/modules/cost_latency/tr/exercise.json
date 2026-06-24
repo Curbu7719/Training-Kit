@@ -3,15 +3,22 @@
   "prompt_md": "Bir **AI kod inceleyici** her pull request'te CI'da çalışıyor. Bütçeyi aşıyor ve geliştiriciler merge-kapısı kontrolünün yavaş hissettirdiğini söylüyor. Ekip, inceleme kalitesine kabul edilemez ölçüde zarar vermeden **maliyeti**, **latency'yi** veya her ikisini birden azaltan değişiklikler istiyor. **Meşru bir maliyet veya latency optimizasyon kaldıracı olan her seçeneği seçin.**",
   "spec": {
     "choices": [
-      "İncelemeyi en önemli sorunlarla sınırlayın ve modele kısa olmasını söyleyin",
-      "Kararlı stil kılavuzunu ve kriterleri prefix-cache edin, böylece her PR'de yeniden işlenmesinler",
-      "Küçük, rutin diff'leri daha küçük, daha ucuz bir modele yönlendirin",
-      "Tüm dosyaları değil, yalnızca değişen parçaları artı birkaç satır context gönderin",
       "Her PR'nin tüm repository'sini her zaman mevcut en büyük modele gönderin",
+      "Küçük, rutin diff'leri daha küçük, daha ucuz bir modele yönlendirin",
+      "Kararlı stil kılavuzunu ve kriterleri prefix-cache edin, böylece her PR'de yeniden işlenmesinler",
+      "Tüm dosyaları değil, yalnızca değişen parçaları artı birkaç satır context gönderin",
+      "İncelemeyi en önemli sorunlarla sınırlayın ve modele kısa olmasını söyleyin",
       "Her ihtimale karşı her PR incelemesine ekstra alakasız dosya aramaları ekleyin"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3] },
+  "answer_key": {
+    "correct": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
   "max_score": 10
 }

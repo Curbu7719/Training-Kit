@@ -3,23 +3,31 @@
     "prompt": "A feature uploads invoices and must (a) read fields from varied, novel layouts and (b) re-check arithmetic totals that are already printed on the invoice. Applying the 'fit is a spectrum' idea, which statements are correct? Select ALL that apply.",
     "choices": [
       "The varied-layout field reading is the irreducibly fuzzy core that genuinely fits AI",
-      "Re-checking known arithmetic totals is exact work best done in deterministic code",
+      "Both steps should be sent to the model so the technology stays uniform",
       "Narrowing the AI surface to only the fuzzy step makes the system cheaper, more testable, and more swappable",
-      "Both steps should be sent to the model so the technology stays uniform"
+      "Re-checking known arithmetic totals is exact work best done in deterministic code"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Reading varied layouts is genuinely fuzzy and fits AI, while re-checking arithmetic is exact and belongs in deterministic code; narrowing the AI surface lowers cost and improves testability. Sending both steps to the model just to stay uniform wastes the reliability of exact code."
   },
   {
     "prompt": "A team's hosted-API extraction feature has grown from 2,000 to 900,000 calls per month, accuracy needs have risen, and they now hold a year of labeled data. Why might re-sourcing toward a fine-tuned model be justified? Select ALL that apply.",
     "choices": [
-      "At real volume the per-call API price has become the largest cost line, a TCO concern",
+      "A larger per-call price is always preferable because it signals higher quality",
       "Accumulated labeled data now makes fine-tuning viable where it was not before",
       "Sourcing is reversible and should be revisited as volume, accuracy needs, and data change",
-      "A larger per-call price is always preferable because it signals higher quality"
+      "At real volume the per-call API price has become the largest cost line, a TCO concern"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "High volume turns per-call price into a major TCO driver, accumulated labeled data now makes fine-tuning viable, and sourcing should be revisited as conditions change. A higher per-call price does not signal quality, so that option is wrong."
   },
@@ -31,7 +39,11 @@
       "Maintain an exit plan the team can actually execute",
       "Adopt the most proprietary vendor format available to maximize switching costs"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "An abstraction layer, portable prompts and evals, and a real exit plan all keep the decision reversible and lock-in low. Adopting the most proprietary format maximizes switching costs, which is the opposite of the goal."
   }

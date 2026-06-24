@@ -2,24 +2,30 @@
   {
     "prompt": "Özetlerin özetlerini kullanan, çok günlü, AI destekli bir migration sırasında, son turlar düzgün görünse de, asistan birinci günde açıkça belirtilen bir geriye dönük uyumluluk kuralını bozar. En olası neden nedir?",
     "choices": [
-      "Model daha hızlı bir varyanta geçirildi",
-      "Kural, tekrarlanan kayıplı özetlemeyle sıkıştırılarak yok edildi ve artık bağlamda değil",
       "Modelin bilgi kesim tarihi kuralı dışladı",
-      "Retrieval çok fazla dosya döndürdü"
+      "Retrieval çok fazla dosya döndürdü",
+      "Model daha hızlı bir varyanta geçirildi",
+      "Kural, tekrarlanan kayıplı özetlemeyle sıkıştırılarak yok edildi ve artık bağlamda değil"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Özetlerin özetleri kayıplıdır: her sıkıştırma geçişi birinci-gün kuralını düşürebilir, bu yüzden son turlar düzgün görünse bile kural artık bağlamda değildir. Daha hızlı bir model, bilgi kesim tarihi ve retrieval hacmi, bir kuralın bu şekilde kaybolmasını açıklamaz."
   },
   {
     "prompt": "Gerçek bir refactor'da context stratejisi dengeleri hakkında hangi ifadeler doğrudur? (Uygun olanların hepsini seçin.)",
     "choices": [
-      "Kayan pencere tasarım gereği unutkandır — erken kurallar başka yerde yakalanmadıkça kaybolur",
-      "Retrieval, zorlu sorunu pencereye sığdırmaktan doğru dosyaları getirmeye kaydırır",
       "Daha büyük bir context window, konum etkilerini ve strateji ihtiyacını tamamen ortadan kaldırır",
-      "Çıktı token bütçesini paylaşır, bu yüzden yapıştırılmış dosyaların neredeyse dolu bir girdisi üretilen kodu kesebilir"
+      "Retrieval, zorlu sorunu pencereye sığdırmaktan doğru dosyaları getirmeye kaydırır",
+      "Çıktı token bütçesini paylaşır, bu yüzden yapıştırılmış dosyaların neredeyse dolu bir girdisi üretilen kodu kesebilir",
+      "Kayan pencere tasarım gereği unutkandır — erken kurallar başka yerde yakalanmadıkça kaybolur"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Kayan pencere tasarım gereği unutkandır, retrieval yalnızca sığdırma sorununu bir retrieval-kalitesi sorunuyla değiştirir ve çıktı token bütçesi için girdiyle yarışır. Daha büyük bir pencere yardımcı olur ama konum etkilerini ya da strateji ihtiyacını ortadan kaldırmaz."
   },
@@ -28,10 +34,12 @@
     "choices": [
       "Yalnızca daha büyük bir context window'a güvenip her seferinde tüm transkripti yeniden gönderin",
       "O kuralları her çağrıda kelimesi kelimesine taşınan korumalı içerik olarak sabitleyin, gerisini özetleyin ya da kaydırın",
-      "Her şeyi hatırlasın diye daha büyük bir modele geçin",
-      "Kuralları retrieval'a taşıyın ve retriever'ın onları her çağrıda döndürmesini umun"
+      "Kuralları retrieval'a taşıyın ve retriever'ın onları her çağrıda döndürmesini umun",
+      "Her şeyi hatırlasın diye daha büyük bir modele geçin"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "Pazarlık konusu olmayan kuralları kelimesi kelimesine taşınan korumalı içerik olarak sabitlemek, gerisini özetlerken ya da kaydırırken bunların her turda hayatta kalmasını garanti eder. Daha büyük bir pencere sonunda yine de bunları düşürebilir ve retrieval belirli bir çağrıda bunları döndürmeyebilir."
   }

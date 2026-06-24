@@ -3,47 +3,57 @@
     "prompt": "Bir AI, çağırdığın bir araç olmaktan çıkıp senin sistemlerinde eylem alan bir agent'a dönüştüğünde (servis yeniden başlatma, yapılandırma gönderme, komut çalıştırma) temelde ne değişir?",
     "choices": [
       "Hiçbir şey değişmez; onu tıpkı salt-okunur bir chatbot gibi işletirsin",
-      "Hatanın etki alanı yanlış bir yanıttan, üretimde alınan yanlış bir eyleme kayar; bu yüzden güvenilirlik, agent'ın yapmasına izin verilen şeyi sınırlamakla ilgili hale gelir",
       "Agent araçlara sahip olduğu için artık hata yapamaz",
+      "Hatanın etki alanı yanlış bir yanıttan, üretimde alınan yanlış bir eyleme kayar; bu yüzden güvenilirlik, agent'ın yapmasına izin verilen şeyi sınırlamakla ilgili hale gelir",
       "Eylemler bedava olduğu için maliyet önemini yitirir"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Çağrılan bir araç, bir insanın üzerine hareket ettiği metni döndürür; agent ise eylemi kendisi alır, dolayısıyla bir hata yalnızca yanlış bir yanıt değil, üretimde yanlış bir eylemdir. Bu yüzden onu güvenilir işletmek; kendinden emin ama yanlış bir eylemin zararını sınırlayan en az yetki, önce-planla ve onay kapılarıyla ilgilidir."
   },
   {
     "prompt": "Neden normal uygulama panolarına güvenmek yerine bir eylem günlüğü (agent ne yaptı, ne gözlemledi ve neden) tutmalısın?",
     "choices": [
+      "Çünkü her türlü insan onayı ihtiyacını ortadan kaldırır",
       "Çünkü uygulama panoları her zaman yanlıştır",
       "Çünkü yeşil bir pano sana agent'ın yanlış eylemi aldığını söylemez; bir olay sonrası inceleme ve denetim, bir insanı sorumlu tutmak için agent'ın eylemlerine ve gerekçesine ihtiyaç duyar",
-      "Çünkü eylem günlüğü agent'ı daha hızlı çalıştırır",
-      "Çünkü her türlü insan onayı ihtiyacını ortadan kaldırır"
+      "Çünkü eylem günlüğü agent'ı daha hızlı çalıştırır"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "'200 OK' sana servisin ayakta olduğunu söyler, doğru olanı yeniden başlattığını değil. Çağırdığı araçların, gözlemlerinin, gerekçesinin ve aldığı eylemin bir kaydına — olaya bağlanabilir biçimde — ihtiyacın var; böylece yanlış eylemler görünür olur ve sorumluluk bir insanda kalır."
   },
   {
     "prompt": "Aşağıdakilerden hangileri, AI sistemlerinde eylem alabildiğinde karşı önlem alman gereken agent'a özgü hata biçimleridir? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Döngüye girme — başarısız bir eylemi sonsuza dek deneyip para yakmak ya da zararı tekrarlamak",
+      "İzleme panosunun karanlık modda yapılandırılmış olması",
       "Yanlış bir teşhise göre eylem alıp olayı daha da kötüleştiren, kendinden emin ama yanlış müdahale",
-      "Agent'ın okuduğu özenle hazırlanmış bir günlük satırı, talep kaydı ya da hata mesajıyla onu tehlikeli bir eyleme yönlendiren prompt injection",
-      "İzleme panosunun karanlık modda yapılandırılmış olması"
+      "Döngüye girme — başarısız bir eylemi sonsuza dek deneyip para yakmak ya da zararı tekrarlamak",
+      "Agent'ın okuduğu özenle hazırlanmış bir günlük satırı, talep kaydı ya da hata mesajıyla onu tehlikeli bir eyleme yönlendiren prompt injection"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "AI senin sistemlerinde eylem alabildiğinde döngüye girme, kendinden emin ama yanlış eylemler ve agent'ın okuduğu güvenilmez metin üzerinden prompt injection'ın hepsi gerçek hata biçimleridir. Bir panonun renk teması ise hiçbir operasyonel etki yaratmaz ve bir hata biçimi değildir."
   },
   {
     "prompt": "Bir operasyon agent'ının bir eylemi otonom alabileceğine mi yoksa önce insan onayı alması gerektiğine nasıl karar vermelisin?",
     "choices": [
-      "Eylemin ne kadar hızlı çalıştığına göre",
-      "Etki alanı ve geri alınabilirliğe göre: salt-okunur ve düşük riskli geri-alınabilir eylemler otonom olabilir; yıkıcı, geri-alınamaz ya da üretime dokunan eylemler onay gerektirir — bir acil durdurma ve sorumlu bir insanla desteklenir",
       "Yetkilerine çalışma anında agent'ın kendisinin karar vermesine izin vererek",
-      "Günlük okumak dahil her şey için her zaman onay isteyerek"
+      "Günlük okumak dahil her şey için her zaman onay isteyerek",
+      "Eylemin ne kadar hızlı çalıştığına göre",
+      "Etki alanı ve geri alınabilirliğe göre: salt-okunur ve düşük riskli geri-alınabilir eylemler otonom olabilir; yıkıcı, geri-alınamaz ya da üretime dokunan eylemler onay gerektirir — bir acil durdurma ve sorumlu bir insanla desteklenir"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Otonomi, eylem türü bazında etki alanı ve geri alınabilirliğe göre belirlenir. Günlük okumak ya da stateless bir servisi yeniden başlatmak otonom olabilir; veri silmek ya da üretimi değiştirmek bir insan onayı gerektirir. Bir acil durdurma ve net sorumluluk tüm düzeni destekler — salt-okunur eylemleri bile onaya tabi tutmak yalnızca gereksiz yük ekler."
   },
@@ -51,11 +61,13 @@
     "prompt": "DENGE (TRADE-OFF): Nöbet agent'ına çoğu alarmda eylem alması için geniş otonomi verebilirsin (daha az insan yükü, daha hızlı çözüm) ya da eylemlerinin çoğunda insan onayı isteyebilirsin (daha yavaş, ama her birini bir insan inceler). Denge nedir?",
     "choices": [
       "Bir denge yoktur; en hızlısı olduğu için tam otonomi her zaman doğrudur",
-      "Geniş otonomi yükü azaltır ve olayları daha hızlı çözer ama kendinden emin ama yanlış bir eylemin etki alanını genişletir; onay kapıları daha güvenlidir ama daha yavaştır ve insan yükünü geri getirir — doğru düzey, her eylemin geri alınabilirliğine ve etki alanına bağlıdır",
       "Her şeyde onay her zaman zorunludur, bu yüzden otonomi asla kullanılamaz",
-      "İki seçenek de aynı şekilde davranır, bu yüzden yalnızca panonun görünüşünü etkiler"
+      "İki seçenek de aynı şekilde davranır, bu yüzden yalnızca panonun görünüşünü etkiler",
+      "Geniş otonomi yükü azaltır ve olayları daha hızlı çözer ama kendinden emin ama yanlış bir eylemin etki alanını genişletir; onay kapıları daha güvenlidir ama daha yavaştır ve insan yükünü geri getirir — doğru düzey, her eylemin geri alınabilirliğine ve etki alanına bağlıdır"
     ],
-    "correct": [1],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Bu gerçek bir hız-güvenlik dengesidir. Otonomi yükü ve ortalama çözüm süresini azaltır ama yanlış bir eylemin incelenmeden üretime ulaşmasına izin verir; onay kapıları hız ve insan emeği pahasına güvenlik ekler. Bunu eylem türü bazında ayarlarsın — geri-alınabilir düşük etkili eylemler için otonom, yıkıcı ya da geri-alınamaz olanlar için onaylı."
   }

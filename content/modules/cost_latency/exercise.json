@@ -3,15 +3,22 @@
   "prompt_md": "An **AI code reviewer** runs in CI on every pull request. It is over budget and developers say the merge-gate check feels slow. The team wants changes that reduce **cost**, **latency**, or both **without** unacceptably hurting review quality. **Select every option that is a legitimate cost or latency optimization lever.**",
   "spec": {
     "choices": [
-      "Cap the review to the top issues and instruct the model to be terse",
-      "Prefix-cache the stable style guide and rubric so they aren't re-processed each PR",
-      "Route tiny, routine diffs to a smaller, cheaper model",
-      "Send only the changed hunks plus a few lines of context, not whole files",
       "Always send every PR's full repository to the largest available model",
+      "Route tiny, routine diffs to a smaller, cheaper model",
+      "Prefix-cache the stable style guide and rubric so they aren't re-processed each PR",
+      "Send only the changed hunks plus a few lines of context, not whole files",
+      "Cap the review to the top issues and instruct the model to be terse",
       "Add extra unrelated file lookups to every PR review just in case"
     ],
     "multi": true
   },
-  "answer_key": { "correct": [0, 1, 2, 3] },
+  "answer_key": {
+    "correct": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
   "max_score": 10
 }

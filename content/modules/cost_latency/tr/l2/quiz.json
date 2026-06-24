@@ -2,36 +2,46 @@
   {
     "prompt": "Bir sohbet özelliği yanıtları stream ediyor. Kullanıcılar uzun yanıtlar için 'hızlı başlıyor ama uzayıp gidiyor' diyor. Hangi ifadeler bunu doğru biçimde açıklar veya ele alır? (Geçerli olan hepsini seçin.)",
     "choices": [
+      "Daha küçük, daha hızlı bir modele geçmek saniyedeki token oranını artırabilir",
       "Time-to-first-token düşüktür, ama toplam süre verilen token hızında output uzunluğuyla birlikte büyür",
-      "Output'u sınırlamak veya kısaltmak latency'nin 'uzayan' kısmını azaltır",
       "Streaming toplam üretim süresini zaten en aza indirmiştir, dolayısıyla output uzunluğu artık önemli değildir",
-      "Daha küçük, daha hızlı bir modele geçmek saniyedeki token oranını artırabilir"
+      "Output'u sınırlamak veya kısaltmak latency'nin 'uzayan' kısmını azaltır"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      3
+    ],
     "points": 1,
     "explanation": "Streaming time-to-first-token'ı düşürür, ama toplam süre yine output uzunluğuyla ölçeklenir, bu yüzden output'u sınırlamak veya daha hızlı bir model kullanmak uzamayı ele alır. Yanlış seçenek streaming'in output uzunluğunu önemsiz kıldığını iddia eder, ama streaming yalnızca token'ların ne zaman göründüğünü değiştirir, tam yanıtın ne kadar sürdüğünü değil."
   },
   {
     "prompt": "Bir cascade her isteği önce küçük bir modele gönderir; bir güven kontrolü başarısız olursa büyük bir modele yükseltir. Küçük model isteklerin %70'ini halleder; %30'u yükselir. İstek başına küçük çağrı 0,0001$, büyük çağrı 0,0020$ maliyetlidir. İstek başına yaklaşık harmanlanmış maliyet nedir?",
     "choices": [
+      "Yaklaşık 0,00210$",
       "Yaklaşık 0,00073$",
       "Yaklaşık 0,00060$",
-      "Yaklaşık 0,00210$",
       "Yaklaşık 0,00010$"
     ],
-    "correct": [0],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "Her istek küçük çağrıyı (0,0001$) öder ve %30'u ayrıca büyük çağrıyı öder (0,30 * 0,0020$ = 0,0006$), toplam yaklaşık 0,00073$ eder. Diğer cevaplar küçük çağrının her zaman ödendiğini unutur veya yalnızca tek bir yolu sayar."
   },
   {
     "prompt": "Bir mimar, her bireysel model çağrısı ucuz ve hızlı görünmesine rağmen, tek bir kullanıcı eyleminin neden ekibin beklediğinden çok daha pahalı ve yavaş olduğunu inceliyor. Hangileri araştırmaya değer olası kök nedenlerdir? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Eylem, kullanıcı eylemi başına birkaç model çağrısına yayılıyor (retrieval rerank, araç kullanımı, son sentez)",
       "Başarısız çağrılar sessizce yeniden deneniyor (retry), token harcamasını ve latency'yi katlıyor",
-      "Token başına fiyat tek faktördür ve pipeline yapısı maliyeti etkileyemez",
-      "Output'lar sınırsızdır, bu yüzden bazı yanıtlar varsayılandan çok daha fazla token üretir"
+      "Output'lar sınırsızdır, bu yüzden bazı yanıtlar varsayılandan çok daha fazla token üretir",
+      "Eylem, kullanıcı eylemi başına birkaç model çağrısına yayılıyor (retrieval rerank, araç kullanımı, son sentez)",
+      "Token başına fiyat tek faktördür ve pipeline yapısı maliyeti etkileyemez"
     ],
-    "correct": [0, 1, 3],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Birçok çağrıya yayılma, sessiz retry'lar ve sınırsız output'lar, tek bir çağrı ucuz görünse bile eylem başına maliyeti ve latency'yi katlar. Token başına fiyatın tek faktör olduğu iddiası yanlıştır, çünkü burada toplamı asıl belirleyen şey pipeline yapısıdır."
   }

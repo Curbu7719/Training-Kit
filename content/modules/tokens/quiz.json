@@ -2,13 +2,13 @@
   {
     "prompt": "An AI code-review bot reads a pull-request diff. Why might that diff use far more tokens than an equally long block of plain English prose?",
     "choices": [
-      "Source code is exempt from tokenization",
-      "Punctuation, indentation, and identifiers in code each cost tokens, so code tokenizes 'heavier' than prose",
       "Diffs are always counted as a single token",
-      "Prose is billed per word while code is billed per line"
+      "Source code is exempt from tokenization",
+      "Prose is billed per word while code is billed per line",
+      "Punctuation, indentation, and identifiers in code each cost tokens, so code tokenizes 'heavier' than prose"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "Tokenizers split code's punctuation, indentation, and identifiers into many small pieces, so code tends to use more tokens than the same length of prose. Code is not exempt from tokenization, and billing is per token, not per word or line."
@@ -16,15 +16,15 @@
   {
     "prompt": "Select ALL statements that are true about tokens and the cost of an AI feature in the pipeline.",
     "choices": [
+      "A model's context window limit is measured in tokens, not lines",
       "LLM usage is typically billed per token",
       "Input tokens (the diff/log you send) and output tokens (the AI's reply) are usually billed separately",
-      "One source-code line always equals exactly one token",
-      "A model's context window limit is measured in tokens, not lines"
+      "One source-code line always equals exactly one token"
     ],
     "correct": [
       0,
       1,
-      3
+      2
     ],
     "points": 1,
     "explanation": "Billing is per token, input and output are usually priced separately, and the context window is measured in tokens. One source-code line does NOT always equal one token — a line can be many tokens or, rarely, part of one."
@@ -32,10 +32,10 @@
   {
     "prompt": "A developer needs an AI tool to review a single auto-generated file of 20,000 lines, but the call fails before the model responds. Using token concepts, what is the most likely cause and fix?",
     "choices": [
-      "The file is fine; the model simply chose not to answer, so retry unchanged",
+      "The diff had too few tokens, so pad it with whitespace",
       "The file is far too many input tokens to fit the model's context window, so chunk or skip it",
-      "Output tokens were exhausted, so lower the price per token",
-      "The diff had too few tokens, so pad it with whitespace"
+      "The file is fine; the model simply chose not to answer, so retry unchanged",
+      "Output tokens were exhausted, so lower the price per token"
     ],
     "correct": [
       1
@@ -46,13 +46,13 @@
   {
     "prompt": "A PM is budgeting an AI reviewer. A developer reports each PR averages about 9,300 input tokens and 550 output tokens, the team merges 1,500 PRs a month, and the provider charges different rates for input and output. What should the PM do to produce an accurate monthly estimate?",
     "choices": [
-      "Add input and output tokens together and apply one price, since all tokens cost the same",
       "Use only input tokens, because the AI's comments are free",
-      "Cost input and output tokens separately at their own rates, then multiply each by 1,500 PRs",
-      "Ignore token counts and estimate purely from the number of PRs"
+      "Ignore token counts and estimate purely from the number of PRs",
+      "Add input and output tokens together and apply one price, since all tokens cost the same",
+      "Cost input and output tokens separately at their own rates, then multiply each by 1,500 PRs"
     ],
     "correct": [
-      2
+      3
     ],
     "points": 1,
     "explanation": "Because input and output are priced at different rates, you must cost them separately and then multiply by the PR volume. Lumping them under one price, ignoring output, or estimating from PR count alone all give an inaccurate figure."
@@ -60,8 +60,8 @@
   {
     "prompt": "Trimming the prompt lowers token cost but risks dropping context the model needs. For a high-stakes legal-summary feature where a missed clause is costly, which *trade-off* is right?",
     "choices": [
-      "Trim as aggressively as possible to minimize cost on every call",
       "Always send the entire document so nothing is ever omitted",
+      "Trim as aggressively as possible to minimize cost on every call",
       "Keep the context the task genuinely needs even at higher token cost; trim only clearly-irrelevant text",
       "Switch to the cheapest model so token price stops mattering"
     ],

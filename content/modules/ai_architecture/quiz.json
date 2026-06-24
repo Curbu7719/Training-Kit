@@ -2,13 +2,13 @@
   {
     "prompt": "In a typical LLM application architecture, which layer is responsible for building the prompt, deciding which model to call, and enforcing rules?",
     "choices": [
+      "The model provider",
       "The client (browser/mobile app)",
-      "The app / orchestration layer",
       "The vector store",
-      "The model provider"
+      "The app / orchestration layer"
     ],
     "correct": [
-      1
+      3
     ],
     "points": 1,
     "explanation": "The app/orchestration layer is where prompts are assembled, model routing decisions are made, and rules are enforced; the client and model provider are deliberately kept thin and dumb. The vector store only stores and retrieves embeddings, so it can't own that logic."
@@ -16,9 +16,9 @@
   {
     "prompt": "Which of the following are cross-cutting concerns that apply across the whole AI system rather than to a single component? (Select all that apply.)",
     "choices": [
-      "Keeping secrets and API keys server-side",
-      "Privacy and data governance for PII",
       "Reliability and fallbacks when the provider fails",
+      "Privacy and data governance for PII",
+      "Keeping secrets and API keys server-side",
       "Choosing the exact wording of one specific prompt"
     ],
     "correct": [
@@ -32,13 +32,13 @@
   {
     "prompt": "A vector store is included in many architectures primarily to enable which capability?",
     "choices": [
-      "Retrieving relevant documents to ground the model's answers (RAG)",
       "Storing the model's weights for faster inference",
-      "Encrypting the client's network traffic",
-      "Billing users per token automatically"
+      "Billing users per token automatically",
+      "Retrieving relevant documents to ground the model's answers (RAG)",
+      "Encrypting the client's network traffic"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "A vector store enables RAG by retrieving relevant documents to ground the model's answers in real data. It does not hold model weights (those live with the provider), encrypt traffic, or handle billing."
@@ -46,15 +46,15 @@
   {
     "prompt": "An architect insists the team call the LLM through an internal interface rather than calling the provider's SDK directly throughout the codebase. Which benefits does this provider-abstraction approach provide? (Select all that apply.)",
     "choices": [
+      "It removes the need for any guardrails or output checks",
       "Swapping providers or models becomes a configuration change rather than a rewrite",
-      "It makes it easier to add routing (small model for easy tasks, large for hard ones)",
       "It centralizes a single place to add a fallback when the provider fails",
-      "It removes the need for any guardrails or output checks"
+      "It makes it easier to add routing (small model for easy tasks, large for hard ones)"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "A provider abstraction makes swapping models a config change, gives one place to add routing, and centralizes where a fallback wraps the call. It does not remove the need for guardrails or output checks — those are a separate safety concern that still applies regardless of provider."
@@ -62,13 +62,13 @@
   {
     "prompt": "Coding straight to one provider's SDK ships fastest; a provider-abstraction layer adds work but enables switching later. For an early MVP racing to validate the idea, which *trade-off* is reasonable?",
     "choices": [
-      "Build a full multi-provider abstraction layer up front so you're never locked in",
       "Hard-code the provider everywhere and never plan for change",
       "Ship directly to one provider now, keeping a thin seam — don't over-engineer abstraction before product-market fit",
+      "Build a full multi-provider abstraction layer up front so you're never locked in",
       "Support three providers from day one to be safe"
     ],
     "correct": [
-      2
+      1
     ],
     "points": 1,
     "explanation": "For an early MVP, shipping to one provider while leaving a thin seam balances speed against future flexibility without over-engineering. Building a full multi-provider layer or supporting three providers up front wastes effort before product-market fit, while hard-coding everywhere leaves no escape hatch later."

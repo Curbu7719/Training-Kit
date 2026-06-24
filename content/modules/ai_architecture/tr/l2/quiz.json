@@ -2,36 +2,48 @@
   {
     "prompt": "Bir ekip, minimum riskle bir model sağlayıcıdan diğerine yükseltmek istiyor. Hangi uygulamalar bir kalite regresyonunun kullanıcılara ulaşma olasılığını azaltır? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Herhangi bir yayılımdan önce yeni modeli sabit bir çevrimdışı eval setine karşı çalıştırmak",
-      "Yeni modeli canlı trafiğe karşı shadow etmek, yanıtlarını kullanıcılara göstermeden loglamak",
       "Hızlı bir rollback ile bir feature flag'in arkasında kademeli olarak yayın yapmak (örn. %5, sonra %25, sonra %100)",
+      "Yeni modeli canlı trafiğe karşı shadow etmek, yanıtlarını kullanıcılara göstermeden loglamak",
+      "Herhangi bir yayılımdan önce yeni modeli sabit bir çevrimdışı eval setine karşı çalıştırmak",
       "Yeni modeli hemen kullanıcıların %100'üne dağıtmak ve şikayetleri izlemek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Çevrimdışı eval'ler, shadowing ve hızlı rollback'li kademeli feature flag yayını; regresyonları kullanıcı maruziyetini sınırlayarak veya önceden yakalar. Hemen %100'e dağıtmak ise her kullanıcıyı tek seferde ve güvenlik ağı olmadan bir regresyona maruz bırakır ki kaçınılmak istenen risk tam olarak budur."
   },
   {
     "prompt": "Bir sağlayıcının API'si aralıklı olarak zaman aşımına uğruyor ve zaman zaman hatalı biçimlendirilmiş output döndürüyor. Hangi güvenilirlik desenleri bu başarısızlık modlarını doğrudan ele alır? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Yavaş bir sağlayıcının kullanıcıyı askıda bırakmaması için çağrı başına timeout'lar",
-      "Geçici hatalar için backoff'lu sınırlı retry'lar",
+      "Hatalı biçimlendirilmiş output'un doğrudan geçmesi için output guardrail'ini kaldırmak",
       "Bir circuit breaker artı bir degraded mod (yedek model veya zarif mesaj)",
-      "Hatalı biçimlendirilmiş output'un doğrudan geçmesi için output guardrail'ini kaldırmak"
+      "Geçici hatalar için backoff'lu sınırlı retry'lar",
+      "Yavaş bir sağlayıcının kullanıcıyı askıda bırakmaması için çağrı başına timeout'lar"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Timeout'lar, backoff'lu sınırlı retry'lar ve degraded mod'lu bir circuit breaker; yavaş ve geçici sağlayıcı hatalarını doğrudan sınırlar. Output guardrail'ini kaldırmak ise tam tersini yapar — hatalı output'u yakalamak yerine kullanıcılara ulaşmasına izin verir."
   },
   {
     "prompt": "Bir mimar, sağlayıcı soyutlamasının yalnızca daha temiz kod değil, birkaç başka yeteneğin de ön koşulu olduğunu söylüyor. İyi tasarlanmış bir model soyutlaması hangi yetenekleri doğrudan mümkün kılar? (Geçerli olan hepsini seçin.)",
     "choices": [
-      "Özellik kodunu değiştirmeden birincil bir sağlayıcıdan ikincil birine failover yapmak",
+      "Modelin asla halüsinasyon görmemesini garanti etmek",
       "Kolay istekleri daha ucuz bir modele, zor olanları daha büyük bir modele yönlendirmek",
-      "Fallback'lerin ve güvenilirlik mantığının model çağrısını sardığı yeri merkezileştirmek",
-      "Modelin asla halüsinasyon görmemesini garanti etmek"
+      "Özellik kodunu değiştirmeden birincil bir sağlayıcıdan ikincil birine failover yapmak",
+      "Fallback'lerin ve güvenilirlik mantığının model çağrısını sardığı yeri merkezileştirmek"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "Bir model soyutlaması; failover'ı, zorluğa göre routing'i ve fallback ile güvenilirlik mantığının çağrıyı sardığı merkezi bir yeri doğrudan mümkün kılar. Modelin asla halüsinasyon görmemesini garanti edemez — bu, soyutlamanın üzerinde hiçbir kontrolü olmayan içsel bir model davranışıdır."
   }

@@ -2,36 +2,46 @@
   {
     "prompt": "Vibe-code edilmiş bir fonksiyon derleniyor, hatasız çalışıyor ve temiz idiomatic kod gibi okunuyor, ama negatif-indirim kenar durumu için yanlış toplamı döndürüyor. Bu hangi hata modlarını gösterir ve onları güvenilir biçimde ne sınırlar? Geçerli olan HER ŞEYİ seçin.",
     "choices": [
-      "Bu makul-ama-bozuktur: bir kenar durumunu yanlış ele alan akıcı, kendinden emin kod",
       "Bu sessiz yanlış koddur: çalışır ve bir değer döndürür, ama değer yanlıştır",
+      "Bu makul-ama-bozuktur: bir kenar durumunu yanlış ele alan akıcı, kendinden emin kod",
       "Diff'i spec'in kenar durumlarına karşı okumak artı bir davranışsal test bunu güvenilir biçimde yakalar",
       "'Çökmeden çalışıyor'u doğrulamak kodu doğru olarak nitelendirmek için yeterlidir"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Kod hem makul-ama-bozuk hem de sessiz yanlış koddur ve yalnızca diff'i spec'e karşı okumak artı bir davranışsal test kötü kenar durumunu güvenilir biçimde ortaya çıkarır. 'Çökmeden çalışıyor' doğruluğun kanıtı değildir, çünkü yanlış kod yine de bir değer döndürür."
   },
   {
     "prompt": "Her vibe-coding disiplini neden genel bir ritüel olarak değil belirli bir hata moduna karşı bir savunma olarak en iyi anlaşılır? Geçerli olan HER ŞEYİ seçin.",
     "choices": [
-      "Davranışsal test'ler sessiz yanlış kodu hedeflerken, diff'i okumak makul-ama-bozuk mantığı hedefler",
-      "Küçük, tek amaçlı diff'ler kapsam kaymasını izole eder ve 'anlamadığını gönderme' kuralı aşınan anlayışı sınırlar",
       "Disiplinler katmanlı savunmalar gibi birleşir, yani birini düşürmek sınırladığı hatanın geçmesine izin verir",
+      "Küçük, tek amaçlı diff'ler kapsam kaymasını izole eder ve 'anlamadığını gönderme' kuralı aşınan anlayışı sınırlar",
+      "Davranışsal test'ler sessiz yanlış kodu hedeflerken, diff'i okumak makul-ama-bozuk mantığı hedefler",
       "Tek başına herhangi bir disiplin, AI tarafından üretilen hiçbir hatanın asla üretime ulaşamayacağını garanti eder"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
     "explanation": "Her disiplin farklı bir hata moduna karşılık gelir ve katmanlı savunmalar gibi üst üste binerler, bu yüzden birini düşürmek kapadığı boşluğu yeniden açar. Tek bir disiplin garanti değildir, çünkü her biri yalnızca kendi belirli riskini sınırlar."
   },
   {
     "prompt": "Bir mimar, takımın hızlı hareket etmek için birçok büyük, okunmamış AI diff'i kabul ettiği bir sprint'i review ediyor ve şimdi kimse bir çekirdek modülün nasıl çalıştığını tam olarak açıklayamıyor. Bunu çerçevelemenin ve ele almanın doğru yolu nedir?",
     "choices": [
+      "Bu zararsızdır çünkü version control kodun her zaman sonradan geri alınabileceği anlamına gelir",
       "Bu, risk olarak biriken aşınan anlayıştır; okuyarak, test ederek ve tutarlılığa doğru refactor ederek zihinsel modeli geri kazanın",
       "Bu ideal hızdır; uygulama hâlâ başladığı sürece okunmamış diff'leri kabul etmeye devam edin",
-      "Bu tamamen bir araç sorunudur; AI modellerini değiştirin ve anlayış geri gelir",
-      "Bu zararsızdır çünkü version control kodun her zaman sonradan geri alınabileceği anlamına gelir"
+      "Bu tamamen bir araç sorunudur; AI modellerini değiştirin ve anlayış geri gelir"
     ],
-    "correct": [0],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "Okunmamış diff'leri kabul etmek takımın zihinsel modelini aşındırır; bu, okuyarak, test ederek ve tutarlılığa doğru refactor ederek geri ödediğiniz biriken bir risktir. Model değiştirmek ya da version control'e güvenmek kaybedilen anlayışı yeniden inşa etmez."
   }

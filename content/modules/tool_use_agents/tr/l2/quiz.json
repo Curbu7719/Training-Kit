@@ -3,35 +3,45 @@
     "prompt": "Bir agent'ın tool'u, arkasındaki servis kısa süre devre dışı kaldığında ham bir HTTP 500 döndürüyor. Bu, agent'ın güvenilirliğine neden zarar verir ve daha iyi tasarım nedir? Uygun olanların tümünü seçin.",
     "choices": [
       "Model, geçici bir kesintiyi gerçekten eksik bir kayıttan ayırt edemez, bu yüzden yanlış eylemi alabilir",
-      "{\"status\":\"unavailable\",\"retryable\":true} gibi yapılandırılmış bir sonuç, modelin pes etmek yerine yeniden denemesini sağlar",
       "Tipli, yorumlanabilir bir hata döndürmek, modelin bir sonraki kararını daha güvenilir kılar",
+      "{\"status\":\"unavailable\",\"retryable\":true} gibi yapılandırılmış bir sonuç, modelin pes etmek yerine yeniden denemesini sağlar",
       "Ham hatalar sorun değil çünkü maksimum-iterasyon sınırı her şeyi halleder"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      0,
+      1,
+      2
+    ],
     "points": 1,
-    "explanation": "Ham bir 500 belirsizdir, bu yüzden model bir kesintiyi eksik veriyle karıştırabilir; tipli, yeniden denenebilir bir sonuç doğru bir sonraki eylemi seçmesini sağlar. Son seçenek yanlıştır: iterasyon sınırı yalnızca kontrolsüz döngüleri durdurur, modele bir hatayı nasıl yorumlayacağını söylemez."
+    "explanation": "Ham bir 500 belirsizdir, bu yüzden model bir kesintiyi eksik veriyle karıştırabilir; tipli, yeniden denenebilir bir sonuç doğru bir sonraki eylemi seçmesini sağlar. İterasyon sınırı öneren seçenek burada yanlıştır: sınır yalnızca kontrolsüz döngüleri durdurur, modele bir hatayı nasıl yorumlayacağını söylemez."
   },
   {
     "prompt": "Bir iade agent'ının büyük hatalı iadelere karşı tek koruması 'yalnızca geçerli siparişleri iade et' diyen bir prompt talimatıdır, yine de yanlış bir 5.000 $ iade yaptı. Doğru mimari düzeltme nedir?",
     "choices": [
-      "Bir eşiğin üzerindeki iadeleri, prompt'ta değil uygulamada uygulanan bir insan-onay kapısının arkasına koyun",
       "Prompt'u daha sert biçimde yeniden ifade edin ve büyük harfler ekleyin",
-      "Modelin kendini düzeltmesi için daha çok şansı olsun diye maksimum-iterasyon sınırını yükseltin",
-      "Modele dikkatli olmasını söyleyen kibar bir talimat ekleyin"
+      "Bir eşiğin üzerindeki iadeleri, prompt'ta değil uygulamada uygulanan bir insan-onay kapısının arkasına koyun",
+      "Modele dikkatli olmasını söyleyen kibar bir talimat ekleyin",
+      "Modelin kendini düzeltmesi için daha çok şansı olsun diye maksimum-iterasyon sınırını yükseltin"
     ],
-    "correct": [0],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "Bir prompt talimatı modelin görmezden gelebileceği bir öneridir; yüksek etkili eylemler uygulama kodunda uygulanan sert bir kapı gerektirir. Prompt'u yeniden ifade etmek, iterasyon eklemek veya kibarca rica etmek, güvensiz eylemi gerçek yetkilendirme olmadan erişilebilir bırakır."
   },
   {
     "prompt": "Bir maksimum-iterasyon sınırı yerinde, yine de bir servis kapalı olduğunda agent pes etmeden önce on model çağrısı israf ediyor. Hangi iyileştirmeler bunu daha zarif şekilde ele alır? Uygun olanların tümünü seçin.",
     "choices": [
-      "İlerleme olmamasını algılayın, örneğin aynı tool'un aynı argümanlarla tekrar tekrar çağrılması",
+      "Agent denemeye devam edebilsin diye iterasyon sınırını tamamen kaldırın",
       "Geçici (geri çekilmeyle yeniden dene) ile kalıcı (dur ve raporla) başarısızlıkları ayırın",
-      "Her iterasyonun planını, tool'unu, argümanlarını ve gözlemini loglayın ki çalıştırma izlenebilsin",
-      "Agent denemeye devam edebilsin diye iterasyon sınırını tamamen kaldırın"
+      "İlerleme olmamasını algılayın, örneğin aynı tool'un aynı argümanlarla tekrar tekrar çağrılması",
+      "Her iterasyonun planını, tool'unu, argümanlarını ve gözlemini loglayın ki çalıştırma izlenebilsin"
     ],
-    "correct": [0, 1, 2],
+    "correct": [
+      1,
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "İlerleme olmamasını algılamak, geçici ile kalıcı başarısızlıkları sınıflandırmak ve her adımı loglamak, agent'ın erken durmasını ve hata ayıklanmasını sağlar. Sınırı kaldırmak tam tersini yapar, sonsuza dek döngüde kalmasına izin verir, ki bu kaçınmaya çalıştığınız başarısızlıktır."
   }

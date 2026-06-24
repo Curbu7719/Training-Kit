@@ -110,6 +110,16 @@ const tr = {
   'lesson.saving': 'Kaydediliyor…',
   'lesson.saveError': 'İlerleme kaydedilemedi',
   'lesson.goToLesson': 'Derse git: {title}',
+  'lesson.l1Passed.title': 'L1 tamamlandı — tebrikler!',
+  'lesson.l1Passed.desc': 'Bu modülün L2 derinlemesine bölümü açıldı. Hızını koru.',
+  'lesson.continueL2': 'L2’ye devam et — Derinlemesine',
+  'lesson.modulePassed.title': 'Modül tamamlandı!',
+  'lesson.modulePassed.desc': 'İlerlemen kaydedildi ve kazanılan rozetler verildi.',
+  'lesson.continueNext': 'Devam: {title}',
+  'lesson.allCoreDone.title': 'Tüm çekirdek modüller tamamlandı!',
+  'lesson.allCoreDone.desc': 'Rolün için tüm çekirdek modülleri bitirdin. Sırada: sınav.',
+  'lesson.notPassed.title': 'Az kaldı',
+  'lesson.notPassed.desc': 'Bu seviyede %70’in altında kaldın. Quiz veya alıştırmayı tekrar deneyip geçebilirsin.',
 
   // Lesson kind labels
   'lesson.kind.concept': 'Kavram',

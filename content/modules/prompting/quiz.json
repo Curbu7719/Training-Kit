@@ -2,13 +2,13 @@
   {
     "prompt": "A developer asks a model to 'write some tests for my function' but pastes no code. Why does this so often produce useless output?",
     "choices": [
+      "Wording only affects tone, never which framework or cases the model chooses",
       "The model only sees the text you send, so without the code and framework it invents a signature and guesses the tests",
       "Longer prompts always produce more accurate tests regardless of content",
-      "The model reads your repository and CI config automatically",
-      "Wording only affects tone, never which framework or cases the model chooses"
+      "The model reads your repository and CI config automatically"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "The model only sees what you put in the prompt, so without the actual code and framework it has to invent a signature and guess the tests. It does not read your repository or CI on its own, and wording affects far more than tone."
@@ -16,15 +16,15 @@
   {
     "prompt": "Which statements about the system (developer) message versus the user message are correct? Select all that apply.",
     "choices": [
-      "Durable rules like the test framework and coding standards belong in the system message and persist across turns",
       "The specific request for this function or this user story belongs in the user message",
-      "The user message takes priority over the system message",
-      "Safety policy and persona are best placed in the system message"
+      "Durable rules like the test framework and coding standards belong in the system message and persist across turns",
+      "Safety policy and persona are best placed in the system message",
+      "The user message takes priority over the system message"
     ],
     "correct": [
       0,
       1,
-      3
+      2
     ],
     "points": 1,
     "explanation": "Durable rules (framework, standards, safety policy, persona) belong in the system message and persist across turns, while the specific request goes in the user message. The system message takes priority over the user message, so the claim that the user message wins is wrong."
@@ -32,13 +32,13 @@
   {
     "prompt": "When prompting a model to refactor a function, why wrap the existing code in delimiters such as triple backticks or XML-style tags?",
     "choices": [
-      "To separate your instructions from the code the model should process, so a comment in the code isn't read as an instruction",
       "To make the prompt shorter",
-      "To translate the code into another language",
-      "To translate the code into another language automatically"
+      "To translate the code into another language automatically",
+      "To separate your instructions from the code the model should process, so a comment in the code isn't read as an instruction",
+      "To translate the code into another language"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Delimiters clearly separate your instructions from the code the model should process, so an in-code comment isn't mistaken for an instruction. They don't shorten the prompt, speed up the model, or translate the code."
@@ -46,13 +46,13 @@
   {
     "prompt": "A Project Manager prompts a model to turn a stakeholder request into a user story, but the output keeps coming back as a loose paragraph with no acceptance criteria, breaking the team's backlog template. Which prompt change most directly fixes this?",
     "choices": [
-      "Specify the exact output template ('As a... I want... so that...' plus a numbered acceptance-criteria list) and show one example story in that format",
+      "Re-send the request repeatedly until a well-formatted story appears",
       "Tell the model to format it however it prefers",
-      "Ask the model to be 'a bit more structured' without giving a template",
-      "Re-send the request repeatedly until a well-formatted story appears"
+      "Specify the exact output template ('As a... I want... so that...' plus a numbered acceptance-criteria list) and show one example story in that format",
+      "Ask the model to be 'a bit more structured' without giving a template"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Specifying the exact output template and showing one example in that format directly steers the model to the structure you need. Vague asks ('be more structured' or 'however you prefer') don't reliably produce the template, and re-sending the same prompt just repeats the problem."
@@ -60,9 +60,9 @@
   {
     "prompt": "Few-shot examples improve format adherence but add tokens to every call. For a simple, unambiguous extraction task run millions of times a day, which *trade-off* is better?",
     "choices": [
-      "Add several few-shot examples to every call for maximum reliability",
-      "Add one long, elaborate example so the model never misformats",
       "Switch to a larger model instead of giving any examples",
+      "Add one long, elaborate example so the model never misformats",
+      "Add several few-shot examples to every call for maximum reliability",
       "Go zero-shot with a crisp instruction — the task is simple, so few-shot's per-call token cost isn't worth it at this scale"
     ],
     "correct": [

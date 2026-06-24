@@ -2,13 +2,13 @@
   {
     "prompt": "A developer pastes a production stack trace containing real customer emails and a live API key into a free consumer chatbot. Why is this a security and privacy problem even if the chatbot's answer is correct?",
     "choices": [
-      "Because the prompt itself leaves your control — the PII and secret may be retained, logged, used for training, or stored in another region",
-      "Because consumer chatbots give less accurate debugging answers than enterprise ones",
+      "Because stack traces are copyrighted and cannot be shared",
       "Because pasting a long stack trace uses too many tokens and slows the model",
-      "Because stack traces are copyrighted and cannot be shared"
+      "Because consumer chatbots give less accurate debugging answers than enterprise ones",
+      "Because the prompt itself leaves your control — the PII and secret may be retained, logged, used for training, or stored in another region"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Correctness of the answer is irrelevant: once the PII and live key leave your boundary they can be retained, logged, trained on, or moved across regions, all outside your control. The other options are about quality or token cost, not the underlying privacy exposure."
@@ -16,15 +16,15 @@
   {
     "prompt": "Select ALL of the following that are genuine security or privacy risks when using AI in the SDLC.",
     "choices": [
+      "Asking the model to format a code snippet that contains no sensitive data, using an approved zero-retention tool",
       "Sending customer PII or proprietary source code to a provider that retains prompts or trains on them",
       "A prompt injection hidden in a document that tricks the model into exfiltrating data",
-      "Developers pasting code into unsanctioned consumer chatbots (shadow AI)",
-      "Asking the model to format a code snippet that contains no sensitive data, using an approved zero-retention tool"
+      "Developers pasting code into unsanctioned consumer chatbots (shadow AI)"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "The first three each leak or expose sensitive data, through retention, injection, or unmanaged shadow-AI use. The last is safe because it sends no sensitive data and uses an approved zero-retention tool, so it is not a risk."
@@ -32,15 +32,15 @@
   {
     "prompt": "Your team wants to stop developers from quietly pasting code into random chatbots (shadow AI). Which approach best brings this into the light? Select ALL that apply.",
     "choices": [
-      "Provide a sanctioned AI tool with an enterprise agreement and zero-retention settings",
       "Publish a clear policy on what data may and may not be sent to AI tools",
-      "Educate developers on the risks instead of relying only on a blanket ban",
-      "Block all AI tools at the firewall and assume the problem is solved"
+      "Block all AI tools at the firewall and assume the problem is solved",
+      "Provide a sanctioned AI tool with an enterprise agreement and zero-retention settings",
+      "Educate developers on the risks instead of relying only on a blanket ban"
     ],
     "correct": [
       0,
-      1,
-      2
+      2,
+      3
     ],
     "points": 1,
     "explanation": "Giving a safe sanctioned tool, a clear policy, and education channels demand into the open where it can be governed. A firewall-only ban just pushes developers to personal devices, so the shadow use continues out of sight."
@@ -48,13 +48,13 @@
   {
     "prompt": "Before sending a debugging prompt to an approved AI tool, which single practice most directly reduces the privacy risk of the prompt?",
     "choices": [
-      "Redact PII and secrets from the text so only the minimum needed to diagnose the bug is sent",
+      "Send the full trace quickly so the on-call rotation isn't delayed",
       "Choose a model with a larger context window so it reads more of the trace",
       "Switch to a larger model so the answer is more thorough",
-      "Send the full trace quickly so the on-call rotation isn't delayed"
+      "Redact PII and secrets from the text so only the minimum needed to diagnose the bug is sent"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "Redacting PII and secrets applies data minimization, so even an approved tool only ever sees what it needs. A bigger context window or a larger model changes capability, not exposure, and sending the full trace increases the risk rather than reducing it."
@@ -62,13 +62,13 @@
   {
     "prompt": "Self-hosting keeps data in-house but costs more and lags on model quality; a hosted API under a no-retention agreement is cheaper and stronger but data leaves your network. For moderately-sensitive internal docs covered by a vendor DPA, which *trade-off* is reasonable?",
     "choices": [
-      "Always self-host; sensitive data must never leave the building under any terms",
       "Paste it into any public tool — a DPA makes everything safe",
-      "Use the hosted API under the no-retention/DPA terms — proportionate for moderate sensitivity; self-hosting would be overkill here",
-      "Email the vendor and ask them to delete it later"
+      "Email the vendor and ask them to delete it later",
+      "Always self-host; sensitive data must never leave the building under any terms",
+      "Use the hosted API under the no-retention/DPA terms — proportionate for moderate sensitivity; self-hosting would be overkill here"
     ],
     "correct": [
-      2
+      3
     ],
     "points": 1,
     "explanation": "For moderate sensitivity already covered by a DPA, the hosted no-retention API is a proportionate control, and self-hosting would be costly overkill. A blanket self-host rule ignores the contract, a DPA does not make public tools safe, and after-the-fact deletion requests do not prevent the initial exposure."

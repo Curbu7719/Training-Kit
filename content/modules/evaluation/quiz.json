@@ -2,13 +2,13 @@
   {
     "prompt": "Why can't a QA tester verify an AI release-notes feature with a normal assertEquals test the way they would a deterministic function?",
     "choices": [
-      "The same prompt can produce different wording each run, and there is rarely one single correct output string",
+      "Deterministic functions cannot be tested at all",
       "AI features never produce incorrect outputs, so there is nothing to test",
       "It is impossible to measure latency or cost for AI features",
-      "Deterministic functions cannot be tested at all"
+      "The same prompt can produce different wording each run, and there is rarely one single correct output string"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "AI output is non-deterministic and there is rarely one exact correct string, so assertEquals on a fixed value fails even when the answer is good. The other options are false: AI does produce errors, latency and cost are measurable, and deterministic functions are testable."
@@ -16,15 +16,15 @@
   {
     "prompt": "Which of the following are evaluation APPROACHES (ways to gather judgments), as opposed to metrics? (Select all that apply.)",
     "choices": [
-      "Golden / offline datasets",
-      "Faithfulness / groundedness",
       "Human review",
-      "LLM-as-judge"
+      "LLM-as-judge",
+      "Golden / offline datasets",
+      "Faithfulness / groundedness"
     ],
     "correct": [
       0,
-      2,
-      3
+      1,
+      2
     ],
     "points": 1,
     "explanation": "Golden datasets, human review, and LLM-as-judge are all ways of gathering judgments, so they are approaches. Faithfulness/groundedness is a metric, the thing being measured, not a way to collect the judgment."
@@ -32,13 +32,13 @@
   {
     "prompt": "An AI summarizer sometimes adds a feature to the release note that appeared in no merged PR. Which metric most directly captures this problem?",
     "choices": [
-      "Faithfulness / groundedness",
-      "Latency",
       "Cost per call",
-      "Relevance"
+      "Relevance",
+      "Faithfulness / groundedness",
+      "Latency"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "Inventing a feature that no PR contains is an unsupported claim, which is exactly what faithfulness/groundedness measures. Latency and cost are performance metrics, and relevance asks whether content is on-topic, not whether it is actually supported by the source."
@@ -46,14 +46,14 @@
   {
     "prompt": "A PM and QA tester want to ship a prompt change to an AI feature without silently degrading quality. Which practices support safe, evidence-based iteration? (Select all that apply.)",
     "choices": [
-      "Rerun a golden-dataset eval suite after the change and keep it only if scores improve with no regression",
-      "Wire the eval suite into CI as a regression gate that runs before each release",
       "Judge the change by how good it looks on two or three hand-picked demos",
-      "Track latency and cost alongside quality so a quality gain isn't hiding a speed or cost regression"
+      "Wire the eval suite into CI as a regression gate that runs before each release",
+      "Track latency and cost alongside quality so a quality gain isn't hiding a speed or cost regression",
+      "Rerun a golden-dataset eval suite after the change and keep it only if scores improve with no regression"
     ],
     "correct": [
-      0,
       1,
+      2,
       3
     ],
     "points": 1,
@@ -62,13 +62,13 @@
   {
     "prompt": "Human review is the most trustworthy eval but slow and costly; an LLM judge is fast and cheap but biased. For a gate that must run on *every* pull request, which *trade-off* fits — with what safeguard?",
     "choices": [
-      "LLM-as-judge for speed, validated against a sample of human labels so you trust its scores",
-      "Full human review on every PR; quality must never be automated",
       "Skip evaluation in CI and rely on production complaints",
+      "Full human review on every PR; quality must never be automated",
+      "LLM-as-judge for speed, validated against a sample of human labels so you trust its scores",
       "Trust the LLM judge's raw scores without ever checking them against humans"
     ],
     "correct": [
-      0
+      2
     ],
     "points": 1,
     "explanation": "A per-PR gate needs the speed of an LLM judge, and calibrating it against a sample of human labels keeps its scores trustworthy. Human review on every PR does not scale, skipping evaluation defeats the gate, and trusting raw judge scores ignores its known biases."

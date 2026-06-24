@@ -2,13 +2,13 @@
   {
     "prompt": "Which statement best captures the difference between a real value metric and a vanity metric for an AI system?",
     "choices": [
-      "A real value metric ties to a business outcome (time, money, risk, quality); a vanity metric looks impressive but does not",
-      "A vanity metric is always a larger number than a real value metric",
+      "There is no difference; both measure how often the model is called",
       "A real value metric is anything reported in a dashboard; a vanity metric is anything reported in a slide",
-      "There is no difference; both measure how often the model is called"
+      "A vanity metric is always a larger number than a real value metric",
+      "A real value metric ties to a business outcome (time, money, risk, quality); a vanity metric looks impressive but does not"
     ],
     "correct": [
-      0
+      3
     ],
     "points": 1,
     "explanation": "A real value metric connects to a business outcome like time saved, money earned, risk reduced, or quality improved, whereas a vanity metric (e.g. call count) can look impressive without proving any outcome. Size or where it is reported does not make a metric real value; the link to outcome does."
@@ -16,29 +16,29 @@
   {
     "prompt": "Select ALL of the following that are signals it is time to KILL (stop) an AI pilot rather than scale it.",
     "choices": [
-      "Its value metric never clears the pre-agreed threshold despite real effort",
-      "Adoption stays low even after training and support",
+      "The pilot cleared its value threshold and agents keep using it without being told to",
       "The cost to run it at higher volume exceeds the benefit it delivers",
-      "The pilot cleared its value threshold and agents keep using it without being told to"
+      "Its value metric never clears the pre-agreed threshold despite real effort",
+      "Adoption stays low even after training and support"
     ],
     "correct": [
-      0,
       1,
-      2
+      2,
+      3
     ],
     "points": 1,
-    "explanation": "Failing the value threshold, persistently low adoption, and costs that outweigh benefits at scale all signal a pilot should be stopped. The last option describes a pilot that cleared its threshold with strong organic adoption, which is a signal to scale, not kill."
+    "explanation": "Failing the value threshold, persistently low adoption, and costs that outweigh benefits at scale all signal a pilot should be stopped. The option describing a pilot that cleared its threshold with strong organic adoption is a signal to scale, not kill."
   },
   {
     "prompt": "Put the stages of taking an AI capability from idea to wide use in the correct order.",
     "choices": [
+      "Production, then scale, then pilot",
       "Pilot, then production, then scale",
       "Scale, then pilot, then production",
-      "Production, then scale, then pilot",
       "Scale, then production, then pilot"
     ],
     "correct": [
-      0
+      1
     ],
     "points": 1,
     "explanation": "You pilot to prove value, move to production to make it reliable, then scale to wide use. Scaling before you have proven value or a stable production setup risks spreading a tool that does not work or cannot be supported."
@@ -47,12 +47,12 @@
     "prompt": "A PM/Product Owner reports that an AI drafting tool is technically working and 'available to all 40 agents,' but realised value is near zero. Which response best reflects how this role should use AI value and scaling thinking?",
     "choices": [
       "Conclude the AI failed and shut it down immediately, since availability did not create value",
+      "Increase the model's accuracy, since accuracy is the only thing that drives value",
       "Treat this as an adoption gap and lead change management — training, trust, clear workflows — while measuring active and repeat users, not just availability",
-      "Report 'available to all agents' as the success metric and consider the rollout complete",
-      "Increase the model's accuracy, since accuracy is the only thing that drives value"
+      "Report 'available to all agents' as the success metric and consider the rollout complete"
     ],
     "correct": [
-      1
+      2
     ],
     "points": 1,
     "explanation": "Availability is not adoption; value appears only when people actually use the tool, so the PM should drive change management and measure active and repeat users. Shutting it down or just raising accuracy ignores the real cause, which is an adoption gap."
@@ -61,12 +61,12 @@
     "prompt": "A pilot shows modest but real value, yet the unit economics look shaky at full scale. Which scaling *trade-off* is the disciplined choice?",
     "choices": [
       "Roll out to everyone immediately — it works, so scale is the obvious next step",
+      "Keep it in pilot forever to avoid the decision",
       "Fix the unit economics first (or scale a narrow high-value slice) before a full rollout",
-      "Kill it outright; modest value is never worth pursuing",
-      "Keep it in pilot forever to avoid the decision"
+      "Kill it outright; modest value is never worth pursuing"
     ],
     "correct": [
-      1
+      2
     ],
     "points": 1,
     "explanation": "When unit economics are shaky, a full rollout can multiply losses, so the disciplined move is to fix the economics or scale only a narrow high-value slice first. Rolling out immediately ignores the cost risk, and killing real value or stalling in pilot wastes a genuine opportunity."

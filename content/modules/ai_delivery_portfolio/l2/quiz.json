@@ -2,36 +2,43 @@
   {
     "prompt": "A portfolio manager reports on AI-driven development to the steering committee. Which of these is a vanity metric that should NOT be the headline?",
     "choices": [
-      "Cycle time from idea to merged-and-verified across the teams",
       "Change-failure and defect-escape rates for shipped work",
-      "The total lines of code the assistants generated this quarter",
-      "Value delivered against each initiative's agreed outcome"
+      "Cycle time from idea to merged-and-verified across the teams",
+      "Value delivered against each initiative's agreed outcome",
+      "The total lines of code the assistants generated this quarter"
     ],
-    "correct": [2],
+    "correct": [
+      3
+    ],
     "points": 1,
     "explanation": "Lines generated measures activity, not outcome — and AI inflates it effortlessly, so it's a classic vanity metric. Cycle time, change-failure/defect-escape rates, and value delivered tie to real outcomes and belong in the portfolio view; generated-code volume does not."
   },
   {
     "prompt": "Two teams in your AI-driven org independently build the same setup: assistant config, golden patterns, secure scanning of generated code, and review automation. From a portfolio standpoint, what is usually the better investment? (Select all that apply.)",
     "choices": [
-      "Fund the AI workflow once as a shared platform both teams adopt",
+      "Building it twice is fine because duplicated AI tooling has no downside",
       "Let each team rebuild its own copy so they stay fully independent",
       "A shared platform also makes every future team faster and safer and keeps risk controls consistent",
-      "Building it twice is fine because duplicated AI tooling has no downside"
+      "Fund the AI workflow once as a shared platform both teams adopt"
     ],
-    "correct": [0, 2],
+    "correct": [
+      2,
+      3
+    ],
     "points": 1,
     "explanation": "When several teams need the same capability, funding it once as a shared platform avoids paying twice and makes every current and future team faster, safer, and more consistent. Letting each team rebuild assistant config and secure scanning is waste and produces inconsistent risk controls across the portfolio."
   },
   {
     "prompt": "AI assistants make each initiative much cheaper and faster to start. What does this mean for prioritisation and kill discipline in the portfolio?",
     "choices": [
-      "They matter less, because cheap-to-build means you can afford to finish everything",
-      "They matter more, because cheap-to-start invites a sprawl of low-value, lightly-reviewed bets, and a low-value initiative is still low-value once built",
       "They become irrelevant, since AI guarantees every initiative will succeed",
-      "You should fund whichever initiative the assistant generated the most code for"
+      "You should fund whichever initiative the assistant generated the most code for",
+      "They matter more, because cheap-to-start invites a sprawl of low-value, lightly-reviewed bets, and a low-value initiative is still low-value once built",
+      "They matter less, because cheap-to-build means you can afford to finish everything"
     ],
-    "correct": [1],
+    "correct": [
+      2
+    ],
     "points": 1,
     "explanation": "Lower build cost raises, not lowers, the need for discipline: more ideas become viable, so without prioritisation and real kill discipline you accumulate half-finished, lightly-reviewed bets. Cheap-to-start doesn't make a low-value bet worth finishing — and 'the AI already built most of it' is just the sunk-cost trap restated."
   },
@@ -43,7 +50,9 @@
       "Because providers legally require you to use at least three vendors",
       "Because all coding assistants are identical, making the choice irrelevant"
     ],
-    "correct": [1],
+    "correct": [
+      1
+    ],
     "points": 1,
     "explanation": "If the whole org quietly depends on one assistant or model provider, any price hike, outage, deprecation, or quality regression disrupts all delivery simultaneously — that's concentration risk. A provider abstraction where practical, knowledge of switching costs, and a deliberate exit strategy keep it from becoming an org-wide crisis."
   }
