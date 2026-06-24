@@ -4,6 +4,7 @@ import { CheckCircle2, Circle, Clock, Lock, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
+import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
@@ -80,6 +81,35 @@ function PathItem({
   );
 }
 
+// One completion gate (required modules / exam / reflection).
+function ChecklistRow({
+  done,
+  label,
+  action,
+}: {
+  done: boolean;
+  label: string;
+  action?: { label: string; onClick: () => void };
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <span className="flex items-center gap-2 text-sm">
+        {done ? (
+          <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
+        ) : (
+          <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
+        )}
+        <span className={done ? 'text-foreground' : 'text-muted-foreground'}>{label}</span>
+      </span>
+      {action && !done && (
+        <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={action.onClick}>
+          {action.label}
+        </Button>
+      )}
+    </div>
+  );
+}
+
 export function LearningPathPage() {
   const { profile, signOut } = useAuth();
   const { t } = useLanguage();
@@ -89,6 +119,9 @@ export function LearningPathPage() {
   const [path, setPath] = useState<RolePath | null>(null);
   const [moduleIdByCode, setModuleIdByCode] = useState<Record<string, string>>({});
   const [progressByModule, setProgressByModule] = useState<Record<string, Partial<Record<Level, string>>>>({});
+  // Completion gates beyond modules: the exam pass and the written reflection.
+  const [examPassed, setExamPassed] = useState(false);
+  const [reflectionDone, setReflectionDone] = useState(false);
 
   // No role yet → send back to pick one.
   useEffect(() => {
@@ -129,6 +162,17 @@ export function LearningPathPage() {
     } else {
       setPath(null);
     }
+
+    // Completion gates: exam pass + written reflection.
+    try {
+      const [passed, reflection] = await Promise.all([hasPassedExam(), getMyReflection()]);
+      setExamPassed(passed);
+      setReflectionDone(!!reflection);
+    } catch {
+      setExamPassed(false);
+      setReflectionDone(false);
+    }
+
     setLoading(false);
   }, [profile]);
 
@@ -163,6 +207,12 @@ export function LearningPathPage() {
   const role = profile?.learning_role ?? '';
   const { mandatory, recommended } = path ? derivePath(path) : { mandatory: [], recommended: [] };
 
+  // Completion = every required (core) module passed + exam passed + reflection.
+  const coreDone = path ? path.core.filter((rm) => statusFor(rm) === 'passed').length : 0;
+  const requiredDone = path ? coreDone === path.core.length : false;
+  const complete = requiredDone && examPassed && reflectionDone;
+  const reflectionDue = examPassed && !reflectionDone;
+
   return (
     <div className="min-h-screen bg-muted/30">
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
@@ -181,6 +231,28 @@ export function LearningPathPage() {
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-10 space-y-6">
+        {/* Mandatory completion reflection — due after passing the exam */}
+        {reflectionDue && (
+          <button
+            type="button"
+            data-testid="reflection-banner"
+            onClick={() => navigate('/reflection')}
+            className="flex w-full items-center justify-between gap-3 rounded-lg border border-amber-400/60 bg-amber-50 px-4 py-3 text-left transition-colors hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-950/50"
+          >
+            <span>
+              <span className="block text-sm font-semibold text-amber-900 dark:text-amber-200">
+                {t('dashboard.reflection.title')}
+              </span>
+              <span className="block text-xs text-amber-800/80 dark:text-amber-200/70">
+                {t('dashboard.reflection.body')}
+              </span>
+            </span>
+            <span className="shrink-0 rounded-md bg-amber-500 px-3 py-1.5 text-xs font-medium text-white">
+              {t('dashboard.reflection.cta')}
+            </span>
+          </button>
+        )}
+
         <div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h1 className="text-2xl font-bold">{t('path.title')}</h1>
@@ -212,6 +284,39 @@ export function LearningPathPage() {
               </Button>
               <span className="text-xs text-muted-foreground">{t('path.freeChoice')}</span>
             </div>
+
+            {/* Completion = all required modules + exam + reflection */}
+            <section className="rounded-lg border border-border bg-card px-5 py-4">
+              {complete ? (
+                <div
+                  data-testid="training-complete"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-sm font-medium text-success"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  {t('dashboard.complete.title')}
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t('dashboard.complete.checklist')}
+                  </p>
+                  <ChecklistRow
+                    done={requiredDone}
+                    label={t('dashboard.complete.modules', { done: coreDone, total: path.core.length })}
+                  />
+                  <ChecklistRow
+                    done={examPassed}
+                    label={t('dashboard.complete.exam')}
+                    action={!examPassed ? { label: t('exam.cta.button'), onClick: () => navigate('/exam') } : undefined}
+                  />
+                  <ChecklistRow
+                    done={reflectionDone}
+                    label={t('dashboard.complete.reflection')}
+                    action={examPassed && !reflectionDone ? { label: t('dashboard.reflection.cta'), onClick: () => navigate('/reflection') } : undefined}
+                  />
+                </div>
+              )}
+            </section>
 
             {/* Mandatory (L1 of the role's core modules) */}
             <section className="rounded-lg border border-border bg-card px-5 py-4">

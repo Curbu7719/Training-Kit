@@ -10,9 +10,8 @@ import { Progress } from '@/components/ui/progress';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
-import { hasPassedExam, getMyReflection } from '@/lib/api';
 import type { TranslationKey } from '@/lib/locales/en';
-import { ROLE_PATHS, type RoleKey, type RoleModule, type RolePath } from '@/lib/rolePaths';
+import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
 
 // ---------------------------------------------------------------------------
 // Single shared curriculum — one path for everyone (no role splitting).
@@ -203,83 +202,6 @@ function ModuleCard({ code, index, l1Status, l2Status, required, onOpen }: Modul
 }
 
 // ---------------------------------------------------------------------------
-// Role path — a titled list of modules (core or recommended) with status
-// ---------------------------------------------------------------------------
-
-function PathList({
-  titleKey,
-  items,
-  statusFor,
-  onOpen,
-}: {
-  titleKey: TranslationKey;
-  items: RoleModule[];
-  statusFor: (code: string) => { l1: CellStatus; l2: CellStatus; l1Passed: boolean };
-  onOpen: (code: string, level: 'L1' | 'L2') => void;
-}) {
-  const { t } = useLanguage();
-  if (items.length === 0) return null;
-  return (
-    <div>
-      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t(titleKey)}</p>
-      <ul className="space-y-1.5">
-        {items.map((rm) => {
-          const s = statusFor(rm.code);
-          const cell = rm.level === 'L2' ? s.l2 : s.l1;
-          return (
-            <li key={`${rm.code}-${rm.level}`}>
-              <button
-                type="button"
-                onClick={() => onOpen(rm.code, rm.level)}
-                className="flex w-full items-center justify-between gap-2 rounded-md border border-border px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
-              >
-                <span className="flex items-center gap-2">
-                  <span className="text-[10px] font-semibold text-muted-foreground">{rm.level}</span>
-                  <span>{t(`module.${rm.code}.title` as TranslationKey)}</span>
-                </span>
-                <StatusBadge status={cell} />
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// ChecklistRow — one completion gate (required modules / exam / reflection)
-// ---------------------------------------------------------------------------
-
-function ChecklistRow({
-  done,
-  label,
-  action,
-}: {
-  done: boolean;
-  label: string;
-  action?: { label: string; onClick: () => void };
-}) {
-  return (
-    <div className="flex items-center justify-between gap-2">
-      <span className="flex items-center gap-2 text-sm">
-        {done ? (
-          <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
-        ) : (
-          <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
-        )}
-        <span className={done ? 'text-foreground' : 'text-muted-foreground'}>{label}</span>
-      </span>
-      {action && !done && (
-        <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={action.onClick}>
-          {action.label}
-        </Button>
-      )}
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
@@ -292,10 +214,8 @@ export function DashboardPage() {
   const [moduleIdByCode, setModuleIdByCode] = useState<Record<string, string>>({});
   const [progressByModule, setProgressByModule] = useState<Record<string, Partial<Record<Level, ProgressRow>>>>({});
   const [loading, setLoading] = useState(true);
-  // Completion gates beyond modules: the exam pass and the written reflection.
-  const [examPassed, setExamPassed] = useState(false);
-  const [reflectionDone, setReflectionDone] = useState(false);
   // Role path loaded from the DB (admin-managed); falls back to the constant.
+  // Used only to flag which modules are "Required" for the chosen role.
   const [dbPath, setDbPath] = useState<RolePath | null>(null);
 
   const load = useCallback(async () => {
@@ -318,16 +238,6 @@ export function DashboardPage() {
     }
     setProgressByModule(byModule);
     setLoading(false);
-
-    // Track the exam + reflection gates for the completion checklist.
-    try {
-      const [passed, reflection] = await Promise.all([hasPassedExam(), getMyReflection()]);
-      setExamPassed(passed);
-      setReflectionDone(!!reflection);
-    } catch {
-      setExamPassed(false);
-      setReflectionDone(false);
-    }
 
     // Load the admin-managed role path for this user's role.
     if (profile.learning_role) {
@@ -373,17 +283,7 @@ export function DashboardPage() {
   }, [profile, navigate]);
 
   const path = dbPath ?? (role && role in ROLE_PATHS ? ROLE_PATHS[role as RoleKey] : null);
-  const moduleSatisfied = (rm: RoleModule) => {
-    const s = statusFor(rm.code);
-    return rm.level === 'L2' ? s.l2 === 'passed' : s.l1Passed;
-  };
   const coreCodes = new Set(path?.core.map((rm) => rm.code) ?? []);
-  const coreDone = path ? path.core.filter(moduleSatisfied).length : 0;
-
-  // Completion = every required module passed + exam passed + reflection written.
-  const requiredDone = path ? coreDone === path.core.length : false;
-  const complete = requiredDone && examPassed && reflectionDone;
-  const reflectionDue = examPassed && !reflectionDone;
 
   return (
     <div className="min-h-screen bg-muted/30">
@@ -395,6 +295,9 @@ export function DashboardPage() {
             {profile?.display_name && (
               <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
             )}
+            <Button variant="ghost" size="sm" onClick={() => navigate('/path')} data-testid="nav-mypath-btn">
+              {t('nav.myPath')}
+            </Button>
             <Button variant="ghost" size="sm" onClick={() => navigate('/start')}>
               {t('nav.basics')}
             </Button>
@@ -419,89 +322,15 @@ export function DashboardPage() {
 
       {/* Body */}
       <main className="mx-auto max-w-4xl px-6 py-8 space-y-8">
-        {/* Mandatory completion reflection — due after passing the exam */}
-        {reflectionDue && (
-          <button
-            type="button"
-            data-testid="reflection-banner"
-            onClick={() => navigate('/reflection')}
-            className="flex w-full items-center justify-between gap-3 rounded-lg border border-amber-400/60 bg-amber-50 px-4 py-3 text-left transition-colors hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-950/50"
-          >
-            <span>
-              <span className="block text-sm font-semibold text-amber-900 dark:text-amber-200">
-                {t('dashboard.reflection.title')}
-              </span>
-              <span className="block text-xs text-amber-800/80 dark:text-amber-200/70">
-                {t('dashboard.reflection.body')}
-              </span>
-            </span>
-            <span className="shrink-0 rounded-md bg-amber-500 px-3 py-1.5 text-xs font-medium text-white">
-              {t('dashboard.reflection.cta')}
-            </span>
-          </button>
-        )}
-
         {/* Positioning — what this training is and how to use it */}
         <section className="rounded-lg border border-border bg-card px-5 py-4">
-          <h2 className="text-sm font-semibold">{t('dashboard.about.title')}</h2>
-          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t('dashboard.about.body')}</p>
-        </section>
-
-        {/* Role-based path */}
-        <section className="rounded-lg border border-border bg-card px-5 py-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-sm font-semibold">{t('role.panel.title')}</h2>
-            {role && (
-              <span
-                data-testid="role-locked"
-                className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary"
-              >
-                {t(`role.${role}` as TranslationKey)}
-              </span>
-            )}
+            <h2 className="text-sm font-semibold">{t('dashboard.about.title')}</h2>
+            <Button variant="outline" size="sm" onClick={() => navigate('/path')} data-testid="back-to-path-btn">
+              {t('nav.myPath')}
+            </Button>
           </div>
-
-          {path && (
-            <div className="mt-3 space-y-4">
-              {/* Completion = all required modules + exam + reflection */}
-              {complete ? (
-                <div
-                  data-testid="training-complete"
-                  className="inline-flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-sm font-medium text-success"
-                >
-                  <CheckCircle2 className="h-4 w-4" />
-                  {t('dashboard.complete.title')}
-                </div>
-              ) : (
-                <div className="space-y-1.5">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {t('dashboard.complete.checklist')}
-                  </p>
-                  <ChecklistRow
-                    done={requiredDone}
-                    label={t('dashboard.complete.modules', { done: coreDone, total: path.core.length })}
-                  />
-                  <ChecklistRow
-                    done={examPassed}
-                    label={t('dashboard.complete.exam')}
-                    action={!examPassed ? { label: t('exam.cta.button'), onClick: () => navigate('/exam') } : undefined}
-                  />
-                  <ChecklistRow
-                    done={reflectionDone}
-                    label={t('dashboard.complete.reflection')}
-                    action={examPassed && !reflectionDone ? { label: t('dashboard.reflection.cta'), onClick: () => navigate('/reflection') } : undefined}
-                  />
-                </div>
-              )}
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <PathList titleKey="role.panel.core" items={path.core} statusFor={statusFor} onOpen={(c, lv) => navigate(`/learn/${c}?level=${lv}`)} />
-                <PathList titleKey="role.panel.recommended" items={path.recommended} statusFor={statusFor} onOpen={(c, lv) => navigate(`/learn/${c}?level=${lv}`)} />
-              </div>
-
-              <p className="text-xs text-muted-foreground">{t('role.panel.note')}</p>
-            </div>
-          )}
+          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t('dashboard.about.body')}</p>
         </section>
 
         {/* New-to-AI on-ramp */}

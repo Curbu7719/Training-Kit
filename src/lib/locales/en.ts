@@ -12,6 +12,7 @@ const en = {
   'nav.dashboard': 'Dashboard',
   'nav.backToDashboard': 'Back to dashboard',
   'nav.basics': 'AI basics',
+  'nav.myPath': 'My path',
   'nav.glossary': 'Glossary',
 
   // ---------------------------------------------------------------------------

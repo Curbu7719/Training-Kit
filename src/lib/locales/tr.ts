@@ -13,6 +13,7 @@ const tr = {
   'nav.dashboard': 'Ana sayfa',
   'nav.backToDashboard': 'Ana sayfaya dön',
   'nav.basics': 'AI temelleri',
+  'nav.myPath': 'Patikam',
   'nav.glossary': 'Sözlük',
 
   // ---------------------------------------------------------------------------
