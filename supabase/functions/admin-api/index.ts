@@ -282,7 +282,7 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
   // Fetch all profiles — service role bypasses RLS so this is a cross-user read
   const { data: profiles, error: profileErr } = await db
     .from('profiles')
-    .select('id, display_name, role, active_track')
+    .select('id, display_name, role, active_track, last_seen_at')
     .order('display_name', { ascending: true });
 
   if (profileErr) {
@@ -357,6 +357,7 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
       active_track:     p.active_track,
       email:            auth.email,
       last_sign_in_at:  auth.last_sign_in_at,
+      last_seen_at:     p.last_seen_at,
       created_at:       auth.created_at,
       modules_passed:   a.modules_passed,
       total_score:      a.total_score,

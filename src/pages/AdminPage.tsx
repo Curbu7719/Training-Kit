@@ -436,12 +436,24 @@ function UsersTab() {
       ? new Date(iso).toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' })
       : t('admin.users.never');
 
+  // "Online" = heartbeat within the last 5 minutes (it pings ~once a minute).
+  const ONLINE_WINDOW_MS = 5 * 60 * 1000;
+  const isOnline = (iso: string | null) => !!iso && Date.now() - new Date(iso).getTime() < ONLINE_WINDOW_MS;
+
+  // Initial load + auto-refresh every 30s so the online status stays current.
   useEffect(() => {
-    listUsers()
-      .then(setUsers)
-      .catch((e: Error) => setFetchErr(e.message))
-      .finally(() => setLoading(false));
+    let active = true;
+    const load = () =>
+      listUsers()
+        .then((d) => { if (active) setUsers(d); })
+        .catch((e: Error) => { if (active) setFetchErr(e.message); })
+        .finally(() => { if (active) setLoading(false); });
+    load();
+    const id = setInterval(load, 30_000);
+    return () => { active = false; clearInterval(id); };
   }, []);
+
+  const onlineCount = users.filter((u) => isOnline(u.last_seen_at)).length;
 
   if (loading) {
     return (
@@ -456,10 +468,15 @@ function UsersTab() {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="space-y-3">
+      <p className="text-xs text-muted-foreground">
+        {t('admin.users.onlineCount', { count: onlineCount, total: users.length })}
+      </p>
+      <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
+            <th className="pb-2 pr-4">{t('admin.users.col.online')}</th>
             <th className="pb-2 pr-4">{t('admin.users.col.name')}</th>
             <th className="pb-2 pr-4">{t('admin.users.col.email')}</th>
             <th className="pb-2 pr-4">{t('admin.users.col.role')}</th>
@@ -472,6 +489,19 @@ function UsersTab() {
         <tbody>
           {users.map((u) => (
             <tr key={u.id} className="border-b border-border/50 last:border-0">
+              <td className="py-2 pr-4">
+                {isOnline(u.last_seen_at) ? (
+                  <span className="inline-flex items-center gap-1.5 text-xs font-medium text-success">
+                    <span className="h-2 w-2 rounded-full bg-success" aria-hidden />
+                    {t('admin.users.online')}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <span className="h-2 w-2 rounded-full bg-muted-foreground/40" aria-hidden />
+                    {t('admin.users.offline')}
+                  </span>
+                )}
+              </td>
               <td className="py-2 pr-4 font-medium">{u.display_name ?? '—'}</td>
               <td className="py-2 pr-4 text-muted-foreground">{u.email ?? '—'}</td>
               <td className="py-2 pr-4">
@@ -487,13 +517,14 @@ function UsersTab() {
           ))}
           {users.length === 0 && (
             <tr>
-              <td colSpan={7} className="py-6 text-center text-muted-foreground">
+              <td colSpan={8} className="py-6 text-center text-muted-foreground">
                 {t('admin.users.empty')}
               </td>
             </tr>
           )}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

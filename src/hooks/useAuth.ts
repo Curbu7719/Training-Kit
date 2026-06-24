@@ -122,6 +122,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => listener.subscription.unsubscribe();
   }, [syncProfile]);
 
+  // Presence heartbeat: while signed in, bump our own last_seen_at ~once a
+  // minute (and whenever the tab regains focus) so the admin can see who's
+  // online. Own-row update is permitted by the profiles_own_update RLS policy.
+  useEffect(() => {
+    if (!user) return;
+    const ping = () => {
+      void supabase.from('profiles').update({ last_seen_at: new Date().toISOString() }).eq('id', user.id);
+    };
+    ping();
+    const interval = setInterval(ping, 60_000);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') ping();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [user]);
+
   const signIn = useCallback(async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;

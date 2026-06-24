@@ -137,6 +137,8 @@ export interface UserSummary {
   /** Login email + activity from auth.users (admin-only). */
   email: string | null;
   last_sign_in_at: string | null;
+  /** Presence heartbeat (profiles.last_seen_at) — recent = "online". */
+  last_seen_at: string | null;
   created_at: string | null;
   modules_passed: number;
   total_score: number;
