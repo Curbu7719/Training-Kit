@@ -78,10 +78,10 @@ const en = {
   // Completion certificate (role-based, VF-branded)
   'cert.cta': 'Get your certificate',
   'cert.download': 'Download PDF',
-  'cert.eyebrow': 'AI in the SDLC',
+  'cert.eyebrow': 'AI-driven SDLC',
   'cert.title': 'Certificate of Completion',
   'cert.presentedTo': 'This is proudly presented to',
-  'cert.body': 'for successfully completing the AI in the SDLC training program for the role of {role}.',
+  'cert.body': 'for successfully completing the AI-driven SDLC training program for the role of {role}.',
   'cert.date': 'Date',
   'cert.issuer': 'Issued by',
   'cert.incomplete.title': 'Your certificate isn’t ready yet',

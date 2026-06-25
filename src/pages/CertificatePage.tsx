@@ -9,7 +9,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
-import vodafoneLogo from '@/assets/logo.png';
 
 const VF_RED = '#e60000';
 
@@ -129,9 +128,9 @@ export function CertificatePage() {
         >
           <div className="pointer-events-none absolute inset-0" style={{ border: '1px solid rgba(230,0,0,0.25)', margin: '10px' }} />
 
-          {/* Vodafone brand mark */}
+          {/* Vodafone wordmark */}
           <div className="mb-8 flex items-center justify-center">
-            <img src={vodafoneLogo} alt="Vodafone" className="h-12 w-auto" />
+            <span className="text-3xl font-bold tracking-tight" style={{ color: VF_RED }}>Vodafone</span>
           </div>
 
           <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: VF_RED }}>

@@ -79,10 +79,10 @@ const tr = {
   // Tamamlama sertifikası (rol-bazlı, VF markalı)
   'cert.cta': 'Sertifikanı al',
   'cert.download': 'PDF indir',
-  'cert.eyebrow': 'AI in the SDLC',
+  'cert.eyebrow': 'AI-driven SDLC',
   'cert.title': 'Tamamlama Sertifikası',
   'cert.presentedTo': 'Bu sertifika gururla şu kişiye sunulur',
-  'cert.body': '{role} rolü için “AI in the SDLC” eğitim programını başarıyla tamamladığı için.',
+  'cert.body': '{role} rolü için “AI-driven SDLC” eğitim programını başarıyla tamamladığı için.',
   'cert.date': 'Tarih',
   'cert.issuer': 'Veren',
   'cert.incomplete.title': 'Sertifikan henüz hazır değil',
