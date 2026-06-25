@@ -472,41 +472,58 @@ async function updateRolePath(
 }
 
 // ---------------------------------------------------------------------------
-// progress_report — per-user development across all sections + the exam.
+// progress_report — per-user completion + score against THEIR OWN role path.
 //
-// A "unit" is one (module, level) that has lessons. For each section
-// (modules.category) we report units passed / total and the average score
-// (how correct, 0-100, with not-started counting as 0). Plus the user's best
-// exam score and an overall development score = 80% content mastery (average
-// score over all units) + 20% best exam score.
+// Mandatory units = every module's L1 PLUS the role's own L2 deep dives. We
+// report how many are passed (completion) and the average mastery score
+// (0-100, not-started = 0) over them. Recommended units = the L2 of every other
+// module; each recommended unit passed adds a flat bonus. Total = path score +
+// bonus. Plus the user's best exam score. No configured path → baseline of all
+// L1 mandatory / all L2 recommended.
 // ---------------------------------------------------------------------------
-const CATEGORY_ORDER = ['sdlc', 'strategy', 'practice'];
+const BONUS_PER_RECOMMENDED = 5;
 
 async function progressReport(db: ReturnType<typeof createServiceClient>): Promise<HandlerResult> {
   const { data: profiles, error: pErr } = await db
-    .from('profiles').select('id, display_name, role').order('display_name', { ascending: true });
+    .from('profiles').select('id, display_name, role, learning_role').order('display_name', { ascending: true });
   if (pErr) return { status: 500, payload: { ok: false, error: pErr.message } };
-  if (!profiles || profiles.length === 0) return { status: 200, payload: { ok: true, data: { categories: [], users: [] } } };
+  if (!profiles || profiles.length === 0) return { status: 200, payload: { ok: true, data: { users: [] } } };
   const userIds = profiles.map((p) => p.id);
 
-  const { data: modules } = await db.from('modules').select('id, category');
-  const catOf = new Map<string, string>((modules ?? []).map((m) => [m.id, m.category]));
+  const { data: modules } = await db.from('modules').select('id, code');
+  const idByCode = new Map<string, string>((modules ?? []).map((m) => [m.code, m.id]));
 
-  // Distinct (module, level) units that have lessons (count once, language-agnostic → use 'en').
+  // Distinct (module, level) units that actually have lessons (count once via 'en').
   const { data: lessons } = await db.from('lessons').select('module_id, level').eq('lang', 'en');
   const allUnits = new Set<string>();
-  const unitsByCat = new Map<string, Set<string>>();
-  for (const l of lessons ?? []) {
-    const key = `${l.module_id}:${l.level}`;
-    if (allUnits.has(key)) continue;
-    allUnits.add(key);
-    const cat = catOf.get(l.module_id) ?? 'sdlc';
-    if (!unitsByCat.has(cat)) unitsByCat.set(cat, new Set());
-    unitsByCat.get(cat)!.add(key);
+  for (const l of lessons ?? []) allUnits.add(`${l.module_id}:${l.level}`);
+
+  // Role paths grouped by role.
+  const { data: rolePaths } = await db.from('role_paths').select('role, module_code, level');
+  const entriesByRole = new Map<string, { code: string; level: string }[]>();
+  for (const r of rolePaths ?? []) {
+    if (!entriesByRole.has(r.role)) entriesByRole.set(r.role, []);
+    entriesByRole.get(r.role)!.push({ code: r.module_code, level: r.level });
   }
-  const categories = [...unitsByCat.keys()].sort(
-    (a, b) => (CATEGORY_ORDER.indexOf(a) + 1 || 99) - (CATEGORY_ORDER.indexOf(b) + 1 || 99),
-  );
+
+  function unitsForRole(roleKey: string): { mandatory: Set<string>; recommended: Set<string> } {
+    const mandatory = new Set<string>();
+    const recommended = new Set<string>();
+    const entries = entriesByRole.get(roleKey) ?? [];
+    if (entries.length > 0) {
+      const l2codes = new Set(entries.filter((e) => e.level === 'L2').map((e) => e.code));
+      for (const code of new Set(entries.map((e) => e.code))) {
+        const id = idByCode.get(code);
+        if (!id) continue;
+        const l1 = `${id}:L1`, l2 = `${id}:L2`;
+        if (allUnits.has(l1)) mandatory.add(l1);                              // every module's L1
+        if (allUnits.has(l2)) (l2codes.has(code) ? mandatory : recommended).add(l2); // role L2 vs the rest
+      }
+    } else {
+      for (const key of allUnits) (key.endsWith(':L1') ? mandatory : recommended).add(key);
+    }
+    return { mandatory, recommended };
+  }
 
   const { data: progress } = await db
     .from('user_progress').select('user_id, module_id, level, status, score').in('user_id', userIds);
@@ -522,29 +539,41 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
     if ((examBest.get(e.user_id) ?? -1) < e.score) examBest.set(e.user_id, e.score);
   }
 
-  const totalUnits = allUnits.size;
   const users = profiles.map((p) => {
     const up = upByUser.get(p.id) ?? new Map();
-    const sections = categories.map((cat) => {
-      const units = [...(unitsByCat.get(cat) ?? [])];
-      let passed = 0, sum = 0;
-      for (const key of units) {
-        const e = up.get(key);
-        if (e?.status === 'passed') passed += 1;
-        sum += e?.score ?? 0;
-      }
-      return { category: cat, unitsTotal: units.length, unitsPassed: passed, avgScore: units.length ? Math.round(sum / units.length) : 0 };
-    });
-    let sumAll = 0;
-    for (const key of allUnits) sumAll += up.get(key)?.score ?? 0;
-    const contentAvg = totalUnits ? sumAll / totalUnits : 0;
-    const exam = examBest.has(p.id) ? examBest.get(p.id)! : null;
-    const developmentScore = Math.round(0.8 * contentAvg + 0.2 * (exam ?? 0));
-    return { id: p.id, display_name: p.display_name, role: p.role, sections, exam_best: exam, development_score: developmentScore };
-  });
-  users.sort((a, b) => b.development_score - a.development_score);
+    const { mandatory, recommended } = unitsForRole(p.learning_role ?? '');
 
-  return { status: 200, payload: { ok: true, data: { categories, users } } };
+    let mPassed = 0, mSum = 0;
+    for (const key of mandatory) {
+      const e = up.get(key);
+      if (e?.status === 'passed') mPassed += 1;
+      mSum += e?.score ?? 0;
+    }
+    const pathScore = mandatory.size ? Math.round(mSum / mandatory.size) : 0;
+
+    let rPassed = 0;
+    for (const key of recommended) {
+      if (up.get(key)?.status === 'passed') rPassed += 1;
+    }
+    const bonus = rPassed * BONUS_PER_RECOMMENDED;
+    const exam = examBest.has(p.id) ? examBest.get(p.id)! : null;
+
+    return {
+      id: p.id,
+      display_name: p.display_name,
+      role: p.role,
+      learning_role: p.learning_role ?? null,
+      mandatory: { passed: mPassed, total: mandatory.size, avgScore: pathScore },
+      recommended: { passed: rPassed, total: recommended.size },
+      bonus,
+      path_score: pathScore,
+      total_score: pathScore + bonus,
+      exam_best: exam,
+    };
+  });
+  users.sort((a, b) => b.total_score - a.total_score);
+
+  return { status: 200, payload: { ok: true, data: { users } } };
 }
 
 // ---------------------------------------------------------------------------

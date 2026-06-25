@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
-import { useLanguage, type LanguageContextValue } from '@/lib/i18n';
+import { useLanguage } from '@/lib/i18n';
 import {
   listModules,
   listUsers,
@@ -149,16 +149,6 @@ function devScoreTextColor(score: number): string {
   return 'text-muted-foreground';
 }
 
-function SectionCell({ unitsPassed, unitsTotal, avgScore }: { unitsPassed: number; unitsTotal: number; avgScore: number }) {
-  return (
-    <span className="tabular-nums text-xs text-muted-foreground">
-      {unitsPassed}/{unitsTotal}
-      <span className="mx-1 opacity-40">·</span>
-      {Math.round(avgScore)}%
-    </span>
-  );
-}
-
 function DevScoreCell({ score }: { score: number }) {
   return (
     <div className="flex items-center gap-2 justify-end">
@@ -175,30 +165,19 @@ function DevScoreCell({ score }: { score: number }) {
   );
 }
 
-function categoryLabel(category: string, t: LanguageContextValue['t']): string {
-  if (category === 'sdlc') return t('section.sdlc.title');
-  if (category === 'strategy') return t('section.strategy.title');
-  if (category === 'practice') return t('section.vibe.title');
-  return category;
-}
-
 // ---------------------------------------------------------------------------
 // ProgressTab
 // ---------------------------------------------------------------------------
 
 function ProgressTab() {
   const { t } = useLanguage();
-  const [categories, setCategories] = useState<string[]>([]);
   const [users, setUsers] = useState<ProgressUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState<string | null>(null);
 
   useEffect(() => {
     getProgressReport()
-      .then(({ categories: cats, users: us }) => {
-        setCategories(cats);
-        setUsers(us);
-      })
+      .then(({ users: us }) => setUsers(us))
       .catch((e: Error) => setFetchErr(e.message))
       .finally(() => setLoading(false));
   }, []);
@@ -226,44 +205,47 @@ function ProgressTab() {
             <tr className="border-b border-border text-left text-xs font-medium text-muted-foreground">
               <th className="pb-2 pr-4">{t('admin.progress.col.user')}</th>
               <th className="pb-2 pr-4">{t('admin.progress.col.role')}</th>
-              {categories.map((cat) => (
-                <th key={cat} className="pb-2 pr-4 text-right capitalize">
-                  {categoryLabel(cat, t)}
-                </th>
-              ))}
+              <th className="pb-2 pr-4 text-right">{t('admin.progress.col.path')}</th>
+              <th className="pb-2 pr-4">{t('admin.progress.col.score')}</th>
+              <th className="pb-2 pr-4 text-right">{t('admin.progress.col.recommended')}</th>
               <th className="pb-2 pr-4 text-right">{t('admin.progress.col.exam')}</th>
-              <th className="pb-2 text-right">{t('admin.progress.col.devScore')}</th>
+              <th className="pb-2 text-right">{t('admin.progress.col.total')}</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((u) => (
-              <tr key={u.id} className="border-b border-border/50 last:border-0">
-                <td className="py-2 pr-4 font-medium">{u.display_name}</td>
-                <td className="py-2 pr-4">
-                  <Badge variant={u.role === 'admin' ? 'accent' : 'outline'} className="text-xs">
-                    {u.role}
-                  </Badge>
-                </td>
-                {u.sections.map((sec, i) => (
-                  <td key={i} className="py-2 pr-4 text-right">
-                    <SectionCell
-                      unitsPassed={sec.unitsPassed}
-                      unitsTotal={sec.unitsTotal}
-                      avgScore={sec.avgScore}
-                    />
+            {users.map((u) => {
+              const pct = u.mandatory.total ? Math.round((u.mandatory.passed / u.mandatory.total) * 100) : 0;
+              return (
+                <tr key={u.id} className="border-b border-border/50 last:border-0">
+                  <td className="py-2 pr-4 font-medium">{u.display_name}</td>
+                  <td className="py-2 pr-4">
+                    <Badge variant="outline" className="text-xs">
+                      {u.learning_role ? t(`role.${u.learning_role}` as TranslationKey) : '—'}
+                    </Badge>
                   </td>
-                ))}
-                <td className="py-2 pr-4 text-right tabular-nums text-xs">
-                  {u.exam_best !== null ? `${u.exam_best}%` : t('admin.progress.examNever')}
-                </td>
-                <td className="py-2">
-                  <DevScoreCell score={u.development_score} />
-                </td>
-              </tr>
-            ))}
+                  <td className="py-2 pr-4 text-right tabular-nums text-xs text-muted-foreground whitespace-nowrap">
+                    {u.mandatory.passed}/{u.mandatory.total}
+                    <span className="mx-1 opacity-40">·</span>{pct}%
+                  </td>
+                  <td className="py-2 pr-4">
+                    <DevScoreCell score={u.path_score} />
+                  </td>
+                  <td className="py-2 pr-4 text-right tabular-nums text-xs whitespace-nowrap">
+                    <span className="text-muted-foreground">{u.recommended.passed}/{u.recommended.total}</span>
+                    {u.bonus > 0 && <span className="ml-1 font-semibold text-success">+{u.bonus}</span>}
+                  </td>
+                  <td className="py-2 pr-4 text-right tabular-nums text-xs">
+                    {u.exam_best !== null ? `${u.exam_best}%` : t('admin.progress.examNever')}
+                  </td>
+                  <td className="py-2 text-right">
+                    <span className="text-sm font-bold tabular-nums">{u.total_score}</span>
+                  </td>
+                </tr>
+              );
+            })}
             {users.length === 0 && (
               <tr>
-                <td colSpan={3 + categories.length + 2} className="py-6 text-center text-muted-foreground">
+                <td colSpan={7} className="py-6 text-center text-muted-foreground">
                   {t('admin.progress.empty')}
                 </td>
               </tr>

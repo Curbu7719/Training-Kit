@@ -153,24 +153,22 @@ export async function listUsers(): Promise<UserSummary[]> {
 // Progress report
 // ---------------------------------------------------------------------------
 
-export interface SectionProgress {
-  category: string;
-  unitsTotal: number;
-  unitsPassed: number;
-  avgScore: number; // 0-100
-}
-
 export interface ProgressUser {
   id: string;
   display_name: string;
   role: 'user' | 'admin';
-  sections: SectionProgress[]; // one per category, in the order given by `categories`
-  exam_best: number | null;    // best SDLC exam score 0-100, null if never taken
-  development_score: number;   // overall 0-100 (80% content mastery + 20% exam), sorted desc
+  learning_role: string | null;
+  /** Mandatory path = every module's L1 + the role's L2 deep dives. */
+  mandatory: { passed: number; total: number; avgScore: number };
+  /** Recommended = the other modules' L2; each passed adds bonus points. */
+  recommended: { passed: number; total: number };
+  bonus: number;        // points from recommended modules passed
+  path_score: number;   // 0-100 average mastery over mandatory units
+  total_score: number;  // path_score + bonus (sorted desc)
+  exam_best: number | null;
 }
 
 interface ProgressReport {
-  categories: string[];
   users: ProgressUser[];
 }
 
