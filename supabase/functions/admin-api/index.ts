@@ -543,13 +543,15 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
     const up = upByUser.get(p.id) ?? new Map();
     const { mandatory, recommended } = unitsForRole(p.learning_role ?? '');
 
-    let mPassed = 0, mSum = 0;
+    let mPassed = 0, mSum = 0, qSum = 0, qCount = 0;
     for (const key of mandatory) {
       const e = up.get(key);
       if (e?.status === 'passed') mPassed += 1;
-      mSum += e?.score ?? 0;
+      mSum += e?.score ?? 0;          // coverage-weighted: not-started counts as 0
+      if (e) { qSum += e.score; qCount += 1; } // pure quality: only attempted units
     }
     const pathScore = mandatory.size ? Math.round(mSum / mandatory.size) : 0;
+    const quality = qCount ? Math.round(qSum / qCount) : 0;
 
     let rPassed = 0;
     for (const key of recommended) {
@@ -564,6 +566,7 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
       role: p.role,
       learning_role: p.learning_role ?? null,
       mandatory: { passed: mPassed, total: mandatory.size, avgScore: pathScore },
+      quality,
       recommended: { passed: rPassed, total: recommended.size },
       bonus,
       path_score: pathScore,

@@ -207,6 +207,7 @@ function ProgressTab() {
               <th className="pb-2 pr-4">{t('admin.progress.col.role')}</th>
               <th className="pb-2 pr-4 text-right">{t('admin.progress.col.path')}</th>
               <th className="pb-2 pr-4">{t('admin.progress.col.score')}</th>
+              <th className="pb-2 pr-4 text-right">{t('admin.progress.col.quality')}</th>
               <th className="pb-2 pr-4 text-right">{t('admin.progress.col.recommended')}</th>
               <th className="pb-2 pr-4 text-right">{t('admin.progress.col.exam')}</th>
               <th className="pb-2 text-right">{t('admin.progress.col.total')}</th>
@@ -230,6 +231,9 @@ function ProgressTab() {
                   <td className="py-2 pr-4">
                     <DevScoreCell score={u.path_score} />
                   </td>
+                  <td className={`py-2 pr-4 text-right text-sm font-semibold tabular-nums ${devScoreTextColor(u.quality)}`}>
+                    {u.quality}%
+                  </td>
                   <td className="py-2 pr-4 text-right tabular-nums text-xs whitespace-nowrap">
                     <span className="text-muted-foreground">{u.recommended.passed}/{u.recommended.total}</span>
                     {u.bonus > 0 && <span className="ml-1 font-semibold text-success">+{u.bonus}</span>}
@@ -245,7 +249,7 @@ function ProgressTab() {
             })}
             {users.length === 0 && (
               <tr>
-                <td colSpan={7} className="py-6 text-center text-muted-foreground">
+                <td colSpan={8} className="py-6 text-center text-muted-foreground">
                   {t('admin.progress.empty')}
                 </td>
               </tr>

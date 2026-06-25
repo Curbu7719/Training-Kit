@@ -310,11 +310,12 @@ const tr = {
   'admin.progress.col.role': 'Rol',
   'admin.progress.col.path': 'Patika (tamamlanan)',
   'admin.progress.col.score': 'Patika puanı',
+  'admin.progress.col.quality': 'Kalite',
   'admin.progress.col.recommended': 'Önerilen',
   'admin.progress.col.total': 'Toplam',
   'admin.progress.col.exam': 'Sınav',
   'admin.progress.col.devScore': 'Gelişim puanı',
-  'admin.progress.legend': 'Patika = kullanıcının zorunlu modülleri (her L1 + rolünün L2 derinlemesine modülleri). Patika puanı = ortalama ustalık (0–100). Önerilen = yapılan diğer L2’ler; her biri +5 bonus. Toplam = patika puanı + bonus.',
+  'admin.progress.legend': 'Patika = kullanıcının zorunlu modülleri (her L1 + rolünün L2 derinlemesine modülleri). Patika puanı = HEPSİ üzerinden ortalama ustalık (başlanmamış = 0, yani kapsama + kaliteyi harmanlar). Kalite = SADECE başladığı birimlerin ortalama puanı. Önerilen = yapılan diğer L2’ler; her biri +5 bonus. Toplam = patika puanı + bonus.',
   'admin.progress.empty': 'Henüz ilerleme verisi yok.',
   'admin.progress.examNever': '—',
 

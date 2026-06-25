@@ -309,11 +309,12 @@ const en = {
   'admin.progress.col.role': 'Role',
   'admin.progress.col.path': 'Path (done)',
   'admin.progress.col.score': 'Path score',
+  'admin.progress.col.quality': 'Quality',
   'admin.progress.col.recommended': 'Recommended',
   'admin.progress.col.total': 'Total',
   'admin.progress.col.exam': 'Exam',
   'admin.progress.col.devScore': 'Development score',
-  'admin.progress.legend': 'Path = each user’s mandatory modules (every L1 + their role’s L2 deep dives). Path score = average mastery (0–100). Recommended = other L2s done; each adds +5 bonus. Total = path score + bonus.',
+  'admin.progress.legend': 'Path = each user’s mandatory modules (every L1 + their role’s L2 deep dives). Path score = average mastery over ALL of them (not-started = 0, so it blends coverage + quality). Quality = average score over ONLY the units they’ve attempted. Recommended = other L2s done; each adds +5 bonus. Total = path score + bonus.',
   'admin.progress.empty': 'No progress data yet.',
   'admin.progress.examNever': '—',
 

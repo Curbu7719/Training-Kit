@@ -160,6 +160,8 @@ export interface ProgressUser {
   learning_role: string | null;
   /** Mandatory path = every module's L1 + the role's L2 deep dives. */
   mandatory: { passed: number; total: number; avgScore: number };
+  /** Pure quality: average score over only the mandatory units attempted. */
+  quality: number;
   /** Recommended = the other modules' L2; each passed adds bonus points. */
   recommended: { passed: number; total: number };
   bonus: number;        // points from recommended modules passed
