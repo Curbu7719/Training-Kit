@@ -15,6 +15,7 @@ import { GlossaryPage } from '@/pages/GlossaryPage';
 import { IntroPage } from '@/pages/IntroPage';
 import { WelcomePage } from '@/pages/WelcomePage';
 import { LearningPathPage } from '@/pages/LearningPathPage';
+import { CertificatePage } from '@/pages/CertificatePage';
 import { Spinner } from '@/components/ui/spinner';
 
 // Post-login landing: always the Welcome page (CIO message). It offers
@@ -114,6 +115,16 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <LearningPathPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Completion certificate (role-based, VF-branded) */}
+          <Route
+            path="/certificate"
+            element={
+              <ProtectedRoute>
+                <CertificatePage />
               </ProtectedRoute>
             }
           />

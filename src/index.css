@@ -55,3 +55,10 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+
+/* Print: certificate-only, landscape (used by /certificate "Download PDF"). */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; }
+  @page { size: landscape; margin: 12mm; }
+}

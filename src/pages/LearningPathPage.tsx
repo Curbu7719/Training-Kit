@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, Circle, Clock, Lock, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Circle, Clock, Lock, ArrowRight, Award } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
@@ -296,12 +296,18 @@ export function LearningPathPage() {
             {/* Completion = all required modules + exam + reflection */}
             <section className="rounded-lg border border-border bg-card px-5 py-4">
               {complete ? (
-                <div
-                  data-testid="training-complete"
-                  className="inline-flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-sm font-medium text-success"
-                >
-                  <CheckCircle2 className="h-4 w-4" />
-                  {t('dashboard.complete.title')}
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div
+                    data-testid="training-complete"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-sm font-medium text-success"
+                  >
+                    <CheckCircle2 className="h-4 w-4" />
+                    {t('dashboard.complete.title')}
+                  </div>
+                  <Button size="sm" onClick={() => navigate('/certificate')} data-testid="get-certificate-btn" className="gap-1.5">
+                    <Award className="h-4 w-4" />
+                    {t('cert.cta')}
+                  </Button>
                 </div>
               ) : (
                 <div className="space-y-1.5">
