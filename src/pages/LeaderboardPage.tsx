@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Award } from 'lucide-react';
 import { getLeaderboard, type LeaderboardEntry } from '@/lib/adminApi';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
@@ -44,9 +45,15 @@ export function LeaderboardPage() {
               {t('nav.brand')}
             </button>
           </div>
-          <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>
-            {t('nav.dashboard')}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate('/certificate')} className="gap-1.5" data-testid="leaderboard-cert-btn">
+              <Award className="h-4 w-4" />
+              {t('leaderboard.certificate')}
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>
+              {t('nav.dashboard')}
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -101,7 +108,19 @@ export function LeaderboardPage() {
                           <span className="inline-flex items-center gap-1">
                             <span>{t(`role.${entry.role}` as TranslationKey)}</span>
                             {entry.certified && (
-                              <span className="text-success" title={t('role.panel.certified')} aria-label={t('role.panel.certified')}>✓</span>
+                              isCurrentUser ? (
+                                <button
+                                  type="button"
+                                  onClick={() => navigate('/certificate')}
+                                  title={t('leaderboard.certificate')}
+                                  aria-label={t('leaderboard.certificate')}
+                                  className="text-amber-500 transition-colors hover:text-amber-600"
+                                >
+                                  <Award className="h-4 w-4" />
+                                </button>
+                              ) : (
+                                <Award className="h-4 w-4 text-amber-500" aria-label={t('role.panel.certified')} />
+                              )
                             )}
                           </span>
                         ) : (

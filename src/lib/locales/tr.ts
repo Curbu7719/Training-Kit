@@ -278,6 +278,7 @@ const tr = {
   'leaderboard.col.modules': 'Tamamlanan modüller',
   'leaderboard.col.role': 'Rol',
   'leaderboard.you': '(siz)',
+  'leaderboard.certificate': 'Sertifikam',
   'leaderboard.empty': 'Henüz sıralama girişi yok.',
 
   // ---------------------------------------------------------------------------

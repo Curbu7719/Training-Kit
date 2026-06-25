@@ -277,6 +277,7 @@ const en = {
   'leaderboard.col.modules': 'Modules passed',
   'leaderboard.col.role': 'Role',
   'leaderboard.you': '(you)',
+  'leaderboard.certificate': 'My certificate',
   'leaderboard.empty': 'No leaderboard entries yet.',
 
   // ---------------------------------------------------------------------------
