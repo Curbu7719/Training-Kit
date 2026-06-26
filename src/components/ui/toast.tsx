@@ -17,7 +17,10 @@ export const ToastViewport = forwardRef<
   <ToastPrimitive.Viewport
     ref={ref}
     className={cn(
-      'fixed bottom-0 right-0 z-[100] flex max-h-screen w-full flex-col-reverse gap-2 p-4 sm:max-w-sm',
+      // pointer-events-none so the (often empty) fixed viewport never swallows
+      // clicks on the page beneath it; each Toast re-enables pointer-events on
+      // itself (pointer-events-auto), so toasts stay interactive.
+      'pointer-events-none fixed bottom-0 right-0 z-[100] flex max-h-screen w-full flex-col-reverse gap-2 p-4 sm:max-w-sm',
       className
     )}
     {...props}

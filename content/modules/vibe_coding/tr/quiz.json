@@ -14,7 +14,7 @@
     "explanation": "Vibe coding'i iyi yapmak kontrolde kalmak demektir: açık niyet artı küçük, review edilen adımlar hataları erken yakalamanızı sağlar. Kodu sırf çalıştığı için kabul etmek, AI çıktısının makul-ama-bozuk olabileceğini göz ardı eder."
   },
   {
-    "prompt": "Aşağıdakilerden vibe coding'i iyi yapmanın disiplinleri olan HER ŞEYİ seçin.",
+    "prompt": "Aşağıdakilerden vibe coding'i iyi yapmanın disiplinleri olan HER ŞEYİ seçin. (Geçerli olanların tümünü seçin.)",
     "choices": [
       "Derlendiği sürece tam olarak anlamadığınız kodu göndermek",
       "Sır'ları ve hassas veriyi prompt'lardan uzak tutmak",
@@ -44,7 +44,7 @@
     "explanation": "Var olmayan bir metot uydurmak ve onu tekrarlamak bir hallucination döngüsüdür ve en hızlı çözüm direksiyonu alıp gerçek çağrıyı kendiniz yazmaktır. Yine de yapıştırmak ya da bozuk kodu commit etmek hatayı çözmek yerine sadece yayar."
   },
   {
-    "prompt": "Bir QA/Tester'dan, bir takım arkadaşının büyük okunmamış bir AI çıktı bloğunu yapıştırarak vibe-code ettiği bir özelliği onaylaması isteniyor. Hangi yaklaşımlar bunu doğru yapmayı yansıtır? Geçerli olan HER ŞEYİ seçin.",
+    "prompt": "Bir QA/Tester'dan, bir takım arkadaşının büyük okunmamış bir AI çıktı bloğunu yapıştırarak vibe-code ettiği bir özelliği onaylaması isteniyor. Hangi yaklaşımlar bunu doğru yapmayı yansıtır? Geçerli olan HER ŞEYİ seçin. (Geçerli olanların tümünü seçin.)",
     "choices": [
       "AI tarafından yazılan kodu okunup test edilene kadar güvenilmez olarak ele almak",
       "Onaylamadan önce diff'i gömülü sır'lar ve eksik yetki kontrolleri için review etmek",

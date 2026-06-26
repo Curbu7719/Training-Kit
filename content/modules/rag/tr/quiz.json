@@ -44,7 +44,7 @@
     "explanation": "Embedding'ler anlamı yakalar, böylece 'başarısız bir işi yeniden dene' ortak kelime olmadan bile 'backoff ve yeniden kuyruğa alma'nın yakınına düşer, ki bu tam da keyword aramasının yapamadığı şeydir. Diğer seçenekler fine-tuning, keyword hileleri veya elle etiketlemeyi tarif eder, burada hiçbiri olmuyor."
   },
   {
-    "prompt": "Bir QA mühendisi, ekip benimsemeden önce RAG tabanlı bir kod tabanı asistanını test ediyor. Hangi kontroller, yanıtların gerçek koda ve dokümanlara düzgünce grounded olduğunu en doğrudan doğrular?",
+    "prompt": "Bir QA mühendisi, ekip benimsemeden önce RAG tabanlı bir kod tabanı asistanını test ediyor. Hangi kontroller, yanıtların gerçek koda ve dokümanlara düzgünce grounded olduğunu en doğrudan doğrular? (Geçerli olanların tümünü seçin.)",
     "choices": [
       "Her yanıtın, iddiayı gerçekten içeren gerçek bir dosyaya veya wiki sayfasına atıf yaptığını teyit et",
       "Yanıt metninin, her yeniden çalıştırmada modelin çıktısıyla karakteri karakterine eşleştiğini teyit et",

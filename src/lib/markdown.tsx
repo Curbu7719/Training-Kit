@@ -66,11 +66,12 @@ function tokeniseBlocks(md: string): Block[] {
       continue;
     }
 
-    // Unordered list
-    if (/^[-*+]\s/.test(line)) {
+    // Unordered list — tolerate leading whitespace (indented items) so a list
+    // with a mix of flush and indented items still renders as one list.
+    if (/^\s*[-*+]\s/.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^[-*+]\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^[-*+]\s/, ''));
+      while (i < lines.length && /^\s*[-*+]\s/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*[-*+]\s/, ''));
         i++;
       }
       blocks.push({ kind: 'ulist', items });
@@ -78,10 +79,10 @@ function tokeniseBlocks(md: string): Block[] {
     }
 
     // Ordered list
-    if (/^\d+\.\s/.test(line)) {
+    if (/^\s*\d+\.\s/.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^\d+\.\s/, ''));
+      while (i < lines.length && /^\s*\d+\.\s/.test(lines[i])) {
+        items.push(lines[i].replace(/^\s*\d+\.\s/, ''));
         i++;
       }
       blocks.push({ kind: 'olist', items });
@@ -94,9 +95,17 @@ function tokeniseBlocks(md: string): Block[] {
       continue;
     }
 
-    // Paragraph — collect until blank line
+    // Paragraph — collect until a blank line or the start of another block
+    // (heading, hr, or a list item — so a list right after a paragraph renders).
     const paraLines: string[] = [];
-    while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#') && !/^---+$/.test(lines[i].trim())) {
+    while (
+      i < lines.length &&
+      lines[i].trim() !== '' &&
+      !lines[i].startsWith('#') &&
+      !/^---+$/.test(lines[i].trim()) &&
+      !/^\s*[-*+]\s/.test(lines[i]) &&
+      !/^\s*\d+\.\s/.test(lines[i])
+    ) {
       paraLines.push(lines[i]);
       i++;
     }

@@ -1,6 +1,6 @@
 [
   {
-    "prompt": "Vibe-code edilmiş bir fonksiyon derleniyor, hatasız çalışıyor ve temiz idiomatic kod gibi okunuyor, ama negatif-indirim kenar durumu için yanlış toplamı döndürüyor. Bu hangi hata modlarını gösterir ve onları güvenilir biçimde ne sınırlar? Geçerli olan HER ŞEYİ seçin.",
+    "prompt": "Vibe-code edilmiş bir fonksiyon derleniyor, hatasız çalışıyor ve temiz idiomatic kod gibi okunuyor, ama negatif-indirim kenar durumu için yanlış toplamı döndürüyor. Bu hangi hata modlarını gösterir ve onları güvenilir biçimde ne sınırlar? Geçerli olan HER ŞEYİ seçin. (Geçerli olanların tümünü seçin.)",
     "choices": [
       "Bu sessiz yanlış koddur: çalışır ve bir değer döndürür, ama değer yanlıştır",
       "Bu makul-ama-bozuktur: bir kenar durumunu yanlış ele alan akıcı, kendinden emin kod",
@@ -16,7 +16,7 @@
     "explanation": "Kod hem makul-ama-bozuk hem de sessiz yanlış koddur ve yalnızca diff'i spec'e karşı okumak artı bir davranışsal test kötü kenar durumunu güvenilir biçimde ortaya çıkarır. 'Çökmeden çalışıyor' doğruluğun kanıtı değildir, çünkü yanlış kod yine de bir değer döndürür."
   },
   {
-    "prompt": "Her vibe-coding disiplini neden genel bir ritüel olarak değil belirli bir hata moduna karşı bir savunma olarak en iyi anlaşılır? Geçerli olan HER ŞEYİ seçin.",
+    "prompt": "Her vibe-coding disiplini neden genel bir ritüel olarak değil belirli bir hata moduna karşı bir savunma olarak en iyi anlaşılır? Geçerli olan HER ŞEYİ seçin. (Geçerli olanların tümünü seçin.)",
     "choices": [
       "Disiplinler katmanlı savunmalar gibi birleşir, yani birini düşürmek sınırladığı hatanın geçmesine izin verir",
       "Küçük, tek amaçlı diff'ler kapsam kaymasını izole eder ve 'anlamadığını gönderme' kuralı aşınan anlayışı sınırlar",

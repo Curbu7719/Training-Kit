@@ -44,7 +44,7 @@
     "explanation": "Embeddings capture meaning, so 'retry a failed job' lands near 'backoff and re-queue' even with no shared words, which is exactly what keyword search cannot do. The other options describe fine-tuning, keyword tricks, or manual tagging, none of which are happening here."
   },
   {
-    "prompt": "A QA engineer is testing a RAG-based codebase assistant before the team adopts it. Which checks most directly verify that answers are properly grounded in the real code and docs?",
+    "prompt": "A QA engineer is testing a RAG-based codebase assistant before the team adopts it. Which checks most directly verify that answers are properly grounded in the real code and docs? (Select all that apply.)",
     "choices": [
       "Confirm each answer cites a real file or wiki page that actually contains the claim",
       "Confirm the answer text matches the model's output character-for-character on every rerun",
