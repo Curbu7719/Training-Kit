@@ -295,14 +295,17 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
 
   const userIds = profiles.map((p) => p.id);
 
-  // Aggregate progress and badges for all users in two queries
-  const [progressRes, badgesRes] = await Promise.all([
+  // Aggregate progress, badges and auth metadata for all users in parallel.
+  const [progressRes, badgesRes, authRes] = await Promise.all([
     db.from('user_progress')
       .select('user_id, status, score')
       .in('user_id', userIds),
     db.from('user_badges')
       .select('user_id, badge_id')
       .in('user_id', userIds),
+    db.from('admin_auth_users')
+      .select('id, email, last_sign_in_at, created_at')
+      .in('id', userIds),
   ]);
 
   if (progressRes.error) {
@@ -329,22 +332,16 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
     if (entry) entry.badge_count += 1;
   }
 
-  // Auth metadata (email + login activity) lives in auth.users — only the
-  // service role can read it, via the Admin API. Paginate so all users are
-  // covered. A failure here shouldn't sink the whole list.
+  // Auth metadata (email + login activity) from the admin_auth_users view over
+  // auth.users (service-role only), fetched in parallel above.
   type AuthInfo = { email: string | null; last_sign_in_at: string | null; created_at: string | null };
   const authById = new Map<string, AuthInfo>();
-  for (let page = 1; ; page++) {
-    const { data: authData, error: authErr } = await db.auth.admin.listUsers({ page, perPage: 200 });
-    if (authErr || !authData) break;
-    for (const u of authData.users) {
-      authById.set(u.id, {
-        email: u.email ?? null,
-        last_sign_in_at: u.last_sign_in_at ?? null,
-        created_at: u.created_at ?? null,
-      });
-    }
-    if (authData.users.length < 200) break;
+  for (const u of (authRes.data ?? []) as (AuthInfo & { id: string })[]) {
+    authById.set(u.id, {
+      email: u.email ?? null,
+      last_sign_in_at: u.last_sign_in_at ?? null,
+      created_at: u.created_at ?? null,
+    });
   }
 
   const data = profiles.map((p) => {
@@ -490,18 +487,24 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
   if (!profiles || profiles.length === 0) return { status: 200, payload: { ok: true, data: { users: [] } } };
   const userIds = profiles.map((p) => p.id);
 
-  const { data: modules } = await db.from('modules').select('id, code');
-  const idByCode = new Map<string, string>((modules ?? []).map((m) => [m.code, m.id]));
+  // Fetch everything independent in parallel to minimise round-trips.
+  const [modulesRes, lessonsRes, rolePathsRes, progressRes, examsRes] = await Promise.all([
+    db.from('modules').select('id, code'),
+    db.from('lessons').select('module_id, level').eq('lang', 'en'),
+    db.from('role_paths').select('role, module_code, level'),
+    db.from('user_progress').select('user_id, module_id, level, status, score').in('user_id', userIds),
+    db.from('exam_results').select('user_id, score').in('user_id', userIds),
+  ]);
+
+  const idByCode = new Map<string, string>((modulesRes.data ?? []).map((m) => [m.code, m.id]));
 
   // Distinct (module, level) units that actually have lessons (count once via 'en').
-  const { data: lessons } = await db.from('lessons').select('module_id, level').eq('lang', 'en');
   const allUnits = new Set<string>();
-  for (const l of lessons ?? []) allUnits.add(`${l.module_id}:${l.level}`);
+  for (const l of lessonsRes.data ?? []) allUnits.add(`${l.module_id}:${l.level}`);
 
   // Role paths grouped by role.
-  const { data: rolePaths } = await db.from('role_paths').select('role, module_code, level');
   const entriesByRole = new Map<string, { code: string; level: string }[]>();
-  for (const r of rolePaths ?? []) {
+  for (const r of rolePathsRes.data ?? []) {
     if (!entriesByRole.has(r.role)) entriesByRole.set(r.role, []);
     entriesByRole.get(r.role)!.push({ code: r.module_code, level: r.level });
   }
@@ -525,17 +528,14 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
     return { mandatory, recommended };
   }
 
-  const { data: progress } = await db
-    .from('user_progress').select('user_id, module_id, level, status, score').in('user_id', userIds);
   const upByUser = new Map<string, Map<string, { status: string; score: number }>>();
   for (const uid of userIds) upByUser.set(uid, new Map());
-  for (const r of progress ?? []) {
+  for (const r of progressRes.data ?? []) {
     upByUser.get(r.user_id)?.set(`${r.module_id}:${r.level}`, { status: r.status, score: r.score ?? 0 });
   }
 
-  const { data: exams } = await db.from('exam_results').select('user_id, score').in('user_id', userIds);
   const examBest = new Map<string, number>();
-  for (const e of exams ?? []) {
+  for (const e of examsRes.data ?? []) {
     if ((examBest.get(e.user_id) ?? -1) < e.score) examBest.set(e.user_id, e.score);
   }
 
