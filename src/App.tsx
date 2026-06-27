@@ -1,22 +1,34 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/hooks/useAuth';
 import { LanguageProvider } from '@/lib/i18n';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
-import { Toaster } from '@/components/ui/toast';
-import { LoginPage } from '@/pages/LoginPage';
-import { DashboardPage } from '@/pages/DashboardPage';
-import { LessonPlayerPage } from '@/pages/LessonPlayerPage';
-import { LeaderboardPage } from '@/pages/LeaderboardPage';
-import { AdminPage } from '@/pages/AdminPage';
 import { AdminRoute } from '@/components/auth/AdminRoute';
-import { ExamPage } from '@/pages/ExamPage';
-import { ReflectionPage } from '@/pages/ReflectionPage';
-import { GlossaryPage } from '@/pages/GlossaryPage';
-import { IntroPage } from '@/pages/IntroPage';
-import { WelcomePage } from '@/pages/WelcomePage';
-import { LearningPathPage } from '@/pages/LearningPathPage';
-import { CertificatePage } from '@/pages/CertificatePage';
+import { Toaster } from '@/components/ui/toast';
 import { Spinner } from '@/components/ui/spinner';
+
+// Route components are code-split so each page ships as its own chunk and the
+// initial bundle only carries the landing route.
+const LoginPage = lazy(() => import('@/pages/LoginPage').then((m) => ({ default: m.LoginPage })));
+const DashboardPage = lazy(() => import('@/pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
+const LessonPlayerPage = lazy(() => import('@/pages/LessonPlayerPage').then((m) => ({ default: m.LessonPlayerPage })));
+const LeaderboardPage = lazy(() => import('@/pages/LeaderboardPage').then((m) => ({ default: m.LeaderboardPage })));
+const AdminPage = lazy(() => import('@/pages/AdminPage').then((m) => ({ default: m.AdminPage })));
+const ExamPage = lazy(() => import('@/pages/ExamPage').then((m) => ({ default: m.ExamPage })));
+const ReflectionPage = lazy(() => import('@/pages/ReflectionPage').then((m) => ({ default: m.ReflectionPage })));
+const GlossaryPage = lazy(() => import('@/pages/GlossaryPage').then((m) => ({ default: m.GlossaryPage })));
+const IntroPage = lazy(() => import('@/pages/IntroPage').then((m) => ({ default: m.IntroPage })));
+const WelcomePage = lazy(() => import('@/pages/WelcomePage').then((m) => ({ default: m.WelcomePage })));
+const LearningPathPage = lazy(() => import('@/pages/LearningPathPage').then((m) => ({ default: m.LearningPathPage })));
+const CertificatePage = lazy(() => import('@/pages/CertificatePage').then((m) => ({ default: m.CertificatePage })));
+
+function PageFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <Spinner size="lg" />
+    </div>
+  );
+}
 
 // Post-login landing: always the Welcome page (CIO message). It offers
 // "Continue learning" if a role is already chosen, or role-pick + start if not.
@@ -55,6 +67,7 @@ export default function App() {
   return (
     <AuthProvider>
       <LanguageBridge>
+        <Suspense fallback={<PageFallback />}>
         <Routes>
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
@@ -180,6 +193,7 @@ export default function App() {
           {/* Everything else → root */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </Suspense>
 
         {/* Toast notifications — rendered outside Routes so they survive navigation */}
         <Toaster />
