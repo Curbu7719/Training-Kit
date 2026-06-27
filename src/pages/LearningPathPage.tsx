@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, Circle, Clock, Lock, ArrowRight, Award } from 'lucide-react';
+import { CheckCircle2, Circle, Clock, Lock, ArrowRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
@@ -87,35 +87,6 @@ function PathItem({
         <Icon className={cn('h-4 w-4 shrink-0', cls)} />
       </button>
     </li>
-  );
-}
-
-// One completion gate (required modules / exam / reflection).
-function ChecklistRow({
-  done,
-  label,
-  action,
-}: {
-  done: boolean;
-  label: string;
-  action?: { label: string; onClick: () => void };
-}) {
-  return (
-    <div className="flex items-center justify-between gap-2">
-      <span className="flex items-center gap-2 text-sm">
-        {done ? (
-          <CheckCircle2 className="h-4 w-4 shrink-0 text-success" />
-        ) : (
-          <Circle className="h-4 w-4 shrink-0 text-muted-foreground" />
-        )}
-        <span className={done ? 'text-foreground' : 'text-muted-foreground'}>{label}</span>
-      </span>
-      {action && !done && (
-        <Button size="sm" variant="outline" className="h-7 px-2 text-xs" onClick={action.onClick}>
-          {action.label}
-        </Button>
-      )}
-    </div>
   );
 }
 
@@ -217,9 +188,6 @@ export function LearningPathPage() {
   const { mandatory, recommended } = path ? derivePath(path) : { mandatory: [], recommended: [] };
 
   // Completion = every required (core) module passed + exam passed + reflection.
-  const coreDone = path ? path.core.filter((rm) => statusFor(rm) === 'passed').length : 0;
-  const requiredDone = path ? coreDone === path.core.length : false;
-  const complete = requiredDone && examPassed && reflectionDone;
   const reflectionDue = examPassed && !reflectionDone;
 
   return (
@@ -283,45 +251,6 @@ export function LearningPathPage() {
               </Button>
               <span className="text-xs text-muted-foreground">{t('path.freeChoice')}</span>
             </div>
-
-            {/* Completion = all required modules + exam + reflection */}
-            <section className="rounded-lg border border-border bg-card px-5 py-4">
-              {complete ? (
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div
-                    data-testid="training-complete"
-                    className="inline-flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-sm font-medium text-success"
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                    {t('dashboard.complete.title')}
-                  </div>
-                  <Button size="sm" onClick={() => navigate('/certificate')} data-testid="get-certificate-btn" className="gap-1.5">
-                    <Award className="h-4 w-4" />
-                    {t('cert.cta')}
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-1.5">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {t('dashboard.complete.checklist')}
-                  </p>
-                  <ChecklistRow
-                    done={requiredDone}
-                    label={t('dashboard.complete.modules', { done: coreDone, total: path.core.length })}
-                  />
-                  <ChecklistRow
-                    done={examPassed}
-                    label={t('dashboard.complete.exam')}
-                    action={!examPassed ? { label: t('exam.cta.button'), onClick: () => navigate('/exam') } : undefined}
-                  />
-                  <ChecklistRow
-                    done={reflectionDone}
-                    label={t('dashboard.complete.reflection')}
-                    action={examPassed && !reflectionDone ? { label: t('dashboard.reflection.cta'), onClick: () => navigate('/reflection') } : undefined}
-                  />
-                </div>
-              )}
-            </section>
 
             {/* Mandatory (L1 of the role's core modules) */}
             <section className="rounded-lg border border-border bg-card px-5 py-4">
