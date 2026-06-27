@@ -38,16 +38,17 @@ export function WelcomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-4xl" />
+      <AppHeader />
 
-      <main className="mx-auto max-w-4xl px-6 py-10 space-y-8">
+      <main className="mx-auto w-full max-w-[1760px] px-5 py-10 sm:px-8">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
         {/* CIO message */}
-        <section className="rounded-lg border border-primary/30 bg-primary/5 px-6 py-6">
+        <section className="rounded-2xl border border-primary/30 bg-primary/5 px-6 py-6 shadow-card lg:px-9 lg:py-8">
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             {t('welcome.cio.eyebrow')}
           </p>
           <h1 className="mt-1 text-2xl font-bold leading-tight">{t('welcome.cio.title')}</h1>
-          <div className="mt-4 space-y-3 text-sm leading-relaxed text-foreground/90">
+          <div className="mt-4 max-w-3xl space-y-3 text-sm leading-relaxed text-foreground/90">
             <p>{t('welcome.cio.body1')}</p>
             <p>{t('welcome.cio.body2')}</p>
             <p>{t('welcome.cio.body3')}</p>
@@ -55,9 +56,10 @@ export function WelcomePage() {
           <p className="mt-4 text-sm font-medium text-muted-foreground">{t('welcome.cio.signature')}</p>
         </section>
 
+        <div className="lg:sticky lg:top-[84px]">
         {hasRole ? (
           /* Returning learner — role already chosen and locked */
-          <section className="rounded-lg border border-border bg-card px-6 py-6">
+          <section className="rounded-2xl border border-border bg-card px-6 py-6 shadow-card">
             <h2 className="text-lg font-semibold">{t('welcome.back.title')}</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               {t('welcome.back.role')}{' '}
@@ -75,7 +77,7 @@ export function WelcomePage() {
           </section>
         ) : (
           /* First time — pick a role and start */
-          <section className="rounded-lg border border-border bg-card px-6 py-6">
+          <section className="rounded-2xl border border-border bg-card px-6 py-6 shadow-card">
             <h2 className="text-lg font-semibold">{t('welcome.role.title')}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{t('welcome.role.help')}</p>
 
@@ -105,6 +107,8 @@ export function WelcomePage() {
             {!role && <p className="mt-2 text-xs text-muted-foreground">{t('welcome.start.hint')}</p>}
           </section>
         )}
+        </div>
+        </div>
       </main>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Clock, CheckCircle2, Circle } from 'lucide-react';
+import { Lock, Clock, CheckCircle2, Circle, Target, Star, GraduationCap, ListChecks, PenLine, Award } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
@@ -106,6 +106,35 @@ function StatusBadge({ status }: { status: CellStatus }) {
       <Icon className="h-3 w-3" />
       {t(labelKey)}
     </span>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Stat tile — a compact metric card for the dashboard stats row
+// ---------------------------------------------------------------------------
+
+function StatTile({
+  icon: Icon,
+  value,
+  label,
+  sub,
+}: {
+  icon: typeof Award;
+  value: string | number;
+  label: string;
+  sub?: string;
+}) {
+  return (
+    <Card className="flex items-center gap-3.5 p-4">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+        <Icon className="h-5 w-5" />
+      </span>
+      <div className="min-w-0">
+        <div className="text-xl font-extrabold leading-tight">{value}</div>
+        <div className="truncate text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
+        {sub && <div className="truncate text-[11px] text-muted-foreground">{sub}</div>}
+      </div>
+    </Card>
   );
 }
 
@@ -225,6 +254,15 @@ export function DashboardPage() {
   // Role path loaded from the DB (admin-managed); falls back to the constant.
   // Used only to flag which modules are "Required" for the chosen role.
   const [dbPath, setDbPath] = useState<RolePath | null>(null);
+  // Aggregate performance metrics for the stat tiles.
+  const [stats, setStats] = useState<{
+    examScore: number | null;
+    quizPct: number | null;
+    quizN: number;
+    exPct: number | null;
+    exN: number;
+    badges: number;
+  }>({ examScore: null, quizPct: null, quizN: 0, exPct: null, exN: 0, badges: 0 });
 
   const load = useCallback(async () => {
     if (!profile) return;
@@ -264,6 +302,49 @@ export function DashboardPage() {
         setDbPath(null);
       }
     }
+
+    // Aggregate performance metrics for the stat tiles (all RLS-scoped to me).
+    const [examRes, badgeRes, quizRes, exRes, exDefRes] = await Promise.all([
+      supabase.from('exam_results').select('score').eq('user_id', profile.id).order('score', { ascending: false }).limit(1),
+      supabase.from('user_badges').select('badge_id').eq('user_id', profile.id),
+      supabase.from('quiz_attempts').select('quiz_question_id, is_correct').eq('user_id', profile.id),
+      supabase.from('exercise_subs').select('exercise_id, score').eq('user_id', profile.id),
+      supabase.from('exercises').select('id, max_score'),
+    ]);
+
+    // Quiz accuracy — a question counts as correct if any attempt got it right.
+    const qBest = new Map<string, boolean>();
+    for (const r of (quizRes.data ?? []) as { quiz_question_id: string; is_correct: boolean }[]) {
+      qBest.set(r.quiz_question_id, (qBest.get(r.quiz_question_id) ?? false) || r.is_correct);
+    }
+    const quizN = qBest.size;
+    const quizCorrect = [...qBest.values()].filter(Boolean).length;
+    const quizPct = quizN ? Math.round((quizCorrect / quizN) * 100) : null;
+
+    // Exercise score — best score per exercise over its max_score.
+    const maxById = new Map<string, number>();
+    for (const e of (exDefRes.data ?? []) as { id: string; max_score: number }[]) maxById.set(e.id, e.max_score);
+    const exBest = new Map<string, number>();
+    for (const r of (exRes.data ?? []) as { exercise_id: string; score: number }[]) {
+      exBest.set(r.exercise_id, Math.max(exBest.get(r.exercise_id) ?? 0, r.score));
+    }
+    let exEarned = 0;
+    let exPossible = 0;
+    for (const [id, best] of exBest) {
+      exEarned += best;
+      exPossible += maxById.get(id) ?? 0;
+    }
+    const exN = exBest.size;
+    const exPct = exPossible ? Math.round((exEarned / exPossible) * 100) : null;
+
+    setStats({
+      examScore: (examRes.data?.[0] as { score: number } | undefined)?.score ?? null,
+      quizPct,
+      quizN,
+      exPct,
+      exN,
+      badges: (badgeRes.data ?? []).length,
+    });
   }, [profile]);
 
   useEffect(() => {
@@ -300,6 +381,16 @@ export function DashboardPage() {
       .filter((rm) => rm.level === 'L2')
       .map((rm) => rm.code)
   );
+
+  // Mandatory = every module's L1 + the role's core L2 deep dives.
+  // Recommended = the role's optional L2 deep dives.
+  const mandL2 = (path?.core ?? []).filter((rm) => rm.level === 'L2').map((rm) => rm.code);
+  const recL2 = (path?.recommended ?? []).filter((rm) => rm.level === 'L2').map((rm) => rm.code);
+  const mandTotal = MODULE_CODES.length + mandL2.length;
+  const mandDone = passedCount + mandL2.filter((c) => statusFor(c).l2 === 'passed').length;
+  const mandPct = mandTotal ? Math.round((mandDone / mandTotal) * 100) : 0;
+  const recTotal = recL2.length;
+  const recDone = recL2.filter((c) => statusFor(c).l2 === 'passed').length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -364,6 +455,45 @@ export function DashboardPage() {
                 {t('dashboard.continueLearning')} →
               </Button>
             </Card>
+          </div>
+        </section>
+
+        {/* Stats — detailed performance metrics */}
+        <section>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {t('dashboard.stats.title')}
+          </h2>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
+            <StatTile
+              icon={Target}
+              value={`${mandPct}%`}
+              label={t('dashboard.stat.mandatory')}
+              sub={`${mandDone}/${mandTotal}`}
+            />
+            <StatTile
+              icon={Star}
+              value={`${recDone}/${recTotal}`}
+              label={t('dashboard.stat.recommended')}
+            />
+            <StatTile
+              icon={GraduationCap}
+              value={stats.examScore != null ? String(stats.examScore) : '—'}
+              label={t('dashboard.stat.exam')}
+              sub={stats.examScore == null ? t('dashboard.stat.notTaken') : '/ 100'}
+            />
+            <StatTile
+              icon={ListChecks}
+              value={stats.quizPct != null ? `${stats.quizPct}%` : '—'}
+              label={t('dashboard.stat.quiz')}
+              sub={stats.quizN ? t('dashboard.stat.attempts', { n: stats.quizN }) : undefined}
+            />
+            <StatTile
+              icon={PenLine}
+              value={stats.exPct != null ? `${stats.exPct}%` : '—'}
+              label={t('dashboard.stat.exercise')}
+              sub={stats.exN ? t('dashboard.stat.attempts', { n: stats.exN }) : undefined}
+            />
+            <StatTile icon={Award} value={String(stats.badges)} label={t('dashboard.stat.badges')} />
           </div>
         </section>
 

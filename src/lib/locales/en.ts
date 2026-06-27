@@ -57,6 +57,15 @@ const en = {
   'dashboard.stat.complete': 'Complete',
   'dashboard.stat.passed': 'Modules passed',
   'dashboard.stat.deepDives': 'Deep dives',
+  'dashboard.stats.title': 'Your stats',
+  'dashboard.stat.mandatory': 'Mandatory complete',
+  'dashboard.stat.recommended': 'Recommended done',
+  'dashboard.stat.exam': 'Exam score',
+  'dashboard.stat.quiz': 'Quiz accuracy',
+  'dashboard.stat.exercise': 'Exercise score',
+  'dashboard.stat.badges': 'Badges earned',
+  'dashboard.stat.notTaken': 'Not taken yet',
+  'dashboard.stat.attempts': '{n} attempted',
 
   // Role-based paths
   'role.panel.title': 'Your role path',

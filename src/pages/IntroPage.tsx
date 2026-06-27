@@ -12,22 +12,26 @@ export function IntroPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-4xl" />
+      <AppHeader />
 
-      <main className="mx-auto max-w-4xl px-6 py-8 space-y-6">
-        <article className="rounded-lg border border-border bg-card px-6 py-5">
-          <Markdown>{INTRO[lang]}</Markdown>
-        </article>
+      <main className="mx-auto w-full max-w-[1760px] px-5 py-8 sm:px-8">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+          <article className="rounded-2xl border border-border bg-card px-6 py-6 shadow-card lg:px-10 lg:py-8">
+            <div className="max-w-3xl">
+              <Markdown>{INTRO[lang]}</Markdown>
+            </div>
+          </article>
 
-        <div className="flex flex-wrap gap-3">
-          <Button onClick={() => navigate('/glossary')} variant="outline">
-            <BookOpen className="h-4 w-4" />
-            {t('intro.cta.glossary')}
-          </Button>
-          <Button onClick={() => navigate('/dashboard')}>
-            <LayoutDashboard className="h-4 w-4" />
-            {t('intro.cta.start')}
-          </Button>
+          <aside className="flex flex-col gap-3 lg:sticky lg:top-[84px]">
+            <Button onClick={() => navigate('/dashboard')} className="justify-start">
+              <LayoutDashboard className="h-4 w-4" />
+              {t('intro.cta.start')}
+            </Button>
+            <Button onClick={() => navigate('/glossary')} variant="outline" className="justify-start">
+              <BookOpen className="h-4 w-4" />
+              {t('intro.cta.glossary')}
+            </Button>
+          </aside>
         </div>
       </main>
     </div>

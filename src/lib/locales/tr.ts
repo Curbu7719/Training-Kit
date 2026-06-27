@@ -58,6 +58,15 @@ const tr = {
   'dashboard.stat.complete': 'Tamamlandı',
   'dashboard.stat.passed': 'Geçilen modül',
   'dashboard.stat.deepDives': 'Derin dalışlar',
+  'dashboard.stats.title': 'İstatistiklerin',
+  'dashboard.stat.mandatory': 'Zorunlu tamamlanma',
+  'dashboard.stat.recommended': 'Önerilen tamamlanan',
+  'dashboard.stat.exam': 'Sınav puanı',
+  'dashboard.stat.quiz': 'Quiz doğruluğu',
+  'dashboard.stat.exercise': 'Exercise puanı',
+  'dashboard.stat.badges': 'Kazanılan rozet',
+  'dashboard.stat.notTaken': 'Henüz girilmedi',
+  'dashboard.stat.attempts': '{n} denendi',
 
   // Rol bazlı patikalar
   'role.panel.title': 'Rol patikan',
