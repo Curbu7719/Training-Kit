@@ -12,6 +12,7 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
+import { getMyReflection } from '@/lib/api';
 
 // ---------------------------------------------------------------------------
 // Single shared curriculum — one path for everyone (no role splitting).
@@ -125,7 +126,7 @@ function StatTile({
   sub?: string;
 }) {
   return (
-    <Card className="flex items-center gap-3.5 p-4">
+    <div className="flex items-center gap-3.5">
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
         <Icon className="h-5 w-5" />
       </span>
@@ -134,7 +135,7 @@ function StatTile({
         <div className="truncate text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
         {sub && <div className="truncate text-[11px] text-muted-foreground">{sub}</div>}
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -257,12 +258,14 @@ export function DashboardPage() {
   // Aggregate performance metrics for the stat tiles.
   const [stats, setStats] = useState<{
     examScore: number | null;
+    examPassed: boolean;
     quizPct: number | null;
     quizN: number;
     exPct: number | null;
     exN: number;
     badges: number;
-  }>({ examScore: null, quizPct: null, quizN: 0, exPct: null, exN: 0, badges: 0 });
+    reflectionDone: boolean;
+  }>({ examScore: null, examPassed: false, quizPct: null, quizN: 0, exPct: null, exN: 0, badges: 0, reflectionDone: false });
 
   const load = useCallback(async () => {
     if (!profile) return;
@@ -304,12 +307,13 @@ export function DashboardPage() {
     }
 
     // Aggregate performance metrics for the stat tiles (all RLS-scoped to me).
-    const [examRes, badgeRes, quizRes, exRes, exDefRes] = await Promise.all([
-      supabase.from('exam_results').select('score').eq('user_id', profile.id).order('score', { ascending: false }).limit(1),
+    const [examRes, badgeRes, quizRes, exRes, exDefRes, reflection] = await Promise.all([
+      supabase.from('exam_results').select('score, passed').eq('user_id', profile.id).order('score', { ascending: false }).limit(1),
       supabase.from('user_badges').select('badge_id').eq('user_id', profile.id),
       supabase.from('quiz_attempts').select('quiz_question_id, is_correct').eq('user_id', profile.id),
       supabase.from('exercise_subs').select('exercise_id, score').eq('user_id', profile.id),
       supabase.from('exercises').select('id, max_score'),
+      getMyReflection().catch(() => null),
     ]);
 
     // Quiz accuracy — a question counts as correct if any attempt got it right.
@@ -337,13 +341,16 @@ export function DashboardPage() {
     const exN = exBest.size;
     const exPct = exPossible ? Math.round((exEarned / exPossible) * 100) : null;
 
+    const examTop = examRes.data?.[0] as { score: number; passed: boolean } | undefined;
     setStats({
-      examScore: (examRes.data?.[0] as { score: number } | undefined)?.score ?? null,
+      examScore: examTop?.score ?? null,
+      examPassed: examTop?.passed ?? false,
       quizPct,
       quizN,
       exPct,
       exN,
       badges: (badgeRes.data ?? []).length,
+      reflectionDone: reflection != null,
     });
   }, [profile]);
 
@@ -392,109 +399,119 @@ export function DashboardPage() {
   const recTotal = recL2.length;
   const recDone = recL2.filter((c) => statusFor(c).l2 === 'passed').length;
 
+  // What's left to finish the whole training: mandatory modules + exam + note.
+  const modLeft = Math.max(0, mandTotal - mandDone);
+  const remaining: string[] = [];
+  if (modLeft > 0) remaining.push(t('dashboard.remaining.modules', { n: modLeft }));
+  if (!stats.examPassed) remaining.push(t('dashboard.remaining.exam'));
+  if (!stats.reflectionDone) remaining.push(t('dashboard.remaining.reflection'));
+
   return (
     <div className="min-h-screen bg-background">
       <AppHeader />
 
       {/* Body */}
       <main className="mx-auto w-full max-w-[1760px] space-y-8 px-5 py-8 sm:px-8">
-        {/* Hero — greeting, progress ring, role + continue */}
+        {/* Greeting */}
         <section>
           <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t('dashboard.greeting', { name: firstName })}
           </h1>
           <p className="mt-1.5 text-[15px] text-muted-foreground">{t('dashboard.hero.sub')}</p>
-
-          <div className="mt-6 grid gap-5 lg:grid-cols-[1.5fr_1fr]">
-            {/* Progress summary */}
-            <Card className="flex flex-wrap items-center gap-6 p-6">
-              <div className="relative h-28 w-28 shrink-0">
-                <div
-                  className="h-full w-full rounded-full"
-                  style={{ background: `conic-gradient(hsl(var(--primary)) ${overallPct}%, hsl(var(--muted)) 0)` }}
-                />
-                <div className="absolute inset-[10px] flex flex-col items-center justify-center rounded-full bg-card">
-                  <span className="text-2xl font-extrabold leading-none">{overallPct}%</span>
-                  <span className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
-                    {t('dashboard.stat.complete')}
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-1 items-center justify-around gap-8">
-                <div>
-                  <div className="text-2xl font-extrabold">
-                    {passedCount}
-                    <span className="text-base font-semibold text-muted-foreground">/{MODULE_CODES.length}</span>
-                  </div>
-                  <div className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {t('dashboard.stat.passed')}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-2xl font-extrabold">{l2PassedCount}</div>
-                  <div className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {t('dashboard.stat.deepDives')}
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Role + continue */}
-            <Card className="flex flex-col justify-center gap-3 p-6">
-              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                {t('dashboard.yourRole')}
-              </span>
-              {role && (
-                <Badge variant="default" className="w-fit gap-2 px-3.5 py-1.5 text-sm">
-                  <span className="text-primary">●</span>
-                  {t(`role.${role}` as TranslationKey)}
-                </Badge>
-              )}
-              <p className="text-[13px] leading-relaxed text-muted-foreground">{t('path.mustHelp')}</p>
-              <Button className="mt-1 w-fit" onClick={() => navigate('/path')} data-testid="back-to-path-btn">
-                {t('dashboard.continueLearning')} →
-              </Button>
-            </Card>
-          </div>
         </section>
 
-        {/* Stats — detailed performance metrics */}
+        {/* Your stats — one consolidated panel: progress, role, what's left, metrics */}
         <section>
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
             {t('dashboard.stats.title')}
           </h2>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">
-            <StatTile
-              icon={Target}
-              value={`${mandPct}%`}
-              label={t('dashboard.stat.mandatory')}
-              sub={`${mandDone}/${mandTotal}`}
-            />
-            <StatTile
-              icon={Star}
-              value={`${recDone}/${recTotal}`}
-              label={t('dashboard.stat.recommended')}
-            />
-            <StatTile
-              icon={GraduationCap}
-              value={stats.examScore != null ? String(stats.examScore) : '—'}
-              label={t('dashboard.stat.exam')}
-              sub={stats.examScore == null ? t('dashboard.stat.notTaken') : '/ 100'}
-            />
-            <StatTile
-              icon={ListChecks}
-              value={stats.quizPct != null ? `${stats.quizPct}%` : '—'}
-              label={t('dashboard.stat.quiz')}
-              sub={stats.quizN ? t('dashboard.stat.attempts', { n: stats.quizN }) : undefined}
-            />
-            <StatTile
-              icon={PenLine}
-              value={stats.exPct != null ? `${stats.exPct}%` : '—'}
-              label={t('dashboard.stat.exercise')}
-              sub={stats.exN ? t('dashboard.stat.attempts', { n: stats.exN }) : undefined}
-            />
-            <StatTile icon={Award} value={String(stats.badges)} label={t('dashboard.stat.badges')} />
-          </div>
+          <Card className="p-6">
+            {/* Top row: progress ring + role, and what's left + continue */}
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex items-center gap-5">
+                <div className="relative h-24 w-24 shrink-0">
+                  <div
+                    className="h-full w-full rounded-full"
+                    style={{ background: `conic-gradient(hsl(var(--primary)) ${overallPct}%, hsl(var(--muted)) 0)` }}
+                  />
+                  <div className="absolute inset-[9px] flex flex-col items-center justify-center rounded-full bg-card">
+                    <span className="text-xl font-extrabold leading-none">{overallPct}%</span>
+                    <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
+                      {t('dashboard.stat.complete')}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  {role && (
+                    <Badge variant="default" className="w-fit gap-2 px-3 py-1 text-sm">
+                      <span className="text-primary">●</span>
+                      {t(`role.${role}` as TranslationKey)}
+                    </Badge>
+                  )}
+                  <div className="text-sm text-muted-foreground">
+                    {t('dashboard.modulesPassed', { passed: passedCount, total: MODULE_CODES.length })} · {l2PassedCount}{' '}
+                    {t('dashboard.stat.deepDives')}
+                  </div>
+                </div>
+              </div>
+
+              {/* What's left to finish + continue */}
+              <div className="flex flex-col gap-2 lg:items-end">
+                {remaining.length > 0 ? (
+                  <div className="flex flex-col gap-1.5 lg:items-end">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                      {t('dashboard.remaining.title')}
+                    </span>
+                    <div className="flex flex-wrap gap-1.5 lg:justify-end">
+                      {remaining.map((r) => (
+                        <span
+                          key={r}
+                          className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary"
+                        >
+                          {r}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-3 py-1.5 text-sm font-semibold text-success">
+                    <CheckCircle2 className="h-4 w-4" />
+                    {t('dashboard.remaining.done')}
+                  </span>
+                )}
+                <Button className="mt-1 w-fit" onClick={() => navigate('/path')} data-testid="back-to-path-btn">
+                  {t('dashboard.continueLearning')} →
+                </Button>
+              </div>
+            </div>
+
+            <div className="my-5 border-t border-border" />
+
+            {/* Metric cells */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 xl:grid-cols-6">
+              <StatTile icon={Target} value={`${mandPct}%`} label={t('dashboard.stat.mandatory')} sub={`${mandDone}/${mandTotal}`} />
+              <StatTile icon={Star} value={`${recDone}/${recTotal}`} label={t('dashboard.stat.recommended')} />
+              <StatTile
+                icon={GraduationCap}
+                value={stats.examScore != null ? String(stats.examScore) : '—'}
+                label={t('dashboard.stat.exam')}
+                sub={stats.examScore == null ? t('dashboard.stat.notTaken') : '/ 100'}
+              />
+              <StatTile
+                icon={ListChecks}
+                value={stats.quizPct != null ? `${stats.quizPct}%` : '—'}
+                label={t('dashboard.stat.quiz')}
+                sub={stats.quizN ? t('dashboard.stat.attempts', { n: stats.quizN }) : undefined}
+              />
+              <StatTile
+                icon={PenLine}
+                value={stats.exPct != null ? `${stats.exPct}%` : '—'}
+                label={t('dashboard.stat.exercise')}
+                sub={stats.exN ? t('dashboard.stat.attempts', { n: stats.exN }) : undefined}
+              />
+              <StatTile icon={Award} value={String(stats.badges)} label={t('dashboard.stat.badges')} />
+            </div>
+          </Card>
         </section>
 
         {/* New-to-AI on-ramp */}

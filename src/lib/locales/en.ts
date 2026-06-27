@@ -66,6 +66,11 @@ const en = {
   'dashboard.stat.badges': 'Badges earned',
   'dashboard.stat.notTaken': 'Not taken yet',
   'dashboard.stat.attempts': '{n} attempted',
+  'dashboard.remaining.title': 'Left to finish',
+  'dashboard.remaining.modules': '{n} mandatory modules',
+  'dashboard.remaining.exam': 'final exam',
+  'dashboard.remaining.reflection': 'completion note',
+  'dashboard.remaining.done': 'All requirements met — get your certificate',
 
   // Role-based paths
   'role.panel.title': 'Your role path',

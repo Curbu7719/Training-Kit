@@ -67,6 +67,11 @@ const tr = {
   'dashboard.stat.badges': 'Kazanılan rozet',
   'dashboard.stat.notTaken': 'Henüz girilmedi',
   'dashboard.stat.attempts': '{n} denendi',
+  'dashboard.remaining.title': 'Bitirmene kalan',
+  'dashboard.remaining.modules': '{n} zorunlu modül',
+  'dashboard.remaining.exam': 'final sınavı',
+  'dashboard.remaining.reflection': 'değerlendirme yazısı',
+  'dashboard.remaining.done': 'Tüm gereksinimler tamam — sertifikanı al',
 
   // Rol bazlı patikalar
   'role.panel.title': 'Rol patikan',
