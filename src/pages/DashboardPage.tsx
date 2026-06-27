@@ -514,16 +514,6 @@ export function DashboardPage() {
           </Card>
         </section>
 
-        {/* New-to-AI on-ramp */}
-        <button
-          type="button"
-          onClick={() => navigate('/start')}
-          className="flex w-full items-center justify-between rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left text-sm transition-colors hover:bg-primary/10"
-        >
-          <span className="font-semibold text-primary">{t('dashboard.newToAi')}</span>
-          <span className="text-primary">→</span>
-        </button>
-
         {SECTIONS.map(({ titleKey, codes }) => (
           <section key={titleKey}>
             <h2 className="mb-4 text-lg font-semibold">{t(titleKey as TranslationKey)}</h2>
