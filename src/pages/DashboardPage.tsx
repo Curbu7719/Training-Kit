@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
@@ -350,11 +349,6 @@ export function DashboardPage() {
               </Button>
             </CardContent>
           </Card>
-        </section>
-
-        <section>
-          <h2 className="mb-4 text-lg font-semibold">{t('dashboard.badges')}</h2>
-          <BadgeShelf />
         </section>
       </main>
 

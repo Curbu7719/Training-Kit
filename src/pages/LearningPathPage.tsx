@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { StatsPanel } from '@/components/dashboard/StatsPanel';
+import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, type RoleKey, type RoleModule, type RolePath } from '@/lib/rolePaths';
@@ -197,6 +198,14 @@ export function LearningPathPage() {
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-10 sm:px-8">
         {/* Your stats — progress, role, what's left and detailed metrics */}
         <StatsPanel />
+
+        {/* Badges earned */}
+        <section>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {t('dashboard.badges')}
+          </h2>
+          <BadgeShelf />
+        </section>
 
         {/* Mandatory completion reflection — due after passing the exam */}
         {reflectionDue && (
