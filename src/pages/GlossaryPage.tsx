@@ -20,15 +20,15 @@ export function GlossaryPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-3xl" />
+      <AppHeader />
 
-      <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
+      <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-8 sm:px-8">
         <div>
           <h1 className="text-2xl font-bold">{t('glossary.title')}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t('glossary.subtitle')}</p>
         </div>
 
-        <div className="relative">
+        <div className="relative max-w-md">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={query}
@@ -41,7 +41,7 @@ export function GlossaryPage() {
         {terms.length === 0 ? (
           <p className="py-8 text-center text-sm text-muted-foreground">{t('glossary.empty')}</p>
         ) : (
-          <dl className="space-y-3">
+          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {terms.map((it) => (
               <div key={it.term} className="rounded-lg border border-border bg-card px-4 py-3">
                 <dt className="text-sm font-semibold text-foreground">{it.term}</dt>

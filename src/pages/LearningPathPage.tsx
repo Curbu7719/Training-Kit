@@ -223,9 +223,9 @@ export function LearningPathPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-3xl" />
+      <AppHeader />
 
-      <main className="mx-auto max-w-3xl px-6 py-10 space-y-6">
+      <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-10 sm:px-8">
         {/* Mandatory completion reflection — due after passing the exam */}
         {reflectionDue && (
           <button
@@ -323,7 +323,7 @@ export function LearningPathPage() {
             <section className="rounded-lg border border-border bg-card px-5 py-4">
               <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-primary">{t('path.mustSection')}</h2>
               <p className="mb-3 text-xs text-muted-foreground">{t('path.mustHelp')}</p>
-              <ul className="space-y-2">
+              <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                 {mandatory.map((rm) => (
                   <PathItem key={`${rm.code}-${rm.level}`} rm={rm} kind="must" status={statusFor(rm)} onOpen={() => open(rm)} />
                 ))}
@@ -335,7 +335,7 @@ export function LearningPathPage() {
               <section className="rounded-lg border border-border bg-card px-5 py-4">
                 <h2 className="mb-1 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('path.recommendedSection')}</h2>
                 <p className="mb-3 text-xs text-muted-foreground">{t('path.recommendedHelp')}</p>
-                <ul className="space-y-2">
+                <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                   {recommended.map((rm) => (
                     <PathItem key={`${rm.code}-${rm.level}`} rm={rm} kind="recommended" status={statusFor(rm)} onOpen={() => open(rm)} />
                   ))}

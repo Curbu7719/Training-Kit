@@ -35,9 +35,9 @@ export function LeaderboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-3xl" />
+      <AppHeader />
 
-      <main className="mx-auto max-w-3xl px-6 py-8">
+      <main className="mx-auto w-full max-w-[1760px] px-5 py-8 sm:px-8">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">{t('leaderboard.title')}</h1>
           <Button variant="outline" size="sm" onClick={() => navigate('/certificate')} className="gap-1.5" data-testid="leaderboard-cert-btn">

@@ -12,9 +12,9 @@ export function IntroPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-3xl" />
+      <AppHeader width="max-w-4xl" />
 
-      <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
+      <main className="mx-auto max-w-4xl px-6 py-8 space-y-6">
         <article className="rounded-lg border border-border bg-card px-6 py-5">
           <Markdown>{INTRO[lang]}</Markdown>
         </article>

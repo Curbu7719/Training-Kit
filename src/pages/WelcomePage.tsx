@@ -38,9 +38,9 @@ export function WelcomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-3xl" />
+      <AppHeader width="max-w-4xl" />
 
-      <main className="mx-auto max-w-3xl px-6 py-10 space-y-8">
+      <main className="mx-auto max-w-4xl px-6 py-10 space-y-8">
         {/* CIO message */}
         <section className="rounded-lg border border-primary/30 bg-primary/5 px-6 py-6">
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">

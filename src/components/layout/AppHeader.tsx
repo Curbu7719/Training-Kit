@@ -23,7 +23,7 @@ interface AppHeaderProps {
  * highlight, language switcher, profile avatar and sign-out. Sticky, glassy
  * white bar matching the "Clean Corporate" design.
  */
-export function AppHeader({ width = 'max-w-6xl' }: AppHeaderProps) {
+export function AppHeader({ width = 'max-w-[1760px]' }: AppHeaderProps) {
   const { profile, signOut } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export function AppHeader({ width = 'max-w-6xl' }: AppHeaderProps) {
 
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-card/85 shadow-header backdrop-blur">
-      <div className={cn('mx-auto flex h-[68px] items-center justify-between gap-4 px-5 sm:px-6', width)}>
+      <div className={cn('mx-auto flex h-[68px] items-center justify-between gap-4 px-5 sm:px-8', width)}>
         <button
           type="button"
           onClick={() => navigate('/dashboard')}

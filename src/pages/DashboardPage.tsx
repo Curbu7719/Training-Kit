@@ -303,10 +303,10 @@ export function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppHeader width="max-w-6xl" />
+      <AppHeader />
 
       {/* Body */}
-      <main className="mx-auto max-w-6xl px-5 py-8 space-y-8 sm:px-6">
+      <main className="mx-auto w-full max-w-[1760px] space-y-8 px-5 py-8 sm:px-8">
         {/* Hero — greeting, progress ring, role + continue */}
         <section>
           <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
@@ -329,7 +329,7 @@ export function DashboardPage() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-1 gap-8">
+              <div className="flex flex-1 items-center justify-around gap-8">
                 <div>
                   <div className="text-2xl font-extrabold">
                     {passedCount}
@@ -380,7 +380,7 @@ export function DashboardPage() {
         {SECTIONS.map(({ titleKey, codes }) => (
           <section key={titleKey}>
             <h2 className="mb-4 text-lg font-semibold">{t(titleKey as TranslationKey)}</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {codes.map((code, i) => {
                 const { l1, l2 } = statusFor(code);
                 return (
