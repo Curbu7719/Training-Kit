@@ -1,18 +1,16 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Clock, CheckCircle2, Circle, Target, Star, GraduationCap, ListChecks, PenLine, Award } from 'lucide-react';
+import { Lock, Clock, CheckCircle2, Circle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
-import { getMyReflection } from '@/lib/api';
 
 // ---------------------------------------------------------------------------
 // Single shared curriculum — one path for everyone (no role splitting).
@@ -107,35 +105,6 @@ function StatusBadge({ status }: { status: CellStatus }) {
       <Icon className="h-3 w-3" />
       {t(labelKey)}
     </span>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Stat tile — a compact metric card for the dashboard stats row
-// ---------------------------------------------------------------------------
-
-function StatTile({
-  icon: Icon,
-  value,
-  label,
-  sub,
-}: {
-  icon: typeof Award;
-  value: string | number;
-  label: string;
-  sub?: string;
-}) {
-  return (
-    <div className="flex items-center gap-3.5">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-        <Icon className="h-5 w-5" />
-      </span>
-      <div className="min-w-0">
-        <div className="text-xl font-extrabold leading-tight">{value}</div>
-        <div className="truncate text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
-        {sub && <div className="truncate text-[11px] text-muted-foreground">{sub}</div>}
-      </div>
-    </div>
   );
 }
 
@@ -255,17 +224,6 @@ export function DashboardPage() {
   // Role path loaded from the DB (admin-managed); falls back to the constant.
   // Used only to flag which modules are "Required" for the chosen role.
   const [dbPath, setDbPath] = useState<RolePath | null>(null);
-  // Aggregate performance metrics for the stat tiles.
-  const [stats, setStats] = useState<{
-    examScore: number | null;
-    examPassed: boolean;
-    quizPct: number | null;
-    quizN: number;
-    exPct: number | null;
-    exN: number;
-    badges: number;
-    reflectionDone: boolean;
-  }>({ examScore: null, examPassed: false, quizPct: null, quizN: 0, exPct: null, exN: 0, badges: 0, reflectionDone: false });
 
   const load = useCallback(async () => {
     if (!profile) return;
@@ -305,53 +263,6 @@ export function DashboardPage() {
         setDbPath(null);
       }
     }
-
-    // Aggregate performance metrics for the stat tiles (all RLS-scoped to me).
-    const [examRes, badgeRes, quizRes, exRes, exDefRes, reflection] = await Promise.all([
-      supabase.from('exam_results').select('score, passed').eq('user_id', profile.id).order('score', { ascending: false }).limit(1),
-      supabase.from('user_badges').select('badge_id').eq('user_id', profile.id),
-      supabase.from('quiz_attempts').select('quiz_question_id, is_correct').eq('user_id', profile.id),
-      supabase.from('exercise_subs').select('exercise_id, score').eq('user_id', profile.id),
-      supabase.from('exercises').select('id, max_score'),
-      getMyReflection().catch(() => null),
-    ]);
-
-    // Quiz accuracy — a question counts as correct if any attempt got it right.
-    const qBest = new Map<string, boolean>();
-    for (const r of (quizRes.data ?? []) as { quiz_question_id: string; is_correct: boolean }[]) {
-      qBest.set(r.quiz_question_id, (qBest.get(r.quiz_question_id) ?? false) || r.is_correct);
-    }
-    const quizN = qBest.size;
-    const quizCorrect = [...qBest.values()].filter(Boolean).length;
-    const quizPct = quizN ? Math.round((quizCorrect / quizN) * 100) : null;
-
-    // Exercise score — best score per exercise over its max_score.
-    const maxById = new Map<string, number>();
-    for (const e of (exDefRes.data ?? []) as { id: string; max_score: number }[]) maxById.set(e.id, e.max_score);
-    const exBest = new Map<string, number>();
-    for (const r of (exRes.data ?? []) as { exercise_id: string; score: number }[]) {
-      exBest.set(r.exercise_id, Math.max(exBest.get(r.exercise_id) ?? 0, r.score));
-    }
-    let exEarned = 0;
-    let exPossible = 0;
-    for (const [id, best] of exBest) {
-      exEarned += best;
-      exPossible += maxById.get(id) ?? 0;
-    }
-    const exN = exBest.size;
-    const exPct = exPossible ? Math.round((exEarned / exPossible) * 100) : null;
-
-    const examTop = examRes.data?.[0] as { score: number; passed: boolean } | undefined;
-    setStats({
-      examScore: examTop?.score ?? null,
-      examPassed: examTop?.passed ?? false,
-      quizPct,
-      quizN,
-      exPct,
-      exN,
-      badges: (badgeRes.data ?? []).length,
-      reflectionDone: reflection != null,
-    });
   }, [profile]);
 
   useEffect(() => {
@@ -368,9 +279,6 @@ export function DashboardPage() {
     return { l1, l2, l1Passed };
   }
 
-  const passedCount = MODULE_CODES.filter((code) => statusFor(code).l1Passed).length;
-  const l2PassedCount = MODULE_CODES.filter((code) => statusFor(code).l2 === 'passed').length;
-  const overallPct = Math.round((passedCount / MODULE_CODES.length) * 100);
   const firstName = (profile?.display_name ?? '').trim().split(/\s+/)[0] ?? '';
 
   // Role is chosen once on the Welcome page and locked thereafter. If a learner
@@ -389,23 +297,6 @@ export function DashboardPage() {
       .map((rm) => rm.code)
   );
 
-  // Mandatory = every module's L1 + the role's core L2 deep dives.
-  // Recommended = the role's optional L2 deep dives.
-  const mandL2 = (path?.core ?? []).filter((rm) => rm.level === 'L2').map((rm) => rm.code);
-  const recL2 = (path?.recommended ?? []).filter((rm) => rm.level === 'L2').map((rm) => rm.code);
-  const mandTotal = MODULE_CODES.length + mandL2.length;
-  const mandDone = passedCount + mandL2.filter((c) => statusFor(c).l2 === 'passed').length;
-  const mandPct = mandTotal ? Math.round((mandDone / mandTotal) * 100) : 0;
-  const recTotal = recL2.length;
-  const recDone = recL2.filter((c) => statusFor(c).l2 === 'passed').length;
-
-  // What's left to finish the whole training: mandatory modules + exam + note.
-  const modLeft = Math.max(0, mandTotal - mandDone);
-  const remaining: string[] = [];
-  if (modLeft > 0) remaining.push(t('dashboard.remaining.modules', { n: modLeft }));
-  if (!stats.examPassed) remaining.push(t('dashboard.remaining.exam'));
-  if (!stats.reflectionDone) remaining.push(t('dashboard.remaining.reflection'));
-
   return (
     <div className="min-h-screen bg-background">
       <AppHeader />
@@ -418,100 +309,6 @@ export function DashboardPage() {
             {t('dashboard.greeting', { name: firstName })}
           </h1>
           <p className="mt-1.5 text-[15px] text-muted-foreground">{t('dashboard.hero.sub')}</p>
-        </section>
-
-        {/* Your stats — one consolidated panel: progress, role, what's left, metrics */}
-        <section>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-            {t('dashboard.stats.title')}
-          </h2>
-          <Card className="p-6">
-            {/* Top row: progress ring + role, and what's left + continue */}
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              <div className="flex items-center gap-5">
-                <div className="relative h-24 w-24 shrink-0">
-                  <div
-                    className="h-full w-full rounded-full"
-                    style={{ background: `conic-gradient(hsl(var(--primary)) ${overallPct}%, hsl(var(--muted)) 0)` }}
-                  />
-                  <div className="absolute inset-[9px] flex flex-col items-center justify-center rounded-full bg-card">
-                    <span className="text-xl font-extrabold leading-none">{overallPct}%</span>
-                    <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
-                      {t('dashboard.stat.complete')}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  {role && (
-                    <Badge variant="default" className="w-fit gap-2 px-3 py-1 text-sm">
-                      <span className="text-primary">●</span>
-                      {t(`role.${role}` as TranslationKey)}
-                    </Badge>
-                  )}
-                  <div className="text-sm text-muted-foreground">
-                    {t('dashboard.modulesPassed', { passed: passedCount, total: MODULE_CODES.length })} · {l2PassedCount}{' '}
-                    {t('dashboard.stat.deepDives')}
-                  </div>
-                </div>
-              </div>
-
-              {/* What's left to finish + continue */}
-              <div className="flex flex-col gap-2 lg:items-end">
-                {remaining.length > 0 ? (
-                  <div className="flex flex-col gap-1.5 lg:items-end">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      {t('dashboard.remaining.title')}
-                    </span>
-                    <div className="flex flex-wrap gap-1.5 lg:justify-end">
-                      {remaining.map((r) => (
-                        <span
-                          key={r}
-                          className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary"
-                        >
-                          {r}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-3 py-1.5 text-sm font-semibold text-success">
-                    <CheckCircle2 className="h-4 w-4" />
-                    {t('dashboard.remaining.done')}
-                  </span>
-                )}
-                <Button className="mt-1 w-fit" onClick={() => navigate('/path')} data-testid="back-to-path-btn">
-                  {t('dashboard.continueLearning')} →
-                </Button>
-              </div>
-            </div>
-
-            <div className="my-5 border-t border-border" />
-
-            {/* Metric cells */}
-            <div className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 xl:grid-cols-6">
-              <StatTile icon={Target} value={`${mandPct}%`} label={t('dashboard.stat.mandatory')} sub={`${mandDone}/${mandTotal}`} />
-              <StatTile icon={Star} value={`${recDone}/${recTotal}`} label={t('dashboard.stat.recommended')} />
-              <StatTile
-                icon={GraduationCap}
-                value={stats.examScore != null ? String(stats.examScore) : '—'}
-                label={t('dashboard.stat.exam')}
-                sub={stats.examScore == null ? t('dashboard.stat.notTaken') : '/ 100'}
-              />
-              <StatTile
-                icon={ListChecks}
-                value={stats.quizPct != null ? `${stats.quizPct}%` : '—'}
-                label={t('dashboard.stat.quiz')}
-                sub={stats.quizN ? t('dashboard.stat.attempts', { n: stats.quizN }) : undefined}
-              />
-              <StatTile
-                icon={PenLine}
-                value={stats.exPct != null ? `${stats.exPct}%` : '—'}
-                label={t('dashboard.stat.exercise')}
-                sub={stats.exN ? t('dashboard.stat.attempts', { n: stats.exN }) : undefined}
-              />
-              <StatTile icon={Award} value={String(stats.badges)} label={t('dashboard.stat.badges')} />
-            </div>
-          </Card>
         </section>
 
         {SECTIONS.map(({ titleKey, codes }) => (
