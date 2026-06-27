@@ -5,6 +5,7 @@ import { getLeaderboard, type LeaderboardEntry } from '@/lib/adminApi';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
@@ -33,32 +34,17 @@ export function LeaderboardPage() {
   const currentName = profile?.display_name ?? null;
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="text-xl font-bold text-primary hover:opacity-80 transition-opacity"
-            >
-              {t('nav.brand')}
-            </button>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate('/certificate')} className="gap-1.5" data-testid="leaderboard-cert-btn">
-              <Award className="h-4 w-4" />
-              {t('leaderboard.certificate')}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/dashboard')}>
-              {t('nav.dashboard')}
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      <AppHeader width="max-w-3xl" />
 
       <main className="mx-auto max-w-3xl px-6 py-8">
-        <h1 className="mb-6 text-2xl font-bold">{t('leaderboard.title')}</h1>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-2xl font-bold">{t('leaderboard.title')}</h1>
+          <Button variant="outline" size="sm" onClick={() => navigate('/certificate')} className="gap-1.5" data-testid="leaderboard-cert-btn">
+            <Award className="h-4 w-4" />
+            {t('leaderboard.certificate')}
+          </Button>
+        </div>
 
         {loading && (
           <div className="flex justify-center py-12">

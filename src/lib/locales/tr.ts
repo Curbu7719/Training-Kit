@@ -6,7 +6,7 @@ const tr = {
   // ---------------------------------------------------------------------------
   // Nav / common
   // ---------------------------------------------------------------------------
-  'nav.brand': 'TrainingKit',
+  'nav.brand': 'Training Platform',
   'nav.leaderboard': 'Sıralama',
   'nav.admin': 'Yönetici',
   'nav.signOut': 'Çıkış yap',
@@ -51,6 +51,13 @@ const tr = {
   'dashboard.about.title': 'Başlamadan önce',
   'dashboard.about.body': 'Yazılım yaşam döngüsü boyunca AI benimseyen ekipler için bir "SDLC\'de AI" okuryazarlık programı — hem AI özellikleri inşa etmeyi hem de AI güdümlü bir SDLC\'de çalışmayı kapsar. Uygulamalı lab becerisi değil, ortak bir anlayış kazandırır. Modülleri istediğin sırayla al; her L2\'yi açmak için L1\'i tamamla, sonra sertifikanı kazanmak için sınava gir. Seviye başına gösterilen süreler kabaca taslaktır.',
   'dashboard.minutes': '~{min} dk',
+  'dashboard.greeting': 'Tekrar hoş geldin, {name}',
+  'dashboard.hero.sub': 'Yapay zekâ destekli SDLC öğrenim patikan — rolüne göre düzenlendi.',
+  'dashboard.continueLearning': 'Öğrenime devam et',
+  'dashboard.yourRole': 'Rolün',
+  'dashboard.stat.complete': 'Tamamlandı',
+  'dashboard.stat.passed': 'Geçilen modül',
+  'dashboard.stat.deepDives': 'Derin dalışlar',
 
   // Rol bazlı patikalar
   'role.panel.title': 'Rol patikan',

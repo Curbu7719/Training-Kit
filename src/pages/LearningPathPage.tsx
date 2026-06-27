@@ -7,7 +7,7 @@ import { useLanguage } from '@/lib/i18n';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, type RoleKey, type RoleModule, type RolePath } from '@/lib/rolePaths';
@@ -119,7 +119,7 @@ function ChecklistRow({
 }
 
 export function LearningPathPage() {
-  const { profile, signOut } = useAuth();
+  const { profile } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -222,21 +222,8 @@ export function LearningPathPage() {
   const reflectionDue = examPassed && !reflectionDone;
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
-          <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
-          <div className="flex items-center gap-3">
-            {profile?.display_name && (
-              <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
-            )}
-            <LanguageSwitcher />
-            <Button variant="outline" size="sm" onClick={() => void signOut()} data-testid="sign-out-btn">
-              {t('nav.signOut')}
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      <AppHeader width="max-w-3xl" />
 
       <main className="mx-auto max-w-3xl px-6 py-10 space-y-6">
         {/* Mandatory completion reflection — due after passing the exam */}

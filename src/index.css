@@ -3,44 +3,45 @@
 @tailwind utilities;
 
 /*
- * Design tokens — TrainingKit.
- * Neutral, professional learning-platform palette (indigo primary), WCAG 2.1 AA.
- * Values are HSL channels (no hsl() wrapper) so Tailwind can compose opacity.
+ * Design tokens — Training Platform (Vodafone).
+ * "Clean Corporate" palette: Vodafone red primary on a soft-gray canvas with
+ * crisp white cards. Values are HSL channels (no hsl() wrapper) so Tailwind can
+ * compose opacity. WCAG 2.1 AA.
  */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 220 20% 97%; /* #f6f7f9 — soft page canvas */
+    --foreground: 0 0% 7%; /* near-black ink */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 0 0% 7%;
 
-    --primary: 243 75% 59%; /* indigo-600 */
+    --primary: 0 100% 45%; /* Vodafone red #e60000 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 16% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 220 14% 96%; /* light gray surfaces */
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 220 16% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 42%;
 
-    --accent: 199 89% 48%; /* sky-500 — info / in-progress */
+    --accent: 35 92% 47%; /* amber — in-progress / attention */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 72% 48%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 71% 35%; /* green — passed */
+    --success: 158 72% 37%; /* green — passed */
     --success-foreground: 0 0% 100%;
 
-    --warning: 38 92% 40%; /* amber — locked / attention */
+    --warning: 35 92% 47%; /* amber — locked / attention */
     --warning-foreground: 0 0% 100%;
 
-    --border: 220 13% 88%;
-    --input: 220 13% 88%;
-    --ring: 243 75% 59%;
+    --border: 220 13% 91%; /* #e8e8ea hairlines */
+    --input: 220 13% 91%;
+    --ring: 0 100% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 

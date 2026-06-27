@@ -5,7 +5,7 @@ const en = {
   // ---------------------------------------------------------------------------
   // Nav / common
   // ---------------------------------------------------------------------------
-  'nav.brand': 'TrainingKit',
+  'nav.brand': 'Training Platform',
   'nav.leaderboard': 'Leaderboard',
   'nav.admin': 'Admin',
   'nav.signOut': 'Sign out',
@@ -50,6 +50,13 @@ const en = {
   'dashboard.about.title': 'Before you start',
   'dashboard.about.body': 'An AI-in-the-SDLC literacy program for teams adopting AI across the software lifecycle — covering both building AI features and working in an AI-driven SDLC. It builds shared understanding, not hands-on lab skills. Take the modules in any order; finish L1 to unlock each L2, then sit the exam to earn your certificate. Times shown per level are rough drafts.',
   'dashboard.minutes': '~{min} min',
+  'dashboard.greeting': 'Welcome back, {name}',
+  'dashboard.hero.sub': 'Your AI-driven SDLC learning path — tailored to your role.',
+  'dashboard.continueLearning': 'Continue learning',
+  'dashboard.yourRole': 'Your role',
+  'dashboard.stat.complete': 'Complete',
+  'dashboard.stat.passed': 'Modules passed',
+  'dashboard.stat.deepDives': 'Deep dives',
 
   // Role-based paths
   'role.panel.title': 'Your role path',

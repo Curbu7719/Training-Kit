@@ -1,14 +1,12 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
-import { Button } from '@/components/ui/button';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { Input } from '@/components/ui/input';
 import { GLOSSARY } from '@/data/glossary';
 
 export function GlossaryPage() {
   const { t, lang } = useLanguage();
-  const navigate = useNavigate();
   const [query, setQuery] = useState('');
 
   const terms = useMemo(() => {
@@ -21,15 +19,8 @@ export function GlossaryPage() {
   }, [query, lang]);
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center gap-3 px-6 py-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
-            <ArrowLeft className="h-4 w-4" />
-            {t('nav.backToDashboard')}
-          </Button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      <AppHeader width="max-w-3xl" />
 
       <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
         <div>

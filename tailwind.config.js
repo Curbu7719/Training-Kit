@@ -49,6 +49,11 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
         chip: '999px',
       },
+      boxShadow: {
+        card: '0 1px 2px rgba(16,24,40,.04), 0 4px 16px rgba(16,24,40,.06)',
+        cardhover: '0 10px 30px rgba(16,24,40,.10)',
+        header: '0 1px 0 rgba(16,24,40,.04)',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
-import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { ROLE_ORDER } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 
@@ -15,7 +15,7 @@ import type { TranslationKey } from '@/lib/locales/en';
  * and locked (saved to profiles.learning_role).
  */
 export function WelcomePage() {
-  const { profile, refreshProfile, signOut } = useAuth();
+  const { profile, refreshProfile } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -37,21 +37,8 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
-          <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
-          <div className="flex items-center gap-3">
-            {profile?.display_name && (
-              <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
-            )}
-            <LanguageSwitcher />
-            <Button variant="outline" size="sm" onClick={() => void signOut()} data-testid="sign-out-btn">
-              {t('nav.signOut')}
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      <AppHeader width="max-w-3xl" />
 
       <main className="mx-auto max-w-3xl px-6 py-10 space-y-8">
         {/* CIO message */}

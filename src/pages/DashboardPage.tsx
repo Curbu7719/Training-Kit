@@ -5,10 +5,10 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
-import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
@@ -93,7 +93,7 @@ interface ProgressRow {
 
 const STATUS_CONFIG: Record<CellStatus, { labelKey: TranslationKey; icon: typeof Lock; className: string }> = {
   not_started: { labelKey: 'status.notStarted', icon: Circle, className: 'bg-muted text-muted-foreground' },
-  locked:      { labelKey: 'status.locked',     icon: Lock,          className: 'bg-warning/10 text-warning' },
+  locked:      { labelKey: 'status.locked',     icon: Lock,          className: 'bg-muted text-muted-foreground' },
   in_progress: { labelKey: 'status.inProgress', icon: Clock,         className: 'bg-accent/10 text-accent' },
   passed:      { labelKey: 'status.passed',      icon: CheckCircle2,  className: 'bg-success/10 text-success' },
 };
@@ -214,7 +214,7 @@ function ModuleCard({ code, index, l1Status, l2Status, l2Mandatory, onOpen }: Mo
 // ---------------------------------------------------------------------------
 
 export function DashboardPage() {
-  const { profile, signOut } = useAuth();
+  const { profile } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
@@ -281,7 +281,9 @@ export function DashboardPage() {
   }
 
   const passedCount = MODULE_CODES.filter((code) => statusFor(code).l1Passed).length;
+  const l2PassedCount = MODULE_CODES.filter((code) => statusFor(code).l2 === 'passed').length;
   const overallPct = Math.round((passedCount / MODULE_CODES.length) * 100);
+  const firstName = (profile?.display_name ?? '').trim().split(/\s+/)[0] ?? '';
 
   // Role is chosen once on the Welcome page and locked thereafter. If a learner
   // somehow reaches the dashboard without one, send them back to pick it.
@@ -300,78 +302,85 @@ export function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-muted/30">
-      {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-6 py-4">
-          <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
-          <div className="flex items-center gap-3">
-            {profile?.display_name && (
-              <span className="hidden text-sm text-muted-foreground sm:block">{profile.display_name}</span>
-            )}
-            <Button variant="ghost" size="sm" onClick={() => navigate('/path')} data-testid="nav-mypath-btn">
-              {t('nav.myPath')}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/start')}>
-              {t('nav.basics')}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/glossary')}>
-              {t('nav.glossary')}
-            </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/leaderboard')}>
-              {t('nav.leaderboard')}
-            </Button>
-            {profile?.role === 'admin' && (
-              <Button variant="ghost" size="sm" onClick={() => navigate('/admin')}>
-                {t('nav.admin')}
-              </Button>
-            )}
-            <LanguageSwitcher />
-            <Button variant="outline" size="sm" onClick={() => void signOut()} data-testid="sign-out-btn">
-              {t('nav.signOut')}
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      <AppHeader width="max-w-6xl" />
 
       {/* Body */}
-      <main className="mx-auto max-w-4xl px-6 py-8 space-y-8">
-        {/* Positioning — what this training is and how to use it */}
-        <section className="rounded-lg border border-border bg-card px-5 py-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-sm font-semibold">{t('dashboard.about.title')}</h2>
-            <Button variant="outline" size="sm" onClick={() => navigate('/path')} data-testid="back-to-path-btn">
-              {t('nav.myPath')}
-            </Button>
+      <main className="mx-auto max-w-6xl px-5 py-8 space-y-8 sm:px-6">
+        {/* Hero — greeting, progress ring, role + continue */}
+        <section>
+          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+            {t('dashboard.greeting', { name: firstName })}
+          </h1>
+          <p className="mt-1.5 text-[15px] text-muted-foreground">{t('dashboard.hero.sub')}</p>
+
+          <div className="mt-6 grid gap-5 lg:grid-cols-[1.5fr_1fr]">
+            {/* Progress summary */}
+            <Card className="flex flex-wrap items-center gap-6 p-6">
+              <div className="relative h-28 w-28 shrink-0">
+                <div
+                  className="h-full w-full rounded-full"
+                  style={{ background: `conic-gradient(hsl(var(--primary)) ${overallPct}%, hsl(var(--muted)) 0)` }}
+                />
+                <div className="absolute inset-[10px] flex flex-col items-center justify-center rounded-full bg-card">
+                  <span className="text-2xl font-extrabold leading-none">{overallPct}%</span>
+                  <span className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t('dashboard.stat.complete')}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-1 gap-8">
+                <div>
+                  <div className="text-2xl font-extrabold">
+                    {passedCount}
+                    <span className="text-base font-semibold text-muted-foreground">/{MODULE_CODES.length}</span>
+                  </div>
+                  <div className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t('dashboard.stat.passed')}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-2xl font-extrabold">{l2PassedCount}</div>
+                  <div className="mt-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {t('dashboard.stat.deepDives')}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Role + continue */}
+            <Card className="flex flex-col justify-center gap-3 p-6">
+              <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {t('dashboard.yourRole')}
+              </span>
+              {role && (
+                <Badge variant="default" className="w-fit gap-2 px-3.5 py-1.5 text-sm">
+                  <span className="text-primary">●</span>
+                  {t(`role.${role}` as TranslationKey)}
+                </Badge>
+              )}
+              <p className="text-[13px] leading-relaxed text-muted-foreground">{t('path.mustHelp')}</p>
+              <Button className="mt-1 w-fit" onClick={() => navigate('/path')} data-testid="back-to-path-btn">
+                {t('dashboard.continueLearning')} →
+              </Button>
+            </Card>
           </div>
-          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{t('dashboard.about.body')}</p>
         </section>
 
         {/* New-to-AI on-ramp */}
         <button
           type="button"
           onClick={() => navigate('/start')}
-          className="flex w-full items-center justify-between rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-left text-sm transition-colors hover:bg-primary/10"
+          className="flex w-full items-center justify-between rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-left text-sm transition-colors hover:bg-primary/10"
         >
-          <span className="font-medium text-primary">{t('dashboard.newToAi')}</span>
+          <span className="font-semibold text-primary">{t('dashboard.newToAi')}</span>
           <span className="text-primary">→</span>
         </button>
-
-        <section>
-          <div className="mb-2 flex items-center justify-between">
-            <h1 className="text-2xl font-bold">{t('dashboard.learningPath')}</h1>
-            <span className="text-sm text-muted-foreground">
-              {t('dashboard.modulesPassed', { passed: passedCount, total: MODULE_CODES.length })}
-            </span>
-          </div>
-          <Progress value={overallPct} className="h-2" />
-          <p className="mt-1.5 text-xs text-muted-foreground">{t('dashboard.summary')}</p>
-        </section>
 
         {SECTIONS.map(({ titleKey, codes }) => (
           <section key={titleKey}>
             <h2 className="mb-4 text-lg font-semibold">{t(titleKey as TranslationKey)}</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {codes.map((code, i) => {
                 const { l1, l2 } = statusFor(code);
                 return (

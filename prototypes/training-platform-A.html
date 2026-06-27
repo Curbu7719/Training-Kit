@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Training Platform — Prototype A (Clean Corporate)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --vf-red:#e60000; --vf-red-dark:#b30000; --ink:#0d0d0d; --ink-2:#3a3a3a;
+    --muted:#6b7280; --line:#e8e8ea; --bg:#f6f7f9; --card:#ffffff;
+    --green:#1aa06d; --amber:#d98300; --shadow:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .hd{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{height:26px;display:block}
+  .brand .sep{width:1px;height:26px;background:var(--line)}
+  .brand .name{font-weight:700;font-size:16px;letter-spacing:-.01em}
+  nav.menu{display:flex;gap:6px}
+  nav.menu a{padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink-2)}
+  nav.menu a.active{background:#fde8e8;color:var(--vf-red)}
+  nav.menu a:hover:not(.active){background:#f1f2f4}
+  .hd-right{display:flex;align-items:center;gap:14px}
+  .lang{font-size:13px;color:var(--muted);font-weight:500;border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+  .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--vf-red),var(--vf-red-dark));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+
+  /* Hero */
+  .hero{padding:40px 0 26px}
+  .hero h1{font-size:30px;font-weight:800;letter-spacing:-.02em}
+  .hero p{color:var(--muted);margin-top:6px;font-size:15px}
+  .hero-row{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin-top:24px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+  .summary{padding:24px;display:flex;align-items:center;gap:26px}
+  .ring{--p:78;width:108px;height:108px;border-radius:50%;flex:0 0 auto;
+    background:conic-gradient(var(--vf-red) calc(var(--p)*1%),#eceef1 0);display:flex;align-items:center;justify-content:center}
+  .ring i{width:82px;height:82px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-style:normal}
+  .ring b{font-size:24px;font-weight:800}
+  .ring span{font-size:11px;color:var(--muted);font-weight:600}
+  .summary .stats{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px;flex:1}
+  .stat .k{font-size:22px;font-weight:800}
+  .stat .l{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+  .role-card{padding:24px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+  .role-card .lbl{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:#fde8e8;color:var(--vf-red);font-weight:700;padding:8px 14px;border-radius:999px;font-size:14px;width:fit-content}
+  .role-card .hint{font-size:13px;color:var(--muted)}
+
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--vf-red);color:#fff;border:0;font-weight:600;font-size:14px;padding:11px 18px;border-radius:10px;cursor:pointer}
+  .btn:hover{background:var(--vf-red-dark)}
+  .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .btn.ghost:hover{background:#f1f2f4}
+
+  /* Sections */
+  section.block{margin:34px 0}
+  .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .sec-head h2{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .sec-head .badge-mand{color:var(--vf-red)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .mod{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:14px;transition:.18s}
+  .mod:hover{box-shadow:0 8px 28px rgba(16,24,40,.10);transform:translateY(-2px)}
+  .mod-top{display:flex;gap:13px}
+  .num{width:34px;height:34px;flex:0 0 auto;border-radius:9px;background:#fde8e8;color:var(--vf-red);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .mod h3{font-size:15px;font-weight:700;letter-spacing:-.01em}
+  .mod .desc{font-size:13px;color:var(--muted);line-height:1.45}
+  .lvls{display:flex;flex-direction:column;gap:8px}
+  .lvl{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+  .lvl .lv-l{display:flex;align-items:center;gap:8px;font-size:13px}
+  .lv-tag{font-size:10px;font-weight:700;letter-spacing:.04em}
+  .lv-tag.l{color:var(--muted)}
+  .pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px}
+  .pill.done{background:#e6f6ef;color:var(--green)}
+  .pill.prog{background:#fff4e3;color:var(--amber)}
+  .pill.todo{background:#f1f2f4;color:var(--muted)}
+  .tag-must{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:#fde8e8;color:var(--vf-red);padding:2px 7px;border-radius:999px}
+  .tag-rec{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:#eef0f3;color:var(--muted);padding:2px 7px;border-radius:999px}
+  .mod .cta{margin-top:2px}
+  .mod .cta button{width:100%;justify-content:center}
+
+  /* Certificate banner */
+  .cert{background:linear-gradient(100deg,#fff 0%,#fff 55%,#fff5f5 100%);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:26px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden;position:relative}
+  .cert::after{content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(230,0,0,.10),transparent 70%)}
+  .cert .c-l{display:flex;align-items:center;gap:18px;z-index:1}
+  .cert .seal{width:56px;height:56px;border-radius:14px;background:var(--vf-red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
+  .cert h3{font-size:18px;font-weight:800}
+  .cert p{font-size:13px;color:var(--muted);margin-top:3px}
+
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:24px 0;color:var(--muted);font-size:13px}
+  .foot{display:flex;justify-content:space-between;align-items:center}
+  .pn{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;background:#111;color:#fff;font-size:12px;padding:8px 14px;border-radius:999px;opacity:.92;z-index:50}
+  @media(max-width:960px){.hero-row,.grid{grid-template-columns:1fr 1fr}.summary{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap hd">
+      <div class="brand">
+        <img src="logo.png" alt="Vodafone" />
+        <div class="sep"></div>
+        <div class="name">Training Platform</div>
+      </div>
+      <nav class="menu">
+        <a class="active" href="#">My Path</a>
+        <a href="#">All Modules</a>
+        <a href="#">Leaderboard</a>
+        <a href="#">AI Basics</a>
+      </nav>
+      <div class="hd-right">
+        <div class="lang">EN ▾</div>
+        <div class="avatar">BS</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="hero">
+      <h1>Welcome back, Burcu</h1>
+      <p>Your AI-driven SDLC learning path — tailored to your role.</p>
+
+      <div class="hero-row">
+        <div class="panel summary">
+          <div class="ring"><i><b>78%</b><span>COMPLETE</span></i></div>
+          <div class="stats">
+            <div class="stat"><div class="k">14<span style="font-size:14px;color:var(--muted)">/18</span></div><div class="l">Modules passed</div></div>
+            <div class="stat"><div class="k">91%</div><div class="l">Path quality</div></div>
+            <div class="stat"><div class="k">6</div><div class="l">Deep dives</div></div>
+            <div class="stat"><div class="k">3</div><div class="l">Badges</div></div>
+          </div>
+        </div>
+        <div class="panel role-card">
+          <div class="lbl">Your role</div>
+          <div class="chip">● DevOps Engineer</div>
+          <div class="hint">L1 of every module is mandatory; your role's L2 deep dives are too. Other deep dives are recommended.</div>
+          <button class="btn" style="margin-top:6px">Continue learning →</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="block">
+      <div class="sec-head">
+        <h2 class="badge-mand">● Mandatory · your path</h2>
+        <a href="#" style="font-size:13px;color:var(--vf-red);font-weight:600">View all 18 →</a>
+      </div>
+      <div class="grid">
+
+        <div class="mod">
+          <div class="mod-top"><div class="num">1</div><div><h3>How LLMs Work</h3><div class="desc">Tokens, context, why models behave the way they do.</div></div></div>
+          <div class="lvls">
+            <div class="lvl"><div class="lv-l"><span class="lv-tag">L1</span> Foundations <span class="tag-must">Must</span></div><span class="pill done">✓ Passed</span></div>
+            <div class="lvl"><div class="lv-l"><span class="lv-tag l">L2</span> Deep dive <span class="tag-rec">Rec</span></div><span class="pill done">✓ Passed</span></div>
+          </div>
+          <div class="cta"><button class="btn ghost">Review</button></div>
+        </div>
+
+        <div class="mod">
+          <div class="mod-top"><div class="num">2</div><div><h3>Prompting</h3><div class="desc">Write prompts that produce reliable, checkable output.</div></div></div>
+          <div class="lvls">
+            <div class="lvl"><div class="lv-l"><span class="lv-tag">L1</span> Foundations <span class="tag-must">Must</span></div><span class="pill done">✓ Passed</span></div>
+            <div class="lvl"><div class="lv-l"><span class="lv-tag l">L2</span> Deep dive <span class="tag-must">Must</span></div><span class="pill prog">● In progress</span></div>
+          </div>
+          <div class="cta"><button class="btn">Continue</button></div>
+        </div>
+
+        <div class="mod">
+          <div class="mod-top"><div class="num">3</div><div><h3>Guardrails &amp; Safety</h3><div class="desc">Keep AI output in-scope, safe, and schema-valid.</div></div></div>
+          <div class="lvls">
+            <div class="lvl"><div class="lv-l"><span class="lv-tag">L1</span> Foundations <span class="tag-must">Must</span></div><span class="pill done">✓ Passed</span></div>
+            <div class="lvl"><div class="lv-l"><span class="lv-tag l">L2</span> Deep dive <span class="tag-rec">Rec</span></div><span class="pill todo">Not started</span></div>
+          </div>
+          <div class="cta"><button class="btn ghost">Review</button></div>
+        </div>
+
+        <div class="mod">
+          <div class="mod-top"><div class="num">4</div><div><h3>RAG</h3><div class="desc">Ground answers in your real code and docs.</div></div></div>
+          <div class="lvls">
+            <div class="lvl"><div class="lv-l"><span class="lv-tag">L1</span> Foundations <span class="tag-must">Must</span></div><span class="pill done">✓ Passed</span></div>
+            <div class="lvl"><div class="lv-l"><span class="lv-tag l">L2</span> Deep dive <span class="tag-rec">Rec</span></div><span class="pill todo">Not started</span></div>
+          </div>
+          <div class="cta"><button class="btn ghost">Review</button></div>
+        </div>
+
+        <div class="mod">
+          <div class="mod-top"><div class="num">5</div><div><h3>AI in Production (SRE)</h3><div class="desc">Run, monitor and recover AI features in production.</div></div></div>
+          <div class="lvls">
+            <div class="lvl"><div class="lv-l"><span class="lv-tag">L1</span> Foundations <span class="tag-must">Must</span></div><span class="pill done">✓ Passed</span></div>
+            <div class="lvl"><div class="lv-l"><span class="lv-tag l">L2</span> Deep dive <span class="tag-must">Must</span></div><span class="pill prog">● In progress</span></div>
+          </div>
+          <div class="cta"><button class="btn">Continue</button></div>
+        </div>
+
+        <div class="mod">
+          <div class="mod-top"><div class="num">6</div><div><h3>Cost, Latency &amp; Reliability</h3><div class="desc">Make AI features fast, cheap and dependable.</div></div></div>
+          <div class="lvls">
+            <div class="lvl"><div class="lv-l"><span class="lv-tag">L1</span> Foundations <span class="tag-must">Must</span></div><span class="pill todo">Not started</span></div>
+            <div class="lvl"><div class="lv-l"><span class="lv-tag l">L2</span> Deep dive <span class="tag-must">Must</span></div><span class="pill todo">Locked</span></div>
+          </div>
+          <div class="cta"><button class="btn">Start</button></div>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="cert">
+      <div class="c-l">
+        <div class="seal">★</div>
+        <div>
+          <h3>Your completion certificate is almost ready</h3>
+          <p>Finish the remaining modules, pass the SDLC exam and write your reflection to unlock it.</p>
+        </div>
+      </div>
+      <button class="btn ghost">View requirements</button>
+    </div>
+
+    <footer>
+      <div class="foot">
+        <span>© Vodafone — Training Platform</span>
+        <span>AI-driven SDLC · Internal use</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="pn">Prototype A — “Clean Corporate”</div>
+</body>
+</html>
