@@ -687,7 +687,37 @@ async function userDetail(
       median_gap_sec: tm.median_gap_sec,
     };
   });
-  const integrity = { fast_modules: fastModules, flagged: fastModules > 0 };
+
+  // Metronomic-pacing signal across the whole curriculum. A genuine learner's
+  // answer cadence is bursty (high variance); a near-constant gap with a low
+  // coefficient of variation over many answers is the fingerprint of a
+  // mechanical copy-question → AI → paste-answer loop, even at a "human-looking"
+  // ~50s pace that the per-module <8s flag never catches. Session breaks (gaps
+  // over CAP) are excluded so they don't distort the variance.
+  const UNIFORM_MIN_GAPS = 20, UNIFORM_COV = 0.5, UNIFORM_MAX_MEDIAN = 120;
+  const activeGaps: number[] = [];
+  for (const ts of moduleTimes.values()) {
+    const s = ts.slice().sort((a, b) => a - b);
+    for (let i = 1; i < s.length; i++) {
+      const g = (s[i] - s[i - 1]) / 1000;
+      if (g <= CAP_SEC) activeGaps.push(g);
+    }
+  }
+  const mean = activeGaps.length ? activeGaps.reduce((a, b) => a + b, 0) / activeGaps.length : 0;
+  const sd = activeGaps.length ? Math.sqrt(activeGaps.reduce((a, b) => a + (b - mean) ** 2, 0) / activeGaps.length) : 0;
+  const cov = mean ? sd / mean : null;
+  const medAll = median(activeGaps);
+  const uniformPacing =
+    activeGaps.length >= UNIFORM_MIN_GAPS && cov !== null && cov < UNIFORM_COV && medAll !== null && medAll < UNIFORM_MAX_MEDIAN;
+
+  const integrity = {
+    fast_modules: fastModules,
+    uniform_pacing: uniformPacing,
+    active_answers: activeGaps.length,
+    median_gap_sec: medAll !== null ? Math.round(medAll) : null,
+    cov: cov !== null ? Math.round(cov * 100) / 100 : null,
+    flagged: fastModules > 0 || uniformPacing,
+  };
 
   // Quiz accuracy — a distinct question is correct if any attempt got it right.
   const qBest = new Map<string, boolean>();

@@ -377,7 +377,8 @@ const tr = {
   'admin.detail.min': '{min}dk',
   'admin.detail.fast': 'Hızlı',
   'admin.detail.fastTitle': 'Şüpheli hızlı — {n} yanıt arası ~{sec}sn medyan',
-  'admin.detail.integrity': '⚡ {n} modül şüpheli hızlı tamamlandı — incelemeye değer',
+  'admin.detail.integrityFast': '⚡ {n} modül çok hızlı tamamlandı (yanıt arası 8sn altı).',
+  'admin.detail.integrityUniform': '⚡ Metronom kadans — {n} yanıt neredeyse sabit ~{sec}sn aralıkla (varyans CoV {cov}). Güçlü kopyala-yapıştır / AI sinyali.',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions

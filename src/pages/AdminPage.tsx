@@ -288,10 +288,21 @@ function UserDetailView({ userId, onBack }: { userId: string; onBack: () => void
         <Metric value={d.badges.length} label={t('dashboard.stat.badges')} />
       </div>
 
-      {/* Integrity flag — implausibly fast completions */}
+      {/* Integrity flags — implausibly fast or metronomic completions */}
       {d.integrity.flagged && (
-        <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive">
-          {t('admin.detail.integrity', { n: d.integrity.fast_modules })}
+        <div className="space-y-1 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive">
+          {d.integrity.fast_modules > 0 && (
+            <div>{t('admin.detail.integrityFast', { n: d.integrity.fast_modules })}</div>
+          )}
+          {d.integrity.uniform_pacing && (
+            <div>
+              {t('admin.detail.integrityUniform', {
+                n: d.integrity.active_answers,
+                sec: d.integrity.median_gap_sec ?? 0,
+                cov: d.integrity.cov ?? 0,
+              })}
+            </div>
+          )}
         </div>
       )}
 

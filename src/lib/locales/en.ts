@@ -376,7 +376,8 @@ const en = {
   'admin.detail.min': '{min}m',
   'admin.detail.fast': 'Fast',
   'admin.detail.fastTitle': 'Suspiciously fast — ~{sec}s median between {n} answers',
-  'admin.detail.integrity': '⚡ {n} module(s) completed suspiciously fast — worth a closer look',
+  'admin.detail.integrityFast': '⚡ {n} module(s) completed very fast (under 8s between answers).',
+  'admin.detail.integrityUniform': '⚡ Metronomic pacing — {n} answers at a near-constant ~{sec}s cadence (variance CoV {cov}). A strong copy-paste / AI-assist signal.',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions

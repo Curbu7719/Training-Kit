@@ -222,7 +222,14 @@ export interface UserDetail {
     created_at: string | null;
   };
   modules: UserDetailModule[];
-  integrity: { fast_modules: number; flagged: boolean };
+  integrity: {
+    fast_modules: number;
+    uniform_pacing: boolean;
+    active_answers: number;
+    median_gap_sec: number | null;
+    cov: number | null;
+    flagged: boolean;
+  };
   quiz: { attempted: number; correct: number; accuracy: number | null };
   exercise: { earned: number; possible: number; pct: number | null; attempted: number };
   exams: ExamAttempt[];
