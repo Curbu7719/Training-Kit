@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,12 +11,15 @@ import {
   listModules,
   listUsers,
   getProgressReport,
+  getUserDetail,
   listReflections,
   getRolePaths,
   updateRolePath,
   type ModuleSummary,
   type UserSummary,
   type ProgressUser,
+  type UserDetail,
+  type DetailCell,
   type ReflectionEntry,
   type RolePathRow,
   type RolePathEntry,
@@ -34,6 +38,7 @@ function UsersTab() {
   const [users, setUsers] = useState<UserSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
   const fmtLogin = (iso: string | null) =>
     iso
@@ -58,6 +63,10 @@ function UsersTab() {
   }, []);
 
   const onlineCount = users.filter((u) => isOnline(u.last_seen_at)).length;
+
+  if (selected) {
+    return <UserDetailView userId={selected} onBack={() => setSelected(null)} />;
+  }
 
   if (loading) {
     return (
@@ -106,7 +115,15 @@ function UsersTab() {
                   </span>
                 )}
               </td>
-              <td className="py-2 pr-4 font-medium">{u.display_name ?? '—'}</td>
+              <td className="py-2 pr-4">
+                <button
+                  type="button"
+                  onClick={() => setSelected(u.id)}
+                  className="font-medium text-primary hover:underline"
+                >
+                  {u.display_name ?? '—'}
+                </button>
+              </td>
               <td className="py-2 pr-4 text-muted-foreground">{u.email ?? '—'}</td>
               <td className="py-2 pr-4">
                 <Badge variant={u.role === 'admin' ? 'accent' : 'outline'} className="text-xs">
@@ -166,6 +183,214 @@ function DevScoreCell({ score }: { score: number }) {
 }
 
 // ---------------------------------------------------------------------------
+// UserDetailView — full development drill-down for one learner
+// ---------------------------------------------------------------------------
+
+function Metric({ value, label }: { value: string | number; label: string }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-3">
+      <div className="text-lg font-extrabold leading-tight tabular-nums">{value}</div>
+      <div className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</div>
+    </div>
+  );
+}
+
+function CellPill({ cell }: { cell: DetailCell | null }) {
+  const { t } = useLanguage();
+  if (!cell) return <span className="text-muted-foreground">—</span>;
+  const label =
+    cell.status === 'passed' ? t('status.passed')
+      : cell.status === 'in_progress' ? t('status.inProgress')
+        : cell.status === 'locked' ? t('status.locked')
+          : t('status.notStarted');
+  const cls =
+    cell.status === 'passed' ? 'bg-success/10 text-success'
+      : cell.status === 'in_progress' ? 'bg-accent/10 text-accent'
+        : 'bg-muted text-muted-foreground';
+  const showScore = cell.status === 'passed' || cell.status === 'in_progress';
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium ${cls}`}>
+      {label}{showScore ? ` · ${Math.round(cell.score)}` : ''}
+    </span>
+  );
+}
+
+function UserDetailView({ userId, onBack }: { userId: string; onBack: () => void }) {
+  const { t, lang } = useLanguage();
+  const [d, setD] = useState<UserDetail | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    getUserDetail(userId)
+      .then((x) => { if (active) setD(x); })
+      .catch((e: Error) => { if (active) setErr(e.message); });
+    return () => { active = false; };
+  }, [userId]);
+
+  const fmt = (iso: string | null) =>
+    iso ? new Date(iso).toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }) : t('admin.users.never');
+  const fmtDate = (iso: string | null) =>
+    iso ? new Date(iso).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium' }) : t('admin.users.never');
+
+  if (err) {
+    return (
+      <div className="space-y-3">
+        <Button variant="outline" size="sm" onClick={onBack} className="gap-1.5"><ArrowLeft className="h-4 w-4" />{t('admin.detail.back')}</Button>
+        <p className="text-sm text-destructive">{err}</p>
+      </div>
+    );
+  }
+  if (!d) {
+    return (
+      <div className="space-y-3">
+        <Button variant="outline" size="sm" onClick={onBack} className="gap-1.5"><ArrowLeft className="h-4 w-4" />{t('admin.detail.back')}</Button>
+        <div className="flex justify-center py-12"><Spinner size="lg" /></div>
+      </div>
+    );
+  }
+
+  const l1Total = d.modules.filter((m) => m.l1).length;
+  const l1Passed = d.modules.filter((m) => m.l1?.status === 'passed').length;
+  const l2Passed = d.modules.filter((m) => m.l2?.status === 'passed').length;
+
+  return (
+    <div className="space-y-6">
+      <Button variant="outline" size="sm" onClick={onBack} className="gap-1.5">
+        <ArrowLeft className="h-4 w-4" />{t('admin.detail.back')}
+      </Button>
+
+      {/* Identity header */}
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="text-xl font-bold">{d.profile.display_name ?? '—'}</h2>
+          <p className="text-sm text-muted-foreground">{d.profile.email ?? '—'}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <Badge variant={d.profile.role === 'admin' ? 'accent' : 'outline'} className="text-xs">{d.profile.role}</Badge>
+            {d.profile.learning_role && (
+              <Badge variant="default" className="text-xs">{t(`role.${d.profile.learning_role}` as TranslationKey)}</Badge>
+            )}
+          </div>
+        </div>
+        <div className="text-right text-xs text-muted-foreground">
+          <div>{t('admin.detail.lastSeen')}: {fmt(d.profile.last_seen_at)}</div>
+          <div>{t('admin.detail.joined')}: {fmtDate(d.profile.created_at)}</div>
+        </div>
+      </div>
+
+      {/* Metric tiles */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <Metric value={`${l1Passed}/${l1Total}`} label={t('dashboard.stat.passed')} />
+        <Metric value={l2Passed} label={t('dashboard.stat.deepDives')} />
+        <Metric value={d.quiz.accuracy != null ? `${d.quiz.accuracy}%` : '—'} label={t('dashboard.stat.quiz')} />
+        <Metric value={d.exercise.pct != null ? `${d.exercise.pct}%` : '—'} label={t('dashboard.stat.exercise')} />
+        <Metric value={d.exam_best != null ? d.exam_best : '—'} label={t('dashboard.stat.exam')} />
+        <Metric value={d.badges.length} label={t('dashboard.stat.badges')} />
+      </div>
+
+      {/* Module-by-module */}
+      <section>
+        <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.detail.modules')}</h3>
+        <div className="overflow-x-auto rounded-xl border border-border">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border bg-muted/30 text-left text-xs font-medium text-muted-foreground">
+                <th className="px-3 py-2">{t('admin.detail.col.module')}</th>
+                <th className="px-3 py-2">L1</th>
+                <th className="px-3 py-2">L2</th>
+              </tr>
+            </thead>
+            <tbody>
+              {d.modules.map((m) => (
+                <tr key={m.code} className="border-b border-border/50 last:border-0">
+                  <td className="px-3 py-2 font-medium">{m.title}</td>
+                  <td className="px-3 py-2"><CellPill cell={m.l1} /></td>
+                  <td className="px-3 py-2"><CellPill cell={m.l2} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Exam attempts */}
+        <section>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.detail.exams')}</h3>
+          {d.exams.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t('admin.detail.noExams')}</p>
+          ) : (
+            <ul className="space-y-1.5">
+              {d.exams.map((e, i) => (
+                <li key={i} className="flex items-center justify-between rounded-lg border border-border px-3 py-2 text-sm">
+                  <span className="flex items-center gap-2">
+                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${e.passed ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}>
+                      {e.passed ? t('status.passed') : t('admin.detail.failed')}
+                    </span>
+                    <span className="font-semibold tabular-nums">{e.score}%</span>
+                  </span>
+                  <span className="text-xs text-muted-foreground">{fmt(e.created_at)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* Activity + badges */}
+        <section className="space-y-4">
+          <div>
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.detail.activity')}</h3>
+            {d.activity.first_at ? (
+              <div className="space-y-1 text-sm">
+                <div className="flex justify-between"><span className="text-muted-foreground">{t('admin.detail.firstActivity')}</span><span>{fmt(d.activity.first_at)}</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">{t('admin.detail.lastActivity')}</span><span>{fmt(d.activity.last_at)}</span></div>
+                <p className="pt-1 text-xs text-muted-foreground">{t('admin.detail.attempts', { quiz: d.activity.quiz_attempts, ex: d.activity.exercise_subs })}</p>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">{t('admin.detail.noActivity')}</p>
+            )}
+          </div>
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('dashboard.stat.badges')}</h3>
+            {d.badges.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{t('admin.detail.noBadges')}</p>
+            ) : (
+              <div className="flex flex-wrap gap-1.5">
+                {d.badges.map((b, i) => (
+                  <span key={i} title={fmtDate(b.awarded_at)} className="inline-flex items-center rounded-full bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
+                    {b.title ?? b.code}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
+
+      {/* Reflection */}
+      {d.reflection && (
+        <section>
+          <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.detail.reflection')}</h3>
+          <Card>
+            <CardContent className="space-y-3 pt-6">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.reflections.work')}</p>
+                <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed">{d.reflection.work_application}</p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.reflections.value')}</p>
+                <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed">{d.reflection.expected_value}</p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // ProgressTab
 // ---------------------------------------------------------------------------
 
@@ -174,6 +399,7 @@ function ProgressTab() {
   const [users, setUsers] = useState<ProgressUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
     getProgressReport()
@@ -181,6 +407,10 @@ function ProgressTab() {
       .catch((e: Error) => setFetchErr(e.message))
       .finally(() => setLoading(false));
   }, []);
+
+  if (selected) {
+    return <UserDetailView userId={selected} onBack={() => setSelected(null)} />;
+  }
 
   if (loading) {
     return (
@@ -218,7 +448,15 @@ function ProgressTab() {
               const pct = u.mandatory.total ? Math.round((u.mandatory.passed / u.mandatory.total) * 100) : 0;
               return (
                 <tr key={u.id} className="border-b border-border/50 last:border-0">
-                  <td className="py-2 pr-4 font-medium">{u.display_name}</td>
+                  <td className="py-2 pr-4">
+                    <button
+                      type="button"
+                      onClick={() => setSelected(u.id)}
+                      className="font-medium text-primary hover:underline"
+                    >
+                      {u.display_name}
+                    </button>
+                  </td>
                   <td className="py-2 pr-4">
                     <Badge variant="outline" className="text-xs">
                       {u.learning_role ? t(`role.${u.learning_role}` as TranslationKey) : '—'}

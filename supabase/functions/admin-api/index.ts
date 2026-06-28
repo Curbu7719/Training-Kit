@@ -580,6 +580,135 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
 }
 
 // ---------------------------------------------------------------------------
+// user_detail — full development report for ONE learner: per-module L1/L2
+// status & score, quiz accuracy, exercise score, exam attempts, badges, the
+// reflection and an activity window (for time-on-task / integrity signals).
+// ---------------------------------------------------------------------------
+
+async function userDetail(
+  db: ReturnType<typeof createServiceClient>,
+  body: Record<string, unknown>,
+): Promise<HandlerResult> {
+  const userId = body.user_id;
+  if (typeof userId !== 'string' || !userId) {
+    return { status: 400, payload: { ok: false, error: '`user_id` (string) is required' } };
+  }
+
+  const [
+    profileRes, authRes, modulesRes, lessonsRes, progressRes,
+    quizRes, exSubRes, exDefRes, examRes, badgeRes, reflectionRes,
+  ] = await Promise.all([
+    db.from('profiles').select('id, display_name, role, learning_role, last_seen_at').eq('id', userId).single(),
+    db.from('admin_auth_users').select('email, last_sign_in_at, created_at').eq('id', userId).maybeSingle(),
+    db.from('modules').select('id, code, title, sort_order').order('sort_order', { ascending: true }),
+    db.from('lessons').select('module_id, level').eq('lang', 'en'),
+    db.from('user_progress').select('module_id, level, status, score').eq('user_id', userId),
+    db.from('quiz_attempts').select('quiz_question_id, is_correct, created_at').eq('user_id', userId),
+    db.from('exercise_subs').select('exercise_id, score, created_at').eq('user_id', userId),
+    db.from('exercises').select('id, max_score'),
+    db.from('exam_results').select('score, passed, lang, created_at').eq('user_id', userId).order('created_at', { ascending: false }),
+    db.from('user_badges').select('awarded_at, badges(code, title)').eq('user_id', userId).order('awarded_at', { ascending: false }),
+    db.from('completion_reflections').select('work_application, expected_value, lang, updated_at').eq('user_id', userId).maybeSingle(),
+  ]);
+
+  if (profileRes.error || !profileRes.data) {
+    return { status: 404, payload: { ok: false, error: 'User not found' } };
+  }
+  const p = profileRes.data;
+  const auth = authRes.data ?? { email: null, last_sign_in_at: null, created_at: null };
+
+  // Which (module:level) units actually exist (have lessons; count once via 'en').
+  const hasUnit = new Set<string>();
+  for (const l of lessonsRes.data ?? []) hasUnit.add(`${l.module_id}:${l.level}`);
+
+  const up = new Map<string, { status: string; score: number }>();
+  for (const r of progressRes.data ?? []) up.set(`${r.module_id}:${r.level}`, { status: r.status, score: r.score ?? 0 });
+
+  const cell = (key: string, has: boolean) => {
+    if (!has) return null;
+    const e = up.get(key);
+    return { status: e?.status ?? 'not_started', score: e?.score ?? 0 };
+  };
+  const modules = (modulesRes.data ?? []).map((m) => ({
+    code: m.code,
+    title: m.title,
+    sort_order: m.sort_order,
+    l1: cell(`${m.id}:L1`, hasUnit.has(`${m.id}:L1`)),
+    l2: cell(`${m.id}:L2`, hasUnit.has(`${m.id}:L2`)),
+  }));
+
+  // Quiz accuracy — a distinct question is correct if any attempt got it right.
+  const qBest = new Map<string, boolean>();
+  for (const r of quizRes.data ?? []) qBest.set(r.quiz_question_id, (qBest.get(r.quiz_question_id) ?? false) || r.is_correct);
+  const quizAttempted = qBest.size;
+  const quizCorrect = [...qBest.values()].filter(Boolean).length;
+
+  // Exercise score — best score per exercise over its max_score.
+  const maxById = new Map<string, number>();
+  for (const e of exDefRes.data ?? []) maxById.set(e.id, e.max_score);
+  const exBest = new Map<string, number>();
+  for (const r of exSubRes.data ?? []) exBest.set(r.exercise_id, Math.max(exBest.get(r.exercise_id) ?? 0, r.score));
+  let exEarned = 0, exPossible = 0;
+  for (const [id, best] of exBest) { exEarned += best; exPossible += maxById.get(id) ?? 0; }
+
+  const exams = (examRes.data ?? []).map((e) => ({ score: e.score, passed: e.passed, lang: e.lang, created_at: e.created_at }));
+  const examBest = exams.length ? Math.max(...exams.map((e) => e.score)) : null;
+
+  const badges = (badgeRes.data ?? []).map((b: Record<string, unknown>) => {
+    const bb = (b.badges ?? {}) as { code?: string; title?: string };
+    return { code: bb.code ?? null, title: bb.title ?? null, awarded_at: b.awarded_at };
+  });
+
+  // Activity window — for time-on-task / "too fast" integrity signals.
+  const times: number[] = [];
+  for (const r of quizRes.data ?? []) times.push(new Date(r.created_at).getTime());
+  for (const r of exSubRes.data ?? []) times.push(new Date(r.created_at).getTime());
+  times.sort((a, b) => a - b);
+  const activity = {
+    quiz_attempts: (quizRes.data ?? []).length,
+    exercise_subs: (exSubRes.data ?? []).length,
+    first_at: times.length ? new Date(times[0]).toISOString() : null,
+    last_at: times.length ? new Date(times[times.length - 1]).toISOString() : null,
+  };
+
+  return {
+    status: 200,
+    payload: {
+      ok: true,
+      data: {
+        profile: {
+          id: p.id,
+          display_name: p.display_name,
+          role: p.role,
+          learning_role: p.learning_role ?? null,
+          email: auth.email ?? null,
+          last_seen_at: p.last_seen_at ?? null,
+          last_sign_in_at: auth.last_sign_in_at ?? null,
+          created_at: auth.created_at ?? null,
+        },
+        modules,
+        quiz: {
+          attempted: quizAttempted,
+          correct: quizCorrect,
+          accuracy: quizAttempted ? Math.round((quizCorrect / quizAttempted) * 100) : null,
+        },
+        exercise: {
+          earned: exEarned,
+          possible: exPossible,
+          pct: exPossible ? Math.round((exEarned / exPossible) * 100) : null,
+          attempted: exBest.size,
+        },
+        exams,
+        exam_best: examBest,
+        badges,
+        reflection: reflectionRes.data ?? null,
+        activity,
+      },
+    },
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Entry point
 // ---------------------------------------------------------------------------
 
@@ -661,6 +790,9 @@ Deno.serve(async (req: Request) => {
       break;
     case 'progress_report':
       result = await progressReport(db);
+      break;
+    case 'user_detail':
+      result = await userDetail(db, body);
       break;
     case 'list_reflections':
       result = await listReflections(db);

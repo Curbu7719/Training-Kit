@@ -354,6 +354,24 @@ const en = {
   'admin.progress.legend': 'Path = each user’s mandatory modules (every L1 + their role’s L2 deep dives). Path score = average mastery over ALL of them (not-started = 0, so it blends coverage + quality). Quality = average score over ONLY the units they’ve attempted. Recommended = other L2s done; each adds +5 bonus. Total = path score + bonus.',
   'admin.progress.empty': 'No progress data yet.',
   'admin.progress.examNever': '—',
+  'admin.progress.viewDetail': 'View detail',
+
+  // Per-user development detail (admin drill-down)
+  'admin.detail.back': 'Back to list',
+  'admin.detail.modules': 'Module-by-module',
+  'admin.detail.col.module': 'Module',
+  'admin.detail.exams': 'Exam attempts',
+  'admin.detail.activity': 'Activity',
+  'admin.detail.firstActivity': 'First activity',
+  'admin.detail.lastActivity': 'Last activity',
+  'admin.detail.attempts': '{quiz} quiz · {ex} exercise submissions',
+  'admin.detail.reflection': 'Completion note',
+  'admin.detail.noBadges': 'No badges yet',
+  'admin.detail.noExams': 'No exam attempts yet',
+  'admin.detail.noActivity': 'No activity recorded yet',
+  'admin.detail.failed': 'Failed',
+  'admin.detail.lastSeen': 'Last seen',
+  'admin.detail.joined': 'Joined',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions

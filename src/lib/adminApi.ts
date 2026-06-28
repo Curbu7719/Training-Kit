@@ -179,6 +179,55 @@ export async function getProgressReport(): Promise<ProgressReport> {
 }
 
 // ---------------------------------------------------------------------------
+// User detail — full per-learner development report (admin-only drill-down)
+// ---------------------------------------------------------------------------
+
+export interface DetailCell {
+  status: 'not_started' | 'locked' | 'in_progress' | 'passed';
+  score: number;
+}
+
+export interface UserDetailModule {
+  code: string;
+  title: string;
+  sort_order: number;
+  l1: DetailCell | null;
+  l2: DetailCell | null;
+}
+
+export interface ExamAttempt {
+  score: number;
+  passed: boolean;
+  lang: 'en' | 'tr';
+  created_at: string;
+}
+
+export interface UserDetail {
+  profile: {
+    id: string;
+    display_name: string | null;
+    role: 'user' | 'admin';
+    learning_role: string | null;
+    email: string | null;
+    last_seen_at: string | null;
+    last_sign_in_at: string | null;
+    created_at: string | null;
+  };
+  modules: UserDetailModule[];
+  quiz: { attempted: number; correct: number; accuracy: number | null };
+  exercise: { earned: number; possible: number; pct: number | null; attempted: number };
+  exams: ExamAttempt[];
+  exam_best: number | null;
+  badges: { code: string | null; title: string | null; awarded_at: string }[];
+  reflection: { work_application: string; expected_value: string; lang: 'en' | 'tr'; updated_at: string } | null;
+  activity: { quiz_attempts: number; exercise_subs: number; first_at: string | null; last_at: string | null };
+}
+
+export async function getUserDetail(userId: string): Promise<UserDetail> {
+  return invokeAdmin<UserDetail>('user_detail', { user_id: userId });
+}
+
+// ---------------------------------------------------------------------------
 // Completion reflections (mandatory end-of-training writeups — admin-only)
 // ---------------------------------------------------------------------------
 

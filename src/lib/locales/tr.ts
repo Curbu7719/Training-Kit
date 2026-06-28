@@ -355,6 +355,24 @@ const tr = {
   'admin.progress.legend': 'Patika = kullanıcının zorunlu modülleri (her L1 + rolünün L2 derinlemesine modülleri). Patika puanı = HEPSİ üzerinden ortalama ustalık (başlanmamış = 0, yani kapsama + kaliteyi harmanlar). Kalite = SADECE başladığı birimlerin ortalama puanı. Önerilen = yapılan diğer L2’ler; her biri +5 bonus. Toplam = patika puanı + bonus.',
   'admin.progress.empty': 'Henüz ilerleme verisi yok.',
   'admin.progress.examNever': '—',
+  'admin.progress.viewDetail': 'Detayı gör',
+
+  // Kullanıcı bazlı gelişim detayı (admin drill-down)
+  'admin.detail.back': 'Listeye dön',
+  'admin.detail.modules': 'Modül modül',
+  'admin.detail.col.module': 'Modül',
+  'admin.detail.exams': 'Sınav denemeleri',
+  'admin.detail.activity': 'Aktivite',
+  'admin.detail.firstActivity': 'İlk aktivite',
+  'admin.detail.lastActivity': 'Son aktivite',
+  'admin.detail.attempts': '{quiz} quiz · {ex} exercise gönderimi',
+  'admin.detail.reflection': 'Değerlendirme yazısı',
+  'admin.detail.noBadges': 'Henüz rozet yok',
+  'admin.detail.noExams': 'Henüz sınav denemesi yok',
+  'admin.detail.noActivity': 'Henüz aktivite kaydı yok',
+  'admin.detail.failed': 'Kaldı',
+  'admin.detail.lastSeen': 'Son görülme',
+  'admin.detail.joined': 'Katıldı',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions
