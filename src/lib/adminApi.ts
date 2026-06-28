@@ -168,6 +168,10 @@ export interface ProgressUser {
   path_score: number;   // 0-100 average mastery over mandatory units
   total_score: number;  // path_score + bonus (sorted desc)
   exam_best: number | null;
+  /** Metronomic-pacing integrity flag (possible AI/copy completion). */
+  flagged?: boolean;
+  pace_cov?: number | null;
+  pace_median_sec?: number | null;
 }
 
 interface ProgressReport {

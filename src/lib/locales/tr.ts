@@ -356,6 +356,7 @@ const tr = {
   'admin.progress.empty': 'Henüz ilerleme verisi yok.',
   'admin.progress.examNever': '—',
   'admin.progress.viewDetail': 'Detayı gör',
+  'admin.progress.flagTitle': 'Metronom kadans (CoV {cov}, yanıt arası ~{sec}sn) — olası AI/kopya. İncelemek için kullanıcıyı aç.',
 
   // Kullanıcı bazlı gelişim detayı (admin drill-down)
   'admin.detail.back': 'Listeye dön',

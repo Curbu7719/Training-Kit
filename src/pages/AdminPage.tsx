@@ -488,6 +488,15 @@ function ProgressTab() {
                     >
                       {u.display_name}
                     </button>
+                    {u.flagged && (
+                      <span
+                        title={t('admin.progress.flagTitle', { cov: u.pace_cov ?? 0, sec: u.pace_median_sec ?? 0 })}
+                        className="ml-1.5 cursor-help text-destructive"
+                        aria-label="flagged"
+                      >
+                        ⚡
+                      </span>
+                    )}
                   </td>
                   <td className="py-2 pr-4">
                     <Badge variant="outline" className="text-xs">

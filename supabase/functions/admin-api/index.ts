@@ -30,6 +30,60 @@ import { validateCorrectIndexes } from '../_shared/admin-helpers.ts';
 export { validateCorrectIndexes };
 
 // ---------------------------------------------------------------------------
+// Pacing / integrity helpers — shared by user_detail and progress_report.
+// Active time excludes idle gaps over CAP; metronomic pacing (low coefficient
+// of variation over many answers) flags a likely copy/AI loop even at a
+// human-looking cadence that the per-module <8s flag never catches.
+// ---------------------------------------------------------------------------
+
+const PACE_CAP_SEC = 300;
+const FAST_GAP_SEC = 8;
+const FAST_MIN_EVENTS = 3;
+const UNIFORM_MIN_GAPS = 20;
+const UNIFORM_COV = 0.5;
+const UNIFORM_MAX_MEDIAN = 120;
+
+function medianOf(ns: number[]): number | null {
+  if (!ns.length) return null;
+  const s = [...ns].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+}
+
+function moduleTiming(ts: number[]): { minutes: number; events: number; fast: boolean; median_gap_sec: number | null } {
+  const sorted = ts.slice().sort((a, b) => a - b);
+  if (sorted.length === 0) return { minutes: 0, events: 0, fast: false, median_gap_sec: null };
+  const gaps: number[] = [];
+  for (let i = 1; i < sorted.length; i++) gaps.push((sorted[i] - sorted[i - 1]) / 1000);
+  const activeSec = gaps.reduce((s, g) => s + Math.min(g, PACE_CAP_SEC), 0);
+  const med = medianOf(gaps);
+  const fast = sorted.length >= FAST_MIN_EVENTS && med !== null && med < FAST_GAP_SEC;
+  return { minutes: Math.round(activeSec / 60), events: sorted.length, fast, median_gap_sec: med !== null ? Math.round(med) : null };
+}
+
+function pacingStats(moduleTimes: Map<string, number[]>): { active_answers: number; median_gap_sec: number | null; cov: number | null; uniform_pacing: boolean } {
+  const gaps: number[] = [];
+  for (const ts of moduleTimes.values()) {
+    const s = ts.slice().sort((a, b) => a - b);
+    for (let i = 1; i < s.length; i++) {
+      const g = (s[i] - s[i - 1]) / 1000;
+      if (g <= PACE_CAP_SEC) gaps.push(g);
+    }
+  }
+  const mean = gaps.length ? gaps.reduce((a, b) => a + b, 0) / gaps.length : 0;
+  const sd = gaps.length ? Math.sqrt(gaps.reduce((a, b) => a + (b - mean) ** 2, 0) / gaps.length) : 0;
+  const cov = mean ? sd / mean : null;
+  const med = medianOf(gaps);
+  const uniform = gaps.length >= UNIFORM_MIN_GAPS && cov !== null && cov < UNIFORM_COV && med !== null && med < UNIFORM_MAX_MEDIAN;
+  return {
+    active_answers: gaps.length,
+    median_gap_sec: med !== null ? Math.round(med) : null,
+    cov: cov !== null ? Math.round(cov * 100) / 100 : null,
+    uniform_pacing: uniform,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Action handlers — each receives the service client, the parsed body, and
 // returns a { status, payload } tuple so the dispatcher stays thin.
 // ---------------------------------------------------------------------------
@@ -488,19 +542,43 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
   const userIds = profiles.map((p) => p.id);
 
   // Fetch everything independent in parallel to minimise round-trips.
-  const [modulesRes, lessonsRes, rolePathsRes, progressRes, examsRes] = await Promise.all([
+  const [modulesRes, lessonsRes, rolePathsRes, progressRes, examsRes, quizAttRes, exSubRes, quizDefRes, exDefRes] = await Promise.all([
     db.from('modules').select('id, code'),
-    db.from('lessons').select('module_id, level').eq('lang', 'en'),
+    db.from('lessons').select('id, module_id, level, lang'),
     db.from('role_paths').select('role, module_code, level'),
     db.from('user_progress').select('user_id, module_id, level, status, score').in('user_id', userIds),
     db.from('exam_results').select('user_id, score').in('user_id', userIds),
+    db.from('quiz_attempts').select('user_id, quiz_question_id, created_at').in('user_id', userIds),
+    db.from('exercise_subs').select('user_id, exercise_id, created_at').in('user_id', userIds),
+    db.from('quiz_questions').select('id, lesson_id'),
+    db.from('exercises').select('id, lesson_id'),
   ]);
 
   const idByCode = new Map<string, string>((modulesRes.data ?? []).map((m) => [m.code, m.id]));
 
-  // Distinct (module, level) units that actually have lessons (count once via 'en').
+  // Distinct (module, level) units that actually have lessons (Set dedupes langs).
   const allUnits = new Set<string>();
   for (const l of lessonsRes.data ?? []) allUnits.add(`${l.module_id}:${l.level}`);
+
+  // Lesson/event maps → per-user module timestamps for pacing detection.
+  const lessonToModule = new Map<string, string>();
+  for (const l of lessonsRes.data ?? []) lessonToModule.set(l.id, l.module_id);
+  const qToLesson = new Map<string, string>();
+  for (const q of quizDefRes.data ?? []) qToLesson.set(q.id, q.lesson_id);
+  const exToLesson = new Map<string, string>();
+  for (const e of exDefRes.data ?? []) exToLesson.set(e.id, e.lesson_id);
+
+  const timesByUser = new Map<string, Map<string, number[]>>();
+  const addEvent = (uid: string, moduleId: string | undefined, iso: string) => {
+    if (!moduleId) return;
+    let mt = timesByUser.get(uid);
+    if (!mt) { mt = new Map(); timesByUser.set(uid, mt); }
+    const arr = mt.get(moduleId) ?? [];
+    arr.push(new Date(iso).getTime());
+    mt.set(moduleId, arr);
+  };
+  for (const r of quizAttRes.data ?? []) addEvent(r.user_id, lessonToModule.get(qToLesson.get(r.quiz_question_id) ?? ''), r.created_at);
+  for (const r of exSubRes.data ?? []) addEvent(r.user_id, lessonToModule.get(exToLesson.get(r.exercise_id) ?? ''), r.created_at);
 
   // Role paths grouped by role.
   const entriesByRole = new Map<string, { code: string; level: string }[]>();
@@ -559,6 +637,7 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
     }
     const bonus = rPassed * BONUS_PER_RECOMMENDED;
     const exam = examBest.has(p.id) ? examBest.get(p.id)! : null;
+    const ps = pacingStats(timesByUser.get(p.id) ?? new Map());
 
     return {
       id: p.id,
@@ -572,6 +651,9 @@ async function progressReport(db: ReturnType<typeof createServiceClient>): Promi
       path_score: pathScore,
       total_score: pathScore + bonus,
       exam_best: exam,
+      flagged: ps.uniform_pacing,
+      pace_cov: ps.cov,
+      pace_median_sec: ps.median_gap_sec,
     };
   });
   users.sort((a, b) => b.total_score - a.total_score);
@@ -645,27 +727,6 @@ async function userDetail(
   for (const r of quizRes.data ?? []) pushT(lessonToModule.get(qToLesson.get(r.quiz_question_id) ?? ''), r.created_at);
   for (const r of exSubRes.data ?? []) pushT(lessonToModule.get(exToLesson.get(r.exercise_id) ?? ''), r.created_at);
 
-  // Per-module active time + pace. Gaps longer than CAP (learner stepped away)
-  // don't count toward active time; a very low median gap across enough answers
-  // flags an implausibly fast (e.g. AI-assisted) completion.
-  const CAP_SEC = 300, FAST_GAP_SEC = 8, MIN_EVENTS = 3;
-  const median = (ns: number[]): number | null => {
-    if (!ns.length) return null;
-    const s = [...ns].sort((a, b) => a - b);
-    const mid = Math.floor(s.length / 2);
-    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
-  };
-  const timingFor = (moduleId: string) => {
-    const ts = (moduleTimes.get(moduleId) ?? []).slice().sort((a, b) => a - b);
-    if (ts.length === 0) return { minutes: 0, events: 0, fast: false, median_gap_sec: null as number | null };
-    const gaps: number[] = [];
-    for (let i = 1; i < ts.length; i++) gaps.push((ts[i] - ts[i - 1]) / 1000);
-    const activeSec = gaps.reduce((s, g) => s + Math.min(g, CAP_SEC), 0);
-    const med = median(gaps);
-    const fast = ts.length >= MIN_EVENTS && med !== null && med < FAST_GAP_SEC;
-    return { minutes: Math.round(activeSec / 60), events: ts.length, fast, median_gap_sec: med !== null ? Math.round(med) : null };
-  };
-
   const cell = (key: string, has: boolean) => {
     if (!has) return null;
     const e = up.get(key);
@@ -673,7 +734,7 @@ async function userDetail(
   };
   let fastModules = 0;
   const modules = (modulesRes.data ?? []).map((m) => {
-    const tm = timingFor(m.id);
+    const tm = moduleTiming(moduleTimes.get(m.id) ?? []);
     if (tm.fast) fastModules++;
     return {
       code: m.code,
@@ -688,35 +749,14 @@ async function userDetail(
     };
   });
 
-  // Metronomic-pacing signal across the whole curriculum. A genuine learner's
-  // answer cadence is bursty (high variance); a near-constant gap with a low
-  // coefficient of variation over many answers is the fingerprint of a
-  // mechanical copy-question → AI → paste-answer loop, even at a "human-looking"
-  // ~50s pace that the per-module <8s flag never catches. Session breaks (gaps
-  // over CAP) are excluded so they don't distort the variance.
-  const UNIFORM_MIN_GAPS = 20, UNIFORM_COV = 0.5, UNIFORM_MAX_MEDIAN = 120;
-  const activeGaps: number[] = [];
-  for (const ts of moduleTimes.values()) {
-    const s = ts.slice().sort((a, b) => a - b);
-    for (let i = 1; i < s.length; i++) {
-      const g = (s[i] - s[i - 1]) / 1000;
-      if (g <= CAP_SEC) activeGaps.push(g);
-    }
-  }
-  const mean = activeGaps.length ? activeGaps.reduce((a, b) => a + b, 0) / activeGaps.length : 0;
-  const sd = activeGaps.length ? Math.sqrt(activeGaps.reduce((a, b) => a + (b - mean) ** 2, 0) / activeGaps.length) : 0;
-  const cov = mean ? sd / mean : null;
-  const medAll = median(activeGaps);
-  const uniformPacing =
-    activeGaps.length >= UNIFORM_MIN_GAPS && cov !== null && cov < UNIFORM_COV && medAll !== null && medAll < UNIFORM_MAX_MEDIAN;
-
+  const ps = pacingStats(moduleTimes);
   const integrity = {
     fast_modules: fastModules,
-    uniform_pacing: uniformPacing,
-    active_answers: activeGaps.length,
-    median_gap_sec: medAll !== null ? Math.round(medAll) : null,
-    cov: cov !== null ? Math.round(cov * 100) / 100 : null,
-    flagged: fastModules > 0 || uniformPacing,
+    uniform_pacing: ps.uniform_pacing,
+    active_answers: ps.active_answers,
+    median_gap_sec: ps.median_gap_sec,
+    cov: ps.cov,
+    flagged: fastModules > 0 || ps.uniform_pacing,
   };
 
   // Quiz accuracy — a distinct question is correct if any attempt got it right.

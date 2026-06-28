@@ -355,6 +355,7 @@ const en = {
   'admin.progress.empty': 'No progress data yet.',
   'admin.progress.examNever': '—',
   'admin.progress.viewDetail': 'View detail',
+  'admin.progress.flagTitle': 'Metronomic pacing (CoV {cov}, ~{sec}s between answers) — possible AI/copy. Open the learner to investigate.',
 
   // Per-user development detail (admin drill-down)
   'admin.detail.back': 'Back to list',
