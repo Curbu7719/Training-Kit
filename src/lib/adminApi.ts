@@ -193,6 +193,14 @@ export interface UserDetailModule {
   sort_order: number;
   l1: DetailCell | null;
   l2: DetailCell | null;
+  /** Estimated active minutes spent in this module (capped-gap heuristic). */
+  minutes: number;
+  /** Number of graded interactions (quiz answers + exercise submissions). */
+  events: number;
+  /** True when completed implausibly fast (low median time between answers). */
+  fast: boolean;
+  /** Median seconds between consecutive answers, or null. */
+  median_gap_sec: number | null;
 }
 
 export interface ExamAttempt {
@@ -214,6 +222,7 @@ export interface UserDetail {
     created_at: string | null;
   };
   modules: UserDetailModule[];
+  integrity: { fast_modules: number; flagged: boolean };
   quiz: { attempted: number; correct: number; accuracy: number | null };
   exercise: { earned: number; possible: number; pct: number | null; attempted: number };
   exams: ExamAttempt[];

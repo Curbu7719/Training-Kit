@@ -596,19 +596,20 @@ async function userDetail(
 
   const [
     profileRes, authRes, modulesRes, lessonsRes, progressRes,
-    quizRes, exSubRes, exDefRes, examRes, badgeRes, reflectionRes,
+    quizRes, exSubRes, exDefRes, examRes, badgeRes, reflectionRes, quizDefsRes,
   ] = await Promise.all([
     db.from('profiles').select('id, display_name, role, learning_role, last_seen_at').eq('id', userId).single(),
     db.from('admin_auth_users').select('email, last_sign_in_at, created_at').eq('id', userId).maybeSingle(),
     db.from('modules').select('id, code, title, sort_order').order('sort_order', { ascending: true }),
-    db.from('lessons').select('module_id, level').eq('lang', 'en'),
+    db.from('lessons').select('id, module_id, level, lang'),
     db.from('user_progress').select('module_id, level, status, score').eq('user_id', userId),
     db.from('quiz_attempts').select('quiz_question_id, is_correct, created_at').eq('user_id', userId),
     db.from('exercise_subs').select('exercise_id, score, created_at').eq('user_id', userId),
-    db.from('exercises').select('id, max_score'),
+    db.from('exercises').select('id, lesson_id, max_score'),
     db.from('exam_results').select('score, passed, lang, created_at').eq('user_id', userId).order('created_at', { ascending: false }),
     db.from('user_badges').select('awarded_at, badges(code, title)').eq('user_id', userId).order('awarded_at', { ascending: false }),
     db.from('completion_reflections').select('work_application, expected_value, lang, updated_at').eq('user_id', userId).maybeSingle(),
+    db.from('quiz_questions').select('id, lesson_id'),
   ]);
 
   if (profileRes.error || !profileRes.data) {
@@ -617,25 +618,76 @@ async function userDetail(
   const p = profileRes.data;
   const auth = authRes.data ?? { email: null, last_sign_in_at: null, created_at: null };
 
-  // Which (module:level) units actually exist (have lessons; count once via 'en').
+  // Lesson → module map (all langs) + which (module:level) units exist (en).
+  const lessonToModule = new Map<string, string>();
   const hasUnit = new Set<string>();
-  for (const l of lessonsRes.data ?? []) hasUnit.add(`${l.module_id}:${l.level}`);
+  for (const l of lessonsRes.data ?? []) {
+    lessonToModule.set(l.id, l.module_id);
+    if (l.lang === 'en') hasUnit.add(`${l.module_id}:${l.level}`);
+  }
 
   const up = new Map<string, { status: string; score: number }>();
   for (const r of progressRes.data ?? []) up.set(`${r.module_id}:${r.level}`, { status: r.status, score: r.score ?? 0 });
+
+  // Map each graded event to its module so we can estimate time-on-task.
+  const qToLesson = new Map<string, string>();
+  for (const q of quizDefsRes.data ?? []) qToLesson.set(q.id, q.lesson_id);
+  const exToLesson = new Map<string, string>();
+  for (const e of exDefRes.data ?? []) exToLesson.set(e.id, e.lesson_id);
+
+  const moduleTimes = new Map<string, number[]>();
+  const pushT = (moduleId: string | undefined, iso: string) => {
+    if (!moduleId) return;
+    const arr = moduleTimes.get(moduleId) ?? [];
+    arr.push(new Date(iso).getTime());
+    moduleTimes.set(moduleId, arr);
+  };
+  for (const r of quizRes.data ?? []) pushT(lessonToModule.get(qToLesson.get(r.quiz_question_id) ?? ''), r.created_at);
+  for (const r of exSubRes.data ?? []) pushT(lessonToModule.get(exToLesson.get(r.exercise_id) ?? ''), r.created_at);
+
+  // Per-module active time + pace. Gaps longer than CAP (learner stepped away)
+  // don't count toward active time; a very low median gap across enough answers
+  // flags an implausibly fast (e.g. AI-assisted) completion.
+  const CAP_SEC = 300, FAST_GAP_SEC = 8, MIN_EVENTS = 3;
+  const median = (ns: number[]): number | null => {
+    if (!ns.length) return null;
+    const s = [...ns].sort((a, b) => a - b);
+    const mid = Math.floor(s.length / 2);
+    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+  };
+  const timingFor = (moduleId: string) => {
+    const ts = (moduleTimes.get(moduleId) ?? []).slice().sort((a, b) => a - b);
+    if (ts.length === 0) return { minutes: 0, events: 0, fast: false, median_gap_sec: null as number | null };
+    const gaps: number[] = [];
+    for (let i = 1; i < ts.length; i++) gaps.push((ts[i] - ts[i - 1]) / 1000);
+    const activeSec = gaps.reduce((s, g) => s + Math.min(g, CAP_SEC), 0);
+    const med = median(gaps);
+    const fast = ts.length >= MIN_EVENTS && med !== null && med < FAST_GAP_SEC;
+    return { minutes: Math.round(activeSec / 60), events: ts.length, fast, median_gap_sec: med !== null ? Math.round(med) : null };
+  };
 
   const cell = (key: string, has: boolean) => {
     if (!has) return null;
     const e = up.get(key);
     return { status: e?.status ?? 'not_started', score: e?.score ?? 0 };
   };
-  const modules = (modulesRes.data ?? []).map((m) => ({
-    code: m.code,
-    title: m.title,
-    sort_order: m.sort_order,
-    l1: cell(`${m.id}:L1`, hasUnit.has(`${m.id}:L1`)),
-    l2: cell(`${m.id}:L2`, hasUnit.has(`${m.id}:L2`)),
-  }));
+  let fastModules = 0;
+  const modules = (modulesRes.data ?? []).map((m) => {
+    const tm = timingFor(m.id);
+    if (tm.fast) fastModules++;
+    return {
+      code: m.code,
+      title: m.title,
+      sort_order: m.sort_order,
+      l1: cell(`${m.id}:L1`, hasUnit.has(`${m.id}:L1`)),
+      l2: cell(`${m.id}:L2`, hasUnit.has(`${m.id}:L2`)),
+      minutes: tm.minutes,
+      events: tm.events,
+      fast: tm.fast,
+      median_gap_sec: tm.median_gap_sec,
+    };
+  });
+  const integrity = { fast_modules: fastModules, flagged: fastModules > 0 };
 
   // Quiz accuracy — a distinct question is correct if any attempt got it right.
   const qBest = new Map<string, boolean>();
@@ -687,6 +739,7 @@ async function userDetail(
           created_at: auth.created_at ?? null,
         },
         modules,
+        integrity,
         quiz: {
           attempted: quizAttempted,
           correct: quizCorrect,

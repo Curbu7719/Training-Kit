@@ -373,6 +373,11 @@ const tr = {
   'admin.detail.failed': 'Kaldı',
   'admin.detail.lastSeen': 'Son görülme',
   'admin.detail.joined': 'Katıldı',
+  'admin.detail.col.time': 'Süre',
+  'admin.detail.min': '{min}dk',
+  'admin.detail.fast': 'Hızlı',
+  'admin.detail.fastTitle': 'Şüpheli hızlı — {n} yanıt arası ~{sec}sn medyan',
+  'admin.detail.integrity': '⚡ {n} modül şüpheli hızlı tamamlandı — incelemeye değer',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions

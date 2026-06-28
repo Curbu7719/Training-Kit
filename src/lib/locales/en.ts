@@ -372,6 +372,11 @@ const en = {
   'admin.detail.failed': 'Failed',
   'admin.detail.lastSeen': 'Last seen',
   'admin.detail.joined': 'Joined',
+  'admin.detail.col.time': 'Time',
+  'admin.detail.min': '{min}m',
+  'admin.detail.fast': 'Fast',
+  'admin.detail.fastTitle': 'Suspiciously fast — ~{sec}s median between {n} answers',
+  'admin.detail.integrity': '⚡ {n} module(s) completed suspiciously fast — worth a closer look',
 
   // ---------------------------------------------------------------------------
   // Dashboard module titles and descriptions

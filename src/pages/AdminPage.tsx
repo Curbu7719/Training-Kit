@@ -288,6 +288,13 @@ function UserDetailView({ userId, onBack }: { userId: string; onBack: () => void
         <Metric value={d.badges.length} label={t('dashboard.stat.badges')} />
       </div>
 
+      {/* Integrity flag — implausibly fast completions */}
+      {d.integrity.flagged && (
+        <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm font-medium text-destructive">
+          {t('admin.detail.integrity', { n: d.integrity.fast_modules })}
+        </div>
+      )}
+
       {/* Module-by-module */}
       <section>
         <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t('admin.detail.modules')}</h3>
@@ -298,14 +305,28 @@ function UserDetailView({ userId, onBack }: { userId: string; onBack: () => void
                 <th className="px-3 py-2">{t('admin.detail.col.module')}</th>
                 <th className="px-3 py-2">L1</th>
                 <th className="px-3 py-2">L2</th>
+                <th className="px-3 py-2 text-right">{t('admin.detail.col.time')}</th>
               </tr>
             </thead>
             <tbody>
               {d.modules.map((m) => (
-                <tr key={m.code} className="border-b border-border/50 last:border-0">
+                <tr key={m.code} className={`border-b border-border/50 last:border-0 ${m.fast ? 'bg-destructive/5' : ''}`}>
                   <td className="px-3 py-2 font-medium">{m.title}</td>
                   <td className="px-3 py-2"><CellPill cell={m.l1} /></td>
                   <td className="px-3 py-2"><CellPill cell={m.l2} /></td>
+                  <td className="px-3 py-2 whitespace-nowrap text-right">
+                    <span className="tabular-nums text-muted-foreground">
+                      {m.events > 0 ? t('admin.detail.min', { min: m.minutes }) : '—'}
+                    </span>
+                    {m.fast && (
+                      <span
+                        title={t('admin.detail.fastTitle', { sec: m.median_gap_sec ?? 0, n: m.events })}
+                        className="ml-2 inline-flex items-center rounded-full bg-destructive/10 px-1.5 py-0.5 text-[10px] font-bold text-destructive"
+                      >
+                        ⚡ {t('admin.detail.fast')}
+                      </span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
