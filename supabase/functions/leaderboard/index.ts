@@ -9,14 +9,15 @@
 // Flow:
 //   1. CORS preflight.
 //   2. Verify caller JWT (any authenticated user).
-//   3. Via service role, aggregate per user a weighted 0-100 score:
-//        total_score = 0.60 * completion  (passed units / ALL curriculum units,
-//                                           so extra modules beyond the path help)
-//                    + 0.25 * quality     (avg user_progress.score over attempted
-//                                           units = quiz + exercise mastery)
-//                    + 0.15 * exam        (best exam score, 0 if never sat)
+//   3. Via service role, aggregate per user a score that tops out at 100 for a
+//      learner who completes THEIR OWN path well, and can exceed 100 with extras:
+//        base (max 100) = 0.60 * completion  (passed core units / role's core units)
+//                       + 0.25 * quality     (avg user_progress.score over core
+//                                              units attempted = quiz + exercise)
+//                       + 0.15 * exam        (best exam score, 0 if never sat)
+//        total_score    = base + 4 * (passed units BEYOND the role's path)
 //        badges         = count(user_badges rows)            [tiebreaker]
-//        modules_passed = count(user_progress rows where status='passed')
+//        modules_passed = total passed units
 //        role           = profiles.learning_role
 //        certified      = all of the role's CORE modules passed at the required level
 //   4. Join profiles.display_name; mask email-shaped display names.
@@ -106,38 +107,53 @@ Deno.serve(async (req: Request) => {
   const codeById = new Map<string, string>();
   for (const m of modulesRes.data ?? []) codeById.set(m.id, m.code);
 
-  // Total curriculum units = distinct (module, level) pairs that have lessons.
-  // Completion is measured against ALL of them, so finishing extra modules/levels
-  // beyond your role path raises your completion component.
+  // Curriculum units in code:level form (fallback denominator when a role has
+  // no configured path).
   const allUnits = new Set<string>();
-  for (const l of lessonsRes.data ?? []) allUnits.add(`${l.module_id}:${l.level}`);
+  for (const l of lessonsRes.data ?? []) {
+    const c = codeById.get(l.module_id);
+    if (c) allUnits.add(`${c}:${l.level}`);
+  }
   const totalUnits = allUnits.size;
 
-  // Admin-managed core modules per role: role → [code:level, ...]
-  const coreByRole = new Map<string, string[]>();
+  // The user's OWN path = the admin-managed CORE units for their role. Finishing
+  // it well (full completion + quality + exam) maxes the base at 100; passed
+  // units BEYOND it add bonus points, so doing extra modules pushes past 100.
+  const coreByRole = new Map<string, Set<string>>();
   for (const r of rolePathsRes.data ?? []) {
-    const list = coreByRole.get(r.role) ?? [];
-    list.push(`${r.module_code}:${r.level}`);
-    coreByRole.set(r.role, list);
+    const s = coreByRole.get(r.role) ?? new Set<string>();
+    s.add(`${r.module_code}:${r.level}`);
+    coreByRole.set(r.role, s);
   }
+  const roleByUser = new Map<string, string | null>();
+  for (const p of profiles) roleByUser.set(p.id, p.learning_role ?? null);
 
-  // Per-user aggregates: summed/attempted score (for quiz+exercise quality),
-  // passed-unit count (for completion) and a passed "code:level" set (for cert).
-  type UserAgg = { sumScore: number; attempted: number; passedCount: number; badges: number; passed: Set<string> };
+  // Per-user aggregates split into path (core) units vs. extra units.
+  type UserAgg = {
+    coreAttempted: number; coreScoreSum: number; corePassed: number;
+    extraPassed: number; badges: number; passed: Set<string>;
+  };
   const agg = new Map<string, UserAgg>();
   for (const uid of userIds) {
-    agg.set(uid, { sumScore: 0, attempted: 0, passedCount: 0, badges: 0, passed: new Set() });
+    agg.set(uid, { coreAttempted: 0, coreScoreSum: 0, corePassed: 0, extraPassed: 0, badges: 0, passed: new Set() });
   }
   for (const row of progressRes.data ?? []) {
     const entry = agg.get(row.user_id);
     if (!entry) continue;
-    entry.sumScore += row.score ?? 0;
-    entry.attempted += 1;
-    if (row.status === 'passed') {
-      entry.passedCount += 1;
-      const code = codeById.get(row.module_id);
-      if (code) entry.passed.add(`${code}:${row.level}`);
+    const code = codeById.get(row.module_id);
+    if (!code) continue;
+    const key = `${code}:${row.level}`;
+    const coreSet = coreByRole.get(roleByUser.get(row.user_id) ?? '');
+    const inCore = coreSet ? coreSet.has(key) : true; // no configured path → treat all as core
+    const score = row.score ?? 0;
+    if (inCore) {
+      entry.coreAttempted += 1;
+      entry.coreScoreSum += score;
+      if (row.status === 'passed') entry.corePassed += 1;
+    } else if (row.status === 'passed') {
+      entry.extraPassed += 1;
     }
+    if (row.status === 'passed') entry.passed.add(key);
   }
   for (const row of badgesRes.data ?? []) {
     const entry = agg.get(row.user_id);
@@ -150,27 +166,29 @@ Deno.serve(async (req: Request) => {
     if ((examBest.get(row.user_id) ?? -1) < row.score) examBest.set(row.user_id, row.score);
   }
 
-  // Weighted 0-100 composite: 60% module completion (vs the whole curriculum),
-  // 25% quiz+exercise mastery (avg score over attempted units), 15% best exam.
-  const W_COMPLETION = 0.60, W_QUALITY = 0.25, W_EXAM = 0.15;
+  // Base (max 100) = 60% path completion + 25% quiz+exercise mastery + 15% exam.
+  // Each passed unit beyond the path adds BONUS_PER_EXTRA, so totals can exceed 100.
+  const W_COMPLETION = 0.60, W_QUALITY = 0.25, W_EXAM = 0.15, BONUS_PER_EXTRA = 4;
 
   // 4. Build rows with masked display names; note: user IDs are excluded from output
   const rows = profiles.map((p) => {
-    const a = agg.get(p.id) ?? { sumScore: 0, attempted: 0, passedCount: 0, badges: 0, passed: new Set<string>() };
+    const a = agg.get(p.id) ?? { coreAttempted: 0, coreScoreSum: 0, corePassed: 0, extraPassed: 0, badges: 0, passed: new Set<string>() };
     const role: string | null = p.learning_role ?? null;
-    const core = role ? coreByRole.get(role) : undefined;
-    const certified = !!core && core.length > 0 && core.every((key) => a.passed.has(key));
+    const coreSet = role ? coreByRole.get(role) : undefined;
+    const certified = !!coreSet && coreSet.size > 0 && [...coreSet].every((key) => a.passed.has(key));
 
-    const completion = totalUnits ? (a.passedCount / totalUnits) * 100 : 0;
-    const quality = a.attempted ? a.sumScore / a.attempted : 0;
+    const coreTotal = coreSet ? coreSet.size : totalUnits;
+    const completion = coreTotal ? (a.corePassed / coreTotal) * 100 : 0;
+    const quality = a.coreAttempted ? a.coreScoreSum / a.coreAttempted : 0;
     const exam = examBest.get(p.id) ?? 0;
-    const total_score = Math.round(W_COMPLETION * completion + W_QUALITY * quality + W_EXAM * exam);
+    const base = W_COMPLETION * completion + W_QUALITY * quality + W_EXAM * exam;
+    const total_score = Math.round(base + a.extraPassed * BONUS_PER_EXTRA);
 
     return {
       name:           maskEmail(p.display_name),
       total_score,
       badges:         a.badges,
-      modules_passed: a.passedCount,
+      modules_passed: a.passed.size,
       role,
       certified,
     };
