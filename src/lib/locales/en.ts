@@ -299,6 +299,8 @@ const en = {
   'leaderboard.col.role': 'Role',
   'leaderboard.you': '(you)',
   'leaderboard.certificate': 'My certificate',
+  'leaderboard.scoreInfo.title': 'How the score works',
+  'leaderboard.scoreInfo.body': 'Score = 60% path completion + 25% quiz & exercise mastery + 15% final exam. Finishing your own role path well, with a full exam, scores 100. Every module you complete beyond your path adds bonus points (+4 each), so totals can go above 100. Ties are broken by badges.',
   'leaderboard.empty': 'No leaderboard entries yet.',
 
   // ---------------------------------------------------------------------------

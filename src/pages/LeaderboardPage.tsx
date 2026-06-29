@@ -46,6 +46,13 @@ export function LeaderboardPage() {
           </Button>
         </div>
 
+        <details className="mb-6 rounded-xl border border-border bg-card px-4 py-3 text-sm">
+          <summary className="cursor-pointer select-none font-medium text-foreground marker:text-primary">
+            {t('leaderboard.scoreInfo.title')}
+          </summary>
+          <p className="mt-2 leading-relaxed text-muted-foreground">{t('leaderboard.scoreInfo.body')}</p>
+        </details>
+
         {loading && (
           <div className="flex justify-center py-12">
             <Spinner size="lg" />

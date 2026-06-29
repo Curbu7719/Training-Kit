@@ -300,6 +300,8 @@ const tr = {
   'leaderboard.col.role': 'Rol',
   'leaderboard.you': '(siz)',
   'leaderboard.certificate': 'Sertifikam',
+  'leaderboard.scoreInfo.title': 'Skor nasıl hesaplanır',
+  'leaderboard.scoreInfo.body': 'Skor = %60 patika tamamlama + %25 quiz & exercise başarısı + %15 final sınavı. Kendi rol patikanı iyi bitirip sınavdan tam alınca skor 100 olur. Patikanın dışında tamamladığın her modül bonus ekler (her biri +4), bu yüzden toplam 100’ü geçebilir. Eşitlik rozet sayısıyla bozulur.',
   'leaderboard.empty': 'Henüz sıralama girişi yok.',
 
   // ---------------------------------------------------------------------------
