@@ -137,13 +137,15 @@ export async function submitExam(
 export interface CompletionReflection {
   work_application: string;
   expected_value: string;
+  /** First-submission time = when the learner finished the training. */
+  created_at?: string;
 }
 
 /** Load the current user's reflection, or null if they haven't written one. */
 export async function getMyReflection(): Promise<CompletionReflection | null> {
   const { data, error } = await supabase
     .from('completion_reflections')
-    .select('work_application, expected_value')
+    .select('work_application, expected_value, created_at')
     .maybeSingle();
   if (error) throw error;
   return data ?? null;

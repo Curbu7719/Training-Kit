@@ -17,7 +17,7 @@ import type { TranslationKey } from '@/lib/locales/en';
 export function LeaderboardPage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,7 +73,8 @@ export function LeaderboardPage() {
                   <th className="pb-2 pr-4">{t('leaderboard.col.role')}</th>
                   <th className="pb-2 pr-4 text-right">{t('leaderboard.col.score')}</th>
                   <th className="pb-2 pr-4 text-right">{t('leaderboard.col.badges')}</th>
-                  <th className="pb-2 text-right">{t('leaderboard.col.modules')}</th>
+                  <th className="pb-2 pr-4 text-right">{t('leaderboard.col.modules')}</th>
+                  <th className="pb-2 text-right">{t('leaderboard.col.finished')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -122,13 +123,18 @@ export function LeaderboardPage() {
                       </td>
                       <td className="py-2.5 pr-4 text-right tabular-nums">{entry.total_score}</td>
                       <td className="py-2.5 pr-4 text-right tabular-nums">{entry.badges}</td>
-                      <td className="py-2.5 text-right tabular-nums">{entry.modules_passed}</td>
+                      <td className="py-2.5 pr-4 text-right tabular-nums">{entry.modules_passed}</td>
+                      <td className="py-2.5 text-right tabular-nums text-muted-foreground whitespace-nowrap">
+                        {entry.finished_at
+                          ? new Date(entry.finished_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium' })
+                          : '—'}
+                      </td>
                     </tr>
                   );
                 })}
                 {entries.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="py-6 text-center text-muted-foreground">
+                    <td colSpan={7} className="py-6 text-center text-muted-foreground">
                       {t('leaderboard.empty')}
                     </td>
                   </tr>

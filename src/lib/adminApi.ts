@@ -308,6 +308,8 @@ export interface LeaderboardEntry {
   role?: string | null;
   /** True when all of the role's core modules are passed at the required level. */
   certified?: boolean;
+  /** When the learner finished the training (reflection submitted), or null. */
+  finished_at?: string | null;
 }
 
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {

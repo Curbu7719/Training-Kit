@@ -72,6 +72,7 @@ const tr = {
   'dashboard.remaining.exam': 'final sınavı',
   'dashboard.remaining.reflection': 'değerlendirme yazısı',
   'dashboard.remaining.done': 'Tüm gereksinimler tamam — sertifikanı al',
+  'dashboard.completedOn': '{date} tarihinde tamamladın',
 
   // Rol bazlı patikalar
   'role.panel.title': 'Rol patikan',
@@ -297,6 +298,7 @@ const tr = {
   'leaderboard.col.score': 'Puan',
   'leaderboard.col.badges': 'Rozet',
   'leaderboard.col.modules': 'Tamamlanan modüller',
+  'leaderboard.col.finished': 'Bitiş',
   'leaderboard.col.role': 'Rol',
   'leaderboard.you': '(siz)',
   'leaderboard.certificate': 'Sertifikam',

@@ -20,6 +20,7 @@ export function CertificatePage() {
   const [loading, setLoading] = useState(true);
   const [complete, setComplete] = useState(false);
   const [missing, setMissing] = useState({ modules: true, exam: true, reflection: true });
+  const [completedAt, setCompletedAt] = useState<string | null>(null);
 
   useEffect(() => {
     if (profile && !profile.learning_role) navigate('/welcome', { replace: true });
@@ -61,6 +62,7 @@ export function CertificatePage() {
       const [e, r] = await Promise.all([hasPassedExam(), getMyReflection()]);
       examPassed = e;
       reflectionDone = !!r;
+      setCompletedAt(r?.created_at ?? null);
     } catch { /* leave false */ }
 
     setMissing({ modules: !modulesDone, exam: !examPassed, reflection: !reflectionDone });
@@ -72,7 +74,12 @@ export function CertificatePage() {
 
   const name = profile?.display_name || profile?.id || '';
   const roleLabel = profile?.learning_role ? t(`role.${profile.learning_role}` as TranslationKey) : '';
-  const dateStr = new Date().toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  // The training-completion date is when the reflection was first submitted (the
+  // last required step); fall back to today only if it's somehow missing.
+  const dateStr = (completedAt ? new Date(completedAt) : new Date()).toLocaleDateString(
+    lang === 'tr' ? 'tr-TR' : 'en-US',
+    { year: 'numeric', month: 'long', day: 'numeric' },
+  );
 
   if (loading) {
     return (

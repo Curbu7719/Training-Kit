@@ -71,6 +71,7 @@ const en = {
   'dashboard.remaining.exam': 'final exam',
   'dashboard.remaining.reflection': 'completion note',
   'dashboard.remaining.done': 'All requirements met — get your certificate',
+  'dashboard.completedOn': 'Completed on {date}',
 
   // Role-based paths
   'role.panel.title': 'Your role path',
@@ -296,6 +297,7 @@ const en = {
   'leaderboard.col.score': 'Score',
   'leaderboard.col.badges': 'Badges',
   'leaderboard.col.modules': 'Modules passed',
+  'leaderboard.col.finished': 'Finished',
   'leaderboard.col.role': 'Role',
   'leaderboard.you': '(you)',
   'leaderboard.certificate': 'My certificate',

@@ -78,7 +78,7 @@ Deno.serve(async (req: Request) => {
   const userIds = profiles.map((p) => p.id);
 
   // Aggregate progress + badges + module id→code (for role-cert computation)
-  const [progressRes, badgesRes, modulesRes, rolePathsRes, examsRes, lessonsRes] = await Promise.all([
+  const [progressRes, badgesRes, modulesRes, rolePathsRes, examsRes, lessonsRes, reflRes] = await Promise.all([
     db.from('user_progress')
       .select('user_id, status, score, module_id, level')
       .in('user_id', userIds),
@@ -89,6 +89,7 @@ Deno.serve(async (req: Request) => {
     db.from('role_paths').select('role, module_code, level, kind').eq('kind', 'core'),
     db.from('exam_results').select('user_id, score').in('user_id', userIds),
     db.from('lessons').select('module_id, level'),
+    db.from('completion_reflections').select('user_id, created_at').in('user_id', userIds),
   ]);
 
   if (progressRes.error) {
@@ -166,6 +167,10 @@ Deno.serve(async (req: Request) => {
     if ((examBest.get(row.user_id) ?? -1) < row.score) examBest.set(row.user_id, row.score);
   }
 
+  // Training-completion time = when the reflection was first submitted (last step).
+  const finishedByUser = new Map<string, string>();
+  for (const row of reflRes.data ?? []) finishedByUser.set(row.user_id, row.created_at);
+
   // Base (max 100) = 60% path completion + 25% quiz+exercise mastery + 15% exam.
   // Each passed unit beyond the path adds BONUS_PER_EXTRA, so totals can exceed 100.
   const W_COMPLETION = 0.60, W_QUALITY = 0.25, W_EXAM = 0.15, BONUS_PER_EXTRA = 4;
@@ -191,6 +196,7 @@ Deno.serve(async (req: Request) => {
       modules_passed: a.passed.size,
       role,
       certified,
+      finished_at:    finishedByUser.get(p.id) ?? null,
     };
   });
 

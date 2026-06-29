@@ -67,6 +67,7 @@ interface PanelData {
   exN: number;
   badges: number;
   reflectionDone: boolean;
+  completedAt: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -76,7 +77,7 @@ interface PanelData {
 
 export function StatsPanel() {
   const { profile } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const role = profile?.learning_role ?? '';
   const [d, setD] = useState<PanelData | null>(null);
@@ -190,6 +191,7 @@ export function StatsPanel() {
       exN,
       badges: (badgeRes.data ?? []).length,
       reflectionDone: reflection != null,
+      completedAt: reflection?.created_at ?? null,
     });
   }, [profile]);
 
@@ -270,10 +272,19 @@ export function StatsPanel() {
                 </div>
               </div>
             ) : (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-3 py-1.5 text-sm font-semibold text-success">
-                <CheckCircle2 className="h-4 w-4" />
-                {t('dashboard.remaining.done')}
-              </span>
+              <div className="flex flex-col gap-1 lg:items-end">
+                <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-success/10 px-3 py-1.5 text-sm font-semibold text-success">
+                  <CheckCircle2 className="h-4 w-4" />
+                  {t('dashboard.remaining.done')}
+                </span>
+                {d.completedAt && (
+                  <span className="text-xs text-muted-foreground">
+                    {t('dashboard.completedOn', {
+                      date: new Date(d.completedAt).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium' }),
+                    })}
+                  </span>
+                )}
+              </div>
             )}
             <Button
               className="mt-1 w-fit"
