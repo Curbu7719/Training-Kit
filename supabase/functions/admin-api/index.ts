@@ -428,8 +428,8 @@ async function listUsers(db: ReturnType<typeof createServiceClient>): Promise<Ha
 async function listReflections(db: ReturnType<typeof createServiceClient>): Promise<HandlerResult> {
   const { data: reflections, error } = await db
     .from('completion_reflections')
-    .select('user_id, work_application, expected_value, lang, updated_at')
-    .order('updated_at', { ascending: false });
+    .select('user_id, work_application, expected_value, lang, created_at, updated_at')
+    .order('created_at', { ascending: true });
 
   if (error) {
     return { status: 500, payload: { ok: false, error: error.message } };
@@ -460,6 +460,7 @@ async function listReflections(db: ReturnType<typeof createServiceClient>): Prom
       work_application: r.work_application,
       expected_value:   r.expected_value,
       lang:             r.lang,
+      created_at:       r.created_at,
       updated_at:       r.updated_at,
     };
   });

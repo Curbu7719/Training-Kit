@@ -545,7 +545,7 @@ function ProgressTab() {
 // ---------------------------------------------------------------------------
 
 function ReflectionsTab() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [items, setItems] = useState<ReflectionEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchErr, setFetchErr] = useState<string | null>(null);
@@ -576,17 +576,23 @@ function ReflectionsTab() {
   return (
     <div className="space-y-4">
       <p className="text-xs text-muted-foreground">{t('admin.reflections.intro')}</p>
-      {items.map((r) => (
+      {items.map((r, i) => (
         <Card key={r.user_id}>
           <CardHeader className="pb-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <CardTitle className="text-sm">{r.display_name ?? r.user_id}</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-sm">
+                <span className="tabular-nums text-muted-foreground">
+                  {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`}
+                </span>
+                {r.display_name ?? r.user_id}
+              </CardTitle>
               <div className="flex items-center gap-2">
                 {r.learning_role && (
                   <Badge variant="outline" className="text-xs">{r.learning_role}</Badge>
                 )}
-                <span className="text-xs text-muted-foreground">
-                  {new Date(r.updated_at).toLocaleDateString()}
+                <span className="text-xs text-muted-foreground whitespace-nowrap">
+                  {t('admin.reflections.finished')}:{' '}
+                  {new Date(r.created_at).toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' })}
                 </span>
               </div>
             </div>

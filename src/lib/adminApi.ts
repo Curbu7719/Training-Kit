@@ -258,6 +258,8 @@ export interface ReflectionEntry {
   work_application: string;
   expected_value: string;
   lang: 'en' | 'tr';
+  /** First-submission time = when the learner finished the training. */
+  created_at: string;
   updated_at: string;
 }
 

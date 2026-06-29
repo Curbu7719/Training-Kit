@@ -506,7 +506,8 @@ const tr = {
 
   // Admin — refleksiyonlar sekmesi
   'admin.tab.reflections': 'Refleksiyonlar',
-  'admin.reflections.intro': 'Her katılımcının zorunlu eğitim-sonu notu: kendi işinde ne yapacağı ve beklediği değer. Yalnızca adminler görebilir.',
+  'admin.reflections.intro': 'Her katılımcının zorunlu eğitim-sonu notu: kendi işinde ne yapacağı ve beklediği değer. Yalnızca adminler görebilir. İlk bitirenden son bitirene sıralı.',
+  'admin.reflections.finished': 'Tamamladı',
   'admin.reflections.empty': 'Henüz refleksiyon gönderilmedi.',
   'admin.reflections.work': 'İşinde ne yapacağı',
   'admin.reflections.value': 'Beklenen değer / kazanım',

@@ -506,7 +506,8 @@ const en = {
 
   // Admin — reflections tab
   'admin.tab.reflections': 'Reflections',
-  'admin.reflections.intro': 'Each learner’s required end-of-training note: what they will do in their own work and the value they expect. Visible to admins only.',
+  'admin.reflections.intro': 'Each learner’s required end-of-training note: what they will do in their own work and the value they expect. Visible to admins only. Ordered by who finished first.',
+  'admin.reflections.finished': 'Finished',
   'admin.reflections.empty': 'No reflections submitted yet.',
   'admin.reflections.work': 'What they will do in their work',
   'admin.reflections.value': 'Expected value / gain',
