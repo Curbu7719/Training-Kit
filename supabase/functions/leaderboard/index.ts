@@ -10,7 +10,10 @@
 //   1. CORS preflight.
 //   2. Verify caller JWT (any authenticated user).
 //   3. Via service role, aggregate per user:
-//        total_score    = sum(user_progress.score)
+//        total_score    = sum(user_progress.score) + best exam score
+//                         (each user_progress.score already blends that level's
+//                          quiz + exercise mastery; the best exam result is added
+//                          on top. Summing rewards going beyond the role path.)
 //        badges         = count(user_badges rows)
 //        modules_passed = count(user_progress rows where status='passed')
 //        role           = profiles.learning_role
@@ -73,7 +76,7 @@ Deno.serve(async (req: Request) => {
   const userIds = profiles.map((p) => p.id);
 
   // Aggregate progress + badges + module id→code (for role-cert computation)
-  const [progressRes, badgesRes, modulesRes, rolePathsRes] = await Promise.all([
+  const [progressRes, badgesRes, modulesRes, rolePathsRes, examsRes] = await Promise.all([
     db.from('user_progress')
       .select('user_id, status, score, module_id, level')
       .in('user_id', userIds),
@@ -82,6 +85,7 @@ Deno.serve(async (req: Request) => {
       .in('user_id', userIds),
     db.from('modules').select('id, code'),
     db.from('role_paths').select('role, module_code, level, kind').eq('kind', 'core'),
+    db.from('exam_results').select('user_id, score').in('user_id', userIds),
   ]);
 
   if (progressRes.error) {
@@ -129,6 +133,12 @@ Deno.serve(async (req: Request) => {
     if (entry) entry.badges += 1;
   }
 
+  // Best exam score per user — added on top of the summed module mastery.
+  const examBest = new Map<string, number>();
+  for (const row of examsRes.data ?? []) {
+    if ((examBest.get(row.user_id) ?? -1) < row.score) examBest.set(row.user_id, row.score);
+  }
+
   // 4. Build rows with masked display names; note: user IDs are excluded from output
   const rows = profiles.map((p) => {
     const a = agg.get(p.id) ?? { total_score: 0, badges: 0, modules_passed: 0, passed: new Set<string>() };
@@ -137,7 +147,7 @@ Deno.serve(async (req: Request) => {
     const certified = !!core && core.length > 0 && core.every((key) => a.passed.has(key));
     return {
       name:           maskEmail(p.display_name),
-      total_score:    a.total_score,
+      total_score:    a.total_score + (examBest.get(p.id) ?? 0),
       badges:         a.badges,
       modules_passed: a.modules_passed,
       role,
