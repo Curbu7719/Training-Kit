@@ -5,7 +5,7 @@ const en = {
   // ---------------------------------------------------------------------------
   // Nav / common
   // ---------------------------------------------------------------------------
-  'nav.brand': 'Training Platform',
+  'nav.brand': 'Wingmate',
   'nav.leaderboard': 'Leaderboard',
   'nav.admin': 'Admin',
   'nav.signOut': 'Sign out',

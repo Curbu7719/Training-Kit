@@ -3,7 +3,7 @@ import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 /**
- * Brand lockup — the Wingmate mascot + the product name ("Training Platform").
+ * Brand lockup — the Wingmate mascot + the "Wingmate" wordmark.
  * Used in every app header.
  */
 export function Brand({ className }: { className?: string }) {
