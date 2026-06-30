@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Award } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Spinner } from '@/components/ui/spinner';
-import mascotUrl from '@/assets/wingmate-mascot.svg';
-import emblemUrl from '@/assets/wingmate-emblem.svg';
 
 // ---------------------------------------------------------------------------
 // DB row types
@@ -72,10 +71,9 @@ export function BadgeShelf() {
 
   if (badges.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-2 py-6 text-center">
-        <img src={mascotUrl} alt="" className="h-16 w-16 opacity-90" />
-        <p className="text-sm text-muted-foreground">{t('badge.noBadges')}</p>
-      </div>
+      <p className="py-4 text-center text-sm text-muted-foreground">
+        {t('badge.noBadges')}
+      </p>
     );
   }
 
@@ -85,9 +83,9 @@ export function BadgeShelf() {
         <div
           key={badge.id}
           title={t('badge.earned', { date: new Date(badge.awardedAt).toLocaleDateString() })}
-          className="flex flex-col items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 p-3 text-center"
+          className="flex flex-col items-center gap-1.5 rounded-lg border border-warning/30 bg-warning/5 p-3 text-center"
         >
-          <img src={emblemUrl} alt="" className="h-10 w-10" />
+          <Award className="h-8 w-8 text-warning" />
           <span className="max-w-[80px] text-xs font-medium leading-tight">{badge.title}</span>
         </div>
       ))}

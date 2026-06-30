@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { getMyReflection, saveReflection } from '@/lib/api';
-import gradMascotUrl from '@/assets/wingmate-mascot-grad.svg';
 
 // Minimum characters per answer so the writeup is meaningful, not a single word.
 const MIN_LEN = 20;
@@ -79,14 +79,16 @@ export function ReflectionPage() {
 
         {saved && (
           <Card className="border-success/50">
-            <CardHeader className="flex flex-col items-center gap-2 text-center">
-              <img src={gradMascotUrl} alt="Wingmate" className="h-28 w-28 drop-shadow-sm" />
-              <CardTitle className="text-base text-success">{t('reflection.saved')}</CardTitle>
-              <CardDescription>{t('reflection.savedNote')}</CardDescription>
+            <CardHeader className="flex flex-row items-start gap-2">
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+              <div>
+                <CardTitle className="text-base text-success">{t('reflection.saved')}</CardTitle>
+                <CardDescription>{t('reflection.savedNote')}</CardDescription>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="flex justify-center gap-3">
-                <Button onClick={() => navigate('/certificate')}>{t('cert.cta')}</Button>
+              <div className="flex gap-3">
+                <Button onClick={() => navigate('/dashboard')}>{t('nav.backToDashboard')}</Button>
                 <Button variant="outline" onClick={() => setSaved(false)}>
                   {t('reflection.revise')}
                 </Button>

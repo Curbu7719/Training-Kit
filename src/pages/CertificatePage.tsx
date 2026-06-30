@@ -9,8 +9,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
-import emblemUrl from '@/assets/wingmate-emblem.svg';
-import gradMascotUrl from '@/assets/wingmate-mascot-grad.svg';
 
 const VF_RED = '#e60000';
 
@@ -129,11 +127,6 @@ export function CertificatePage() {
         </Button>
       </div>
 
-      {/* Celebration — hidden when printing */}
-      <div className="no-print mx-auto mb-2 flex max-w-3xl flex-col items-center px-6 text-center">
-        <img src={gradMascotUrl} alt="Wingmate" className="h-24 w-24 drop-shadow-sm" />
-      </div>
-
       {/* Certificate */}
       <div className="mx-auto max-w-3xl px-6">
         <div
@@ -142,8 +135,7 @@ export function CertificatePage() {
         >
           <div className="pointer-events-none absolute inset-0" style={{ border: '1px solid rgba(230,0,0,0.25)', margin: '10px' }} />
 
-          {/* Wingmate emblem seal + Vodafone wordmark */}
-          <img src={emblemUrl} alt="" className="mx-auto mb-4 h-20 w-20" />
+          {/* Vodafone wordmark */}
           <div className="mb-8 flex items-center justify-center">
             <span className="text-3xl font-bold tracking-tight" style={{ color: VF_RED }}>Vodafone</span>
           </div>

@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { ROLE_ORDER } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
-import mascotUrl from '@/assets/wingmate-mascot.svg';
 
 /**
  * Entry page, shown on every app open. Leads with the leadership (CIO) message.
@@ -58,10 +57,6 @@ export function WelcomePage() {
         </section>
 
         <div className="lg:sticky lg:top-[84px]">
-        <div className="mb-4 flex flex-col items-center gap-2 text-center">
-          <img src={mascotUrl} alt="Wingmate" className="h-28 w-28 drop-shadow-sm" />
-          <p className="text-sm font-semibold text-foreground">{t('welcome.mascot')}</p>
-        </div>
         {hasRole ? (
           /* Returning learner — role already chosen and locked */
           <section className="rounded-2xl border border-border bg-card px-6 py-6 shadow-card">

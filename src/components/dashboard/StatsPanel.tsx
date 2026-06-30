@@ -9,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { getMyReflection } from '@/lib/api';
-import gradMascotUrl from '@/assets/wingmate-mascot-grad.svg';
 import { ROLE_PATHS, type RoleKey } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 
@@ -273,8 +272,7 @@ export function StatsPanel() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-1 lg:items-end">
-                <img src={gradMascotUrl} alt="" className="h-20 w-20" />
+              <div className="flex flex-col gap-1 lg:items-end">
                 <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-success/10 px-3 py-1.5 text-sm font-semibold text-success">
                   <CheckCircle2 className="h-4 w-4" />
                   {t('dashboard.remaining.done')}

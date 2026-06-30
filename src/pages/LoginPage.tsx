@@ -5,8 +5,8 @@ import { useLanguage } from '@/lib/i18n';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
+import { Brand } from '@/components/ui/Brand';
 import { Spinner } from '@/components/ui/spinner';
-import mascotUrl from '@/assets/wingmate-mascot.svg';
 
 export function LoginPage() {
   const { user, loading } = useAuth();
@@ -42,9 +42,8 @@ export function LoginPage() {
         </div>
         <Card className="shadow-cardhover">
           <CardHeader className="items-center pb-4 pt-7 text-center">
-            <img src={mascotUrl} alt="Wingmate" className="mb-3 h-24 w-24 drop-shadow-sm" />
-            <span className="text-xl font-bold tracking-tight text-foreground">{t('nav.brand')}</span>
-            <CardDescription className="mt-2">{t('login.tagline')}</CardDescription>
+            <Brand className="justify-center" />
+            <CardDescription className="mt-3">{t('login.tagline')}</CardDescription>
           </CardHeader>
           <CardContent>
             <LoginForm onSuccess={handleSuccess} />

@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, BookOpen, FlaskConical, HelpCircle, FileText, Columns3 } from 'lucide-react';
-import mascotUrl from '@/assets/wingmate-mascot.svg';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
@@ -785,7 +784,7 @@ export function LessonPlayerPage() {
               </>
             ) : userLevel === 'L1' && l2Available ? (
               <>
-                <img src={mascotUrl} alt="" className="h-24 w-24" />
+                <CheckCircle2 className="h-8 w-8 text-success" />
                 <p className="font-semibold">{t('lesson.l1Passed.title')}</p>
                 <p className="text-sm text-muted-foreground">{t('lesson.l1Passed.desc')}</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
@@ -802,7 +801,7 @@ export function LessonPlayerPage() {
                 const next = nextCoreModuleCode();
                 return (
                   <>
-                    <img src={mascotUrl} alt="" className="h-24 w-24" />
+                    <CheckCircle2 className="h-8 w-8 text-success" />
                     <p className="font-semibold">
                       {next ? t('lesson.modulePassed.title') : t('lesson.allCoreDone.title')}
                     </p>
