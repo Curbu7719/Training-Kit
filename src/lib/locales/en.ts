@@ -535,7 +535,7 @@ const en = {
   'welcome.cio.body2': 'This training is our shared starting point. It is practical and built around your real, day-to-day work: where AI genuinely helps, where it does not, and how to use it safely. There are no wrong questions here — and it is expected that AI sometimes gets things wrong. Checking its work is part of the skill, not a failure.',
   'welcome.cio.body3': 'Please take it seriously and finish it. At the end you will tell us, in your own words, what you will do differently in your work. That is how we turn a course into a real change in how we build.',
   'welcome.cio.signature': '— Your CIO',
-  'welcome.mascot': 'Meet Wingmate — your AI co-pilot',
+  'welcome.mascot': 'Meet Wingmate — your AI mate',
   'welcome.role.title': 'Choose your role to start',
   'welcome.role.help': 'We’ll tailor your learning path to your role. Choose carefully — this is set once and can’t be changed afterwards. You can still take any other module any time.',
   'welcome.start': 'Start',

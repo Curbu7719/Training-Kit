@@ -10,6 +10,7 @@ import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 import emblemUrl from '@/assets/wingmate-emblem.svg';
+import gradMascotUrl from '@/assets/wingmate-mascot-grad.svg';
 
 const VF_RED = '#e60000';
 
@@ -126,6 +127,11 @@ export function CertificatePage() {
           <Download className="h-4 w-4" />
           {t('cert.download')}
         </Button>
+      </div>
+
+      {/* Celebration — hidden when printing */}
+      <div className="no-print mx-auto mb-2 flex max-w-3xl flex-col items-center px-6 text-center">
+        <img src={gradMascotUrl} alt="Wingmate" className="h-24 w-24 drop-shadow-sm" />
       </div>
 
       {/* Certificate */}
