@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Spinner } from '@/components/ui/spinner';
+import mascotUrl from '@/assets/wingmate-mascot.svg';
 
 // ---------------------------------------------------------------------------
 // DB row types
@@ -71,9 +72,10 @@ export function BadgeShelf() {
 
   if (badges.length === 0) {
     return (
-      <p className="py-4 text-center text-sm text-muted-foreground">
-        {t('badge.noBadges')}
-      </p>
+      <div className="flex flex-col items-center gap-2 py-6 text-center">
+        <img src={mascotUrl} alt="" className="h-16 w-16 opacity-90" />
+        <p className="text-sm text-muted-foreground">{t('badge.noBadges')}</p>
+      </div>
     );
   }
 

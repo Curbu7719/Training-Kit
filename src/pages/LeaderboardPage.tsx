@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+import mascotUrl from '@/assets/wingmate-mascot.svg';
 import type { TranslationKey } from '@/lib/locales/en';
 
 // ---------------------------------------------------------------------------
@@ -134,7 +135,8 @@ export function LeaderboardPage() {
                 })}
                 {entries.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="py-6 text-center text-muted-foreground">
+                    <td colSpan={7} className="py-10 text-center text-muted-foreground">
+                      <img src={mascotUrl} alt="" className="mx-auto mb-3 h-20 w-20 opacity-90" />
                       {t('leaderboard.empty')}
                     </td>
                   </tr>

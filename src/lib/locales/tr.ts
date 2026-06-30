@@ -535,6 +535,7 @@ const tr = {
   'welcome.cio.body2': 'Bu eğitim ortak başlangıç noktamız. Pratik ve gerçek, günlük işinizin etrafında kurulu: AI’ın gerçekten yardımcı olduğu yerler, olmadığı yerler ve onu güvenle nasıl kullanacağınız. Burada yanlış soru yoktur — ve AI’ın bazen yanılması beklenen bir durumdur. Onun işini kontrol etmek bir başarısızlık değil, becerinin bir parçasıdır.',
   'welcome.cio.body3': 'Lütfen ciddiye alın ve tamamlayın. Sonunda, kendi kelimelerinizle işinizde neyi farklı yapacağınızı bize anlatacaksınız. Bir kursu, inşa etme şeklimizde gerçek bir değişime böyle çeviririz.',
   'welcome.cio.signature': '— CIO’nuz',
+  'welcome.mascot': 'Tanış: Wingmate — AI yol arkadaşın',
   'welcome.role.title': 'Başlamak için rolünü seç',
   'welcome.role.help': 'Öğrenme patikanı rolüne göre uyarlayacağız. Dikkatli seç — bu seçim bir kez yapılır ve sonradan değiştirilemez. Yine de istediğin başka modülü dilediğin zaman alabilirsin.',
   'welcome.start': 'Başla',

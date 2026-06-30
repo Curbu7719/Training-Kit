@@ -9,6 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
+import emblemUrl from '@/assets/wingmate-emblem.svg';
 
 const VF_RED = '#e60000';
 
@@ -135,7 +136,8 @@ export function CertificatePage() {
         >
           <div className="pointer-events-none absolute inset-0" style={{ border: '1px solid rgba(230,0,0,0.25)', margin: '10px' }} />
 
-          {/* Vodafone wordmark */}
+          {/* Wingmate emblem seal + Vodafone wordmark */}
+          <img src={emblemUrl} alt="" className="mx-auto mb-4 h-20 w-20" />
           <div className="mb-8 flex items-center justify-center">
             <span className="text-3xl font-bold tracking-tight" style={{ color: VF_RED }}>Vodafone</span>
           </div>

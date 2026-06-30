@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Wingmate maskotu">
+  <title>Wingmate — VDLC maskotu</title>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF1A1A"/>
+      <stop offset="1" stop-color="#CC0000"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E60000"/>
+      <stop offset="1" stop-color="#A30000"/>
+    </linearGradient>
+    <radialGradient id="glass" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#CFF1FF"/>
+      <stop offset="1" stop-color="#5BB8E6"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="256" cy="474" rx="126" ry="22" fill="#000000" opacity="0.10"/>
+
+  <!-- raised wing (behind body) : the 'I've got your back' wave -->
+  <path d="M348 250 Q432 172 478 146 Q474 194 452 220 Q474 228 450 258 Q470 268 438 290 Q454 302 416 318 Q388 326 356 320 Q340 286 348 250 Z"
+        fill="url(#wing)" stroke="#8F0000" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- resting wing (left, behind body) -->
+  <path d="M156 256 Q96 278 78 332 Q112 344 146 326 Q136 288 156 256 Z"
+        fill="url(#wing)" stroke="#8F0000" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- feet -->
+  <g fill="#FF9E1B" stroke="#E07B00" stroke-width="3" stroke-linecap="round">
+    <path d="M214 438 l0 22 M214 460 l-14 10 M214 460 l0 14 M214 460 l14 10" />
+    <path d="M298 438 l0 22 M298 460 l-14 10 M298 460 l0 14 M298 460 l14 10" />
+  </g>
+
+  <!-- body -->
+  <ellipse cx="256" cy="300" rx="142" ry="158" fill="url(#body)"/>
+
+  <!-- head feather tufts -->
+  <path d="M226 150 q8 -34 20 -44 q2 26 -4 44 Z" fill="#CC0000"/>
+  <path d="M252 146 q14 -30 30 -36 q-4 26 -14 42 Z" fill="#E60000"/>
+
+  <!-- belly -->
+  <ellipse cx="246" cy="346" rx="84" ry="96" fill="#FFF1E6"/>
+
+  <!-- cheeks -->
+  <circle cx="166" cy="312" r="17" fill="#FF6B6B" opacity="0.55"/>
+  <circle cx="338" cy="306" r="17" fill="#FF6B6B" opacity="0.55"/>
+
+  <!-- aviator goggles pushed up on forehead -->
+  <rect x="150" y="170" width="206" height="26" rx="13" fill="#2B2B2B" transform="rotate(-7 253 183)"/>
+  <g stroke="#1F1F1F" stroke-width="8">
+    <circle cx="206" cy="176" r="34" fill="url(#glass)"/>
+    <circle cx="304" cy="166" r="34" fill="url(#glass)"/>
+  </g>
+  <path d="M186 162 q16 -10 36 0" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M284 152 q16 -10 36 0" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- eyes -->
+  <g>
+    <circle cx="212" cy="258" r="30" fill="#FFFFFF"/>
+    <circle cx="296" cy="252" r="30" fill="#FFFFFF"/>
+    <circle cx="220" cy="262" r="14" fill="#1A1A1A"/>
+    <circle cx="304" cy="256" r="14" fill="#1A1A1A"/>
+    <circle cx="225" cy="257" r="5" fill="#FFFFFF"/>
+    <circle cx="309" cy="251" r="5" fill="#FFFFFF"/>
+  </g>
+
+  <!-- beak -->
+  <path d="M252 280 L232 302 L252 326 L272 302 Z" fill="#FF9E1B" stroke="#E07B00" stroke-width="2"/>
+  <path d="M252 302 L252 326 L272 302 Z" fill="#E07B00"/>
+
+  <!-- speed accent near wing tip -->
+  <g stroke="#FFB200" stroke-width="6" stroke-linecap="round" opacity="0.9">
+    <line x1="486" y1="160" x2="506" y2="156"/>
+    <line x1="480" y1="180" x2="504" y2="178"/>
+  </g>
+</svg>
