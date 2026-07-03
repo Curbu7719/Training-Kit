@@ -390,6 +390,8 @@ const en = {
   // ---------------------------------------------------------------------------
   'module.using_ai_safely.title': 'Using AI Safely — for Everyone',
   'module.using_ai_safely.desc': 'The shared habits for safely USING the company’s AI tools and agents: treat output as a draft to verify, keep PII and secrets out of prompts, watch for hidden instructions in fetched content, and escalate high-stakes decisions. No coding needed.',
+  'module.ai_vs_automation.title': 'AI or Automation? Choosing the Right Tool',
+  'module.ai_vs_automation.desc': 'When to reach for AI, when plain deterministic automation wins, and when to combine them. A 3-question rule, worked examples, and the common traps (using a model for exact rules, agent-washing) — plus hybrid design patterns at L2.',
   'module.llm_foundations.title': 'How LLMs Work',
   'module.llm_foundations.desc': 'What an LLM is and does; capabilities and limits; choosing the right model for a task.',
 

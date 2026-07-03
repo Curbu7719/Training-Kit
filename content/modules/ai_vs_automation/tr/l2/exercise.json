@@ -1,0 +1,20 @@
+{
+  "type": "scenario",
+  "prompt_md": "Ekibin ayda **10 milyon** adres dizesini standardize ediyor (büyük/küçük harf düzelt, kısaltmaları aç, teslim edilemezleri işaretle). Yaklaşık **%95**'i iyi bilinen posta desenlerine uyuyor; gerisi bir kuralın ayrıştıramayacağı dağınık serbest metin. Bir ekip arkadaşın tutarlılık için **her** adresi bir LLM'e göndermeyi öneriyor. Bu hacimde maliyet ve gecikme önemli ve standardize adresler **kesin ve tekrarlanabilir** olmalı.\n\nHangi tasarım en uygun — ve neden?",
+  "spec": {
+    "decision_choices": [
+      "10M adresin hepsini her ay LLM'e gönder, tek tutarlı yaklaşım için",
+      "Her şey için deterministik kural kullan ve dağınık %5'i teslim edilemez diye at",
+      "Bilinen desenlere uyan ~%95 için önce deterministik ayrıştırma; yalnızca dağınık kalan için LLM'e düş, sonra her sonucu posta kurallarına göre doğrula",
+      "Geçmiş adreslerle bir modeli fine-tune et ve trafiğin %100'ünü ondan geçir"
+    ],
+    "reason_choices": [
+      "Çünkü önce-deterministik tasarım trafiğin çoğunu ucuz, kesin, anlık yolda tutar ve AI'ı gerçekten gereken kesire saklar — ve AI çıktısını doğrulamak standardize adresleri kesin ve tekrarlanabilir kılar",
+      "Çünkü her girdide AI çağırmak en tutarlı ve dolayısıyla ölçekte en ucuz seçenektir",
+      "Çünkü dağınık girdilerin değeri yoktur ve atılması güvenlidir",
+      "Çünkü her şeyi tek modelden geçirmek deterministik doğrulama ihtiyacını ortadan kaldırır"
+    ]
+  },
+  "answer_key": { "decision": 2, "reason": 0 },
+  "max_score": 12
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "'Çıkar-sonra-doğrula' deseninde deterministik kodun görevi nedir?",
+    "choices": [
+      "Dağınık girdiden yapılandırılmış veriyi üretmek",
+      "AI çıktısını kontrol etmek — doğru format, geçerli aralık, izinli değerler — ve başarısız olanı işaretlemek ya da reddetmek",
+      "Doğruluk yeterince yükselince AI'ı değiştirmek",
+      "AI çıktısını non-deterministik yapmak"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "AI, çeşitli girdiden yapıyı çıkarır; deterministik kod o yapıyı doğrular (format, aralık, izinli değerler) ki güvensiz hiçbir şeye göre iş yapılmasın. AI önerir; kod kontrol eder."
+  },
+  {
+    "prompt": "'Önce-deterministik, AI-yedek' tasarımı yüksek hacimde neden yardımcı olur? (Geçerli olanların tümünü seçin.)",
+    "choices": [
+      "Girdilerin çoğu ucuz, anlık, kesin yolla işlenir, böylece azı ücretli AI çağrısına ulaşır",
+      "Her girdiyi AI'a göndermeye kıyasla toplam maliyeti ve gecikmeyi düşürür",
+      "Yedek yolda AI çıktısını doğrulama ihtiyacını ortadan kaldırır",
+      "Zarif biçimde bozulur — yaygın durumu bir kural, nadir dağınık durumu AI ele alır"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1,
+    "explanation": "Önce kesin yolu çalıştırmak trafiğin çoğunu ücretli, yavaş AI çağrısından uzak tutar; maliyeti ve gecikmeyi kısar, zarif bozulur. Yedek yolda AI çıktısını doğrulama ihtiyacını ORTADAN KALDIRMAZ."
+  },
+  {
+    "prompt": "Bir AI çıkarım adımını, bir deterministik doğrulama adımından farklı olarak nasıl test etmelisin?",
+    "choices": [
+      "İkisini de tek kesin girdi/çıktı birim testiyle",
+      "Deterministik adımı kesin testlerle; AI adımını, bir eşiğe karşı geçme oranı ölçen bir değerlendirme setiyle",
+      "AI adımını kesin testlerle; deterministik adımı göz kararıyla",
+      "Model yeterince büyükse hiçbiri teste gerek duymaz"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Deterministik kod tekrarlanabilir, kesin testler uyar. AI çıktısı değişir, o yüzden temsili bir değerlendirme seti üzerinde bir oran (doğruluk ya da doğrulayıcı geçme oranı) ölçersin; model ya da prompt değişince yeniden çalıştırırsın."
+  },
+  {
+    "prompt": "Yüksek riskli bir adımın (örn. ödeme yapmak) bir AI bileşeni var. En güvenli tasarım nedir?",
+    "choices": [
+      "Hız için AI ödemeyi doğrudan tetiklesin",
+      "AI eylemi önerir, ama bir kural ve/veya bir insan nihai kararı geçitler (öner-sonra-geçit)",
+      "AI'ı üç kez çalıştır, ikisi hemfikirse öde",
+      "Model doğru olduğu için doğrulamayı atla"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Yüksek riskli eylemlerde AI çıktısı bir taslaktır, asla nihai eylem değil. Bir kural (eşikler) ve/veya bir insan onaylar, böylece doğruluk tek non-deterministik çağrıya dayanmaz."
+  }
+]

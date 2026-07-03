@@ -1,0 +1,62 @@
+[
+  {
+    "prompt": "Hangi görev, deterministik otomasyon yerine AI için EN uygun olanıdır?",
+    "choices": [
+      "Bilinen bir oran tablosundan sabit indirim uygulamak",
+      "Bir telefon numarasının geçerli formatta olduğunu doğrulamak",
+      "300 serbest-metin anket cevabındaki temaları özetlemek",
+      "Bir sipariş listesini tarihe göre sıralamak"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "Yapılandırılmamış serbest metindeki temaları özetlemek, AI'ın parladığı bulanık, açık-uçlu dil işidir. Diğerleri kesin, bilinen kurallardır; deterministik kod bunları daha ucuz, güvenilir ve tekrarlanabilir yapar."
+  },
+  {
+    "prompt": "Kural kesin ve sabitken deterministik otomasyonu tercih etmek için geçerli olan TÜM nedenleri seçin. (Geçerli olanların tümünü seçin.)",
+    "choices": [
+      "Aynı girdi için her seferinde aynı cevabı verir",
+      "Çalıştırma başına genelde daha ucuz ve hızlıdır",
+      "Test etmesi ve denetlemesi daha kolaydır",
+      "Non-deterministiktir, bu da kesin kurallar için istenen bir şeydir"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Deterministik kod tekrarlanabilir, ucuz, hızlı, test edilebilir ve denetlenebilir — kesin, bilinen kurallar için ideal. Son şık yanlış: kesin kurallar determinizm ister; non-deterministik olan AI'dır."
+  },
+  {
+    "prompt": "Haftalık bir KPI raporu veritabanından çekilip sabit bir planla e-postayla gönderiliyor. En doğru yaklaşım nedir?",
+    "choices": [
+      "Her hafta neyi dahil edeceğine karar veren bir AI agent",
+      "Sorguyu çalıştırıp e-postayı gönderen deterministik planlı bir iş",
+      "Her hafta SQL'i baştan yazan bir LLM",
+      "Geçmiş raporlarla bir modeli fine-tune etmek"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Adımlar sabit ve bilinen, yani bu sade otomasyon. Sabit adımları 'AI agent'a sarmak agent-washing'dir — hiçbir fayda sağlamadan maliyet, gecikme ve non-determinizm ekler."
+  },
+  {
+    "prompt": "Aşağıdakilerden hangisi bir LLM'in YANLIŞ kullanımıdır?",
+    "choices": [
+      "Bir insanın düzenlemesi için ilk yanıt taslağını yazmak",
+      "Uzun toplantı notlarını özetlemek",
+      "Bir siparişin kesin toplamını hesaplamak",
+      "Dağınık destek taleplerini niyete göre sınıflandırmak"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "Kesin toplamı hesaplamak deterministik aritmetiktir — bir formül bunu kesin, anlık ve bedava yapar. Bir modelden istemek daha yavaştır, para harcar ve kendinden emin yanılabilir. Diğerleri AI'a uyan bulanık dil/yargı işleridir."
+  },
+  {
+    "prompt": "Bir özellik aynı ekranda hem müşteri yanıtı taslağı yazmalı HEM de müşterinin kesin bakiyesini göstermeli. En iyi tasarım nedir?",
+    "choices": [
+      "Tek tutarlı teknoloji için ikisinde de AI kullan",
+      "İkisinde de deterministik kod kullan",
+      "AI yanıtı yazar; bir veritabanı sorgusu kesin bakiyeyi döner (hibrit)",
+      "Uçtan uca bir SaaS paketi satın al, her şeyi sağlayıcı halletsin"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "Yanıt bulanık dildir (AI); kesin bakiye bilinen bir lookup'tır (deterministik). Her aracı yerinde kullanmak — hibrit — doğru tasarımdır. Bir modelden asla kesin rakam isteme."
+  }
+]

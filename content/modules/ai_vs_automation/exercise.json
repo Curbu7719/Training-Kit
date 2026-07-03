@@ -1,0 +1,24 @@
+{
+  "type": "match",
+  "prompt_md": "For each **task** on the left, pick the **approach** on the right that fits it best — deterministic automation, AI, or a hybrid of the two. Watch for the traps: exact rules and exact figures are *not* AI work.",
+  "spec": {
+    "left": [
+      "Calculate the VAT on an invoice from a fixed rate",
+      "Check that an IBAN has a valid format before saving it",
+      "Show a customer their exact current account balance",
+      "Summarize a 40-page contract into five bullet points",
+      "Tag incoming free-text complaints by theme, where the themes change over time",
+      "Extract the invoice number from PDFs that arrive in many different vendor layouts"
+    ],
+    "right": [
+      "Deterministic: a fixed formula gives the exact amount every time — no model needed",
+      "Deterministic: a format/regex rule — exact and instant",
+      "Deterministic: a database query for the exact figure — never an AI guess",
+      "AI: open-ended summarization, the kind of language work a model does well",
+      "AI classification into a validated set of allowed labels, since the wording is fuzzy and the categories evolve",
+      "Hybrid: AI reads the varied layouts, then code validates the extracted number's format"
+    ]
+  },
+  "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]] },
+  "max_score": 12
+}

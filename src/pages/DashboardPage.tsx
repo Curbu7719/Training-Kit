@@ -38,7 +38,7 @@ const STRATEGY_CODES = ['ai_fit_buildbuy', 'ai_risk_governance', 'ai_value_scali
 const VIBE_CODES = ['vibe_coding'] as const;
 
 // Universal safety core — shown first, required for every role.
-const FOUNDATION_CODES = ['using_ai_safely'] as const;
+const FOUNDATION_CODES = ['using_ai_safely', 'ai_vs_automation'] as const;
 
 const MODULE_CODES = [...FOUNDATION_CODES, ...SDLC_CODES, ...STRATEGY_CODES, ...VIBE_CODES] as const;
 
@@ -48,6 +48,7 @@ type ModuleCode = (typeof MODULE_CODES)[number];
 // Language-agnostic; rendered with a localized "~N min" suffix.
 const MODULE_MINUTES: Record<ModuleCode, { l1: number; l2: number }> = {
   using_ai_safely:      { l1: 12, l2: 12 },
+  ai_vs_automation:     { l1: 12, l2: 15 },
   llm_foundations:      { l1: 15, l2: 15 },
   tokens:               { l1: 12, l2: 15 },
   context_management:   { l1: 15, l2: 15 },

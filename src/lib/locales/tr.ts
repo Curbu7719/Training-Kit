@@ -390,6 +390,8 @@ const tr = {
   // ---------------------------------------------------------------------------
   'module.using_ai_safely.title': 'AI\'ı Güvenle Kullanmak — Herkes İçin',
   'module.using_ai_safely.desc': 'Şirketin AI araçlarını ve agent\'larını güvenle KULLANMAK için ortak alışkanlıklar: çıktıyı doğrulanacak bir taslak gör, PII ve secret\'ları prompt\'lardan uzak tut, çekilen içerikteki gizli talimatlara dikkat et ve yüksek riskli kararları yükselt. Kod gerekmez.',
+  'module.ai_vs_automation.title': 'AI mı, Otomasyon mu? Doğru Aracı Seçmek',
+  'module.ai_vs_automation.desc': 'Ne zaman AI, ne zaman sade deterministik otomasyon kazanır ve ne zaman ikisi birleşir. 3 soruluk kural, çözümlü örnekler ve sık tuzaklar (kesin kurala model, agent-washing) — L2\'de hibrit tasarım desenleri.',
   'module.llm_foundations.title': 'LLM\'ler Nasıl Çalışır?',
   'module.llm_foundations.desc': 'LLM nedir ve ne yapar; yetenekleri ve sınırlılıkları; görev için doğru modeli seçmek.',
 

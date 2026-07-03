@@ -1,0 +1,20 @@
+{
+  "type": "scenario",
+  "prompt_md": "Your team processes **10 million** address strings a month to standardize them (fix casing, expand abbreviations, flag undeliverable ones). About **95%** follow well-known postal patterns; the rest are messy free-form text a rule cannot parse. A teammate proposes sending **every** address to an LLM for consistency. Cost and latency matter at this volume, and standardized addresses must be **exact and repeatable**.\n\nWhich design best fits — and why?",
+  "spec": {
+    "decision_choices": [
+      "Send all 10M addresses to the LLM every month for one consistent approach",
+      "Use deterministic rules for everything and drop the messy 5% as undeliverable",
+      "Deterministic parsing first for the ~95% that match known patterns; fall back to the LLM only for the messy remainder, then validate every result against postal rules",
+      "Fine-tune a model on past addresses and route 100% of traffic through it"
+    ],
+    "reason_choices": [
+      "Because a deterministic-first design keeps most traffic on the cheap, exact, instant path and reserves AI for the fraction that genuinely needs it — and validating the AI output keeps standardized addresses exact and repeatable",
+      "Because calling AI on every input is the most consistent and therefore cheapest option at scale",
+      "Because messy inputs have no value and are safe to discard",
+      "Because routing everything through one model removes the need for any deterministic validation"
+    ]
+  },
+  "answer_key": { "decision": 2, "reason": 0 },
+  "max_score": 12
+}

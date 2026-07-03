@@ -1,0 +1,24 @@
+{
+  "type": "match",
+  "prompt_md": "Soldaki her **görev** için, en uygun **yaklaşımı** sağdan seç — deterministik otomasyon, AI ya da ikisinin hibriti. Tuzaklara dikkat: kesin kurallar ve kesin rakamlar AI işi *değildir*.",
+  "spec": {
+    "left": [
+      "Bir faturanın KDV'sini sabit oranla hesaplamak",
+      "Kaydetmeden önce bir IBAN'ın geçerli formatta olduğunu kontrol etmek",
+      "Müşteriye kesin güncel hesap bakiyesini göstermek",
+      "40 sayfalık bir sözleşmeyi beş maddede özetlemek",
+      "Serbest-metin şikâyetleri, zamanla değişen temalara göre etiketlemek",
+      "Birçok farklı tedarikçi düzeninde gelen PDF'lerden fatura numarasını çıkarmak"
+    ],
+    "right": [
+      "Deterministik: sabit bir formül her seferinde kesin tutarı verir — modele gerek yok",
+      "Deterministik: bir format/regex kuralı — kesin ve anlık",
+      "Deterministik: kesin rakam için veritabanı sorgusu — asla AI tahmini değil",
+      "AI: açık-uçlu özetleme, bir modelin iyi yaptığı türden dil işi",
+      "AI ile doğrulanmış izinli etiket setine sınıflandırma; ifade bulanık ve kategoriler değişiyor",
+      "Hibrit: AI çeşitli düzenleri okur, sonra kod çıkarılan numaranın formatını doğrular"
+    ]
+  },
+  "answer_key": { "pairs": [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]] },
+  "max_score": 12
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "prompt": "Which task is the BEST fit for AI rather than deterministic automation?",
+    "choices": [
+      "Applying a fixed discount from a known rate table",
+      "Validating that a phone number has a valid format",
+      "Summarizing the themes across 300 free-text survey answers",
+      "Sorting a list of orders by date"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "Summarizing themes across unstructured free text is fuzzy, open-ended language work where AI excels. The others are exact, known rules that deterministic code does more cheaply, reliably, and repeatably."
+  },
+  {
+    "prompt": "Select ALL good reasons to prefer deterministic automation when the rule is exact and stable. (Select all that apply.)",
+    "choices": [
+      "It gives the same answer every time for the same input",
+      "It is typically cheaper and faster per run",
+      "It is easier to test and audit",
+      "It is non-deterministic, which is desirable for exact rules"
+    ],
+    "correct": [0, 1, 2],
+    "points": 1,
+    "explanation": "Deterministic code is repeatable, cheap, fast, testable, and auditable — ideal for exact, known rules. The last option is false: exact rules want determinism, and AI is the non-deterministic one."
+  },
+  {
+    "prompt": "A weekly KPI report is pulled from the database and emailed on a fixed schedule. What is the best approach?",
+    "choices": [
+      "An AI agent that decides each week what to include",
+      "A deterministic scheduled job that runs the query and sends the email",
+      "An LLM that writes the SQL fresh every week",
+      "Fine-tune a model on past reports"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "The steps are fixed and known, so it is plain automation. Wrapping fixed steps in an 'AI agent' is agent-washing — it adds cost, latency, and non-determinism for no benefit."
+  },
+  {
+    "prompt": "Which of these is the WRONG use of an LLM?",
+    "choices": [
+      "Drafting a first-pass email reply for a human to edit",
+      "Summarizing long meeting notes",
+      "Computing the exact total of an order",
+      "Classifying messy support tickets by intent"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "Computing an exact total is deterministic arithmetic — a formula does it exactly, instantly, and for free. Asking a model to do it is slower, costs money, and can be confidently wrong. The others are fuzzy language or judgment tasks that fit AI."
+  },
+  {
+    "prompt": "A feature must draft a customer reply AND show the customer's exact balance on the same screen. What is the best design?",
+    "choices": [
+      "Use AI for both, to keep one consistent technology",
+      "Use deterministic code for both",
+      "AI drafts the reply; a database query returns the exact balance (hybrid)",
+      "Buy an end-to-end SaaS suite so a vendor handles everything"
+    ],
+    "correct": [2],
+    "points": 1,
+    "explanation": "The reply is fuzzy language (AI); the exact balance is a known lookup (deterministic). Using each tool where it fits — a hybrid — is the right design. Never ask a model to produce an exact figure."
+  }
+]

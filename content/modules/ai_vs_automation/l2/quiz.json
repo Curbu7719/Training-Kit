@@ -1,0 +1,50 @@
+[
+  {
+    "prompt": "In the 'extract-then-validate' pattern, what is the deterministic code's job?",
+    "choices": [
+      "To generate the structured data from the messy input",
+      "To check the AI's output — correct format, valid ranges, allowed values — and flag or reject anything that fails",
+      "To replace the AI once accuracy is high enough",
+      "To make the AI output non-deterministic"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "AI extracts the structure from varied input; deterministic code validates that structure (format, ranges, allowed values) so nothing unsafe is acted on. AI proposes; code checks."
+  },
+  {
+    "prompt": "Why does a 'deterministic-first, AI-fallback' design help at high volume? (Select all that apply.)",
+    "choices": [
+      "Most inputs are handled by the cheap, instant, exact path, so few reach the paid AI call",
+      "It lowers total cost and latency compared with sending every input to AI",
+      "It removes the need to validate the AI's output on the fallback path",
+      "It degrades gracefully — a rule handles the common case, AI handles the rare messy case"
+    ],
+    "correct": [0, 1, 3],
+    "points": 1,
+    "explanation": "Running the exact path first keeps most traffic off the paid, slower AI call, cutting cost and latency and degrading gracefully. It does NOT remove the need to validate AI output on the fallback path."
+  },
+  {
+    "prompt": "How should you test an AI extraction step versus a deterministic validation step?",
+    "choices": [
+      "Both with a single exact input/output unit test",
+      "The deterministic step with exact tests; the AI step with an evaluation set measuring a pass-rate against a threshold",
+      "The AI step with exact tests; the deterministic step by spot-checking",
+      "Neither needs testing if the model is large enough"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "Deterministic code is repeatable, so exact tests fit. AI output varies, so you measure a rate (accuracy or validator pass-rate) over a representative eval set against a threshold, re-running when the model or prompt changes."
+  },
+  {
+    "prompt": "A high-stakes step (e.g. issuing a payment) has an AI component. What is the safest design?",
+    "choices": [
+      "Let the AI trigger the payment directly for speed",
+      "AI proposes the action, but a rule and/or a human gate the final decision (propose-then-gate)",
+      "Run the AI three times and pay if two agree",
+      "Skip validation because the model is accurate"
+    ],
+    "correct": [1],
+    "points": 1,
+    "explanation": "For high-stakes actions, AI output is a draft, never the final action. A rule (thresholds) and/or a human approve it, so correctness never rests on one non-deterministic call."
+  }
+]

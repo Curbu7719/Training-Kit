@@ -147,7 +147,12 @@ async function main() {
     console.error(`No content dir at ${MODULES_DIR}`);
     process.exit(1);
   }
-  const codes = readdirSync(MODULES_DIR).filter((d) => statSync(join(MODULES_DIR, d)).isDirectory());
+  // SEED_ONLY=<code> seeds just one module (non-destructive to the rest) —
+  // useful when adding a new module without re-seeding (and wiping attempts of) all.
+  const only = process.env.SEED_ONLY;
+  const codes = readdirSync(MODULES_DIR)
+    .filter((d) => statSync(join(MODULES_DIR, d)).isDirectory())
+    .filter((c) => !only || c === only);
 
   let seeded = 0;
   for (const code of codes) {
