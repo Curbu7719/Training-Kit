@@ -159,6 +159,8 @@ const en = {
   'lesson.allDoneDesc': 'Your progress will be saved and any new badges awarded.',
   'lesson.completeModule': 'Complete module',
   'lesson.saving': 'Saving…',
+  'lesson.langSwitch.title': 'Language switched mid-module',
+  'lesson.langSwitch.desc': 'This module’s quiz and exercise are per-language, so you’ll complete it in the new language. Modules you’ve already passed are unaffected.',
   'lesson.saveError': 'Could not save progress',
   'lesson.retry': 'Retry',
   'lesson.goToLesson': 'Go to lesson: {title}',

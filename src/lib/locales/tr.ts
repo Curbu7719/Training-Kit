@@ -160,6 +160,8 @@ const tr = {
   'lesson.allDoneDesc': 'İlerlemeniz kaydedilecek ve kazanılan rozetler verilecek.',
   'lesson.completeModule': 'Modülü tamamla',
   'lesson.saving': 'Kaydediliyor…',
+  'lesson.langSwitch.title': 'Modül ortasında dil değişti',
+  'lesson.langSwitch.desc': 'Bu modülün quiz ve exercise’i dile özeldir; onu yeni dilde tamamlayacaksın. Daha önce geçtiğin modüller etkilenmez.',
   'lesson.saveError': 'İlerleme kaydedilemedi',
   'lesson.retry': 'Tekrar dene',
   'lesson.goToLesson': 'Derse git: {title}',

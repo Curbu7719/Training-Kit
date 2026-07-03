@@ -24,6 +24,7 @@ import { FillExercise, type FillSpec } from '@/components/exercise/FillExercise'
 import { ScenarioExercise, type ScenarioSpec } from '@/components/exercise/ScenarioExercise';
 import { PromptRepairExercise, type PromptRepairSpec } from '@/components/exercise/PromptRepairExercise';
 import { toast } from '@/components/ui/toast';
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
@@ -283,6 +284,25 @@ export function LessonPlayerPage() {
   // surface the right continue CTA (L2 deep-dive, next core module, or retry).
   const [allDoneSaved, setAllDoneSaved] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
+
+  // Warn when the language changes mid-module — i.e. a module the learner has
+  // started but not yet passed. Progress is per module+level (language-independent),
+  // but quiz/exercise questions are per-language, so they finish this module in the
+  // new language; already-passed modules are unaffected.
+  const midModuleRef = useRef(false);
+  useEffect(() => {
+    midModuleRef.current = completedIdxs.size > 0 && !levelPassed;
+  }, [completedIdxs.size, levelPassed]);
+  const prevLangRef = useRef(lang);
+  useEffect(() => {
+    if (prevLangRef.current === lang) return;
+    const wasMidModule = midModuleRef.current;
+    prevLangRef.current = lang;
+    if (wasMidModule) {
+      toast({ title: t('lesson.langSwitch.title'), description: t('lesson.langSwitch.desc'), duration: 9000 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState(false);
   // Re-entry guard for the auto-save effect. A ref (not `saving` state in the
@@ -652,6 +672,7 @@ export function LessonPlayerPage() {
                 : t('lesson.progress', { done: completedIdxs.size, total: lessons.length })}
             </p>
           </div>
+          <LanguageSwitcher />
           {l1Passed && l2Available ? (
             <div className="flex gap-1" role="group" aria-label={t('review.switchLevel')}>
               {(['L1', 'L2'] as const).map((lv) => (
