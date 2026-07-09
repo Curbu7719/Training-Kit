@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
-import { TarsMascot } from '@/components/ui/TarsMascot';
+import { TarsSpeech } from '@/components/ui/TarsSpeech';
 import { ROLE_ORDER } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 
@@ -40,6 +40,12 @@ export function WelcomePage() {
     <>
 
       <main className="mx-auto w-full max-w-[1760px] px-5 py-10 sm:px-8">
+        {/* TARS introduces the CIO's message and the flow. */}
+        <div className="mb-6 max-w-3xl">
+          <TarsSpeech expression="talking" size={104}>
+            {t('tars.welcome.cio')}
+          </TarsSpeech>
+        </div>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
         {/* CIO message */}
         <section className="rounded-2xl border border-primary/30 bg-primary/5 px-6 py-6 shadow-card lg:px-9 lg:py-8">
@@ -56,10 +62,6 @@ export function WelcomePage() {
         </section>
 
         <div className="lg:sticky lg:top-8">
-        {/* TARS introduces the path — animated. */}
-        <div className="mb-2 flex justify-center">
-          <TarsMascot expression="talking" animated size={128} />
-        </div>
         {hasRole ? (
           /* Returning learner — role already chosen and locked */
           <section className="rounded-2xl border border-border bg-card px-6 py-6 shadow-card">

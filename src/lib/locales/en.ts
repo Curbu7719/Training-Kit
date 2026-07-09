@@ -21,6 +21,13 @@ const en = {
   'common.loading': 'Loading…',
 
   // ---------------------------------------------------------------------------
+  // TARS voice — the mascot narrates the platform
+  // ---------------------------------------------------------------------------
+  'tars.login': "Hi, I'm TARS — your training buddy. Sign in and let's get started! 🚀",
+  'tars.welcome.cio': "The CIO has a message for you — right here 👇 Give it a read, then pick your role and we'll begin!",
+  'tars.welcome.back': "Welcome back! Ready to pick up where you left off?",
+
+  // ---------------------------------------------------------------------------
   // Language switcher
   // ---------------------------------------------------------------------------
   'lang.en': 'EN',

@@ -37,9 +37,10 @@ export function LoginPage() {
         <div className="flex justify-end">
           <LanguageSwitcher />
         </div>
-        {/* TARS greets you at the door — animated. */}
-        <div className="flex justify-center">
+        {/* TARS greets you at the door — animated, with a word. */}
+        <div className="flex flex-col items-center gap-2">
           <TarsMascot expression="talking" animated size={150} />
+          <p className="max-w-xs text-center text-sm text-muted-foreground">{t('tars.login')}</p>
         </div>
         <Card className="shadow-cardhover">
           <CardHeader className="items-center pb-4 pt-7 text-center">

@@ -22,6 +22,13 @@ const tr = {
   'common.loading': 'Yükleniyor…',
 
   // ---------------------------------------------------------------------------
+  // TARS'ın sesi — maskot platformu anlatıyor
+  // ---------------------------------------------------------------------------
+  'tars.login': 'Merhaba, ben TARS — eğitim yardımcın. Giriş yap, hemen başlayalım! 🚀',
+  'tars.welcome.cio': "CIO'dan sana bir mesaj var — hemen şurada 👇 Okuyup rolünü seç, birlikte başlayalım!",
+  'tars.welcome.back': 'Tekrar hoş geldin! Kaldığın yerden devam edelim mi?',
+
+  // ---------------------------------------------------------------------------
   // Language switcher
   // ---------------------------------------------------------------------------
   'lang.en': 'EN',
