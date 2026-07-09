@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { Menu, X, Route, Sparkles, Library, Trophy, Award, Shield, LogOut, type LucideIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
-import { TarsTerminal } from '@/components/ui/TarsLogo';
+import { TarsWordmark } from '@/components/ui/TarsLogo';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { cn } from '@/lib/utils';
@@ -82,7 +82,7 @@ export function AppShell() {
           aria-label={key('nav.brand')}
           className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <TarsTerminal size={40} />
+          <TarsWordmark size={40} />
         </button>
       </div>
 
@@ -166,7 +166,7 @@ export function AppShell() {
           aria-label={key('nav.brand')}
           className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <TarsTerminal size={20} />
+          <TarsWordmark size={20} />
         </button>
         <span className="flex-1" />
         <LanguageSwitcher />

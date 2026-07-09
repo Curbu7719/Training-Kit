@@ -59,14 +59,16 @@ export interface TarsWordmarkProps {
   theme?: 'light' | 'dark';
   size?: number;
   tagline?: string | null;
+  subtagline?: string | null;
   style?: React.CSSProperties;
 }
 
-/* ---- grooved slab wordmark ---- */
+/* ---- grooved slab wordmark (with the red dot) ---- */
 export function TarsWordmark({
   theme = 'light',
   size = 64,
-  tagline = 'SDLC AI PLATFORM',
+  tagline = '// AI-Driven SDLC Platform',
+  subtagline = 'Training Suite',
   style,
 }: TarsWordmarkProps): React.ReactElement {
   React.useEffect(ensureFonts, []);
@@ -111,6 +113,20 @@ export function TarsWordmark({
         />
       </div>
       <Tagline text={tagline} size={size} dark={dark} />
+      {subtagline ? (
+        <span
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: size * 0.2,
+            fontWeight: 700,
+            letterSpacing: '0.24em',
+            color: ACCENT,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {subtagline}
+        </span>
+      ) : null}
     </div>
   );
 }
