@@ -67,7 +67,7 @@ export interface TarsWordmarkProps {
 export function TarsWordmark({
   theme = 'light',
   size = 64,
-  tagline = '// AI-Driven SDLC Platform',
+  tagline = 'AI-Driven SDLC Platform',
   subtagline = 'Training Suite',
   style,
 }: TarsWordmarkProps): React.ReactElement {
@@ -245,7 +245,7 @@ export interface TarsTerminalProps {
 export function TarsTerminal({
   theme = 'light',
   size = 56,
-  tagline = '// AI-Driven SDLC Platform',
+  tagline = 'AI-Driven SDLC Platform',
   subtagline = 'Training Suite',
   style,
 }: TarsTerminalProps): React.ReactElement {
