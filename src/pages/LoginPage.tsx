@@ -7,6 +7,7 @@ import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { Brand } from '@/components/ui/Brand';
 import { Spinner } from '@/components/ui/spinner';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 
 export function LoginPage() {
   const { user, loading } = useAuth();
@@ -39,6 +40,10 @@ export function LoginPage() {
       <div className="w-full max-w-sm space-y-3">
         <div className="flex justify-end">
           <LanguageSwitcher />
+        </div>
+        {/* TARS greets you at the door — animated. */}
+        <div className="flex justify-center">
+          <TarsMascot expression="talking" animated size={150} />
         </div>
         <Card className="shadow-cardhover">
           <CardHeader className="items-center pb-4 pt-7 text-center">

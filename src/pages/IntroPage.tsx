@@ -3,6 +3,7 @@ import { BookOpen, LayoutDashboard } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { AppHeader } from '@/components/layout/AppHeader';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 import { Markdown } from '@/lib/markdown';
 import { INTRO } from '@/data/intro';
 
@@ -23,6 +24,10 @@ export function IntroPage() {
           </article>
 
           <aside className="flex flex-col gap-3 lg:sticky lg:top-[84px]">
+            {/* TARS, standing by — static picture. */}
+            <div className="flex justify-center rounded-2xl border border-border bg-card py-4">
+              <TarsMascot expression="idle" animated={false} size={140} />
+            </div>
             <Button onClick={() => navigate('/dashboard')} className="justify-start">
               <LayoutDashboard className="h-4 w-4" />
               {t('intro.cta.start')}

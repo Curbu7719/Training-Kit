@@ -5,7 +5,7 @@ const en = {
   // ---------------------------------------------------------------------------
   // Nav / common
   // ---------------------------------------------------------------------------
-  'nav.brand': 'Training Platform',
+  'nav.brand': 'TARS Training Platform',
   'nav.leaderboard': 'Leaderboard',
   'nav.admin': 'Admin',
   'nav.signOut': 'Sign out',

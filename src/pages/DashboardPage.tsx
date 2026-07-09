@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { AppHeader } from '@/components/layout/AppHeader';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
@@ -303,12 +304,15 @@ export function DashboardPage() {
 
       {/* Body */}
       <main className="mx-auto w-full max-w-[1760px] space-y-8 px-5 py-8 sm:px-8">
-        {/* Greeting */}
-        <section>
-          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-            {t('dashboard.greeting', { name: firstName })}
-          </h1>
-          <p className="mt-1.5 text-[15px] text-muted-foreground">{t('dashboard.hero.sub')}</p>
+        {/* Greeting — TARS waves you in (animated). */}
+        <section className="flex items-center gap-4">
+          <TarsMascot expression="idle" animated size={92} className="hidden shrink-0 sm:block" />
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+              {t('dashboard.greeting', { name: firstName })}
+            </h1>
+            <p className="mt-1.5 text-[15px] text-muted-foreground">{t('dashboard.hero.sub')}</p>
+          </div>
         </section>
 
         {SECTIONS.map(({ titleKey, codes }) => (

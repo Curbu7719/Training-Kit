@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { ROLE_PATHS, type RoleKey, type RolePath } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
@@ -98,6 +99,8 @@ export function CertificatePage() {
     );
     return (
       <div className="mx-auto flex min-h-screen max-w-lg flex-col items-center justify-center gap-5 px-6 text-center">
+        {/* TARS is still tracking your progress — animated, encouraging. */}
+        <TarsMascot expression="thinking" animated size={130} />
         <h1 className="text-xl font-bold">{t('cert.incomplete.title')}</h1>
         <p className="text-sm text-muted-foreground">{t('cert.incomplete.desc')}</p>
         <ul className="space-y-1.5 text-left">
@@ -115,6 +118,11 @@ export function CertificatePage() {
 
   return (
     <div className="min-h-screen bg-muted/30 py-8">
+      {/* TARS celebrates the win — animated, hidden when printing. */}
+      <div className="no-print mx-auto mb-2 flex max-w-3xl justify-center px-6">
+        <TarsMascot expression="success" animated size={140} />
+      </div>
+
       {/* Controls — hidden when printing */}
       <div className="no-print mx-auto mb-6 flex max-w-3xl items-center justify-between px-6">
         <Button variant="ghost" onClick={() => navigate('/path')} className="gap-1.5">

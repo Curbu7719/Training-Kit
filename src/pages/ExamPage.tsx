@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { cn } from '@/lib/utils';
 import { submitExam, type ExamSubmitResponse } from '@/lib/api';
 import { burstConfetti } from '@/lib/confetti';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -284,6 +285,11 @@ export function ExamPage() {
         </header>
 
         <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
+          {/* TARS reacts to the result — animated. */}
+          <div className="flex justify-center">
+            <TarsMascot expression={results.passed ? 'success' : 'error'} animated size={140} />
+          </div>
+
           {/* Score summary */}
           <Card className={cn('text-center', results.passed ? 'border-success/50' : 'border-border')}>
             <CardHeader>

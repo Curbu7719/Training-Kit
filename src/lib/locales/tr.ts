@@ -6,7 +6,7 @@ const tr = {
   // ---------------------------------------------------------------------------
   // Nav / common
   // ---------------------------------------------------------------------------
-  'nav.brand': 'Training Platform',
+  'nav.brand': 'TARS Training Platform',
   'nav.leaderboard': 'Sıralama',
   'nav.admin': 'Yönetici',
   'nav.signOut': 'Çıkış yap',

@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/i18n';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { AppHeader } from '@/components/layout/AppHeader';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 import { ROLE_ORDER } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
 
@@ -57,6 +58,10 @@ export function WelcomePage() {
         </section>
 
         <div className="lg:sticky lg:top-[84px]">
+        {/* TARS introduces the path — animated. */}
+        <div className="mb-2 flex justify-center">
+          <TarsMascot expression="talking" animated size={128} />
+        </div>
         {hasRole ? (
           /* Returning learner — role already chosen and locked */
           <section className="rounded-2xl border border-border bg-card px-6 py-6 shadow-card">

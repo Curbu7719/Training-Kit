@@ -14,6 +14,7 @@ import { Markdown } from '@/lib/markdown';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 import { HintPanel, splitBodyMd } from '@/components/lesson/HintPanel';
 import { QuizRunner } from '@/components/quiz/QuizRunner';
 import type { QuizQuestionRow } from '@/components/quiz/QuizQuestion';
@@ -780,11 +781,13 @@ export function LessonPlayerPage() {
           <div ref={bannerRef} className="mt-6 flex flex-col items-center gap-3 rounded-lg border border-success/30 bg-success/5 p-6 text-center" data-testid="all-lessons-done-banner">
             {saving || (!allDoneSaved && !saveError) ? (
               <>
+                <TarsMascot expression="thinking" animated size={110} />
                 <Spinner size="sm" />
                 <p className="text-sm text-muted-foreground">{t('lesson.saving')}</p>
               </>
             ) : saveError ? (
               <>
+                <TarsMascot expression="error" animated size={110} />
                 <p className="font-semibold">{t('lesson.saveError')}</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
                   <Button onClick={retrySave} data-testid="retry-save-btn">
@@ -797,6 +800,7 @@ export function LessonPlayerPage() {
               </>
             ) : !levelPassed ? (
               <>
+                <TarsMascot expression="error" animated size={110} />
                 <p className="font-semibold">{t('lesson.notPassed.title')}</p>
                 <p className="text-sm text-muted-foreground">{t('lesson.notPassed.desc')}</p>
                 <Button variant="outline" onClick={() => navigate('/dashboard')} data-testid="dashboard-return-btn">
@@ -805,7 +809,7 @@ export function LessonPlayerPage() {
               </>
             ) : userLevel === 'L1' && l2Available ? (
               <>
-                <CheckCircle2 className="h-8 w-8 text-success" />
+                <TarsMascot expression="success" animated size={120} />
                 <p className="font-semibold">{t('lesson.l1Passed.title')}</p>
                 <p className="text-sm text-muted-foreground">{t('lesson.l1Passed.desc')}</p>
                 <div className="flex flex-wrap items-center justify-center gap-2">
@@ -822,7 +826,7 @@ export function LessonPlayerPage() {
                 const next = nextCoreModuleCode();
                 return (
                   <>
-                    <CheckCircle2 className="h-8 w-8 text-success" />
+                    <TarsMascot expression="success" animated size={120} />
                     <p className="font-semibold">
                       {next ? t('lesson.modulePassed.title') : t('lesson.allCoreDone.title')}
                     </p>
