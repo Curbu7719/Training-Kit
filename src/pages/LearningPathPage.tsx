@@ -161,19 +161,26 @@ export function LearningPathPage() {
     void load();
   }, [load]);
 
-  function statusFor(rm: RoleModule): CellStatus {
+  // Recommended (optional) modules are never hard-locked: pass lockL2=false so
+  // they stay openable and reflect their L1 progress; clicking simply starts the
+  // L1 first. Mandatory L2 keeps its lock to enforce the required order.
+  function statusFor(rm: RoleModule, lockL2 = true): CellStatus {
     const id = moduleIdByCode[rm.code];
     const rows = id ? progressByModule[id] : undefined;
     const l1Passed = rows?.L1 === 'passed';
     if (rm.level === 'L2') {
-      if (!l1Passed) return 'locked';
+      if (!l1Passed) return lockL2 ? 'locked' : ((rows?.L1 as CellStatus) ?? 'not_started');
       return (rows?.L2 as CellStatus) ?? 'not_started';
     }
     return (rows?.L1 as CellStatus) ?? 'not_started';
   }
 
   function open(rm: RoleModule) {
-    navigate(`/learn/${rm.code}?level=${rm.level}`);
+    // L2 requires L1 first — if L1 isn't passed yet, start at L1.
+    const id = moduleIdByCode[rm.code];
+    const rows = id ? progressByModule[id] : undefined;
+    const level = rm.level === 'L2' && rows?.L1 !== 'passed' ? 'L1' : rm.level;
+    navigate(`/learn/${rm.code}?level=${level}`);
   }
 
   // Start learning → the first mandatory (L1) module not yet passed (else first).
@@ -286,7 +293,7 @@ export function LearningPathPage() {
                 <p className="mb-3 text-xs text-muted-foreground">{t('path.recommendedHelp')}</p>
                 <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                   {recommended.map((rm) => (
-                    <PathItem key={`${rm.code}-${rm.level}`} rm={rm} kind="recommended" status={statusFor(rm)} onOpen={() => open(rm)} />
+                    <PathItem key={`${rm.code}-${rm.level}`} rm={rm} kind="recommended" status={statusFor(rm, false)} onOpen={() => open(rm)} />
                   ))}
                 </ul>
               </section>

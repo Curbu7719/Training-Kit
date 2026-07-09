@@ -173,14 +173,15 @@ function ModuleCard({ code, index, l1Status, l2Status, l2Mandatory, onOpen }: Mo
           <StatusBadge status={l1Status} />
         </button>
 
-        {/* L2 row — click to open L2 (locked until L1 passes) */}
+        {/* L2 row — mandatory L2 is locked until L1 passes; recommended L2 stays
+            openable (clicking starts its L1 first). */}
         <button
           type="button"
-          onClick={() => onOpen('L2')}
-          disabled={l2Status === 'locked'}
+          onClick={() => onOpen(l2Status === 'locked' ? 'L1' : 'L2')}
+          disabled={l2Mandatory && l2Status === 'locked'}
           className={cn(
             'flex w-full items-center justify-between rounded-md border border-border px-3 py-2 text-left transition-colors',
-            l2Status === 'locked' ? 'opacity-50' : 'hover:border-primary/50 hover:bg-muted/50'
+            l2Mandatory && l2Status === 'locked' ? 'opacity-50' : 'hover:border-primary/50 hover:bg-muted/50'
           )}
         >
           <div className="flex flex-wrap items-center gap-2">
@@ -197,7 +198,7 @@ function ModuleCard({ code, index, l1Status, l2Status, l2Mandatory, onOpen }: Mo
             )}
             <span className="text-xs text-muted-foreground">· {t('dashboard.minutes', { min: minutes.l2 })}</span>
           </div>
-          <StatusBadge status={l2Status} />
+          <StatusBadge status={!l2Mandatory && l2Status === 'locked' ? 'not_started' : l2Status} />
         </button>
 
         <Button size="sm" className="mt-1 w-full" onClick={() => onOpen(ctaLevel)}>
