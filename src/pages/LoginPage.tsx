@@ -7,7 +7,7 @@ import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { Brand } from '@/components/ui/Brand';
 import { AppLoader } from '@/components/ui/AppLoader';
-import { TarsMascot } from '@/components/ui/TarsMascot';
+import { TarsSpeech } from '@/components/ui/TarsSpeech';
 
 export function LoginPage() {
   const { user, loading } = useAuth();
@@ -37,11 +37,10 @@ export function LoginPage() {
         <div className="flex justify-end">
           <LanguageSwitcher />
         </div>
-        {/* TARS greets you at the door — animated, with a word. */}
-        <div className="flex flex-col items-center gap-2">
-          <TarsMascot expression="talking" animated size={150} />
-          <p className="max-w-xs text-center text-sm text-muted-foreground">{t('tars.login')}</p>
-        </div>
+        {/* TARS greets you at the door — mascot + speech bubble. */}
+        <TarsSpeech expression="talking" size={92}>
+          {t('tars.login')}
+        </TarsSpeech>
         <Card className="shadow-cardhover">
           <CardHeader className="items-center pb-4 pt-7 text-center">
             <Brand className="justify-center" />
