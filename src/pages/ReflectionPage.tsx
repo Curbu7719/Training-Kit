@@ -6,6 +6,8 @@ import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
+import { TarsWordmark } from '@/components/ui/TarsLogo';
+import { TarsSpeech } from '@/components/ui/TarsSpeech';
 import { getMyReflection, saveReflection } from '@/lib/api';
 
 // Minimum characters per answer so the writeup is meaningful, not a single word.
@@ -63,7 +65,7 @@ export function ReflectionPage() {
     <div className="min-h-screen bg-muted/30">
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
-          <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
+          <TarsWordmark size={22} tagline={null} subtagline={null} />
           <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
             {t('nav.backToDashboard')}
           </Button>
@@ -71,6 +73,7 @@ export function ReflectionPage() {
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-8 space-y-6">
+        <TarsSpeech expression="talking" size={92}>{t('tars.reflection')}</TarsSpeech>
         <section>
           <h1 className="text-2xl font-bold">{t('reflection.title')}</h1>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t('reflection.intro')}</p>

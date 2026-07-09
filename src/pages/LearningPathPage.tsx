@@ -7,6 +7,7 @@ import { useLanguage } from '@/lib/i18n';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { TarsSpeech } from '@/components/ui/TarsSpeech';
 import { StatsPanel } from '@/components/dashboard/StatsPanel';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { cn } from '@/lib/utils';
@@ -194,6 +195,14 @@ export function LearningPathPage() {
     <>
 
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-10 sm:px-8">
+        {/* TARS — a personal word about your path. */}
+        <TarsSpeech expression="talking" size={104}>
+          {t('tars.path', {
+            name: (profile?.display_name ?? '').trim().split(/\s+/)[0] || '',
+            role: role ? t(`role.${role}` as TranslationKey) : '',
+          })}
+        </TarsSpeech>
+
         {/* Your stats — progress, role, what's left and detailed metrics */}
         <StatsPanel />
 

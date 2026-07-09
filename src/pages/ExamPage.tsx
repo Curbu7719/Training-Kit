@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { submitExam, type ExamSubmitResponse } from '@/lib/api';
 import { burstConfetti } from '@/lib/confetti';
 import { TarsMascot } from '@/components/ui/TarsMascot';
+import { TarsWordmark } from '@/components/ui/TarsLogo';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -277,7 +278,7 @@ export function ExamPage() {
       <div className="min-h-screen bg-muted/30">
         <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
           <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
-            <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
+            <TarsWordmark size={22} tagline={null} subtagline={null} />
             <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
               {t('nav.backToDashboard')}
             </Button>
@@ -375,7 +376,7 @@ export function ExamPage() {
     <div className="min-h-screen bg-muted/30">
       <header className="sticky top-0 z-10 border-b border-border bg-card/80 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-6 py-4">
-          <span className="text-xl font-bold text-primary">{t('nav.brand')}</span>
+          <TarsWordmark size={22} tagline={null} subtagline={null} />
           <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')}>
             {t('nav.backToDashboard')}
           </Button>

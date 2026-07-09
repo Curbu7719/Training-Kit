@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { Input } from '@/components/ui/input';
+import { TarsSpeech } from '@/components/ui/TarsSpeech';
 import { GLOSSARY } from '@/data/glossary';
 
 export function GlossaryPage() {
@@ -21,6 +22,7 @@ export function GlossaryPage() {
     <>
 
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-8 sm:px-8">
+        <TarsSpeech expression="idle" size={84}>{t('tars.glossary')}</TarsSpeech>
         <div>
           <h1 className="text-2xl font-bold">{t('glossary.title')}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{t('glossary.subtitle')}</p>

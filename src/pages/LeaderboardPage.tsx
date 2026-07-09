@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { TarsSpeech } from '@/components/ui/TarsSpeech';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
 
@@ -36,6 +37,7 @@ export function LeaderboardPage() {
     <>
 
       <main className="mx-auto w-full max-w-[1760px] px-5 py-8 sm:px-8">
+        <TarsSpeech expression="idle" size={84} className="mb-6">{t('tars.leaderboard')}</TarsSpeech>
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold">{t('leaderboard.title')}</h1>
           <Button variant="outline" size="sm" onClick={() => navigate('/certificate')} className="gap-1.5" data-testid="leaderboard-cert-btn">

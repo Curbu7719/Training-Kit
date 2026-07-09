@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
+import { TarsWordmark } from '@/components/ui/TarsLogo';
 import { useLanguage } from '@/lib/i18n';
 import {
   listModules,
@@ -793,9 +794,10 @@ export function AdminPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/dashboard')}
-              className="text-xl font-bold text-primary hover:opacity-80 transition-opacity"
+              className="rounded-lg transition-opacity hover:opacity-80"
+              aria-label={t('nav.brand')}
             >
-              {t('nav.brand')}
+              <TarsWordmark size={20} tagline={null} subtagline={null} />
             </button>
             <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
               {t('admin.badge')}
