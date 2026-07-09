@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from '@/hooks/useAuth';
 import { LanguageProvider } from '@/lib/i18n';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { AdminRoute } from '@/components/auth/AdminRoute';
+import { AppShell } from '@/components/layout/AppShell';
 import { Toaster } from '@/components/ui/toast';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -72,17 +73,24 @@ export default function App() {
           {/* Public */}
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Auth-gated */}
+          {/* Learner shell — persistent left sidebar + content column */}
           <Route
-            path="/dashboard"
             element={
               <ProtectedRoute>
-                <DashboardPage />
+                <AppShell />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/welcome" element={<WelcomePage />} />
+            <Route path="/path" element={<LearningPathPage />} />
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/start" element={<IntroPage />} />
+            <Route path="/glossary" element={<GlossaryPage />} />
+          </Route>
 
-          {/* Lesson player */}
+          {/* Focused / full-screen pages — keep their own chrome (player, print,
+              exam, admin) rather than the learner sidebar. */}
           <Route
             path="/learn/:moduleCode"
             element={
@@ -91,18 +99,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Leaderboard */}
-          <Route
-            path="/leaderboard"
-            element={
-              <ProtectedRoute>
-                <LeaderboardPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* SDLC Exam */}
           <Route
             path="/exam"
             element={
@@ -111,28 +107,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Welcome / onboarding — CIO message + role picker */}
-          <Route
-            path="/welcome"
-            element={
-              <ProtectedRoute>
-                <WelcomePage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Role learning path — shown after role selection (core/recommended) */}
-          <Route
-            path="/path"
-            element={
-              <ProtectedRoute>
-                <LearningPathPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Completion certificate (role-based, VF-branded) */}
           <Route
             path="/certificate"
             element={
@@ -141,8 +115,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Mandatory end-of-training reflection */}
           <Route
             path="/reflection"
             element={
@@ -151,26 +123,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* AI basics primer + glossary */}
-          <Route
-            path="/start"
-            element={
-              <ProtectedRoute>
-                <IntroPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/glossary"
-            element={
-              <ProtectedRoute>
-                <GlossaryPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Admin panel — admin role required */}
           <Route
             path="/admin"
             element={

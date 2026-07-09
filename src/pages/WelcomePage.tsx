@@ -4,7 +4,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { TarsMascot } from '@/components/ui/TarsMascot';
 import { ROLE_ORDER } from '@/lib/rolePaths';
 import type { TranslationKey } from '@/lib/locales/en';
@@ -38,8 +37,7 @@ export function WelcomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader />
+    <>
 
       <main className="mx-auto w-full max-w-[1760px] px-5 py-10 sm:px-8">
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
@@ -57,7 +55,7 @@ export function WelcomePage() {
           <p className="mt-4 text-sm font-medium text-muted-foreground">{t('welcome.cio.signature')}</p>
         </section>
 
-        <div className="lg:sticky lg:top-[84px]">
+        <div className="lg:sticky lg:top-8">
         {/* TARS introduces the path — animated. */}
         <div className="mb-2 flex justify-center">
           <TarsMascot expression="talking" animated size={128} />
@@ -115,6 +113,6 @@ export function WelcomePage() {
         </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }

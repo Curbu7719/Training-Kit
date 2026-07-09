@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { TarsMascot } from '@/components/ui/TarsMascot';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
@@ -299,8 +298,7 @@ export function DashboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader />
+    <>
 
       {/* Body */}
       <main className="mx-auto w-full max-w-[1760px] space-y-8 px-5 py-8 sm:px-8">
@@ -358,6 +356,6 @@ export function DashboardPage() {
       </main>
 
       {loading && <span className="sr-only">{t('dashboard.loadingProgress')}</span>}
-    </div>
+    </>
   );
 }

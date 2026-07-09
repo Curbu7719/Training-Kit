@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { Input } from '@/components/ui/input';
 import { GLOSSARY } from '@/data/glossary';
 
@@ -19,8 +18,7 @@ export function GlossaryPage() {
   }, [query, lang]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader />
+    <>
 
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-8 sm:px-8">
         <div>
@@ -51,6 +49,6 @@ export function GlossaryPage() {
           </dl>
         )}
       </main>
-    </div>
+    </>
   );
 }

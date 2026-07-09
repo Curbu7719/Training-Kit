@@ -5,7 +5,6 @@ import { getLeaderboard, type LeaderboardEntry } from '@/lib/adminApi';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import type { TranslationKey } from '@/lib/locales/en';
@@ -34,8 +33,7 @@ export function LeaderboardPage() {
   const currentName = profile?.display_name ?? null;
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader />
+    <>
 
       <main className="mx-auto w-full max-w-[1760px] px-5 py-8 sm:px-8">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -144,6 +142,6 @@ export function LeaderboardPage() {
           </div>
         )}
       </main>
-    </div>
+    </>
   );
 }

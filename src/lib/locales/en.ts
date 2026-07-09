@@ -14,6 +14,10 @@ const en = {
   'nav.basics': 'AI basics',
   'nav.myPath': 'My path',
   'nav.glossary': 'Glossary',
+  'nav.certificate': 'Certificate',
+  'nav.group.learn': 'Learn',
+  'nav.group.progress': 'Progress',
+  'nav.group.admin': 'Admin',
 
   // ---------------------------------------------------------------------------
   // Language switcher

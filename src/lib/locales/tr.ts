@@ -15,6 +15,10 @@ const tr = {
   'nav.basics': 'AI temelleri',
   'nav.myPath': 'Patikam',
   'nav.glossary': 'Sözlük',
+  'nav.certificate': 'Sertifika',
+  'nav.group.learn': 'Öğren',
+  'nav.group.progress': 'İlerleme',
+  'nav.group.admin': 'Yönetim',
 
   // ---------------------------------------------------------------------------
   // Language switcher

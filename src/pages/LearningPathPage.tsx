@@ -7,7 +7,6 @@ import { useLanguage } from '@/lib/i18n';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { StatsPanel } from '@/components/dashboard/StatsPanel';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { cn } from '@/lib/utils';
@@ -192,8 +191,7 @@ export function LearningPathPage() {
   const reflectionDue = examPassed && !reflectionDone;
 
   return (
-    <div className="min-h-screen bg-background">
-      <AppHeader />
+    <>
 
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-10 sm:px-8">
         {/* Your stats — progress, role, what's left and detailed metrics */}
@@ -308,6 +306,6 @@ export function LearningPathPage() {
           </>
         )}
       </main>
-    </div>
+    </>
   );
 }
