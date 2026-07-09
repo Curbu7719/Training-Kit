@@ -217,4 +217,84 @@ export function TarsLockup({
   );
 }
 
-export default { TarsWordmark, TarsLockup };
+export interface TarsTerminalProps {
+  theme?: 'light' | 'dark';
+  size?: number;
+  tagline?: string | null;
+  subtagline?: string | null;
+  style?: React.CSSProperties;
+}
+
+/* ---- mono terminal lockup: [ TARS ] + // tagline + red subtagline ---- */
+export function TarsTerminal({
+  theme = 'light',
+  size = 56,
+  tagline = '// AI-Driven SDLC Platform',
+  subtagline = 'Training Suite',
+  style,
+}: TarsTerminalProps): React.ReactElement {
+  React.useEffect(ensureFonts, []);
+  const dark = theme === 'dark';
+  const bracket: React.CSSProperties = {
+    fontFamily: "'JetBrains Mono', monospace",
+    fontWeight: 700,
+    fontSize: size * 1.06,
+    color: ACCENT,
+    lineHeight: 0.9,
+  };
+  return (
+    <div
+      style={{
+        display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '0.28em',
+        fontFamily: "'JetBrains Mono', monospace",
+        ...style,
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25em', fontSize: size }}>
+        <span style={bracket}>[</span>
+        <span
+          style={{
+            fontWeight: 700,
+            letterSpacing: '0.18em',
+            lineHeight: 0.9,
+            paddingLeft: '0.18em',
+            color: dark ? '#eef1f1' : '#14181a',
+          }}
+        >
+          TARS
+        </span>
+        <span style={bracket}>]</span>
+      </div>
+      {tagline ? (
+        <span
+          style={{
+            fontSize: size * 0.2,
+            letterSpacing: '0.2em',
+            color: dark ? '#8b9698' : '#7a8284',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {tagline}
+        </span>
+      ) : null}
+      {subtagline ? (
+        <span
+          style={{
+            fontSize: size * 0.2,
+            fontWeight: 700,
+            letterSpacing: '0.24em',
+            color: ACCENT,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {subtagline}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+export default { TarsWordmark, TarsLockup, TarsTerminal };
