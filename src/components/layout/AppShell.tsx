@@ -75,14 +75,14 @@ export function AppShell() {
   const sidebar = (
     <div className="flex h-full flex-col">
       {/* Logo */}
-      <div className="flex items-center justify-center border-b border-border px-4 py-5">
+      <div className="flex items-center justify-center border-b border-border px-3 py-6">
         <button
           type="button"
           onClick={() => go('/dashboard')}
           aria-label={key('nav.brand')}
           className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <TarsLockup size={30} tagline="SDLC AI PLATFORM" subtagline="Training Suite" />
+          <TarsLockup size={44} tagline="SDLC AI PLATFORM" subtagline="Training Suite" />
         </button>
       </div>
 
