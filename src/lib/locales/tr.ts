@@ -19,6 +19,7 @@ const tr = {
   'nav.group.learn': 'Öğren',
   'nav.group.progress': 'İlerleme',
   'nav.group.admin': 'Yönetim',
+  'common.loading': 'Yükleniyor…',
 
   // ---------------------------------------------------------------------------
   // Language switcher

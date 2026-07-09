@@ -6,7 +6,7 @@ import { LoginForm } from '@/components/auth/LoginForm';
 import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { Brand } from '@/components/ui/Brand';
-import { Spinner } from '@/components/ui/spinner';
+import { AppLoader } from '@/components/ui/AppLoader';
 import { TarsMascot } from '@/components/ui/TarsMascot';
 
 export function LoginPage() {
@@ -22,11 +22,7 @@ export function LoginPage() {
   }, [user, loading, navigate]);
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
+    return <AppLoader />;
   }
 
   if (user) return null; // redirecting — don't flash the form

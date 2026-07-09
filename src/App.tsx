@@ -6,7 +6,7 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { AdminRoute } from '@/components/auth/AdminRoute';
 import { AppShell } from '@/components/layout/AppShell';
 import { Toaster } from '@/components/ui/toast';
-import { Spinner } from '@/components/ui/spinner';
+import { AppLoader } from '@/components/ui/AppLoader';
 
 // Route components are code-split so each page ships as its own chunk and the
 // initial bundle only carries the landing route.
@@ -24,11 +24,7 @@ const LearningPathPage = lazy(() => import('@/pages/LearningPathPage').then((m) 
 const CertificatePage = lazy(() => import('@/pages/CertificatePage').then((m) => ({ default: m.CertificatePage })));
 
 function PageFallback() {
-  return (
-    <div className="flex min-h-screen items-center justify-center">
-      <Spinner size="lg" />
-    </div>
-  );
+  return <AppLoader />;
 }
 
 // Post-login landing: always the Welcome page (CIO message). It offers
@@ -36,11 +32,7 @@ function PageFallback() {
 function HomeRedirect() {
   const { profile, loading } = useAuth();
   if (loading || !profile) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spinner size="lg" />
-      </div>
-    );
+    return <AppLoader />;
   }
   return <Navigate to="/welcome" replace />;
 }

@@ -18,6 +18,7 @@ const en = {
   'nav.group.learn': 'Learn',
   'nav.group.progress': 'Progress',
   'nav.group.admin': 'Admin',
+  'common.loading': 'Loading…',
 
   // ---------------------------------------------------------------------------
   // Language switcher
