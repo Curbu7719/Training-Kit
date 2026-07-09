@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/lib/i18n';
 import { LoginForm } from '@/components/auth/LoginForm';
-import { Card, CardHeader, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 import { Brand } from '@/components/ui/Brand';
 import { AppLoader } from '@/components/ui/AppLoader';
@@ -44,7 +44,6 @@ export function LoginPage() {
         <Card className="shadow-cardhover">
           <CardHeader className="items-center pb-4 pt-7 text-center">
             <Brand className="justify-center" />
-            <CardDescription className="mt-3">{t('login.tagline')}</CardDescription>
           </CardHeader>
           <CardContent>
             <LoginForm onSuccess={handleSuccess} />

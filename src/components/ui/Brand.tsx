@@ -1,18 +1,15 @@
-import logoUrl from '@/assets/logo.png';
 import { cn } from '@/lib/utils';
 import { TarsWordmark } from '@/components/ui/TarsLogo';
 
 /**
- * Brand lockup — Vodafone logo + a hairline separator + the TARS terminal
- * logo: bracketed [ TARS ], a "// AI-Driven SDLC Platform" line and a red
- * "Training Suite" line. Used on the login card.
+ * Brand lockup — the TARS wordmark logo (grooved "TARS" + red dot, the
+ * "// AI-Driven SDLC Platform" line and a red "Training Suite"). Used on the
+ * login card. (Vodafone lockup removed to keep the login screen uncluttered.)
  */
 export function Brand({ className }: { className?: string }) {
   return (
-    <div className={cn('flex items-center gap-3', className)}>
-      <img src={logoUrl} alt="Vodafone" className="h-6 w-auto select-none" draggable={false} />
-      <span className="h-8 w-px bg-border" aria-hidden />
-      <TarsWordmark size={26} />
+    <div className={cn('flex items-center', className)}>
+      <TarsWordmark size={30} />
     </div>
   );
 }
