@@ -1,23 +1,19 @@
 import logoUrl from '@/assets/logo.png';
-import { useLanguage } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
-import { TarsMascot } from '@/components/ui/TarsMascot';
+import { TarsLockup } from '@/components/ui/TarsLogo';
 
 /**
- * Brand lockup — the TARS mascot + Vodafone logo + a hairline separator + the
- * product name ("TARS Training Platform"). Used in every app header. The mascot
- * here is a calm, static picture (no animation) so the header stays quiet.
+ * Brand lockup — Vodafone logo + a hairline separator + the TARS logo: the
+ * 3-bar monolith mark, the "TARS" wordmark, a red underline and the
+ * "SDLC AI PLATFORM / Training Suite" taglines. Used in every app header and
+ * on the login card.
  */
 export function Brand({ className }: { className?: string }) {
-  const { t } = useLanguage();
   return (
-    <div className={cn('flex items-center gap-2.5', className)}>
-      <TarsMascot expression="idle" animated={false} size={38} className="-my-2 shrink-0" />
+    <div className={cn('flex items-center gap-3', className)}>
       <img src={logoUrl} alt="Vodafone" className="h-6 w-auto select-none" draggable={false} />
-      <span className="h-6 w-px bg-border" aria-hidden />
-      <span className="text-[15px] font-bold tracking-tight text-foreground sm:text-base">
-        {t('nav.brand')}
-      </span>
+      <span className="h-8 w-px bg-border" aria-hidden />
+      <TarsLockup size={20} tagline="SDLC AI PLATFORM" subtagline="Training Suite" />
     </div>
   );
 }

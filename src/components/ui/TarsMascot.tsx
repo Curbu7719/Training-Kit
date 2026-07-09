@@ -135,8 +135,8 @@ const powerStrip = (): React.ReactElement =>
       width: '42%',
       height: 4,
       borderRadius: 2,
-      background: '#2de1c2',
-      boxShadow: '0 0 9px #2de1c2cc',
+      background: '#e60000',
+      boxShadow: '0 0 9px #e60000cc',
     },
   });
 
@@ -169,7 +169,7 @@ function screenLayer(
 }
 
 function face(fw: number, fh: number, expr: TarsExpression, anim: boolean): React.ReactElement {
-  const col = expr === 'error' ? '#ff5a52' : '#2de1c2';
+  const col = expr === 'error' ? '#ff5a52' : '#e60000'; // Vodafone red lights
   const glow = `0 0 8px ${col}bb`;
   const eyeRect = (k: string): React.ReactElement =>
     h('div', { key: k, style: { width: 14, height: 16, borderRadius: 4, background: col, boxShadow: glow } });
