@@ -13,7 +13,7 @@ export function Brand({ className }: { className?: string }) {
     <div className={cn('flex items-center gap-3', className)}>
       <img src={logoUrl} alt="Vodafone" className="h-6 w-auto select-none" draggable={false} />
       <span className="h-8 w-px bg-border" aria-hidden />
-      <TarsLockup size={20} tagline="SDLC AI PLATFORM" subtagline="Training Suite" />
+      <TarsLockup size={30} tagline="SDLC AI PLATFORM" subtagline="Training Suite" />
     </div>
   );
 }

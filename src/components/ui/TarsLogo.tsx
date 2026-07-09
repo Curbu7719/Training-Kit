@@ -43,8 +43,8 @@ function Tagline({ text, size, dark }: TaglineProps): React.ReactElement | null 
     <span
       style={{
         fontFamily: "'JetBrains Mono', monospace",
-        fontSize: size * 0.19,
-        letterSpacing: '0.34em',
+        fontSize: size * 0.2,
+        letterSpacing: '0.32em',
         color: dark ? '#8b9698' : '#7a8284',
         paddingLeft: '0.34em',
         whiteSpace: 'nowrap',
@@ -175,7 +175,7 @@ export function TarsLockup({
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '0.2em',
+        gap: '0.13em',
         fontFamily: "'Chakra Petch', sans-serif",
         ...style,
       }}
