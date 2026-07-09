@@ -24,7 +24,7 @@ const en = {
   // TARS voice — the mascot narrates the platform
   // ---------------------------------------------------------------------------
   'tars.login': "Hi, I'm TARS — your training buddy. Sign in and let's get started! 🚀",
-  'tars.welcome.cio': "The CIO has a message for you — right here 👇 Give it a read, then pick your role and we'll begin!",
+  'tars.welcome.cio': "Hi, I'm TARS — your training buddy! 👋 The CIO has a message for you, right here 👇 Give it a read, pick your role and we'll begin!",
   'tars.welcome.back': "Welcome back! Ready to pick up where you left off?",
   'tars.path': "Hey {name}! This is your personal path — tuned for your {role} role. Let's keep going! 💪",
   'tars.glossary': "Fuzzy on a term? Look it up here — I've got the definitions.",

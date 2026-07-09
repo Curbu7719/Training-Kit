@@ -9,7 +9,7 @@ import { TarsWordmark } from '@/components/ui/TarsLogo';
 export function Brand({ className }: { className?: string }) {
   return (
     <div className={cn('flex items-center', className)}>
-      <TarsWordmark size={34} tagline={null} subtagline={null} />
+      <TarsWordmark size={34} tagline={null} subtagline="Training Suite" />
     </div>
   );
 }
