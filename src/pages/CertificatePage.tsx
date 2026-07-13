@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Download, CheckCircle2, Circle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -22,6 +22,8 @@ export function CertificatePage() {
   const [complete, setComplete] = useState(false);
   const [missing, setMissing] = useState({ modules: true, exam: true, reflection: true });
   const [completedAt, setCompletedAt] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const certRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (profile && !profile.learning_role) navigate('/welcome', { replace: true });
@@ -82,6 +84,33 @@ export function CertificatePage() {
     { year: 'numeric', month: 'long', day: 'numeric' },
   );
 
+  // Render the certificate DOM to a real PDF file and download it. Both libs are
+  // dynamically imported so they stay out of the main bundle. Falls back to the
+  // browser print dialog if rasterizing fails for any reason.
+  async function downloadPdf() {
+    const el = certRef.current;
+    if (!el || downloading) return;
+    setDownloading(true);
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import('html2canvas'),
+        import('jspdf'),
+      ]);
+      const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+      const imgData = canvas.toDataURL('image/png');
+      const orientation = canvas.width >= canvas.height ? 'landscape' : 'portrait';
+      const pdf = new jsPDF({ orientation, unit: 'px', format: [canvas.width, canvas.height] });
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      const safe = (name || 'certificate').replace(/[^\w.-]+/g, '_');
+      pdf.save(`certificate-${safe}.pdf`);
+    } catch (err) {
+      console.error('PDF download failed, falling back to print', err);
+      window.print();
+    } finally {
+      setDownloading(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -129,7 +158,7 @@ export function CertificatePage() {
           <ArrowLeft className="h-4 w-4" />
           {t('nav.myPath')}
         </Button>
-        <Button onClick={() => window.print()} data-testid="cert-download-btn" className="gap-1.5">
+        <Button onClick={downloadPdf} disabled={downloading} data-testid="cert-download-btn" className="gap-1.5">
           <Download className="h-4 w-4" />
           {t('cert.download')}
         </Button>
@@ -138,6 +167,7 @@ export function CertificatePage() {
       {/* Certificate */}
       <div className="mx-auto max-w-3xl px-6">
         <div
+          ref={certRef}
           className="certificate relative overflow-hidden rounded-lg bg-white px-10 py-12 text-center shadow-sm"
           style={{ border: `2px solid ${VF_RED}`, color: '#1a1a1a' }}
         >
