@@ -146,7 +146,7 @@ const en = {
   'glossary.search': 'Search terms…',
   'glossary.empty': 'No terms match your search.',
   'intro.cta.glossary': 'Open the glossary',
-  'intro.cta.start': 'Go to the modules',
+  'intro.cta.start': 'Go to my path',
 
   // Module CTA labels
   'dashboard.cta.review': 'Review',

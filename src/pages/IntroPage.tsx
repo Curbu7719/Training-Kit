@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, LayoutDashboard } from 'lucide-react';
+import { BookOpen, Route } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { TarsMascot } from '@/components/ui/TarsMascot';
@@ -26,8 +26,8 @@ export function IntroPage() {
             <div className="flex justify-center rounded-2xl border border-border bg-card py-4">
               <TarsMascot expression="idle" animated={false} size={140} />
             </div>
-            <Button onClick={() => navigate('/dashboard')} className="justify-start">
-              <LayoutDashboard className="h-4 w-4" />
+            <Button onClick={() => navigate('/path')} className="justify-start">
+              <Route className="h-4 w-4" />
               {t('intro.cta.start')}
             </Button>
             <Button onClick={() => navigate('/glossary')} variant="outline" className="justify-start">

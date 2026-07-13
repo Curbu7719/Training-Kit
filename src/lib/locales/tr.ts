@@ -147,7 +147,7 @@ const tr = {
   'glossary.search': 'Terim ara…',
   'glossary.empty': 'Aramanla eşleşen terim yok.',
   'intro.cta.glossary': 'Sözlüğü aç',
-  'intro.cta.start': 'Modüllere git',
+  'intro.cta.start': 'Patikama git',
 
   // Module CTA labels
   'dashboard.cta.review': 'Tekrar et',
