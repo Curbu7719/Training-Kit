@@ -555,7 +555,7 @@ const en = {
   'welcome.cio.body1': 'AI is changing how we design, build, and run software. We’re opening our own internal AI Agent platform to every role, and this training is how we get ready to use it well and safely. Let me be clear about what that means for us: it is a tool to take the repetitive weight off your day so you can spend your time on the judgment only you can bring — not a replacement for the people who do that work.',
   'welcome.cio.body2': 'This training is our shared starting point. It is practical and built around your real, day-to-day work: where AI genuinely helps, where it does not, and how to use it safely. There are no wrong questions here — and it is expected that AI sometimes gets things wrong. Checking its work is part of the skill, not a failure.',
   'welcome.cio.body3': 'Please take it seriously and finish it. At the end you will tell us, in your own words, what you will do differently in your work. That is how we turn a course into a real change in how we build.',
-  'welcome.cio.signature': '— Your CIO',
+  'welcome.cio.signature': '— Your CIO Ayşegül A.Ş',
   'welcome.role.title': 'Choose your role to start',
   'welcome.role.help': 'We’ll tailor your learning path to your role. Choose carefully — this is set once and can’t be changed afterwards. You can still take any other module any time.',
   'welcome.start': 'Start',
