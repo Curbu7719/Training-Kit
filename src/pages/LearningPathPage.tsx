@@ -7,7 +7,7 @@ import { useLanguage } from '@/lib/i18n';
 import { hasPassedExam, getMyReflection } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import { TarsSpeech } from '@/components/ui/TarsSpeech';
+import { TarsMascot } from '@/components/ui/TarsMascot';
 import { StatsPanel } from '@/components/dashboard/StatsPanel';
 import { BadgeShelf } from '@/components/dashboard/BadgeShelf';
 import { cn } from '@/lib/utils';
@@ -203,17 +203,8 @@ export function LearningPathPage() {
 
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-10 sm:px-8">
         {/* Your stats — progress, role, what's left and detailed metrics.
-            The TARS mascot lives inside the stats frame as a personal word. */}
-        <StatsPanel
-          intro={
-            <TarsSpeech expression="talking" size={104}>
-              {t('tars.path', {
-                name: (profile?.display_name ?? '').trim().split(/\s+/)[0] || '',
-                role: role ? t(`role.${role}` as TranslationKey) : '',
-              })}
-            </TarsSpeech>
-          }
-        />
+            The animated TARS mascot sits next to the progress ring. */}
+        <StatsPanel mascot={<TarsMascot expression="talking" animated size={80} />} />
 
         {/* Mandatory completion reflection — due after passing the exam */}
         {reflectionDue && (
