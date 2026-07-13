@@ -202,24 +202,18 @@ export function LearningPathPage() {
     <>
 
       <main className="mx-auto w-full max-w-[1760px] space-y-6 px-5 py-10 sm:px-8">
-        {/* TARS — a personal word about your path. */}
-        <TarsSpeech expression="talking" size={104}>
-          {t('tars.path', {
-            name: (profile?.display_name ?? '').trim().split(/\s+/)[0] || '',
-            role: role ? t(`role.${role}` as TranslationKey) : '',
-          })}
-        </TarsSpeech>
-
-        {/* Your stats — progress, role, what's left and detailed metrics */}
-        <StatsPanel />
-
-        {/* Badges earned */}
-        <section>
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-            {t('dashboard.badges')}
-          </h2>
-          <BadgeShelf />
-        </section>
+        {/* Your stats — progress, role, what's left and detailed metrics.
+            The TARS mascot lives inside the stats frame as a personal word. */}
+        <StatsPanel
+          intro={
+            <TarsSpeech expression="talking" size={104}>
+              {t('tars.path', {
+                name: (profile?.display_name ?? '').trim().split(/\s+/)[0] || '',
+                role: role ? t(`role.${role}` as TranslationKey) : '',
+              })}
+            </TarsSpeech>
+          }
+        />
 
         {/* Mandatory completion reflection — due after passing the exam */}
         {reflectionDue && (
@@ -321,6 +315,14 @@ export function LearningPathPage() {
             </section>
           </>
         )}
+
+        {/* Badges earned — at the bottom of the path */}
+        <section>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {t('dashboard.badges')}
+          </h2>
+          <BadgeShelf />
+        </section>
       </main>
     </>
   );

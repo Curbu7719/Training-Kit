@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, Target, Star, GraduationCap, ListChecks, PenLine, Award } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -75,7 +75,7 @@ interface PanelData {
 // and the detailed metric cells. Fetches everything itself (RLS-scoped).
 // ---------------------------------------------------------------------------
 
-export function StatsPanel() {
+export function StatsPanel({ intro }: { intro?: ReactNode } = {}) {
   const { profile } = useAuth();
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
@@ -205,8 +205,11 @@ export function StatsPanel() {
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           {t('dashboard.stats.title')}
         </h2>
-        <Card className="flex items-center justify-center p-10">
-          <Spinner size="lg" />
+        <Card className="p-6">
+          {intro && <div className="mb-5 border-b border-border pb-5">{intro}</div>}
+          <div className="flex items-center justify-center p-10">
+            <Spinner size="lg" />
+          </div>
         </Card>
       </section>
     );
@@ -224,6 +227,9 @@ export function StatsPanel() {
         {t('dashboard.stats.title')}
       </h2>
       <Card className="p-6">
+        {/* TARS — a personal word, framed inside the stats card */}
+        {intro && <div className="mb-5 border-b border-border pb-5">{intro}</div>}
+
         {/* Top row: progress ring + role, and what's left + continue */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex items-center gap-5">
