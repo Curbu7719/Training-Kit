@@ -21,6 +21,7 @@ export interface RolePath {
 export const ROLE_ORDER = [
   'portfolio_manager',
   'project_manager',
+  'product_owner',
   'governance',
   'developer',
   'solution_designer',
@@ -43,6 +44,13 @@ export const ROLE_PATHS: Record<RoleKey, RolePath> = {
   },
   project_manager: {
     core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy'), m('ai_risk_governance', 'L2'), m('ai_value_scaling', 'L2'), m('ai_delivery_portfolio', 'L2'), m('vibe_coding')],
+    recommended: [],
+  },
+  // Agile Product Owner — product/value focused. Deep dives on writing strong
+  // AI-shaped requirements (prompting), deciding what to build with AI
+  // (fit/build-buy), and driving business value & delivery.
+  product_owner: {
+    core: [m('using_ai_safely'), m('llm_foundations'), m('tokens'), m('context_management'), m('prompting', 'L2'), m('guardrails'), m('security_privacy'), m('tool_use_agents'), m('rag'), m('evaluation'), m('cost_latency'), m('ai_architecture'), m('ai_operations_sre'), m('ai_fit_buildbuy', 'L2'), m('ai_risk_governance'), m('ai_value_scaling', 'L2'), m('ai_delivery_portfolio', 'L2'), m('vibe_coding')],
     recommended: [],
   },
   governance: {

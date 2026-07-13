@@ -130,6 +130,7 @@ const en = {
   'role.required': 'Required',
   'role.portfolio_manager': 'Portfolio Manager',
   'role.project_manager': 'Project Manager',
+  'role.product_owner': 'Product Owner',
   'role.governance': 'Governance',
   'role.developer': 'Developer',
   'role.solution_designer': 'Solution Designer',

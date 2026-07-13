@@ -131,6 +131,7 @@ const tr = {
   'role.required': 'Zorunlu',
   'role.portfolio_manager': 'Portföy Yöneticisi',
   'role.project_manager': 'Proje Yöneticisi',
+  'role.product_owner': 'Ürün Sahibi',
   'role.governance': 'Yönetişim',
   'role.developer': 'Geliştirici',
   'role.solution_designer': 'Çözüm Tasarımcısı',
